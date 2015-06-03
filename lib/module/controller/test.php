@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * Test class
+ */
 class Module_Controller_Test
 {
     public function __construct()

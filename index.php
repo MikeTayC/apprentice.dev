@@ -1,6 +1,8 @@
 <?php
 
-include_once "lib/bootstrap.php";
+require_once "lib/bootstrap.php";
+
+$app = new Bootstrap();
 
 $test = new Admin_Controller_Login();
 
