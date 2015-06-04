@@ -2,20 +2,34 @@
 /*
  * autoloader class
  * static function autoload to be used in bootstrap.php to initialize the autoloader
- * TODO review differnces between require/include/include_once/require_once
- * TODO need to set an include path that includes app and lib
+ *  review differnces between require/include/include_once/require_once
  */
+
+define('DS', DIRECTORY_SEPARATOR);
+define('PS', PATH_SEPARATOR);
+define('BP', dirname(dirname(__FILE__)));
+
+
 class Autoloader
 {
+    private $paths = array();
+
+    private $filePath;
+
     static function autoload($className)
     {
-        $directory = array('lib/', 'app/');
-        foreach ($directory as $current_dir) {
-            $fileName = $current_dir . str_replace('_', DIRECTORY_SEPARATOR, strtolower($className)) . '.php';
+        $paths = array(
+            BP . DS . 'app' ,
+            BP . DS . 'lib'
+        );
 
-            if (is_readable($fileName)) {
-                require $fileName;
-            }
-        }
+        $filePath = implode(PS , $paths);
+
+        set_include_path($filePath . PS);
+
+        $fileName = str_replace('_', DS , strtolower($className)) . '.php';
+
+        include $fileName;
     }
+
 }
