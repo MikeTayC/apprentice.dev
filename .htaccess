@@ -2,7 +2,10 @@
 
 RewriteEngine On
 
+## So we will never rewrite for existing files, directories and links
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
 
-RewriteRule ^(.+)$ index.php
+##rewrites evrything else to index.php
+RewriteRule .* index.php [L]

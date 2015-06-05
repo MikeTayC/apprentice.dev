@@ -18,6 +18,9 @@ class Bootstrap
     {
         $this->setIncludePath();
         spl_autoload_register('Autoloader::autoload');
+
+        $this->loadFrontController();
+
     }
     /*
      * function will set the include path to be used by autoloader
@@ -34,5 +37,18 @@ class Bootstrap
          * Sets the include_path configuration
          */
         set_include_path($filePath . PS);
+    }
+
+    /*
+     * Loads front crontroller by:
+     * Instantiating the front controller
+     * Parsing the url with the parseUri function
+     * Running the appropriate controller set in the uri
+     */
+    private function loadFrontController()
+    {
+        $frontController = new Core_Front_Controller();
+        $frontController->parseUri();
+        $frontController->run();
     }
 }
