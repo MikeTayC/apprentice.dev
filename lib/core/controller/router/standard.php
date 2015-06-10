@@ -15,9 +15,9 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     /*
      * Default parameters in the case of empty uri
      */
-    protected $defaultModule = 'admin';
+    protected $defaultModule     = 'admin';
     protected $defaultController = 'Admin_Controller_Index';
-    protected $defaultAction = 'indexAction';
+    protected $defaultAction     = 'indexAction';
 
     public function match($request)
     {
@@ -29,63 +29,53 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $method         = $path[2];
         $paramsArray    = $path[3];
 
-        if(!$this->checkModule($module)){
-            return false;
-        }
-
-        if(!$this->checkController($controller)) {
-            return false;
-        }
-
-        $this->checkAction($method);
-
-        $this->checkParams($paramsArray);
-
-        $request->stopDispatching();
-
-        $this->run();
-
-        return true;
-    }
-
-    /*
-     * checks if module directory exists
-     * TODO change check
-     */
-    public function checkModule($module)
-    {
         if(!empty($module)) {
-            return $this->setModule($module);
-        }
-        else {
+            $this->setModule($module);
+        } else {
             $this->module     = $this->defaultModule;
             $this->controller = $this->defaultController;
             $this->action     = $this->defaultAction;
-            return $this;
+            goto dispatch;
         }
+
+        if (isset($controller)) {
+            $this->setController($controller);
+        }
+        else {
+            goto reroute;
+        }
+
+        if (isset($method)) {
+            $this->setAction($method);
+        }
+        else {
+            goto reroute;
+        }
+
+        if (isset($paramsArray)) {
+            $this->setParams(explode('/', $paramsArray));
+            goto dispatch;
+        }
+
+        dispatch: {
+            $request->stopDispatching();
+            $this->run();
+            return true;
+        }
+
+        reroute:
+        return false;
     }
+
 
     public function setModule($module)
     {
         $className = ucfirst($module) . '_Controller_Index';
         if(class_exists($className)) {
             $this->module = $module;
-            $this->modulePageDefault = $className;
-            return true;
         }
         else {
             return false;
-        }
-    }
-
-    public function checkController($controller)
-    {
-        if (isset($controller)) {
-            return $this->setController($controller);
-        }
-        else {
-            $this->controller = $this->modulePageDefault;
-            return true;
         }
     }
 
@@ -98,20 +88,9 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $className = $this->module . '_' . 'Controller' . '_' . $controller;
         if (class_exists($className)) {
             $this->controller = $className;
-            return true;
         }
         else {
             return false;
-        }
-    }
-
-    public function checkAction($method)
-    {
-        if (isset($method)) {
-            return $this->setAction($method);
-        }
-        else {
-            $this->action = $this->defaultAction;
         }
     }
 
@@ -122,19 +101,9 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     {
         if(method_exists($this->controller, $method)) {
             $this->action = $method;
-            return true;
         }
         else {
-            $this->action = $this->defaultAction;
             return false;
         }
     }
-
-    public function checkParams($paramsArray = array())
-    {
-        if (isset($paramsArray)) {
-            $this->setParams(explode('/', $paramsArray));
-        }
-    }
-
 }

@@ -17,19 +17,42 @@ class Core_Controller_Router_Default extends Core_Controller_Router_Abstract
         $method         = $path[2];
         $paramsArray    = $path[3];
 
-        $this->checkModule($module);
+        if(!empty($module)) {
+            $this->setModule($module);
+        } else {
+            $this->module     = $this->defaultModule;
+            $this->controller = $this->defaultController;
+            $this->action     = $this->defaultAction;
+            goto dispatch;
+        }
 
-        $this->checkController($controller);
+        if (isset($controller)) {
+            $this->setController($controller);
+        }
+        else {
+            goto reroute;
+        }
 
-        $this->checkAction($method);
+        if (isset($method)) {
+            $this->setAction($method);
+        }
+        else {
+            goto reroute;
+        }
 
-        $this->checkParams($paramsArray);
+        if (isset($paramsArray)) {
+            $this->setParams(explode('/', $paramsArray));
+            goto dispatch;
+        }
 
+        dispatch: {
         $request->stopDispatching();
-
         $this->run();
-
         return true;
+    }
+
+        reroute:
+        return false;
     }
 
     /*
@@ -77,45 +100,4 @@ class Core_Controller_Router_Default extends Core_Controller_Router_Abstract
             return false;
         }
     }
-
-    public function checkModule($module)
-    {
-        if(!empty($module)) {
-            $this->setModule($module);
-            return $this;
-        }
-        else {
-            $this->module     = $this->defaultModule;
-            $this->controller = $this->defaultController;
-            $this->action     = $this->defaultAction;
-        }
-    }
-
-    public function checkController($controller)
-    {
-        if (isset($controller)) {
-            $this->setController($controller);
-        }
-        else {
-            $this->controller = $this->defaultController;
-        }
-    }
-
-    public function checkAction($method)
-    {
-        if (isset($method)) {
-            $this->setAction($method);
-        }
-        else {
-            $this->action = $this->defaultAction;
-        }
-    }
-
-    public function checkParams($paramsArray = array())
-    {
-        if (isset($paramsArray)) {
-            $this->setParams(explode('/', $paramsArray));
-        }
-    }
-
 }

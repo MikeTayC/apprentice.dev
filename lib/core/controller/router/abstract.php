@@ -18,7 +18,6 @@ abstract class Core_Controller_Router_Abstract
     protected $defaultModule;
     protected $defaultController;
     protected $defaultAction;
-    protected $modulePageDefault;
     /*
      * $module will store the module
      */
@@ -58,7 +57,6 @@ abstract class Core_Controller_Router_Abstract
     public function setParams(array $paramsArray)
     {
         $this->params = $paramsArray;
-        return $this;
     }
     /*
      * the goal of this method:
