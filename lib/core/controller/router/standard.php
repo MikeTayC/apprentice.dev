@@ -29,26 +29,21 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $method         = $path[2];
         $paramsArray    = $path[3];
 
-        if(!empty($module)) {
-            $this->setModule($module);
-        } else {
+        if(empty($module)) {
             $this->module     = $this->defaultModule;
             $this->controller = $this->defaultController;
             $this->action     = $this->defaultAction;
             goto dispatch;
         }
 
-        if (isset($controller)) {
-            $this->setController($controller);
+        if(!$this->setModule($module)) {
+            goto reroute;
         }
-        else {
+        if (!$this->setController($controller)) {
             goto reroute;
         }
 
-        if (isset($method)) {
-            $this->setAction($method);
-        }
-        else {
+        if (!$this->setAction($method)) {
             goto reroute;
         }
 
@@ -73,6 +68,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $className = ucfirst($module) . '_Controller_Index';
         if(class_exists($className)) {
             $this->module = $module;
+            return true;
         }
         else {
             return false;
@@ -88,6 +84,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $className = $this->module . '_' . 'Controller' . '_' . $controller;
         if (class_exists($className)) {
             $this->controller = $className;
+            return true;
         }
         else {
             return false;
@@ -101,6 +98,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     {
         if(method_exists($this->controller, $method)) {
             $this->action = $method;
+            return true;
         }
         else {
             return false;

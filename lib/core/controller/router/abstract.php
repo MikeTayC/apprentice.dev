@@ -38,26 +38,6 @@ abstract class Core_Controller_Router_Abstract
      */
     protected $params = array();
 
-
-    abstract public function setModule($module);
-    /*
-     * Function accepts three params: module/controller
-     * This function will set the given controller class
-     */
-    abstract public function setController($controller);
-
-    /*
-     * will check if method exists before setting action
-     */
-    abstract public function setAction($method);
-
-    /*
-     * sets the params var with the array specified
-     */
-    public function setParams(array $paramsArray)
-    {
-        $this->params = $paramsArray;
-    }
     /*
      * the goal of this method:
      * 1) examine a request URL;

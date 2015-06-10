@@ -8,7 +8,7 @@ class Core_Controller_Router_Request
 
     public function requestUri()
     {
-        $_SERVER['REQUEST_URI'];
+
         $pathUri = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH),'/');
 
         return $pathUri;
