@@ -6,4 +6,9 @@ class Admin_Controller_Index
     {
         echo 'This is a test from admin controller index';
     }
+
+    public function indexAction()
+    {
+        echo "indexAction test";
+    }
 }

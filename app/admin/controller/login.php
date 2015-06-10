@@ -15,4 +15,9 @@ class Admin_Controller_Login
         echo $param;
         echo $test;
     }
+
+    public function indexAction()
+    {
+        echo "indexAction test";
+    }
 }

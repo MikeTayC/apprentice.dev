@@ -1,6 +1,7 @@
 <?php
 require_once 'config.php';
 require_once 'autoloader.php';
+
 class Bootstrap
 {
     /**
@@ -19,8 +20,7 @@ class Bootstrap
         $this->setIncludePath();
         spl_autoload_register('Autoloader::autoload');
 
-        $this->loadFrontController();
-
+        $this->loadRunFrontController();
     }
     /*
      * function will set the include path to be used by autoloader
@@ -39,16 +39,14 @@ class Bootstrap
         set_include_path($filePath . PS);
     }
 
-    /*
-     * Loads front crontroller by:
-     * Instantiating the front controller
-     * Parsing the url with the parseUri function
-     * Running the appropriate controller set in the uri
-     */
-    private function loadFrontController()
+    private function loadRunFrontController()
     {
-        $frontController = new Core_Front_Controller();
-        $frontController->parseUri();
-        $frontController->run();
+        $frontcontroller = new Core_Controller_Front();
+        $frontcontroller->dispatch();
     }
+
+
+
+
+
 }
