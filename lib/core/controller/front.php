@@ -15,8 +15,15 @@ class Core_Controller_Front
      */
     private $routers = array();
 
+    /*
+     * $request holds the request object
+     */
     private $request;
 
+    /*
+     * instantiates new request object
+     * initializes routers
+     */
     public function __construct()
     {
         $this->request = new Core_Controller_Router_Request();
@@ -26,8 +33,8 @@ class Core_Controller_Front
 
     /*
      * routing happens here,
-     * dispatch() will loop thru the routers array, one at a time, the front controller takes the objects
-     * and calls their match method(passing in the request object) HOWEVER, just becuase there is a
+     * dispatch() will loop through the routers array, one at a time, the front controller takes the objects
+     * and calls their match method(passing in the request object) HOWEVER, just because there is a
      * router match does not mean the request has been dispatched.
      */
     public function dispatch()
@@ -39,26 +46,12 @@ class Core_Controller_Front
                     break;
             }
         }
+
         /*
          * if request isnt found by 100 attempt, something is wrong
          */
         if ($i>100) {
-            echo 'Error: Front controller reached 100 match iterations.';
-        }
-
-        /*
-         * if request object is still not marked dispatched, give error default router
-         * else the router must be set to true, assuming the front controller found a match
-         * we tell the response object to send its contents to the browser
-         */
-        if(!$this->request->isDispatched()) {
-            //Set a default router
-            echo 'Could not locate router';
-        }
-        else
-        {
-            //use response object to send its contents to the browser
-            echo ' here we would use response object';
+            throw new Exception('Request was not found after 100 attempts, something is wrong');
         }
     }
 

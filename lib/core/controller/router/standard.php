@@ -19,6 +19,14 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     protected $defaultController = 'Admin_Controller_Index';
     protected $defaultAction     = 'indexAction';
 
+    /*
+     * function match will match the URI to the corresponding pathfile,
+     * will dispatch to the correct controller handler if it exists
+     *
+     * if path is empty: sends to default module/controller/action
+     * if any module || controller || action doesn't exist, will be rerouted (eventually to default router)
+     *
+     */
     public function match($request)
     {
         $path = $request->requestUri();
@@ -33,36 +41,35 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
             $this->module     = $this->defaultModule;
             $this->controller = $this->defaultController;
             $this->action     = $this->defaultAction;
-            goto dispatch;
+            return $this->dispatch($request);
         }
 
         if(!$this->setModule($module)) {
-            goto reroute;
+            return $this->reroute();
         }
+
         if (!$this->setController($controller)) {
-            goto reroute;
+            return $this->reroute();
         }
 
         if (!$this->setAction($method)) {
-            goto reroute;
+            return $this->reroute();
         }
 
         if (isset($paramsArray)) {
             $this->setParams(explode('/', $paramsArray));
-            goto dispatch;
         }
 
-        dispatch: {
-            $request->stopDispatching();
-            $this->run();
-            return true;
-        }
-
-        reroute:
-        return false;
+        return $this->dispatch($request);
     }
 
 
+    /*
+     * todo change module check method
+     * checks if the module exists, by checking if the module has an index controller.
+     * sets module and returns true if it does, so match function can continue
+     * returns false if does not exist, so match we will reroute to next router
+     */
     public function setModule($module)
     {
         $className = ucfirst($module) . '_Controller_Index';
@@ -76,8 +83,11 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     }
 
     /*
-     * Function accepts three params: module/controller
-     * This function will set the given controller class
+
+     * This function will check if a controller exists by checking if the class exists
+     *
+     * catch function can continue
+     * returns false if does not exist, so match we will reroute to next router
      */
     public function setController( $controller)
     {
@@ -93,6 +103,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
 
     /*
      * will check if method exists before setting action
+     *
      */
     public function setAction($method)
     {
@@ -103,5 +114,13 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         else {
             return false;
         }
+    }
+
+    /*
+     * sets the params var with the array specified
+     */
+    public function setParams(array $paramsArray)
+    {
+        $this->params = $paramsArray;
     }
 }

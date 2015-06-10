@@ -59,4 +59,24 @@ abstract class Core_Controller_Router_Abstract
     {
         call_user_func_array(array(new $this->controller, $this->action), $this->params);
     }
+
+    /*
+     * returns false to break of match method, in the event the router needs to change
+     */
+    public function reroute()
+    {
+        return false;
+    }
+
+    /*
+     * @param is the request object
+     * will stop dispatching and run the controller
+     * returns true to break out of match function
+     */
+    public function dispatch($request)
+    {
+        $request->stopDispatching();
+        $this->run();
+        return true;
+    }
 }
