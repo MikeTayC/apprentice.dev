@@ -1,15 +1,15 @@
 <?php
 
 /*
- * retrieves and merges json configuration files
+ * retrieves and merges json configuration files for routers
  */
-class Core_Model_Config
+class Core_Model_Router_Config
 {
     public $config = array();
 
     public $jsonArray;
 
-    public function getConfig()
+    public function getRouterConfig()
     {
         $lists = glob('*/*/config.json');
 

@@ -69,15 +69,21 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
      * checks if the module exists, by checking if the module has an index controller.
      * sets module and returns true if it does, so match function can continue
      * returns false if does not exist, so match we will reroute to next router
+     *
+     * Need to start makign singltons
+     * instantiating Core_Model_Module_Config to test if this module exists
      */
     public function setModule($module)
     {
-        $className = ucfirst($module) . '_Controller_Index';
-        if (class_exists($className)) {
-            $this->module = $module;
-            return true;
-        }
-        else {
+        $config = new Core_Model_Module_Config();
+        $jsonArray = $config->getConfig();
+        if(!empty($jsonArray)) {
+            foreach($jsonArray['config']['modules'] as $configModule) {
+                if($module == $configModule) {
+                    $this->module = $module;
+                    return true;
+                }
+            }
             return false;
         }
     }
