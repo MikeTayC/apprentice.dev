@@ -1,0 +1,6 @@
+{"config" : {
+    "routers" : {
+      "standard" : "Core_Controller_Router_Standard"
+    }
+  }
+}

@@ -15,8 +15,8 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     /*
      * Default parameters in the case of empty uri
      */
-    protected $defaultModule     = 'admin';
-    protected $defaultController = 'Admin_Controller_Index';
+    protected $defaultModule     = 'core';
+    protected $defaultController = 'Core_Controller_Index';
     protected $defaultAction     = 'indexAction';
 
     /*
@@ -32,19 +32,19 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $path = $request->requestUri();
 
         $path = explode('/', $path, 4);
-        $module         = $path[0];
+        $module         = $path[0]; //!empty($path[0]) ? $path[0] : null;
         $controller     = $path[1];
         $method         = $path[2];
         $paramsArray    = $path[3];
 
-        if(empty($module)) {
+        if (empty($module)) {
             $this->module     = $this->defaultModule;
             $this->controller = $this->defaultController;
             $this->action     = $this->defaultAction;
             return $this->dispatch($request);
         }
 
-        if(!$this->setModule($module)) {
+        if (!$this->setModule($module)) {
             return $this->reroute();
         }
 
@@ -73,7 +73,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     public function setModule($module)
     {
         $className = ucfirst($module) . '_Controller_Index';
-        if(class_exists($className)) {
+        if (class_exists($className)) {
             $this->module = $module;
             return true;
         }
@@ -83,7 +83,6 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     }
 
     /*
-
      * This function will check if a controller exists by checking if the class exists
      *
      * catch function can continue
@@ -107,7 +106,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
      */
     public function setAction($method)
     {
-        if(method_exists($this->controller, $method)) {
+        if (method_exists($this->controller, $method)) {
             $this->action = $method;
             return true;
         }

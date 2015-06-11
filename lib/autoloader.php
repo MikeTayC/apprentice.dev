@@ -24,5 +24,4 @@ class Autoloader
             return false;
         }
     }
-
 }

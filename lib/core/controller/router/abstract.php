@@ -18,6 +18,7 @@ abstract class Core_Controller_Router_Abstract
     protected $defaultModule;
     protected $defaultController;
     protected $defaultAction;
+
     /*
      * $module will store the module
      */

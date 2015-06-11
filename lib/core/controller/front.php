@@ -21,12 +21,17 @@ class Core_Controller_Front
     private $request;
 
     /*
+     * will hold router data from json files
+     */
+    private $routerConfig;
+
+    /*
      * instantiates new request object
      * initializes routers
      */
     public function __construct()
     {
-        $this->request = new Core_Controller_Router_Request();
+        $this->request = new Core_Model_Request();
 
         $this->routersInit();
     }
@@ -60,11 +65,27 @@ class Core_Controller_Front
      */
     private function routersInit()
     {
-        $router = new Core_Controller_Router_Standard();
-        $this->routers[] = $router;
+        /*
+         * function calls something that will grab json, it will decode/merge the json into an array
+         * this function will iterate over the array, add add to the router
+         */
+        $config = new Core_Model_Config();
+        $this->routerConfig = $config->getConfig();
 
-        $router2 = new Core_Controller_Router_Default();
-        $this->routers[] = $router2;
+        foreach ($this->routerConfig['config']['routers'] as $router) {
+            $this->addRouter(new $router);
+        }
+
+        $default = new Core_Controller_Router_Default();
+        $this->addRouter($default);
+    }
+
+    /*
+     * adds an instantiated router to the routers array, for use in dispatch
+     */
+    private function addRouter($router)
+    {
+        $this->routers[] = $router;
     }
 }
 

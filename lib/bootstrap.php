@@ -18,6 +18,7 @@ class Bootstrap
     public function __construct()
     {
         $this->setIncludePath();
+
         spl_autoload_register('Autoloader::autoload');
 
         $this->loadRunFrontController();
@@ -44,9 +45,4 @@ class Bootstrap
         $frontcontroller = new Core_Controller_Front();
         $frontcontroller->dispatch();
     }
-
-
-
-
-
 }
