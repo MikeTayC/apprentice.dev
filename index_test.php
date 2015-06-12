@@ -1,1 +1,0 @@
-<?php echo'index_test.php htaccess works'; ?>
