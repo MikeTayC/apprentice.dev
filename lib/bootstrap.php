@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'const.php';
 require_once 'autoloader.php';
 
 class Bootstrap

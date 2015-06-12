@@ -75,8 +75,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
      */
     public function setModule($module)
     {
-        $config = new Core_Model_Module_Config();
-        $jsonArray = $config->getConfig();
+        $jsonArray = Core_Model_Config_Json::getJsonConfig();
         if(!empty($jsonArray)) {
             foreach($jsonArray['config']['modules'] as $configModule) {
                 if($module == $configModule) {

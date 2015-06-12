@@ -69,8 +69,8 @@ class Core_Controller_Front
          * function calls something that will grab json, it will decode/merge the json into an array
          * this function will iterate over the array, add add to the router
          */
-        $config = new Core_Model_Router_Config();
-        $this->routerConfig = $config->getRouterConfig();
+
+        $this->routerConfig = Core_Model_Config_Json::getJsonConfig();
 
         foreach ($this->routerConfig['config']['routers'] as $router) {
             $this->addRouter(new $router);

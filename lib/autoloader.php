@@ -12,6 +12,7 @@ class Autoloader
          * Configures the class name to the appropriate file path
          */
         $fileName = str_replace('_', DS , strtolower($className)) . '.php';
+
         /*
          * stream_resolve_include_path()
          * resolves filename against the include path
