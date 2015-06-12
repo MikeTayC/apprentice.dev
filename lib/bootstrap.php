@@ -21,6 +21,8 @@ class Bootstrap
 
         spl_autoload_register('Autoloader::autoload');
 
+        $this->initJsonConfig();
+
         $this->loadRunFrontController();
     }
     /*
@@ -44,5 +46,10 @@ class Bootstrap
     {
         $frontcontroller = new Core_Controller_Front();
         $frontcontroller->dispatch();
+    }
+
+    private function initJsonConfig()
+    {
+        Core_Model_Config_Json::setJsonConfig();
     }
 }

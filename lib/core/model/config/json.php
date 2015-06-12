@@ -22,10 +22,9 @@ class Core_Model_Config_Json
     }
     private function __construct(){}
 
-    public static function getJsonConfig()
+    public static function setJsonConfig()
     {
-
-        $jsonPaths = self::getJsonPath();
+        $jsonPaths = self::setJsonPath();
 
         foreach ($jsonPaths as $jsonPath) {
 
@@ -33,11 +32,9 @@ class Core_Model_Config_Json
 
             self::$globalJsonArray = array_merge_recursive(self::$config, self::$globalJsonArray);
         }
-
-        return self::$globalJsonArray;
     }
 
-    public static function getJsonPath()
+    public static function setJsonPath()
     {
         $jsonLibAppModules = glob('*/*/config.json');
 
@@ -48,5 +45,10 @@ class Core_Model_Config_Json
         self::$jsonPathArray[] = $jsonModuleNames;
 
         return self::$jsonPathArray;
+    }
+
+    public static function getJsonConfig()
+    {
+        return self::$globalJsonArray;
     }
 }
