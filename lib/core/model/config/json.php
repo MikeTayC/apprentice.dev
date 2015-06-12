@@ -19,6 +19,9 @@ class Core_Model_Config_Json
             self::$instance = new Core_Module_Config_Json();
             return self::$instance;
         }
+        else {
+            return self::$instance;
+        }
     }
     private function __construct(){}
 

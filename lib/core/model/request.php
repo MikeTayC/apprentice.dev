@@ -13,6 +13,9 @@ class Core_Model_Request
             self::$instance = new Core_Model_Request();
             return self::$instance;
         }
+        else {
+            return self::$instance;
+        }
     }
     private function __construct(){}
 

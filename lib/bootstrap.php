@@ -2,33 +2,9 @@
 require_once 'const.php';
 require_once 'autoloader.php';
 
-class Bootstrap
+final class Bootstrap
 {
-    /**
-     * $paths is an array that will keep track of different file paths
-     * @var array
-     */
-    private $paths = array();
-
-    /*
-     * $filePath var will be used to initialize the $paths array to become the new include_path configuration
-     */
-    private $filePath;
-
-    public function __construct()
-    {
-        $this->setIncludePath();
-
-        spl_autoload_register('Autoloader::autoload');
-
-        $this->initJsonConfig();
-
-        $this->loadRunFrontController();
-    }
-    /*
-     * function will set the include path to be used by autoloader
-     */
-    private function setIncludePath()
+    public static function setIncludePath()
     {
         $paths[] = BP . DS . APP;
 
@@ -42,13 +18,18 @@ class Bootstrap
         set_include_path($filePath . PS);
     }
 
-    private function loadRunFrontController()
+    public static function registerAutoload()
     {
-        $frontcontroller = new Core_Controller_Front();
-        $frontcontroller->dispatch();
+        spl_autoload_register('Autoloader::autoload');
     }
 
-    private function initJsonConfig()
+    public static function loadRunFrontController()
+    {
+        $frontController = new Core_Controller_Front();
+        $frontController->dispatch();
+    }
+
+    public static function initJsonConfig()
     {
         Core_Model_Config_Json::setJsonConfig();
     }

@@ -2,4 +2,10 @@
 
 require_once "lib/bootstrap.php";
 
-$app = new Bootstrap();
+Bootstrap::setIncludePath();
+
+Bootstrap::registerAutoload();
+
+Bootstrap::initJsonConfig();
+
+Bootstrap::loadRunFrontController();
