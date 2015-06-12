@@ -1,6 +1,6 @@
 <?php
-require_once 'const.php';
-require_once 'autoloader.php';
+require_once 'Const.php';
+require_once 'Autoloader.php';
 
 final class Bootstrap
 {

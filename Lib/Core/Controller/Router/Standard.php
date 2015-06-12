@@ -1,12 +1,12 @@
 <?php
 /*
  * Router will use the request object's pathArray array to set the route specified by the URI.
- * it will verify that the corresponding module, controller, method and params exists, before being
+ * it will verify that the corresponding module, Controller, method and params exists, before being
  * dispatched
  *
  * 3 main responsibilities:
- * 1) provide a match method which examines the request object and returns true if the router wishes to claim
- * a request and stop other router objects from acting
+ * 1) provide a match method which examines the request object and returns true if the Router wishes to claim
+ * a request and stop other Router objects from acting
  * 2) mark the request object as dispatched, or throu inaction fail to mark it as dispatchd
  * 3) set the body/contents of the request object,
  */
@@ -15,16 +15,16 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     /*
      * Default parameters in the case of empty uri
      */
-    protected $defaultModule     = 'core';
+    protected $defaultModule     = 'Core';
     protected $defaultController = 'Core_Controller_Index';
     protected $defaultAction     = 'indexAction';
 
     /*
      * function match will match the URI to the corresponding pathfile,
-     * will dispatch to the correct controller handler if it exists
+     * will dispatch to the correct Controller handler if it exists
      *
-     * if path is empty: sends to default module/controller/action
-     * if any module || controller || action doesn't exist, will be rerouted (eventually to default router)
+     * if path is empty: sends to default module/Controller/action
+     * if any module || Controller || action doesn't exist, will be rerouted (eventually to default Router)
      *
      */
     public function match($request)
@@ -32,10 +32,10 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $path = $request->requestUri();
 
         $path = explode('/', $path, 4);
-        $module         = $path[0]; //!empty($path[0]) ? $path[0] : null;
-        $controller     = $path[1];
-        $method         = $path[2];
-        $paramsArray    = $path[3];
+        $module         = !empty($path[0]) ? $path[0] : null;
+        $controller     = !empty($path[1]) ? $path[1] : null;
+        $method         = !empty($path[2]) ? $path[2] : null;
+        $paramsArray    = !empty($path[3]) ? $path[3] : null;
 
         if (empty($module)) {
             $this->module     = $this->defaultModule;
@@ -66,15 +66,16 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
 
     /*
      * todo change module check method
-     * checks if the module exists, by checking if the module has an index controller.
+     * checks if the module exists, by checking if the module has an index Controller.
      * sets module and returns true if it does, so match function can continue
-     * returns false if does not exist, so match we will reroute to next router
+     * returns false if does not exist, so match we will reroute to next Router
      *
      * Need to start makign singltons
      * instantiating Core_Model_Module_Config to test if this module exists
      */
-    public function setModule($module)
+    private function setModule($module)
     {
+        $module = ucfirst($module);
         $jsonArray = Core_Model_Config_Json::getJsonConfig();
         if(!empty($jsonArray)) {
             foreach($jsonArray['config']['modules'] as $configModule) {
@@ -88,13 +89,14 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     }
 
     /*
-     * This function will check if a controller exists by checking if the class exists
+     * This function will check if a Controller exists by checking if the class exists
      *
      * catch function can continue
-     * returns false if does not exist, so match we will reroute to next router
+     * returns false if does not exist, so match we will reroute to next Router
      */
-    public function setController( $controller)
+    private function setController( $controller)
     {
+        $controller = ucfirst($controller);
         $className = $this->module . '_' . 'Controller' . '_' . $controller;
         if (class_exists($className)) {
             $this->controller = $className;
@@ -109,7 +111,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
      * will check if method exists before setting action
      *
      */
-    public function setAction($method)
+    private function setAction($method)
     {
         if (method_exists($this->controller, $method)) {
             $this->action = $method;

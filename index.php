@@ -1,6 +1,5 @@
 <?php
-
-require_once "lib/bootstrap.php";
+require_once "Lib/Bootstrap.php";
 
 Bootstrap::setIncludePath();
 

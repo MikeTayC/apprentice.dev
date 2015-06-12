@@ -1,7 +1,0 @@
-{"config" : {
-    "modules" : {
-       "moduleAdmin": "admin",
-       "moduleCore" : "core"
-    }
-  }
-}

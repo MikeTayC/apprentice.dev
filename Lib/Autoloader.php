@@ -1,17 +1,18 @@
 <?php
 /*
  * autoloader class
- * static function autoload to be used in bootstrap.php to initialize the autoloader
+ * static function autoload to be used in Bootstrap.php to initialize the autoloader
  */
 
 class Autoloader
 {
-    static function autoload($className)
+    public static function autoload($className)
     {
         /*
          * Configures the class name to the appropriate file path
          */
-        $fileName = str_replace('_', DS , strtolower($className)) . '.php';
+
+        $fileName = str_replace('_', DS , ucfirst($className)) . '.php';
 
         /*
          * stream_resolve_include_path()

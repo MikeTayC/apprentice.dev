@@ -5,11 +5,11 @@
  */
 class Core_Model_Config_Json
 {
-    public static $config = array();
+    private static $config = array();
 
-    public static $jsonPathArray = array();
+    private static $jsonPathArray = array();
 
-    public static $globalJsonArray = array();
+    private static $globalJsonArray = array();
 
     private static $instance = null;
 
@@ -39,11 +39,11 @@ class Core_Model_Config_Json
 
     public static function setJsonPath()
     {
-        $jsonLibAppModules = glob('*/*/config.json');
+        $jsonLibAppModules = glob('*/*/Config.json');
 
         self::$jsonPathArray = $jsonLibAppModules;
 
-        $jsonModuleNames = 'lib/etc/modules/config.json';
+        $jsonModuleNames = 'Lib/Etc/Modules/Config.json';
 
         self::$jsonPathArray[] = $jsonModuleNames;
 

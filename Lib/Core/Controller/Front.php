@@ -1,11 +1,11 @@
 <?php
 /**
- * Front controller provides a centralized request handling mechanism so
+ * Front Controller provides a centralized request handling mechanism so
  * that all request will be handled by a single handler.
  *
- * Front controller will determine which router object will be used for a particular URL
+ * Front Controller will determine which Router object will be used for a particular URL
  * these routing objects have a different set of rules for how that url should be routed to
- * a particular controller
+ * a particular Controller
  *
  */
 class Core_Controller_Front
@@ -21,7 +21,7 @@ class Core_Controller_Front
     private $request;
 
     /*
-     * will hold router data from json files
+     * will hold Router data from json files
      */
     private $routerConfig;
 
@@ -38,9 +38,9 @@ class Core_Controller_Front
 
     /*
      * routing happens here,
-     * dispatch() will loop through the routers array, one at a time, the front controller takes the objects
+     * dispatch() will loop through the routers array, one at a time, the front Controller takes the objects
      * and calls their match method(passing in the request object) HOWEVER, just because there is a
-     * router match does not mean the request has been dispatched.
+     * Router match does not mean the request has been dispatched.
      */
     public function dispatch()
     {
@@ -53,7 +53,7 @@ class Core_Controller_Front
         }
 
         /*
-         * if request isnt found by 100 attempt, something is wrong
+         * if request isn't found by 100 attempt, something is wrong
          */
         if ($i>100) {
             throw new Exception('Request was not found after 100 attempts, something is wrong');
@@ -67,7 +67,7 @@ class Core_Controller_Front
     {
         /*
          * function calls something that will grab json, it will decode/merge the json into an array
-         * this function will iterate over the array, add add to the router
+         * this function will iterate over the array, add add to the Router
          */
 
         $this->routerConfig = Core_Model_Config_Json::getJsonConfig();
@@ -81,7 +81,7 @@ class Core_Controller_Front
     }
 
     /*
-     * adds an instantiated router to the routers array, for use in dispatch
+     * adds an instantiated Router to the routers array, for use in dispatch
      */
     private function addRouter($router)
     {

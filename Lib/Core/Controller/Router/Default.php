@@ -3,7 +3,7 @@
 class Core_Controller_Router_Default extends Core_Controller_Router_Abstract
 {
 
-    protected $defaultModule     = 'core';
+    protected $defaultModule     = 'Core';
     protected $defaultController = 'Core_Controller_Error';
     protected $defaultAction     = 'errorAction';
 

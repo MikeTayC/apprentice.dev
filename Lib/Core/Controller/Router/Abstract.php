@@ -1,12 +1,12 @@
 <?php
 /*
  * Router will use the request object's pathArray array to set the route specified by the URI.
- * it will verify that the corresponding module, controller, method and params exists, before being
+ * it will verify that the corresponding module, Controller, method and params exists, before being
  * dispatched
  *
  * 3 main responsibilities:
- * 1) provide a match method which examines the request object and returns true if the router wishes to claim
- * a request and stop other router objects from acting
+ * 1) provide a match method which examines the request object and returns true if the Router wishes to claim
+ * a request and stop other Router objects from acting
  * 2) mark the request object as dispatched, or throu inaction fail to mark it as dispatchd
  * 3) set the body/contents of the request object,
  */
@@ -25,7 +25,7 @@ abstract class Core_Controller_Router_Abstract
     protected $module;
 
     /*
-     * $controller will store the controller class to be loaded
+     * $Controller will store the Controller class to be loaded
      */
     protected $controller;
 
@@ -42,18 +42,18 @@ abstract class Core_Controller_Router_Abstract
     /*
      * the goal of this method:
      * 1) examine a request URL;
-     * 2) determine which modules might contain the appropriate controller,
-     * 3) determine which controller in that module we should use
-     * 4) deterine which action on the controller we should call
-     * 5) then tell the controller to dispatch that action
+     * 2) determine which Modules might contain the appropriate Controller,
+     * 3) determine which Controller in that module we should use
+     * 4) deterine which action on the Controller we should call
+     * 5) then tell the Controller to dispatch that action
      * ---
-     * if a suitable module/controller/action is not found, the method will return false
-     * and the front controller object moves to the next routers match method
+     * if a suitable module/Controller/action is not found, the method will return false
+     * and the front Controller object moves to the next routers match method
      */
     abstract public function match($request);
 
     /*
-     * dispatches the appropriate controller and action,
+     * dispatches the appropriate Controller and action,
      * implemented two ways
      */
     public function run()
@@ -62,7 +62,7 @@ abstract class Core_Controller_Router_Abstract
     }
 
     /*
-     * returns false to break of match method, in the event the router needs to change
+     * returns false to break of match method, in the event the Router needs to change
      */
     public function reroute()
     {
@@ -71,7 +71,7 @@ abstract class Core_Controller_Router_Abstract
 
     /*
      * @param is the request object
-     * will stop dispatching and run the controller
+     * will stop dispatching and run the Controller
      * returns true to break out of match function
      */
     public function dispatch($request)

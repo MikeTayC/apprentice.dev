@@ -7,6 +7,7 @@ class Core_Model_Request
     protected $dispatched = false;
 
     private static $instance = null;
+
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -17,6 +18,7 @@ class Core_Model_Request
             return self::$instance;
         }
     }
+
     private function __construct(){}
 
     public function requestUri()
@@ -28,7 +30,7 @@ class Core_Model_Request
 
     /*
      * returns state of $dispatched. used to determine if the url has been
-     * dispatched by the proper router
+     * dispatched by the proper Router
      */
     public function isDispatched()
     {
@@ -36,7 +38,7 @@ class Core_Model_Request
     }
 
     /*
-     * changes the stat of dispatched to true, this will stop dispatch/router loop
+     * changes the stat of dispatched to true, this will stop dispatch/Router loop
      */
     public function stopDispatching()
     {
