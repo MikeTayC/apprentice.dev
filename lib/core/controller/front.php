@@ -31,7 +31,7 @@ class Core_Controller_Front
      */
     public function __construct()
     {
-        $this->request = new Core_Model_Request();
+        $this->request = Core_Model_Request::getInstance();
 
         $this->routersInit();
     }

@@ -6,6 +6,16 @@ class Core_Model_Request
 {
     protected $dispatched = false;
 
+    private static $instance = null;
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new Core_Model_Request();
+            return self::$instance;
+        }
+    }
+    private function __construct(){}
+
     public function requestUri()
     {
         $pathUri = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH),'/');
