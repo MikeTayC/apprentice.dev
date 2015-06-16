@@ -70,9 +70,9 @@ class Core_Controller_Front
          * this function will iterate over the array, add add to the Router
          */
 
-        $this->routerConfig = Core_Model_Config_Json::getJsonConfig();
+        $this->routerConfig = Core_Model_Config_Json::getRouterConfig();
 
-        foreach ($this->routerConfig['config']['routers'] as $router) {
+        foreach ($this->routerConfig as $router) {
             $this->addRouter(new $router);
         }
 

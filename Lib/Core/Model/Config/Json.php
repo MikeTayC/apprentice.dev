@@ -51,6 +51,11 @@ class Core_Model_Config_Json
         return self::$globalJsonArray;
     }
 
+    public static function getRouterConfig()
+    {
+        return self::$globalJsonArray['config']['routers'];
+    }
+
     public static function getModulesConfig(){
         return self::$globalJsonArray['config']['modules'];
     }
