@@ -9,11 +9,12 @@ class Core_Controller_Router_Default extends Core_Controller_Router_Abstract
 
     public function match($request)
     {
-        $this->_request->getModule(self::DEFAULT_MODULE);
-        $this->_request->getController(self::DEFAULT_CONTROLLER);
-        $this->_request->getAction(self::DEFAULT_ACTION);
+        $this->_request = $request;
+        $this->_request->setModule(self::DEFAULT_MODULE);
+        $this->_request->setController(self::DEFAULT_CONTROLLER);
+        $this->_request->setAction(self::DEFAULT_ACTION);
 
 
-        return $this->dispatch($request);
+        return $this->dispatch($this->_request);
     }
 }
