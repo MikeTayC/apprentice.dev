@@ -2,13 +2,8 @@
 
 class Admin_Controller_Index
 {
-    public function __construct()
-    {
-        echo 'This is a test from Admin Controller index';
-    }
-
     public function indexAction()
     {
-        echo "indexAction test";
+        Bootstrap::getView('admin/login'); //([admin == module name in config]/[php file])
     }
 }

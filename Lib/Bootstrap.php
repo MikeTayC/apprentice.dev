@@ -33,4 +33,31 @@ final class Bootstrap
     {
         Core_Model_Config_Json::setJsonConfig();
     }
+
+    public static function getView($viewIdentifier = false){
+        $viewClassName = self::buildClassName($viewIdentifier, 'View');
+        return new $viewClassName();
+    }
+
+
+    public static function getModuleName($moduleName = false){
+        if($moduleName){
+            $modulesConfig = Core_Model_Config_Json::getModulesConfig();
+            if(array_key_exists($moduleName, $modulesConfig)){
+                return $modulesConfig[$moduleName]['dir'];
+            }
+        }
+    }
+
+    public static function buildClassName($identifier = false, $type = false){
+        $className = false;
+        if($identifier && $type && strpos('/', $identifier) >= 0){
+            //Check if module exists
+            list($module, $viewFile) = explode('/', $identifier);
+            $viewFile = str_replace('_', ' ', $viewFile);
+            $viewFile = str_replace(' ', '_', ucwords($viewFile));
+            $className = self::getModuleName($module) . '_' . $type . '_' . $viewFile;
+        }
+        return $className;
+    }
 }

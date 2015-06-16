@@ -1,4 +1,10 @@
 {"config" : {
+    "modules" : {
+        "core" : {
+            "pool" : "Lib",
+            "dir" : "Core"
+        }
+    },
     "routers" : {
       "standard" : "Core_Controller_Router_Standard"
     }

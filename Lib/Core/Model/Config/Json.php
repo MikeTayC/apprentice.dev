@@ -43,15 +43,15 @@ class Core_Model_Config_Json
 
         self::$jsonPathArray = $jsonLibAppModules;
 
-        $jsonModuleNames = 'Lib/Etc/Modules/Config.json';
-
-        self::$jsonPathArray[] = $jsonModuleNames;
-
         return self::$jsonPathArray;
     }
 
     public static function getJsonConfig()
     {
         return self::$globalJsonArray;
+    }
+
+    public static function getModulesConfig(){
+        return self::$globalJsonArray['config']['modules'];
     }
 }

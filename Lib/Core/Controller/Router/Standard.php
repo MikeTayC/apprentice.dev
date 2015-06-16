@@ -12,6 +12,8 @@
  */
 class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
 {
+    const ACTION_METHOD_IDENTIFIER = 'Action';
+
     /*
      * Default parameters in the case of empty uri
      */
@@ -76,10 +78,10 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     private function setModule($module)
     {
         $module = ucfirst($module);
-        $jsonArray = Core_Model_Config_Json::getJsonConfig();
-        if(!empty($jsonArray)) {
-            foreach($jsonArray['config']['modules'] as $configModule) {
-                if($module == $configModule) {
+        $modulesConfig = Core_Model_Config_Json::getModulesConfig();
+        if(!empty($modulesConfig)) {
+            foreach($modulesConfig as $moduleName => $codePool) {
+                if($module == ucfirst($moduleName)) {
                     $this->module = $module;
                     return true;
                 }
@@ -113,6 +115,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
      */
     private function setAction($method)
     {
+        $method .= self::ACTION_METHOD_IDENTIFIER;
         if (method_exists($this->controller, $method)) {
             $this->action = $method;
             return true;
