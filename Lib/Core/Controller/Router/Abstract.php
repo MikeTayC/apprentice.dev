@@ -12,32 +12,8 @@
  */
 abstract class Core_Controller_Router_Abstract
 {
-    /*
-     * Default parameters in the case of empty uri
-     */
-    protected $_defaultModule;
-    protected $_defaultController;
-    protected $_defaultAction;
 
-    /*
-     * $module will store the module
-     */
-    protected $module;
-
-    /*
-     * $Controller will store the Controller class to be loaded
-     */
-    protected $controller;
-
-    /*
-     * $action will store method/action to be called, if specified
-     */
-    protected $action;
-
-    /*
-     * $params stores any params for methods, if specified
-     */
-    protected $params = array();
+    protected $_request;
 
     /*
      * the goal of this method:
@@ -58,7 +34,13 @@ abstract class Core_Controller_Router_Abstract
      */
     public function run()
     {
-        call_user_func_array(array(new $this->controller, $this->action), $this->params);
+        $controllerConfig = Core_Model_Config_Json::getControllerConfig($this->_request->getModule());
+        if (!empty($controllerConfig)) {
+            $controller = $controllerConfig[$this->_request->getController()];
+            $action = $this->_request->getAction();
+            $params = !is_array($this->_request->getParams()) ? array($this->_request->getParams()) : $this->_request->getParams();
+            call_user_func_array(array(new $controller, $action), $params);
+        }
     }
 
     /*

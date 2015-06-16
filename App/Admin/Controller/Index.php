@@ -7,10 +7,9 @@ class Admin_Controller_Index
         Bootstrap::getView('admin/login'); //([admin == module name in config]/[php file])
         $request = Core_Model_Request::getInstance();
         $request->setModule('Admin')
-            ->setController('Admin_Controller_Login')
-            ->setAction('indexAction')
+            ->setController('Login')
+            ->setAction('testAction')
+            ->setParams(array('testparam1', 'whatever'))
             ->continueDispatching();
-        $TEST = 'TEST';
-
     }
 }

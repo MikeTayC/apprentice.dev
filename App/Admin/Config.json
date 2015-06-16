@@ -2,8 +2,13 @@
     "modules" : {
         "admin" : {
             "pool" : "App",
-            "dir" : "Admin"
+            "dir" : "Admin",
+            "controllers" : {
+               "Login" : "Admin_Controller_Login",
+               "Index" : "Admin_Controller_Index"
+            }
         }
+
     }
   }
 }

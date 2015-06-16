@@ -17,11 +17,9 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     /*
      * Default parameters in the case of empty uri
      */
-    protected $_defaultModule     = 'Core';
-    protected $_defaultController = 'Core_Controller_Index';
-    protected $_defaultAction     = 'indexAction';
-
-    protected $_request;
+    const DEFAULT_MODULE    = 'Core';
+    const DEFAULT_CONTROLLER = 'Index';
+    const DEFAULT_ACTION    = 'indexAction';
 
     /*
      * function match will match the URI to the corresponding pathfile,
@@ -34,29 +32,26 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     public function match($request)
     {
         $this->_request = $request;
-        $path = $request->requestUri();
+        $path = $this->_request->requestUri();
 
         $path = explode('/', $path, 4);
 
-        if(!($this->_request->getModule() && $this->_request->getController() && $this->_request->getAction())) {
+        //check if request is set, if it is not set the following will run
+        if($this->checkRequestObject()) {
 
-            $module = !empty($path[0]) ? $path[0] : null;
-            $controller = !empty($path[1]) ? $path[1] : null;
-            $method = !empty($path[2]) ? $path[2] : null;
+            $module      = !empty($path[0]) ? $path[0] : null;
+            $controller  = !empty($path[1]) ? $path[1] : null;
+            $method      = !empty($path[2]) ? $path[2] : null;
             $paramsArray = !empty($path[3]) ? $path[3] : null;
 
 
             if (empty($module)) {
 
-                $this->module = $this->_defaultModule;
-                $this->controller = $this->_defaultController;
-                $this->action = $this->_defaultAction;
+                $this->_request->setModule(self::DEFAULT_MODULE);
+                $this->_request->setController(self::DEFAULT_CONTROLLER);
+                $this->_request->setAction(self::DEFAULT_ACTION);
 
-                $this->_request->setModule($this->module);
-                $this->_request->setController($this->controller);
-                $this->_request->setAction($this->action);
-
-                return $this->dispatch($request);
+                return $this->dispatch($this->_request);
             }
 
             if (!$this->setModule($module)) {
@@ -74,15 +69,9 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
             if (isset($paramsArray)) {
                 $this->setParams(explode('/', $paramsArray));
             }
-        } else {
-
-            $this->module = $request->getModule();
-            $this->controller = $request->getController();
-            $this->action = $request->getAction();
-
         }
 
-        return $this->dispatch($request);
+        return $this->dispatch($this->_request);
     }
 
 
@@ -102,8 +91,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         if(!empty($modulesConfig)) {
             foreach($modulesConfig as $moduleName => $codePool) {
                 if($module == ucfirst($moduleName)) {
-                    $this->module = $module;
-                    $this->_request->setModule($this->module);
+                    $this->_request->setModule($module);
                     return true;
                 }
             }
@@ -120,15 +108,14 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     private function setController( $controller)
     {
         $controller = ucfirst($controller);
-        $className = $this->module . '_' . 'Controller' . '_' . $controller;
-        if (class_exists($className)) {
-            $this->controller = $className;
-            $this->_request->setController($this->controller);
-            return true;
+        $controllerConfig = Core_Model_Config_Json::getControllerConfig($this->_request->getModule());
+        if (!empty($controllerConfig)) {
+            if(array_key_exists($controller, $controllerConfig)) {
+                $this->_request->setController($controller);
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /*
@@ -138,21 +125,34 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     private function setAction($method)
     {
         $method .= self::ACTION_METHOD_IDENTIFIER;
-        if (method_exists($this->controller, $method)) {
-            $this->action = $method;
-            $this->_request->setAction($this->action);
-            return true;
+        $controllerConfig = Core_Model_Config_Json::getControllerConfig($this->_request->getModule());
+        if(!empty($controllerConfig)) {
+            $controller = $controllerConfig[$this->_request->getController()];
+            if (method_exists($controller, $method)) {
+                $this->_request->setAction($method);
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /*
      * sets the params var with the array specified
      */
-    public function setParams(array $paramsArray)
+    private function setParams(array $paramsArray)
     {
-        $this->params = $paramsArray;
+        $this->_request->setParams($paramsArray);
     }
+
+    /*
+     * evaulates request objects, checks if any of module/controller and action are set, if they are ALL
+     * set function will return false, and skip to dispatching the request object
+     */
+    private function checkRequestObject(){
+        if(!($this->_request->getModule() && $this->_request->getController() && $this->_request->getAction())) {
+            return true;
+        }
+        return false;
+    }
+
 }
