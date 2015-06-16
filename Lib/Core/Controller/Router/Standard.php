@@ -17,9 +17,11 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     /*
      * Default parameters in the case of empty uri
      */
-    protected $defaultModule     = 'Core';
-    protected $defaultController = 'Core_Controller_Index';
-    protected $defaultAction     = 'indexAction';
+    protected $_defaultModule     = 'Core';
+    protected $_defaultController = 'Core_Controller_Index';
+    protected $_defaultAction     = 'indexAction';
+
+    protected $_request;
 
     /*
      * function match will match the URI to the corresponding pathfile,
@@ -31,35 +33,53 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
      */
     public function match($request)
     {
+        $this->_request = $request;
         $path = $request->requestUri();
 
         $path = explode('/', $path, 4);
-        $module         = !empty($path[0]) ? $path[0] : null;
-        $controller     = !empty($path[1]) ? $path[1] : null;
-        $method         = !empty($path[2]) ? $path[2] : null;
-        $paramsArray    = !empty($path[3]) ? $path[3] : null;
 
-        if (empty($module)) {
-            $this->module     = $this->defaultModule;
-            $this->controller = $this->defaultController;
-            $this->action     = $this->defaultAction;
-            return $this->dispatch($request);
-        }
+        if(!($this->_request->getModule() && $this->_request->getController() && $this->_request->getAction())) {
 
-        if (!$this->setModule($module)) {
-            return $this->reroute();
-        }
+            $module = !empty($path[0]) ? $path[0] : null;
+            $controller = !empty($path[1]) ? $path[1] : null;
+            $method = !empty($path[2]) ? $path[2] : null;
+            $paramsArray = !empty($path[3]) ? $path[3] : null;
 
-        if (!$this->setController($controller)) {
-            return $this->reroute();
-        }
 
-        if (!$this->setAction($method)) {
-            return $this->reroute();
-        }
+            if (empty($module)) {
 
-        if (isset($paramsArray)) {
-            $this->setParams(explode('/', $paramsArray));
+                $this->module = $this->_defaultModule;
+                $this->controller = $this->_defaultController;
+                $this->action = $this->_defaultAction;
+
+                $this->_request->setModule($this->module);
+                $this->_request->setController($this->controller);
+                $this->_request->setAction($this->action);
+
+                return $this->dispatch($request);
+            }
+
+            if (!$this->setModule($module)) {
+                return $this->reroute();
+            }
+
+            if (!$this->setController($controller)) {
+                return $this->reroute();
+            }
+
+            if (!$this->setAction($method)) {
+                return $this->reroute();
+            }
+
+            if (isset($paramsArray)) {
+                $this->setParams(explode('/', $paramsArray));
+            }
+        } else {
+
+            $this->module = $request->getModule();
+            $this->controller = $request->getController();
+            $this->action = $request->getAction();
+
         }
 
         return $this->dispatch($request);
@@ -83,6 +103,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
             foreach($modulesConfig as $moduleName => $codePool) {
                 if($module == ucfirst($moduleName)) {
                     $this->module = $module;
+                    $this->_request->setModule($this->module);
                     return true;
                 }
             }
@@ -102,6 +123,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $className = $this->module . '_' . 'Controller' . '_' . $controller;
         if (class_exists($className)) {
             $this->controller = $className;
+            $this->_request->setController($this->controller);
             return true;
         }
         else {
@@ -118,6 +140,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $method .= self::ACTION_METHOD_IDENTIFIER;
         if (method_exists($this->controller, $method)) {
             $this->action = $method;
+            $this->_request->setAction($this->action);
             return true;
         }
         else {

@@ -1,0 +1,7 @@
+{"layout" : {
+    "actions" : {
+        "default" : "",
+        "admin_index_index" : "admin/login"
+    }
+  }
+}

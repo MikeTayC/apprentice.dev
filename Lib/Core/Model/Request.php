@@ -2,7 +2,7 @@
 /*
  * Request object will parse and store URI info with in the $pathArray array
  */
-class Core_Model_Request
+class Core_Model_Request extends Core_Model_Object
 {
     protected $dispatched = false;
 
@@ -46,4 +46,10 @@ class Core_Model_Request
 
         return $this;
     }
+
+    public function continueDispatching(){
+        $this->dispatched = false;
+        return $this;
+    }
+
 }

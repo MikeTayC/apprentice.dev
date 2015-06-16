@@ -15,9 +15,9 @@ abstract class Core_Controller_Router_Abstract
     /*
      * Default parameters in the case of empty uri
      */
-    protected $defaultModule;
-    protected $defaultController;
-    protected $defaultAction;
+    protected $_defaultModule;
+    protected $_defaultController;
+    protected $_defaultAction;
 
     /*
      * $module will store the module
