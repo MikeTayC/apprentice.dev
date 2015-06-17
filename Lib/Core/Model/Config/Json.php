@@ -60,8 +60,9 @@ class Core_Model_Config_Json
         return self::$globalJsonArray['config']['modules'];
     }
 
-    public static function getControllerConfig($moduleName) {
-        $moduleName = strtolower($moduleName);
-        return self::$globalJsonArray['config']['modules'][$moduleName]['controllers'];
+    public static function getModulesPoolConfig($module) {
+        $module = strtolower($module);
+        return self::$globalJsonArray['config']['modules'][$module]['pool'];
+
     }
 }

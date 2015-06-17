@@ -2,14 +2,9 @@
     "modules" : {
         "core" : {
             "pool" : "Lib",
-            "dir" : "Core",
-            "controllers" : {
-              "Error" : "Core_Controller_Error",
-              "Index" : "Core_Controller_Index"
-
+            "dir" : "Core"
           }
-        }
-    },
+        },
     "routers" : {
       "standard" : "Core_Controller_Router_Standard"
     }

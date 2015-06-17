@@ -37,122 +37,60 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
         $path = explode('/', $path, 4);
 
         //check if request is set, if it is not set the following will run
-        if($this->checkRequestObject()) {
+        if($this->checkRequestObjectIsSet()) {
 
-            $module      = !empty($path[0]) ? $path[0] : null;
-            $controller  = !empty($path[1]) ? $path[1] : null;
-            $method      = !empty($path[2]) ? $path[2] : null;
+            $module      = !empty($path[0]) ? ucfirst($path[0]) : null;
+            $controller  = !empty($path[1]) ? ucfirst($path[1]) : null;
+            $method      = !empty($path[2]) ? strtolower($path[2]) . self::ACTION_METHOD_IDENTIFIER : null;
             $paramsArray = !empty($path[3]) ? $path[3] : null;
-
 
             if (empty($module)) {
 
                 $this->_request->setModule(self::DEFAULT_MODULE);
                 $this->_request->setController(self::DEFAULT_CONTROLLER);
                 $this->_request->setAction(self::DEFAULT_ACTION);
-
-                return $this->dispatch($this->_request);
             }
-
-            if (!$this->setModule($module)) {
-                return $this->reroute();
+            elseif (!($this->checkModuleControllerActionExists($module, $controller, $method))) {
+                return $this->newRouter();
             }
-
-            if (!$this->setController($controller)) {
-                return $this->reroute();
-            }
-
-            if (!$this->setAction($method)) {
-                return $this->reroute();
-            }
-
-            if (isset($paramsArray)) {
-                $this->setParams(explode('/', $paramsArray));
+            else {
+                /** set module/controller/method to request object */
+                $this->_request->setModule($module);
+                $this->_request->setController($controller);
+                $this->_request->setAction($method);
+                !empty($paramsArray) ? $this->_request->setParams(explode('/', $paramsArray)): null;
             }
         }
-
         return $this->dispatch($this->_request);
     }
 
 
-    /*
-     * todo change module check method
-     * checks if the module exists, by checking if the module has an index Controller.
-     * sets module and returns true if it does, so match function can continue
-     * returns false if does not exist, so match we will reroute to next Router
-     *
-     * Need to start makign singltons
-     * instantiating Core_Model_Module_Config to test if this module exists
-     */
-    private function setModule($module)
-    {
-        $module = ucfirst($module);
-        $modulesConfig = Core_Model_Config_Json::getModulesConfig();
-        if(!empty($modulesConfig)) {
-            foreach($modulesConfig as $moduleName => $codePool) {
-                if($module == ucfirst($moduleName)) {
-                    $this->_request->setModule($module);
+    private function checkModuleControllerActionExists($module, $controller, $method) {
+        $poolConfig = Core_Model_Config_Json::getModulesPoolConfig($module);
+        if($poolConfig) {
+            $fileName = $poolConfig . '/' . $module . '/Controller/' . $controller . '.php';
+            if(file_exists($fileName)) {
+                $className = $module . '_Controller_' . $controller;
+                if(method_exists($className, $method)) {
                     return true;
                 }
             }
-            return false;
-        }
-    }
-
-    /*
-     * This function will check if a Controller exists by checking if the class exists
-     *
-     * catch function can continue
-     * returns false if does not exist, so match we will reroute to next Router
-     */
-    private function setController( $controller)
-    {
-        $controller = ucfirst($controller);
-        $controllerConfig = Core_Model_Config_Json::getControllerConfig($this->_request->getModule());
-        if (!empty($controllerConfig)) {
-            if(array_key_exists($controller, $controllerConfig)) {
-                $this->_request->setController($controller);
-                return true;
-            }
         }
         return false;
     }
 
-    /*
-     * will check if method exists before setting action
-     *
-     */
-    private function setAction($method)
-    {
-        $method .= self::ACTION_METHOD_IDENTIFIER;
-        $controllerConfig = Core_Model_Config_Json::getControllerConfig($this->_request->getModule());
-        if(!empty($controllerConfig)) {
-            $controller = $controllerConfig[$this->_request->getController()];
-            if (method_exists($controller, $method)) {
-                $this->_request->setAction($method);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /*
-     * sets the params var with the array specified
-     */
-    private function setParams(array $paramsArray)
-    {
-        $this->_request->setParams($paramsArray);
-    }
 
     /*
      * evaulates request objects, checks if any of module/controller and action are set, if they are ALL
      * set function will return false, and skip to dispatching the request object
      */
-    private function checkRequestObject(){
+    private function checkRequestObjectIsSet()
+    {
         if(!($this->_request->getModule() && $this->_request->getController() && $this->_request->getAction())) {
             return true;
         }
         return false;
     }
+
 
 }

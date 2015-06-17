@@ -34,19 +34,16 @@ abstract class Core_Controller_Router_Abstract
      */
     public function run()
     {
-        $controllerConfig = Core_Model_Config_Json::getControllerConfig($this->_request->getModule());
-        if (!empty($controllerConfig)) {
-            $controller = $controllerConfig[$this->_request->getController()];
+            $controller = $this->_request->getModule() . '_Controller_' . $this->_request->getController();
             $action = $this->_request->getAction();
             $params = !is_array($this->_request->getParams()) ? array($this->_request->getParams()) : $this->_request->getParams();
             call_user_func_array(array(new $controller, $action), $params);
-        }
     }
 
     /*
      * returns false to break of match method, in the event the Router needs to change
      */
-    public function reroute()
+    public function newRouter()
     {
         return false;
     }
