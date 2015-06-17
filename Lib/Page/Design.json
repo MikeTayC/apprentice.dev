@@ -1,0 +1,21 @@
+{"layout" : {
+    "actions" : {
+        "default" : {
+            "type" : "page/view",
+            "template" : "page/1column.phtml",
+            "header" : {
+                "type" : "page/view_header",
+                "template" : "page/head/header.phtml"
+            },
+            "content" : {
+                "type" : "page/content",
+                "template" : "page/content.phtml"
+            },
+            "footer" : {
+                "type" : "page/footer",
+                "template" : "page/footer.phtml"
+            }
+        }
+    }
+  }
+}

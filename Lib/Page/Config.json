@@ -1,0 +1,9 @@
+{"config" : {
+    "modules" : {
+        "page" : {
+            "pool" : "Lib",
+            "dir" : "Page"
+          }
+    }
+  }
+}
