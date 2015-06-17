@@ -45,7 +45,6 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
             $paramsArray = !empty($path[3]) ? $path[3] : null;
 
             if (empty($module)) {
-
                 $this->_request->setModule(self::DEFAULT_MODULE);
                 $this->_request->setController(self::DEFAULT_CONTROLLER);
                 $this->_request->setAction(self::DEFAULT_ACTION);
@@ -66,14 +65,10 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
 
 
     private function checkModuleControllerActionExists($module, $controller, $method) {
-        $poolConfig = Core_Model_Config_Json::getModulesPoolConfig($module);
-        if($poolConfig) {
-            $fileName = $poolConfig . '/' . $module . '/Controller/' . $controller . '.php';
-            if(file_exists($fileName)) {
-                $className = $module . '_Controller_' . $controller;
-                if(method_exists($className, $method)) {
-                    return true;
-                }
+        $className = $module . '_Controller_' . $controller;
+        if(class_exists($className)) {
+            if(method_exists($className, $method)) {
+                return true;
             }
         }
         return false;
@@ -81,7 +76,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
 
 
     /*
-     * evaulates request objects, checks if any of module/controller and action are set, if they are ALL
+     * evaluates request objects, checks if any of module/controller and action are set, if they are ALL
      * set function will return false, and skip to dispatching the request object
      */
     private function checkRequestObjectIsSet()

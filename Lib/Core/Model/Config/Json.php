@@ -17,11 +17,8 @@ class Core_Model_Config_Json
     {
         if (self::$instance === null) {
             self::$instance = new Core_Module_Config_Json();
-            return self::$instance;
         }
-        else {
-            return self::$instance;
-        }
+        return self::$instance;
     }
     private function __construct(){}
 
