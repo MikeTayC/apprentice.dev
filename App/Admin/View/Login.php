@@ -1,7 +1,3 @@
 <?php
 
-class Admin_View_Login {
-    public function __construct(){
-        echo 'Test';
-    }
-}
+class Admin_View_Login extends Page_View_Abstract {}

@@ -7,7 +7,7 @@ class Page_View_Abstract extends Core_Model_Object{
         if($template && file_exists($template)){
             include $template;
         } else {
-            return 'No template exists';
+            return 'No Template exists';
         }
     }
 

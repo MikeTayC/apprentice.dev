@@ -4,7 +4,7 @@
             "type" : "page/view",
             "template" : "page/1column.phtml",
             "header" : {
-                "type" : "page/view_header",
+                "type" : "page/header",
                 "template" : "page/head/header.phtml"
             },
             "content" : {

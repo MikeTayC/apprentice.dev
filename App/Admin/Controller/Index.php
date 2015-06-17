@@ -5,9 +5,11 @@ class Admin_Controller_Index
     public function indexAction()
     {
         $view = Bootstrap::getView('page/view'); //([admin == module name in config]/[php file])
-        $view->setTemplate('Lib/Page/View/template/view.phtml');
+        $loginForm = Bootstrap::getView('page/view');
+        $loginForm->setTemplate('App/Admin/View/Template/Login.phtml');
+        $view->setTemplate('Lib/Page/View/Template/view.phtml');
         $view->setTitle('Mike\'s App');
-        $view->setContent('<h1>Here is some content!</h1>');
+        $loginForm->render();
         echo $view->render();
 //        $request = Core_Model_Request::getInstance();
 //        $request->setModule('Admin')

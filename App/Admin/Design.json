@@ -1,7 +1,27 @@
-{"layout" : {
-    "actions" : {
-        "default" : "",
-        "admin_index_index" : "admin/login"
+{"layout": {
+    "actions": {
+      "default": "",
+      "admin_controller_login": {
+
+        "type" : "admin/login",
+
+        "template" : "App/Admin/View/Template/Login.phtml",
+
+        "header" : {
+          "type" : "page/header",
+          "template" : "Lib/Page/View/Template/Header.phtml"
+        },
+
+        "content" : {
+          "type" : "page/content",
+          "template" : "Lib/Page/View/Content.phtml"
+        },
+
+        "footer" : {
+          "type" : "page/footer",
+          "template" : "Lib/Page/View/Template/Footer.phtml"
+        }
+      }
     }
   }
 }

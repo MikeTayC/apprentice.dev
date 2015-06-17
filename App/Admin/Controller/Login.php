@@ -4,21 +4,25 @@
  */
 class Admin_Controller_Login
 {
-    public function testAction($param,$test)
-    {
-        echo 'this is a test method from the Admin Controller login';
-        echo $param;
-        echo $test;
-    }
-
     public function indexAction()
     {
-        $view = Bootstrap::getView('page/view'); //([admin == module name in config]/[php file])
-        $view->setTemplate('Lib/Page/View/template/view.phtml');
-        $view->setTitle('Please login Admin');
-        $loginForm = Bootstrap::getView('page/view');
-        $loginForm->setTemplate('App/Admin/View/template/login.phtml');
-        $view->setContent($loginForm->render());
-        echo $view->render();
+        $jsonDesign = Core_Model_Design_Json::getCurrentClassDesignJson(__CLASS__);
+
+        $header = Bootstrap::getView($jsonDesign['header']['type']);
+        $header->setTemplate($jsonDesign['header']['template']);
+
+        $viewContent = Bootstrap::getView($jsonDesign['content']['type']); //([admin == module name in config]/[php file])
+        $viewContent->setTemplate($jsonDesign['content']['Template']);
+
+        $loginForm = Bootstrap::getView($jsonDesign['type']);
+        $loginForm->setTemplate($jsonDesign['template']);
+
+        $footer = Bootstrap::getView($jsonDesign['footer']['type']);
+        $footer->setTemplate($jsonDesign['footer']['template']);
+
+        $header->render();
+        $viewContent->setContent($loginForm->render());
+        $footer->render();
     }
+
 }

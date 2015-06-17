@@ -32,6 +32,7 @@ final class Bootstrap
     public static function initJsonConfig()
     {
         Core_Model_Config_Json::setJsonConfig();
+        Core_Model_Design_Json::setJsonDesign();
     }
 
     public static function getView($viewIdentifier = false){
