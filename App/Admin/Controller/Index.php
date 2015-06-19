@@ -7,7 +7,7 @@ class Admin_Controller_Index
         $view = Bootstrap::getView('page/view'); //([admin == module name in config]/[php file])
         $loginForm = Bootstrap::getView('page/view');
         $loginForm->setTemplate('App/Admin/View/Template/Login.phtml');
-        $view->setTemplate('Lib/Page/View/Template/view.phtml');
+        $view->setTemplate('Lib/Page/View/Template/View.phtml');
         $view->setTitle('Mike\'s App');
         $loginForm->render();
         echo $view->render();

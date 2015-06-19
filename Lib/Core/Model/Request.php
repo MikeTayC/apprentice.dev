@@ -8,6 +8,8 @@ class Core_Model_Request extends Core_Model_Object
 
     private static $instance = null;
 
+    public static $pathUri;
+
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -23,9 +25,9 @@ class Core_Model_Request extends Core_Model_Object
 
     public function requestUri()
     {
-        $pathUri = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH),'/');
+        self::$pathUri = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH),'/');
 
-        return $pathUri;
+        return self::$pathUri;
     }
 
     /*

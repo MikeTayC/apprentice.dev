@@ -1,7 +1,7 @@
 {"layout": {
     "actions": {
       "default": "",
-      "admin_controller_login": {
+      "admin_login_index": {
 
         "type" : "admin/login",
 
@@ -21,6 +21,10 @@
           "type" : "page/footer",
           "template" : "Lib/Page/View/Template/Footer.phtml"
         }
+      },
+      "admin_index_index" : {
+        "type" : "admin/index",
+        "template" : "App/Admiin/View/Template/Login.phtml"
       }
     }
   }

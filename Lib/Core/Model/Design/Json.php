@@ -1,78 +1,105 @@
 <?php
 class Core_Model_Design_Json
 {
-    private static $_design = array();
+    private $_design = array();
 
-    private static $_jsonPathArray = array();
+    private $_jsonPathArray = array();
 
-    private static $_jsonDesignArray = array();
+    private $_jsonDesignArray = array();
 
-    private static $_instance = null;
-
-    public static function getInstance()
+    public function setJsonDesign()
     {
-        if (self::$_instance === null) {
-            self::$_instance = new Core_Module_Design_Json();
-        }
-        return self::$_instance;
-    }
-    private function __construct(){}
-
-    public static function setJsonDesign()
-    {
-        $jsonPaths = self::setJsonPath();
+        $jsonPaths = $this->setJsonPath();
 
         foreach ($jsonPaths as $jsonPath) {
 
-            self::$_design = json_decode(file_get_contents($jsonPath), true);
+            $this->_design = json_decode(file_get_contents($jsonPath), true);
 
-            self::$_jsonDesignArray = array_merge_recursive(self::$_design, self::$_jsonDesignArray);
+            $this->_jsonDesignArray = array_merge_recursive($this->_design, $this->_jsonDesignArray);
         }
     }
 
-    private static function setJsonPath($module)
+    private function setJsonPath()
     {
         $jsonLibAppModules = glob('*/*/Design.json');
 
-        self::$_jsonPathArray = $jsonLibAppModules;
+        $this->_jsonPathArray = $jsonLibAppModules;
 
-        return self::$_jsonPathArray;
+        return $this->_jsonPathArray;
     }
 
-    public static function getJsonConfig()
+    public function getJsonConfig()
     {
-        return self::$_jsonDesignArray;
+        return $this->_jsonDesignArray;
     }
 
-    public static function getDefaultType()
+    public function getLayoutActions()
     {
-        return self::$_jsonDesignArray['layout']['actions']['default']['type'];
+        return $this->_jsonDesignArray['layout']['actions'];
     }
 
-    public static function getDefaultTemplate(){
-        return self::$_jsonDesignArray['layout']['actions']['default']['Template'];
-    }
-
-    public static function getDefaultFooterType(){
-        return self::$_jsonDesignArray['layout']['actions']['default']['footer']['type'];
-    }
-
-    public static function getDefaultFooterTemplate(){
-        return self::$_jsonDesignArray['layout']['actions']['default']['footer']['Template'];
-    }
-
-    public static function getDefaultHeaderType(){
-        return self::$_jsonDesignArray['layout']['actions']['default']['header']['type'];
-    }
-
-    public static function getDefaultHeaderTemplate(){
-        return self::$_jsonDesignArray['layout']['actions']['default']['header']['Template'];
-    }
-
-    public static function getCurrentClassDesignJson($className)
+    public function getActionHandle()
     {
-        $className = strtolower($className);
-        return self::$_jsonDesignArray['layout']['actions'][$className];
+        $layout = $this->getLayoutActions();;
+        return array_keys($layout);
     }
+
+    public function buildBlocks(){
+        $layout = $this->getLayoutActions();
+        return $this->buildBlock($layout['default']);
+
+    }
+
+    public function buildBlock($config){
+
+        foreach($config as $nodeKey => $nodeValue){
+            if($nodeKey === 'type' && is_string($nodeKey)){
+                $block = Bootstrap::getView($nodeValue);
+                continue;
+            }
+            elseif($nodeKey === 'template' && is_string($nodeKey)){
+                $block->setTemplate($nodeValue);
+
+                continue;
+            }
+            elseif(is_array($nodeValue)) {
+
+                $block->setChild($nodeKey, $this->buildBlock($nodeValue));
+                continue;
+            }
+        }
+
+        return $block;
+    }
+
+//    public static function getActions()
+//    {
+//        return $this->$_jsonDesignArray['layout']['actions'];
+//    }
+
+//    public static function getDefaultTemplate(){
+//        return $this->$_jsonDesignArray['layout']['actions']['default']['Template'];
+//    }
+//
+//    public static function getDefaultFooterType(){
+//        return $this->$_jsonDesignArray['layout']['actions']['default']['footer']['type'];
+//    }
+//
+//    public static function getDefaultFooterTemplate(){
+//        return $this->$_jsonDesignArray['layout']['actions']['default']['footer']['Template'];
+//    }
+//
+//    public static function getDefaultHeaderType(){
+//        return $this->$_jsonDesignArray['layout']['actions']['default']['header']['type'];
+//    }
+//
+//    public static function getDefaultHeaderTemplate(){
+//        return $this->$_jsonDesignArray['layout']['actions']['default']['header']['Template'];
+//    }
+//    public function getCurrentClassDesignJson($className)
+//    {
+//        $className = strtolower($className);
+//        return $this->$_jsonDesignArray['layout']['actions'][$className];
+//    }
 
 }

@@ -32,7 +32,7 @@ final class Bootstrap
     public static function initJsonConfig()
     {
         Core_Model_Config_Json::setJsonConfig();
-        Core_Model_Design_Json::setJsonDesign();
+        //Core_Model_Design_Json::setJsonDesign();
     }
 
     public static function getView($viewIdentifier = false){
@@ -40,6 +40,10 @@ final class Bootstrap
         return new $viewClassName();
     }
 
+    public static function getModel($viewIdentifier = false){
+        $viewClassName = self::buildClassName($viewIdentifier, 'Model');
+        return new $viewClassName();
+    }
 
     public static function getModuleName($moduleName = false){
         if($moduleName){

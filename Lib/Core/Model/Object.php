@@ -54,4 +54,31 @@ class Core_Model_Object
         }
         return $this->_data;
     }
+
+    public function setChild($key, $value)
+    {
+        if ($key) {
+            $this->_data[$key] = $value->getData();
+        }
+        else {
+            return null;
+        }
+        return $this;
+    }
+
+    public function getChild($key = false)
+    {
+        if ($key) {
+            if(array_key_exists($key, $this->_data)) {
+                foreach($this->_data[$key] as $nodeKey => $nodeValue){
+                   if($key === $nodeKey){
+                        return $nodeValue;
+                    }
+                }
+            }
+        }
+        else {
+            return null;
+        }
+    }
 }
