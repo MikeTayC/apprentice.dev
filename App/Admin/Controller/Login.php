@@ -2,15 +2,11 @@
 /*
  * Test class
  */
-class Admin_Controller_Login
+class Admin_Controller_Login extends Core_Controller_Abstract
 {
     public function indexAction()
     {
-        $test = Bootstrap::getModel('core/design_json');
-        $test->setJsonDesign();
-        $actionHandles = $test->getActionHandle();
-        $block = $test->buildBlocks('admin_login_index');
-        $block->render();
+        $this->loadLayout();
     }
 
 }

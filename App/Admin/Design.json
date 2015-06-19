@@ -28,7 +28,7 @@
       },
       "admin_index_index" : {
         "type" : "admin/index",
-        "template" : "App/Admiin/View/Template/Login.phtml"
+        "template" : "App/Admin/View/Template/Login.phtml"
       }
     }
   }
