@@ -3,9 +3,9 @@
       "default": "",
       "admin_login_index": {
 
-        "type" : "admin/login",
+        "type" : "page/view",
 
-        "template" : "App/Admin/View/Template/Login.phtml",
+        "template" : "Lib/Page/View/Template/View.phtml",
 
         "header" : {
           "type" : "page/header",
@@ -14,7 +14,11 @@
 
         "content" : {
           "type" : "page/content",
-          "template" : "Lib/Page/View/Content.phtml"
+          "template" : "Lib/Page/View/Template/Content.phtml",
+          "login_form": {
+            "type" : "admin/login",
+            "template" : "App/Admin/View/Template/Login.phtml"
+          }
         },
 
         "footer" : {

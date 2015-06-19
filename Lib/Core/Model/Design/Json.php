@@ -44,9 +44,14 @@ class Core_Model_Design_Json
         return array_keys($layout);
     }
 
-    public function buildBlocks(){
+    public function buildBlocks($actionHandle = false){
         $layout = $this->getLayoutActions();
-        return $this->buildBlock($layout['default']);
+        if($actionHandle){
+            return $this->buildBlock($layout[$actionHandle]);
+
+        }else {
+            return $this->buildBlock($layout['default']);
+        }
 
     }
 
@@ -64,7 +69,7 @@ class Core_Model_Design_Json
             }
             elseif(is_array($nodeValue)) {
 
-                $block->setChild($nodeKey, $this->buildBlock($nodeValue));
+                $block->setData($nodeKey, $this->buildBlock($nodeValue));
                 continue;
             }
         }
@@ -72,34 +77,5 @@ class Core_Model_Design_Json
         return $block;
     }
 
-//    public static function getActions()
-//    {
-//        return $this->$_jsonDesignArray['layout']['actions'];
-//    }
-
-//    public static function getDefaultTemplate(){
-//        return $this->$_jsonDesignArray['layout']['actions']['default']['Template'];
-//    }
-//
-//    public static function getDefaultFooterType(){
-//        return $this->$_jsonDesignArray['layout']['actions']['default']['footer']['type'];
-//    }
-//
-//    public static function getDefaultFooterTemplate(){
-//        return $this->$_jsonDesignArray['layout']['actions']['default']['footer']['Template'];
-//    }
-//
-//    public static function getDefaultHeaderType(){
-//        return $this->$_jsonDesignArray['layout']['actions']['default']['header']['type'];
-//    }
-//
-//    public static function getDefaultHeaderTemplate(){
-//        return $this->$_jsonDesignArray['layout']['actions']['default']['header']['Template'];
-//    }
-//    public function getCurrentClassDesignJson($className)
-//    {
-//        $className = strtolower($className);
-//        return $this->$_jsonDesignArray['layout']['actions'][$className];
-//    }
 
 }

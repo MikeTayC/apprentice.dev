@@ -72,6 +72,7 @@ class Core_Model_Object
             if(array_key_exists($key, $this->_data)) {
                 foreach($this->_data[$key] as $nodeKey => $nodeValue){
                    if($key === $nodeKey){
+                       $this->render();
                         return $nodeValue;
                     }
                 }
