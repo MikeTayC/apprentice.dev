@@ -2,12 +2,17 @@
 
 abstract class Core_Controller_Abstract
 {
-    public function loadLayout()
+    public function loadLayout($error = null)
     {
         $test = Bootstrap::getModel('core/design_json');
         $test->setJsonDesign();
-        $layoutHandle = $this->getHandle();
-        $block = $test->buildBlocks($layoutHandle);
+        if($error) {
+            $block = $test->buildBlocks($error);
+        }
+        else{
+            $layoutHandle = $this->getHandle();
+            $block = $test->buildBlocks($layoutHandle);
+        }
         $block->render();
     }
 

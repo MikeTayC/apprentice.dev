@@ -16,6 +16,13 @@
           "type": "page/footer",
           "template": "Lib/Page/View/Template/Footer.phtml"
         }
+      },
+      "core_error_error" :{
+        "template": "Lib/Page/View/Template/Errorhead.phtml",
+        "content": {
+          "type": "page/error",
+          "template": "Lib/Page/View/Template/Error.phtml"
+        }
       }
     }
   }
