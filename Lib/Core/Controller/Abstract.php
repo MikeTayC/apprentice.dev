@@ -11,11 +11,6 @@ abstract class Core_Controller_Abstract
         $block->render();
     }
 
-    public function renderLayout()
-    {
-
-    }
-
     private function getHandle()
     {
         $layoutHandle = strtolower(str_replace('/', '_', Core_Model_Request::$pathUri));

@@ -40,14 +40,15 @@ class Core_Model_Design_Json
 
     public function getActionHandle()
     {
-        $layout = $this->getLayoutActions();;
+        $layout = $this->getLayoutActions();
         return array_keys($layout);
     }
 
     public function buildBlocks($actionHandle = false){
         $layout = $this->getLayoutActions();
-        if($actionHandle){
-            return $this->buildBlock($layout[$actionHandle]);
+        if($actionHandle && in_array($actionHandle, $this->getActionHandle())){
+            $newLayout = array_merge($layout['default'],$layout[$actionHandle]);
+            return $this->buildBlock($newLayout);
 
         }else {
             return $this->buildBlock($layout['default']);
@@ -58,11 +59,11 @@ class Core_Model_Design_Json
     public function buildBlock($config){
 
         foreach($config as $nodeKey => $nodeValue){
-            if($nodeKey === 'type' && is_string($nodeKey)){
+            if($nodeKey === 'type'){
                 $block = Bootstrap::getView($nodeValue);
                 continue;
             }
-            elseif($nodeKey === 'template' && is_string($nodeKey)){
+            elseif($nodeKey === 'template'){
                 $block->setTemplate($nodeValue);
 
                 continue;

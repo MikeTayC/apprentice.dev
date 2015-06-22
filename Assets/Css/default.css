@@ -3,12 +3,12 @@ body {
 }
 
 #header {
-    padding: 20px;
     background: gold;
+    padding: 20px;
 }
 
 #content {
-    background: #fff;
+    background: red;
     padding: 20px;
 }
 
