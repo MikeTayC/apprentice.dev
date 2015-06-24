@@ -8,5 +8,4 @@ class Admin_Controller_Login extends Core_Controller_Abstract
     {
         $this->loadLayout();
     }
-
 }

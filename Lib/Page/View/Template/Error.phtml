@@ -1,3 +1,23 @@
+<!doctype html>
+<html>
+<head>
+
+    <title><?php echo $this->getTitle(); ?></title>
+    <link rel="stylesheet" href="<?php BP; ?>/Assets/Css/error.css" />
+    <div>
+        <div id="header">
+            <h1><?php echo $this->getHeader(); ?></h1>
+        </div>
+</head>
 <div id="content">
     <?php echo $this->getError();?>
 </div>
+
+<div id="footer">
+    (C) Footer<?php echo $this->getFooter() ?>
+</div>
+
+</body>
+</div>
+</html>
+

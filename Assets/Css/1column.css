@@ -6,12 +6,12 @@
     background: cornflowerblue;
 }
 
-#header { border:1px solid orange; width:1000px; height:200px;
+#header { background: indianred; border:1px solid orange; height:200px;
     margin:0 0 10px 0;
 }
-#content { border:1px solid greenyellow; width:1000px; height:500px;
+#content {background: lightblue; border:1px solid greenyellow; height:500px;
     margin:10px 0 10px 0;
 }
-#footer { border:1px solid blue; width:1000px; height:200px;
+#footer { background: mediumpurple; border:1px solid blue; height:200px;
     margin:10px 0 0 0;
 }

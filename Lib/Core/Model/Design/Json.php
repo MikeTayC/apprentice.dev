@@ -44,16 +44,23 @@ class Core_Model_Design_Json
         return array_keys($layout);
     }
 
-    public function buildBlocks($actionHandle = false){
+    public function buildBlocks($actionHandle = false, $default = true){
         $layout = $this->getLayoutActions();
-        if($actionHandle && in_array($actionHandle, $this->getActionHandle())){
-            $newLayout = array_merge($layout['default'],$layout[$actionHandle]);
+        if($actionHandle && in_array($actionHandle, $this->getActionHandle())) {
+            if ($default) {
+                //run merge default and action handle
+                $newLayout = array_merge($layout['default'],$layout[$actionHandle]);
+            }
+            else {
+                //run just actionhandle
+                $newLayout = $layout[$actionHandle];
+            }
             return $this->buildBlock($newLayout);
-
-        }else {
+        }
+        else {
+            //run default
             return $this->buildBlock($layout['default']);
         }
-
     }
 
     public function buildBlock($config){

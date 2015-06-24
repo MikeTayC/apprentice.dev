@@ -2,24 +2,20 @@
 
 abstract class Core_Controller_Abstract
 {
-    public function loadLayout($error = null)
+    public function loadLayout($default = true)
     {
         $test = Bootstrap::getModel('core/design_json');
         $test->setJsonDesign();
-        if($error) {
-            $block = $test->buildBlocks($error);
-        }
-        else{
-            $layoutHandle = $this->getHandle();
-            $block = $test->buildBlocks($layoutHandle);
-        }
+        $layoutHandle = $this->getHandle();
+        $block = $test->buildBlocks($layoutHandle, $default);
+
         $block->render();
     }
 
     private function getHandle()
     {
-        $layoutHandle = strtolower(str_replace('/', '_', Core_Model_Request::$pathUri));
-
+        $request = Core_Model_Request::getInstance();
+        $layoutHandle = strtolower($request->getModule() . '_' . $request->getController() . '_' . substr($request->getAction(), 0, -6));
         return $layoutHandle;
     }
 }
