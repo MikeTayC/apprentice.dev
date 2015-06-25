@@ -1,6 +1,7 @@
 <?php
 
-class Page_View_Abstract extends Core_Model_Object{
+abstract class Page_View_Abstract extends Core_Model_Object
+{
 
     public function render(){
         foreach( $this->_data as $nodeKey => $nodeValue) {
@@ -10,9 +11,16 @@ class Page_View_Abstract extends Core_Model_Object{
                     include $template;
                 }
             }
-            elseif(is_a($nodeValue, __CLASS__)){
-                $nodeValue->render();
-            }
+//            elseif(is_a($nodeValue, __CLASS__)){
+//                $nodeValue->render();
+//            }
         }
+    }
+
+    public function __toString(){
+        if($this->getTemplate() && file_exists($this->getTemplate())){
+                include $this->getTemplate();
+        }
+        return '';
     }
 }

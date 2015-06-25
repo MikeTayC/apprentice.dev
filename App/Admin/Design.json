@@ -8,12 +8,8 @@
       },
       "admin_index_index" : {
         "type" : "admin/index",
-        "template" : "App/Admin/View/Template/Index.phtml",
-        "sidebar" : {
-          "type" : "page/sidebar",
-          "template" : "Lib/Page/View/Template/Sidebar.phtml"
+        "template" : "App/Admin/View/Template/Index.phtml"
         }
       }
     }
   }
-}

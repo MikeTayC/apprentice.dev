@@ -4,7 +4,7 @@ class Admin_Controller_Index extends Core_Controller_Abstract
 {
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->loadLayout($default = false);
 //        $view = Bootstrap::getView('page/view'); //([admin == module name in config]/[php file])
 //        $loginForm = Bootstrap::getView('page/view');
 //        $loginForm->setTemplate('App/Admin/View/Template/Login.phtml');
