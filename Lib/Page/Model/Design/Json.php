@@ -75,10 +75,15 @@ class Core_Model_Design_Json
 
                 continue;
             }
+            elseif($nodeKey === 'assets'){
+                $block->setData($nodeKey, $nodeValue);
+            }
             elseif(is_array($nodeValue)) {
-
                 $block->setData($nodeKey, $this->buildBlock($nodeValue));
                 continue;
+            }
+            else {
+                $block->setData($nodeKey, $nodeValue);
             }
         }
 
