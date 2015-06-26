@@ -1,0 +1,20 @@
+{
+  "layout": {
+    "actions": {
+      "finance_index_index": {
+        "type": "finance/index",
+        "template":"",
+        "header": {
+          "template": "App/Finance/View/Template/Header.phtml"
+        },
+        "content": {
+
+          "template": "App/Finance/View/Template/Login_Form.phtml"
+        },
+        "footer": {
+          "template": "App/Finance/View/Template/Footer.phtml"
+        }
+      }
+    }
+  }
+}

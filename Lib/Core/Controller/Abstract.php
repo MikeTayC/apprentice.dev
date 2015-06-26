@@ -4,7 +4,7 @@ abstract class Core_Controller_Abstract
 {
     public function loadLayout($default = true)
     {
-        $test = Bootstrap::getModel('core/design_json');
+        $test = Bootstrap::getModel('page/design_json');
         $test->setJsonDesign();
         $layoutHandle = $this->getHandle();
         $block = $test->buildBlocks($layoutHandle, $default);

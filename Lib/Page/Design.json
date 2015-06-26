@@ -1,74 +1,120 @@
 {
   "layout": {
     "actions": {
-      "default": {
+      "default":{
         "type": "page/view",
         "template": "Lib/Page/View/Template/View.phtml",
         "header": {
           "type": "page/header",
-          "template": "Lib/Page/View/Template/Header.phtml"
+          "template": "Lib/Page/View/Template/Header.phtml",
+          "title": "Default Title",
+          "assets": {
+            "0": {
+              "bootstrap_css": {
+                "type": "css",
+                "file": "bootstrap.min.css"
+              },
+              "bootstrap_min_js": {
+                "type": "js",
+                "file": "js/bootstrap.min.js"
+              },
+              "bootstrap_js":{
+                "type": "js",
+                "file": "js/bootstrap.js"
+              },
+              "jquery": {
+                "type": "jquery",
+                "file":"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+              }
+            }
+          }
+        },
+        "content":{},
+        "footer":{
+          "type": "page/footer",
+          "template": "Lib/Page/View/Template/Footer.phtml"
+        }
+      },
+      "core_templates_index": {
+        "type": "page/view",
+        "template": "Lib/Page/View/Template/View.phtml",
+        "header": {
+          "type": "page/header",
+          "template": "Lib/Page/View/Template/Header.phtml",
+          "assets": {
+            "0":{
+              "bootstrap_css":{
+                  "type": "css",
+                  "file": "bootstrap.min.css"
+                },
+              "bootstrap_js":{
+                "type": "js",
+                "file": "js/bootstrap.min.js"
+                }
+             }
+          }
         },
         "content": {
           "type": "page/content",
           "template": "Lib/Page/View/Template/Content.phtml",
           "navbar": {
-            "type": "page/navbar",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Navbar.phtml"
           },
           "jumbotron": {
-            "type": "page/jumbotron",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Jumbotron.phtml"
           },
           "buttons": {
-            "type": "page/buttons",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Buttons.phtml"
           },
           "tables": {
-            "type": "page/tables",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Tables.phtml"
           },
           "thumbnails": {
-            "type": "page/thumbnails",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Thumbnails.phtml"
           },
           "labels": {
-            "type": "page/labels",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Labels.phtml"
           },
           "badges": {
-            "type": "page/badges",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Badges.phtml"
           },
           "dropmenu": {
-            "type": "page/dropmenu",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Dropmenu.phtml"
           },
           "navs": {
-            "type": "page/navs",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Navs.phtml"
           },
           "alerts": {
-            "type": "page/alerts",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Alerts.phtml"
           },
           "progressbar": {
-            "type": "page/progressbar",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Progressbar.phtml"
           },
           "list": {
-            "type": "page/list",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/List.phtml"
           },
           "panels": {
-            "type": "page/panels",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Panels.phtml"
           },
           "well": {
-            "type": "page/well",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Well.phtml"
           },
           "carousel": {
-            "type": "page/carousel",
+            "type": "page/view",
             "template": "Lib/Page/View/Template/Carousel.phtml"
           }
         },

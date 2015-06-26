@@ -1,0 +1,9 @@
+{"config" : {
+  "modules" : {
+    "finance" : {
+      "pool" : "App",
+      "dir" : "Finance"
+    }
+  }
+}
+}

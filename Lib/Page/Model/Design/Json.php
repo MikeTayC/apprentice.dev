@@ -1,5 +1,5 @@
 <?php
-class Core_Model_Design_Json
+class Page_Model_Design_Json
 {
     private $_design = array();
 
@@ -49,7 +49,7 @@ class Core_Model_Design_Json
         if($actionHandle && in_array($actionHandle, $this->getActionHandle())) {
             if ($default) {
                 //run merge default and action handle
-                $newLayout = array_merge($layout['default'],$layout[$actionHandle]);
+                $newLayout = array_merge_recursive($layout['default'],$layout[$actionHandle]);
             }
             else {
                 //run just actionhandle
@@ -72,11 +72,11 @@ class Core_Model_Design_Json
             }
             elseif($nodeKey === 'template'){
                 $block->setTemplate($nodeValue);
-
                 continue;
             }
             elseif($nodeKey === 'assets'){
                 $block->setData($nodeKey, $nodeValue);
+                continue;
             }
             elseif(is_array($nodeValue)) {
                 $block->setData($nodeKey, $this->buildBlock($nodeValue));

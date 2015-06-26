@@ -1,6 +1,20 @@
 {"layout": {
     "actions": {
       "admin_login_index": {
+          "header" : {
+            "assets": {
+              "1": {
+                "custom_css": {
+                  "type": "css",
+                  "file": "admin_login.css"
+                },
+                "custom_js": {
+                  "type": "js",
+                  "file": "js/admin_login.js"
+                }
+              }
+            }
+          },
           "content" : {
             "type": "admin/login",
             "template": "App/Admin/View/Template/Login.phtml"
