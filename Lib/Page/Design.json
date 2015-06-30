@@ -29,7 +29,6 @@
             }
           }
         },
-        "content":{},
         "footer":{
           "type": "page/footer",
           "template": "Lib/Page/View/Template/Footer.phtml"
