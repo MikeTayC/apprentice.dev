@@ -14,8 +14,9 @@ class Page_Model_Design_Json
         foreach ($jsonPaths as $jsonPath) {
 
             $this->_design = json_decode(file_get_contents($jsonPath), true);
-
-            $this->_jsonDesignArray = array_merge_recursive($this->_design, $this->_jsonDesignArray);
+            if(is_array($this->_design)){
+                $this->_jsonDesignArray = array_merge_recursive($this->_design, $this->_jsonDesignArray);
+            }
         }
     }
 

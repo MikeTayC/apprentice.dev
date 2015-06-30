@@ -64,4 +64,14 @@ final class Bootstrap
         }
         return $className;
     }
+
+    public static function getAvailableDrivers()
+    {
+        $handle = new Core_Model_Database();
+        $handle->printDrivers();
+        $handle->dbConnection();
+        $handle->insertData();
+        $handle->standardQuery();
+        $handle->fetchStandard();
+    }
 }
