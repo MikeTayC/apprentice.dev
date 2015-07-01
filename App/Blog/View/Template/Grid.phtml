@@ -1,0 +1,33 @@
+<body>
+    <div class="container">
+        <div class="row">
+            <h3>PHP CRUD GRID</h3>
+        </div>
+        <div class="row">
+            <p>
+                <a href="create" class="btn btn-success">Create</a>
+            </p>
+            <table class="table table-striped table-boredered">
+                <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Body</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $pdo = Core_Model_Database_Connection::getInstance();
+                    $sql = 'SELECT * FROM posts';
+                    foreach ($pdo->query($sql) as $row) {
+                        echo '<tr>';
+                        echo '<td>' . $row['author'] . '</td>';
+                        echo '<td>' . $row['body'] . '</td>';
+                        echo '<td><a class="btn" href="read/' . $row['author'] . '">Read</a></td>';
+                        echo'</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

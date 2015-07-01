@@ -10,7 +10,5 @@ Bootstrap::registerAutoload();
 
 Bootstrap::initJsonConfig();
 
-Bootstrap::getAvailableDrivers();
-
 Bootstrap::loadRunFrontController();
 

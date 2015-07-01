@@ -1,0 +1,24 @@
+{
+  "layout": {
+    "actions": {
+      "blog_post_index": {
+        "header" : {
+          "title" : "PHP CRUD grid"
+        },
+        "content": {
+          "type": "blog/post",
+          "template": "App/Blog/View/Template/Grid.phtml"
+        }
+      },
+      "blog_post_create": {
+        "header" : {
+          "title" : "PHP CRUD CREATE"
+        },
+        "content": {
+          "type": "blog/post",
+          "template": "App/Blog/View/Template/Create.phtml"
+        }
+      }
+    }
+  }
+}
