@@ -30,7 +30,9 @@ class Core_Model_Config_Json
 
             self::$config = json_decode(file_get_contents($jsonPath), true);
 
-            self::$globalJsonArray = array_merge_recursive(self::$config, self::$globalJsonArray);
+            if(is_array(self::$config)) {
+                self::$globalJsonArray = array_merge_recursive(self::$config, self::$globalJsonArray);
+            }
         }
     }
 

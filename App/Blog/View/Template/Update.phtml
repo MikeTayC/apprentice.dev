@@ -1,0 +1,32 @@
+<body>
+<div class="container"
+<div class="span10 offset1">
+    <div class="row">
+        <h3>Update a User or Post</h3>
+    </div>
+    <form class="form-horizontal" action="" method="post">
+        <div class="control-group <?php !empty($authorError)? 'error':'';?>"
+        <label class="control-label">Author</label>
+        <div class="controls">
+            <input name="author" type="text" value="<?php echo !empty($this->getAuthor())? $this->getAuthor(): '';?>">
+            <?php if (!empty($authorError)): ?>
+                <span class="help-inline"><?php echo $authorError;?></span>
+            <?php endif; ?>
+        </div>
+</div>
+<div class="control-group <?php !empty($bodyError)? 'error':'';?>"
+<label class="control-label">Body</label>
+<div class="controls" >
+    <input name="body" type="text" value="<?php echo !empty($this->getBody())?$this->getBody():'';?>">
+    <?php if (!empty($bodyError)): ?>
+        <span class="help-inline"><?php echo $bodyError;?></span>
+    <?php endif; ?>
+</div>
+</div>
+<div class="form-actions">
+    <button type="submit" class="btn btn-success">Update</button>
+    <a class="btn" href="../../post/index">Back</a>
+</div>
+</form>
+</div>
+</body>

@@ -1,0 +1,9 @@
+{"config" : {
+  "modules" : {
+    "blog" : {
+      "pool" : "App",
+      "dir" : "Blog"
+    }
+  }
+}
+}

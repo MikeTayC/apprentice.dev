@@ -11,3 +11,4 @@ Bootstrap::registerAutoload();
 Bootstrap::initJsonConfig();
 
 Bootstrap::loadRunFrontController();
+
