@@ -3,13 +3,13 @@
  * Created by PhpStorm.
  * User: mike
  * Date: 7/1/15
- * Time: 8:48 AM
+ * Time: 1:36 PM
  */
-class Core_Model_Database_Create
+class Core_Model_Database_Update
 {
     protected $_pdoHandle = null;
 
-    public function create()
+    public function update()
     {
         $validInput = true;
         $authorError = null;
@@ -18,6 +18,8 @@ class Core_Model_Database_Create
         $author = $_POST['author'];
 
         $body = $_POST['body'];
+
+        $id = $_POST['id'];
 
         if(empty($author)){
             $authorError = 'Please enter author name';
@@ -30,11 +32,11 @@ class Core_Model_Database_Create
         if($validInput) {
             $_pdoHandle = Core_Model_Database_Connection::getInstance();
 
-            $sql = "INSERT INTO posts(author, body) VALUES (?,?)";
+            $sql = "UPDATE posts SET author = ?, body = ? WHERE id = ?";
 
             $query = $_pdoHandle->prepare($sql);
 
-            $query->execute(array($author, $body));
+            $query->execute(array($author, $body, $id));
 
             header("Location: ../post/index");
         }

@@ -16,4 +16,20 @@ class Blog_Controller_Post extends Core_Controller_Abstract
     {
         $this->loadLayout();
     }
+
+    public function readAction()
+    {
+        $this->loadLayout();
+    }
+
+    public function updateAction()
+    {
+        $this->loadLayout();
+    }
+
+    public function deleteAction()
+    {
+        $this->loadLayout();
+    }
+
 }
