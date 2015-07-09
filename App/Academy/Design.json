@@ -1,0 +1,33 @@
+{
+  "layout": {
+    "actions": {
+      "academy_index_index": {
+        "header": {
+          "title": "PHP ACADEMY INDEX"
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Academy/View/Template/Index.phtml"
+        }
+      },
+      "academy_register_index": {
+        "header": {
+          "title": "PHP ACADEMY REGISTER"
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Academy/View/Template/Register.phtml"
+        }
+      },
+        "academy_login_index": {
+          "header": {
+            "title": "PHP ACADEMY LOGIN"
+          },
+          "content": {
+            "type": "page/view",
+            "template": "App/Academy/View/Template/Login.phtml"
+          }
+        }
+      }
+    }
+  }

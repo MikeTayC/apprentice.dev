@@ -27,10 +27,6 @@
               }
             }
           }
-        },
-        "footer":{
-          "type": "page/footer",
-          "template": "Lib/Page/View/Template/Footer.phtml"
         }
       },
       "core_templates_index": {

@@ -1,0 +1,16 @@
+{"config" : {
+  "modules" : {
+    "academy" : {
+      "pool" : "App",
+      "dir" : "Academy",
+      "database" :{
+        "type" : "mysql",
+        "host" : "localhost",
+        "name" : "phpacademy",
+        "user" : "root",
+        "pass" : "root"
+      }
+    }
+  }
+}
+}

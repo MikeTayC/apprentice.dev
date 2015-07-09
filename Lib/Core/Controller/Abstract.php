@@ -20,32 +20,14 @@ abstract class Core_Controller_Abstract
         return $layoutHandle;
     }
 
-    public function getCrudModel()
-    {
-        $this->_crudModel = new Core_Model_Database_Crud();
-    }
 
-    public function create()
+    public function redirect($module,$controller,$action)
     {
-        $this->getCrudModel();
-        $this->_crudModel->create();
-    }
-    public function read($id)
-    {
-        $this->getCrudModel();
-        return $this->_crudModel->read($id);
-    }
-
-    public function update($id)
-    {
-        $this->getCrudModel();
-        $this->_crudModel->update($id);
-    }
-
-    public function delete($id)
-    {
-        $this->getCrudModel();
-        $this->_crudModel->delete($id);
+        $request = Core_Model_Request::getInstance();
+        $request->setModule($module)
+                ->setController($controller)
+                ->setAction($action)
+                ->continueDispatching();
     }
 
 }

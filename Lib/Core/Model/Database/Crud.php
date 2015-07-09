@@ -99,4 +99,16 @@ class Core_Model_Database_Crud
 
         header("Location: ../../post/index");
     }
+
+    public function getAllPosts() {
+        $sql = "SELECT * FROM posts";
+
+        $query = $this->_pdoHandle->prepare($sql);
+
+        $query->execute();
+
+        $allPosts = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        return $allPosts;
+    }
 }

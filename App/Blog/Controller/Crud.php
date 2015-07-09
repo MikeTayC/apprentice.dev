@@ -16,11 +16,7 @@ class Blog_Controller_Crud extends Core_Controller_Abstract
     {
         $readData = $this->read($id);
         $_POST['data'] = $readData;
-        $request = Core_Model_Request::getInstance();
-        $request->setModule('Blog')
-                ->setController('Post')
-                ->setAction('readAction')
-                ->continueDispatching();
+        $this->redirect('Blog','Post','readAction');
     }
 
     public function updateAction($id)
@@ -28,11 +24,7 @@ class Blog_Controller_Crud extends Core_Controller_Abstract
         if(empty($_POST)) {
             $readData = $this->read($id);
             $_POST['data'] = $readData;
-            $request = Core_Model_Request::getInstance();
-            $request->setModule('Blog')
-                ->setController('Post')
-                ->setAction('updateAction')
-                ->continueDispatching();
+            $this->redirect('Blog','Post','updateAction');
         }
         else {
             $this->update($id);
@@ -42,11 +34,7 @@ class Blog_Controller_Crud extends Core_Controller_Abstract
     public function deleteAction($id)
     {
         if(empty($_POST)){
-            $request = Core_Model_Request::getInstance();
-            $request->setModule('Blog')
-                ->setController('Post')
-                ->setAction('deleteAction')
-                ->continueDispatching();
+            $this->redirect('Blog','Post','deleteAction');
         }
         else {
             $this->delete($id);

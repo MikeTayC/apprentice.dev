@@ -16,16 +16,14 @@
                 </thead>
                 <tbody>
                     <?php
-                    $pdo = Core_Model_Database_Connection::getInstance();
-                    $sql = 'SELECT * FROM posts';
-                    foreach ($pdo->query($sql) as $row) {
+                    foreach ($this->getPosts() as $key => $value) {
                         echo '<tr>';
-                        echo '<td>' . $row['author'] . '</td>';
-                        echo '<td>' . $row['body'] . '</td>';
+                        echo '<td>' . $value['author'] . '</td>';
+                        echo '<td>' . $value['body'] . '</td>';
                         echo '<td width="250">';
-                        echo '<a class="btn btn-default" href="../crud/read/' . $row['id'] . '">Read</a>';
-                        echo '<a class="btn btn-success" href="../crud/update/' . $row['id'] . '">Update</a>';
-                        echo '<a class="btn btn-danger" href="../crud/delete/' . $row['id'] . '">Delete</a>';
+                        echo '<a class="btn btn-default" href="../crud/read/' . $value['id'] . '">Read</a>';
+                        echo '<a class="btn btn-success" href="../crud/update/' . $value['id'] . '">Update</a>';
+                        echo '<a class="btn btn-danger" href="../crud/delete/' . $value['id'] . '">Delete</a>';
                         echo '</td>';
                         echo'</tr>';
                     }
