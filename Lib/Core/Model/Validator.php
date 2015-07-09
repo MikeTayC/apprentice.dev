@@ -19,7 +19,7 @@ abstract class Core_Model_Validator
 
     public function check($source)
     {
-        $items = $this->_validation;
+        $items = Core_Model_Config_Json::getValidationConfig();
 
         foreach ($items as $item => $rules) {
             foreach ($rules as $rule => $ruleValue) {

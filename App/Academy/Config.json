@@ -1,16 +1,48 @@
-{"config" : {
-  "modules" : {
-    "academy" : {
-      "pool" : "App",
-      "dir" : "Academy",
-      "database" :{
-        "type" : "mysql",
-        "host" : "localhost",
-        "name" : "phpacademy",
-        "user" : "root",
-        "pass" : "root"
+{
+  "config": {
+    "modules": {
+      "academy": {
+        "pool": "App",
+        "dir": "Academy",
+        "database": {
+          "type": "mysql",
+          "host": "localhost",
+          "name": "phpacademy",
+          "user": "root",
+          "pass": "root"
+        },
+        "validation": {
+          "register": {
+            "username": {
+              "required": "true",
+              "min": "2",
+              "max": "20",
+              "unique": "users"
+            },
+            "password": {
+              "required": "true",
+              "min": "6"
+            },
+            "password_confirmation": {
+              "required": "true",
+              "matches": "password"
+            },
+            "name": {
+              "required": "true",
+              "min": "2",
+              "max": "50"
+            }
+          },
+          "login" :{
+            "username" : {
+              "required" : "true"
+            },
+            "password" : {
+              "required" : true
+            }
+          }
+        }
       }
     }
   }
-}
 }

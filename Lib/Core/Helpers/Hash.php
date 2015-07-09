@@ -5,7 +5,7 @@
  * Date: 7/9/15
  * Time: 11:49 AM
  */
-class Helpers_Hash
+class Core_Helpers_Hash
 {
     public static function make($string, $salt = '')
     {

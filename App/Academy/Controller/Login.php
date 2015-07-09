@@ -9,7 +9,7 @@ class Academy_Controller_Login extends Core_Controller_Abstract
 {
     public function indexAction()
     {
-        if (!empty($_POST)) {
+        if (Core_Helpers_Input::exists()) {
             var_dump($_POST);
         }
         else {

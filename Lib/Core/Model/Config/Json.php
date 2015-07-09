@@ -66,4 +66,12 @@ class Core_Model_Config_Json
 
         return self::$globalJsonArray['config']['modules'][$module]['database'];
     }
+
+    public static function getValidationConfig(){
+        $request = Core_Model_Request::getInstance();
+        $module = strtolower($request->getModule());
+        $controller = strtolower($request->getController());
+
+        return self::$globalJsonArray['config']['modules'][$module]['validation'][$controller];
+    }
 }

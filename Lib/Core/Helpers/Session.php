@@ -5,7 +5,7 @@
  * Date: 7/9/15
  * Time: 10:53 AM
  */
-class Helpers_Session
+class Core_Helpers_Session
 {
     public static function exists($name)
     {

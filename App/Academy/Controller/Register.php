@@ -27,11 +27,11 @@ class Academy_Controller_Register extends Core_Controller_Abstract
 //                ));
                 $user = new Academy_Model_User();
 
-                $salt = Helpers_Hash::salt(32);
+                $salt = Core_Helpers_Hash::salt(32);
                 try {
                     $user->create(array(
                        'username' => $_POST['username'],
-                       'password' => Helpers_Hash::make($_POST['password'], $salt),
+                       'password' => Core_Helpers_Hash::make($_POST['password'], $salt),
                        'salt' => $salt,
                        'name' => $_POST['name'],
                        'joined' => date('Y-m-d H:i:s'),
@@ -39,7 +39,7 @@ class Academy_Controller_Register extends Core_Controller_Abstract
 
                     ));
 
-                    Helpers_Session::flash('home', 'You have been registered and can now log in');
+                    Core_Helpers_Session::flash('home', 'You have been registered and can now log in');
                 } catch(Exception $e) {
                     //probably be better to redirect with error message
                     die($e->getMessage());
