@@ -9,17 +9,17 @@
           "template": "Lib/Page/View/Template/Header.phtml",
           "assets": {
             "0": {
-              "bootstrap_css": {
+              "uikit_css": {
                 "type": "css",
-                "file": "bootstrap.min.css"
+                "file": "uikit.min.css"
               },
-              "bootstrap_min_js": {
+              "uikit_min_js": {
                 "type": "js",
-                "file": "js/bootstrap.min.js"
+                "file": "js/uikit.min.js"
               },
-              "bootstrap_js":{
+              "uikit_js":{
                 "type": "js",
-                "file": "js/bootstrap.js"
+                "file": "js/uikit.js"
               },
               "jquery": {
                 "type": "jquery",
