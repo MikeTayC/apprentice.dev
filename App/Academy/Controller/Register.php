@@ -10,30 +10,22 @@ class Academy_Controller_Register extends Core_Controller_Abstract
     public function indexAction()
     {
         $this->loadLayout();
+        $this->render();
     }
     public function registerAction()
     {
         if(isset($_POST)){
-            $validator = new Academy_Model_Validation();
-            $validator->check($_POST);
-            if($validator->passed()){
-//                $name = $_POST['name'];
-//                $username = $_POST['username'];
-//                $password = $_POST['password'];
-//                $newUser = Core_Model_Database::getInstance()->insert('users', array(
-//                    'name' => $name,
-//                    'username' => $username,
-//                    'password' => $password
-//                ));
+            Core_Model_Validator::check($_POST);
+            if(Core_Model_Validator::passed()){
                 $user = new Academy_Model_User();
 
                 $salt = Core_Helpers_Hash::salt(32);
                 try {
                     $user->create(array(
-                       'username' => $_POST['username'],
-                       'password' => Core_Helpers_Hash::make($_POST['password'], $salt),
+                       'username' => Core_Helpers_Input::get('username'),
+                       'password' => Core_Helpers_Hash::make(Core_Helpers_Input::get('password'), $salt),
                        'salt' => $salt,
-                       'name' => $_POST['name'],
+                       'name' =>  Core_Helpers_Input::get('name'),
                        'joined' => date('Y-m-d H:i:s'),
                        'connect' => 1,
 
@@ -48,7 +40,7 @@ class Academy_Controller_Register extends Core_Controller_Abstract
 
             }
             else {
-                print_r($validator->errors());
+                print_r(Core_Model_Validator::errors());
             }
 
         }

@@ -1,3 +1,15 @@
-<a href="../register/index">Register</a>
-<br>
-<a href="../login/index">Log in</a>
+<?php if($this->getUser()) :?>
+    <div>
+        <p>Hello <a href="../profile/index?user=<?php echo $this->getUser()->username; ?>"><?php echo $this->getUser()->username; ?> </p>
+    </div>
+    <div>
+        <ul>
+           <li><a href = "../update/index">Update</a></li>
+           <li><a href = "../index/logout">Log out</a></li>
+           <li><a href = "../password/index">Change Password</a></li>
+
+        </ul>
+    </div>
+<?php else: ?>
+        <p> You need to <a href="../login/index">Log in</a> or <a href="../register/index">Register</a> </p>
+<?php endif;?>

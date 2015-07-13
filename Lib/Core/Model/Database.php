@@ -128,7 +128,7 @@ class Core_Model_Database
 
     public function delete($table, $where)
     {
-        return $this->action('DELETE *', $table, $where);
+        return $this->action('DELETE ', $table, $where);
     }
 
     /*
@@ -188,6 +188,11 @@ class Core_Model_Database
         }
 
         return false;
+    }
+
+    public function first()
+    {
+        return $this->_results[0];
     }
 
     /*

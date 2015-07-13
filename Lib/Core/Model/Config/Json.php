@@ -61,16 +61,28 @@ class Core_Model_Config_Json
 
     public static function getModulesDatabaseConfig()
     {
-        $request = Core_Model_Request::getInstance();
-        $module = strtolower($request->getModule());
+        $module = strtolower(Core_Model_Request::getInstance()->getModule());
 
         return self::$globalJsonArray['config']['modules'][$module]['database'];
     }
 
+    public static function getModulesSessionConfig($field)
+    {
+        $module = strtolower(Core_Model_Request::getInstance()->getModule());
+
+        return self::$globalJsonArray['config']['modules'][$module]['session'][$field];
+    }
+
+    public static function getModulesCookieConfig($field)
+    {
+        $module = strtolower(Core_Model_Request::getInstance()->getModule());
+
+        return self::$globalJsonArray['config']['modules'][$module]['cookie'][$field];
+    }
+
     public static function getValidationConfig(){
-        $request = Core_Model_Request::getInstance();
-        $module = strtolower($request->getModule());
-        $controller = strtolower($request->getController());
+        $module = strtolower(Core_Model_Request::getInstance()->getModule());
+        $controller = strtolower(Core_Model_Request::getInstance()->getController());
 
         return self::$globalJsonArray['config']['modules'][$module]['validation'][$controller];
     }

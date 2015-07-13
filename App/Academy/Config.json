@@ -4,6 +4,14 @@
       "academy": {
         "pool": "App",
         "dir": "Academy",
+        "session" : {
+          "session_name" : "user",
+          "token_name" : "token"
+        },
+        "cookie" : {
+          "cookie_name" : "hash",
+          "cookie_expiry" : "6666666"
+        },
         "database": {
           "type": "mysql",
           "host": "localhost",
@@ -12,6 +20,27 @@
           "pass": "root"
         },
         "validation": {
+          "password" : {
+            "current_password": {
+              "required": "true"
+            },
+            "new_password": {
+              "required": "true",
+              "min": "6"
+            },
+            "new_password_confirmation": {
+              "required": "true",
+              "min" : "6",
+              "matches": "new_password"
+            }
+          },
+          "update" : {
+            "name" : {
+              "required" : "true",
+              "min": "2",
+              "max": "50"
+            }
+          },
           "register": {
             "username": {
               "required": "true",
@@ -33,7 +62,7 @@
               "max": "50"
             }
           },
-          "login" :{
+          "login" : {
             "username" : {
               "required" : "true"
             },

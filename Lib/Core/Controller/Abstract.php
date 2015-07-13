@@ -2,17 +2,21 @@
 
 abstract class Core_Controller_Abstract
 {
-    protected $_crudModel;
+    public $block;
+
     public function loadLayout($default = true)
     {
-        $test = Bootstrap::getModel('page/design_json');
-        $test->setJsonDesign();
+        $model = Bootstrap::getModel('page/design_json');
+        $model->setJsonDesign();
         $layoutHandle = $this->getHandle();
-        $block = $test->buildBlocks($layoutHandle, $default);
-
-        $block->render();
+        $this->block = $model->buildBlocks($layoutHandle, $default);
+        return $this->block;
     }
 
+    public function render()
+    {
+        $this->block->render();
+    }
     private function getHandle()
     {
         $request = Core_Model_Request::getInstance();
@@ -29,5 +33,6 @@ abstract class Core_Controller_Abstract
                 ->setAction($action)
                 ->continueDispatching();
     }
+
 
 }

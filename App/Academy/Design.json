@@ -19,15 +19,42 @@
           "template": "App/Academy/View/Template/Register.phtml"
         }
       },
-        "academy_login_index": {
-          "header": {
-            "title": "PHP ACADEMY LOGIN"
-          },
-          "content": {
-            "type": "page/view",
-            "template": "App/Academy/View/Template/Login.phtml"
-          }
+      "academy_login_index": {
+        "header": {
+          "title": "PHP ACADEMY LOGIN"
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Academy/View/Template/Login.phtml"
+        }
+      },
+      "academy_update_index": {
+        "header": {
+          "title": "PHP ACADEMY UPDATE"
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Academy/View/Template/Update.phtml"
+        }
+      },
+      "academy_password_index": {
+        "header": {
+          "title": "PHP ACADEMY CHANGE PASSWORD"
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Academy/View/Template/Password.phtml"
+        }
+      },
+      "academy_profile_index" :{
+        "header" : {
+          "title" : "PHP ACADEMY PROFILE"
+        },
+        "content" : {
+          "type": "page/view",
+          "template": "App/Academy/View/Template/Profile.phtml"
         }
       }
     }
   }
+}
