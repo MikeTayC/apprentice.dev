@@ -9,9 +9,10 @@ class Incubate_Controller_Admin extends Core_Controller_Admin_Abstract
 {
     public function __construct()
     {
-        //check if logged in ? continue : redirect back to index home;
-
-        //check if admin ? continue : redirect back to index home
+        parent::__construct();
+        if(!$this->checkAdminStatus(Core_Helpers_Session::get('user')->permission)) {
+            $this->redirect('Incubate', 'Index', 'indexAction');
+        }
     }
     /*
      * admin home

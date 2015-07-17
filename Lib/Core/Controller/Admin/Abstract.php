@@ -26,18 +26,15 @@ abstract class Core_Controller_Admin_Abstract extends Core_Controller_Abstract
 
     }
 
-
-    public function checkAdminStatus()
+    public function checkAdminStatus($userPermissionId)
     {
 
-        $user = $this->_db->get('user', array('user_id','=',''));
-
-        $permission = $this->_db->get('permission', array('id', '=', $this->data()->permission));
+        $permission = $this->_db->get('permission', array('id', '=', $userPermissionId));
 
         if($permission->count()) {
-            $permission = json_decode($permission->first()->permission, true);
+            $permissionRole = $permission->first()->name;
 
-            if($permission['admin'] == true) {
+            if($permissionRole == 'Admin') {
                 return true;
             }
         }

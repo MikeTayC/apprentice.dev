@@ -13,7 +13,7 @@ class Incubate_Controller_Index extends Core_Controller_Authorization
 
         //check if user asked to log out, then logout
 
-        //check redirect6 code,if its set, get access token
+        //check redirect code,if its set, get access token
         $this->checkRedirectCode();
 
         //check if access token is set
@@ -21,17 +21,25 @@ class Incubate_Controller_Index extends Core_Controller_Authorization
 
 
         if($this->googleClient->getAccessToken()) {
-            $view->getContent()->setMe($this->googlePlus->people->get('me'));
+            $googleId = $this->googlePlus->people->get('me')->getId();
+            $user = Core_Model_Database::getInstance()->get('user', array ('google_id', '=', $googleId))->first();
 
-            $optParams = array('maxResults' => 100);
-
-            $view->getContent()->setActivities($this->googlePlus->activities->listActivities('me', 'public', $optParams));
+            Core_Helpers_Session::set('user', $user);
 
             $_SESSION['access_token'] = $this->googleClient->getAccessToken();
+
+            if($user->permission == 3) {
+                $this->redirect('Incubate', 'Admin', 'indexAction');
+            }
+            elseif($user->permission == 2) {
+                $this->redirect('Incubate', 'Teacher', 'indexAction');
+            }
+            else {
+                $this->redirect('Incubate', 'Student', 'indexAction');
+            }
         }
         else {
             $view->getContent()->setAuthurl($this->googleClient->createAuthUrl());
         }
-        $view->render();
     }
 }
