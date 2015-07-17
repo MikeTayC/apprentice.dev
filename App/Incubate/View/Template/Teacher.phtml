@@ -1,0 +1,32 @@
+
+<div class="uk-container-center">
+    <div>
+        <h2>Create a new jedi master</h2>
+    </div>
+    <form action="../create/teacher" class="uk-form uk-form-stacked" method="post">
+        <div class="uk-form-row">
+            <label class="uk-form-label" for="name">Teacher name</label>
+            <div class="uk-form-controls">
+                <input id="name" name="name" type="text">
+            </div>
+        </div>
+        <div class="uk-form-row">
+            <label class="uk-form-label" for="email">Email</label>
+            <div class="uk-form-controls">
+                <input id="email" name="email" type="text">
+            </div>
+        </div>
+
+
+        <div class="uk-form-row">
+            <span class="uk-form-label">Admin permission</span>
+            <div class="uk-form-controls uk-form-controls-text">
+                <input id="admin" name="permission" value="admin" type="checkbox">
+            </div>
+        </div>
+
+        <div class="uk-form-row">
+            <button class="uk-button uk-button-success" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

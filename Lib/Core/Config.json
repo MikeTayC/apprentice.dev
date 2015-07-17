@@ -2,7 +2,14 @@
     "modules" : {
         "core" : {
             "pool" : "Lib",
-            "dir" : "Core"
+            "dir" : "Core",
+            "database": {
+              "type": "mysql",
+              "host": "localhost",
+              "name": "website",
+              "user": "root",
+              "pass": "root"
+            }
           }
         },
     "routers" : {

@@ -16,13 +16,34 @@
             }
           },
           "content" : {
-            "type": "admin/login",
+            "type": "page/view",
             "template": "App/Admin/View/Template/Login.phtml"
           }
       },
       "admin_index_index" : {
         "type" : "admin/index",
         "template" : "App/Admin/View/Template/Index.phtml"
+        },
+      "admin_uikit_index" : {
+        "header" : {
+          "assets" : {
+            "1" : {
+              "sticky_css" : {
+                "type" : "css",
+                "file" : "components/sticky.almost-flat.min.css"
+              },
+              "sticky_js" : {
+                "type" : "js",
+                "file" : "js/components/sticky.min.js"
+              }
+            }
+          }
+        },
+        "content" :
+          {
+          "type": "page/view",
+          "template": "App/Admin/View/Template/Uikit.phtml"
+          }
         }
       }
     }

@@ -11,7 +11,7 @@
             "0": {
               "uikit_css": {
                 "type": "css",
-                "file": "uikit.min.css"
+                "file": "uikit.almost-flat.min.css"
               },
               "uikit_min_js": {
                 "type": "js",
@@ -28,6 +28,12 @@
             }
           }
         }
+      },
+      "core_index_index" : {
+          "content" : {
+            "type" : "page/view",
+            "template" : "Lib/Page/View/Template/Index.phtml"
+          }
       },
       "core_templates_index": {
         "type": "page/view",

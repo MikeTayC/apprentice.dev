@@ -10,7 +10,6 @@ class Academy_Model_User
     private $_data;
     private $_db;
     private $_sessionName;
-    private $_sessionData;
     private $_cookieName;
     private $_isLoggedIn;
 

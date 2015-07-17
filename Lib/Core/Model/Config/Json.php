@@ -86,4 +86,10 @@ class Core_Model_Config_Json
 
         return self::$globalJsonArray['config']['modules'][$module]['validation'][$controller];
     }
+    public static function getAdminValidationConfig(){
+
+        $module = strtolower(Core_Model_Request::getInstance()->getModule());
+        $param = strtolower(Core_Model_Request::getInstance()->getParams()['0']);
+        return self::$globalJsonArray['config']['modules'][$module]['validation']['admin'][$param];
+    }
 }

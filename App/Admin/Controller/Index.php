@@ -18,5 +18,6 @@ class Admin_Controller_Index extends Core_Controller_Abstract
 //            ->setAction('testAction')
 //            ->setParams(array('testparam1', 'whatever'))
 //            ->continueDispatching();
+        $this->render();
     }
 }
