@@ -9,6 +9,10 @@ class Core_Controller_Authorization extends Core_Controller_Abstract
 {
     public $googleClient;
     public $googlePlus;
+
+    public $userInfo;
+    public $googleUserInfo;
+
     public function __construct($googleClient = null)
     {
         $this->googleClient = new Google_Client();
@@ -37,5 +41,38 @@ class Core_Controller_Authorization extends Core_Controller_Abstract
         if(isset($_SESSION['access_token'])) {
             $this->googleClient->setAccessToken($_SESSION['access_token']);
         }
+    }
+
+    public function isLoggedIn()
+    {
+        return isset($_SESSION['access_token']);
+    }
+
+    public function setUserData()
+    {
+        $googleId = $this->googlePlus->people->get('me')->getId();
+
+        $this->googleUserInfo = $this->googlePlus->people->get('me');
+        $this->userInfo = Core_Model_Database::getInstance()->get('user', array ('google_id', '=', $googleId))->first();
+
+        Core_Model_Request::getInstance()->setUser($this->userInfo);
+        Core_Model_Request::getInstance()->setGoogle($this->googleUserInfo);
+
+        $_SESSION['access_token'] = $this->googleClient->getAccessToken();
+    }
+
+    public function getUserInfo()
+    {
+        return $this->userInfo;
+    }
+
+    public function getGoogleUserInfo()
+    {
+        return $this->googleUserInfo;
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['access_token']);
     }
 }

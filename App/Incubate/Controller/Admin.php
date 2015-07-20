@@ -7,20 +7,21 @@
  */
 class Incubate_Controller_Admin extends Core_Controller_Admin_Abstract
 {
-    public function __construct()
-    {
-        parent::__construct();
-        if(!$this->checkAdminStatus(Core_Helpers_Session::get('user')->permission)) {
-            $this->redirect('Incubate', 'Index', 'indexAction');
-        }
-    }
     /*
      * admin home
      */
+    public function __construct()
+    {
+        if (!$this->checkAdminStatus(Core_Model_Request::getInstance()->getUser('permission'))) {
+            $this->redirect('Incubate', 'Index', 'signInAction');
+        }
+    }
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->render();
+        {
+            $this->loadLayout();
+            $this->render();
+        }
     }
 
     public function newAction($param)

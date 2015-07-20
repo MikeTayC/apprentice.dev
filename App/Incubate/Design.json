@@ -2,54 +2,85 @@
   "layout": {
     "actions": {
       "incubate_admin_index": {
-        "header" : {
-          "assets" : {
+        "header": {
+          "assets": {
             "1": {
-              "custom_css" : {
-              "type" : "css",
-              "file" : "admin_css.css"
+              "custom_css": {
+                "type": "css",
+                "file": "admin_css.css"
               }
             }
           }
         },
-        "content" : {
-          "type" : "page/view",
-          "template" : "App/Incubate/View/Template/Admin.phtml"
+        "content": {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/Admin.phtml"
         }
       },
-      "incubate_admin_new" : {
-        "header" : {
-          "assets" : {
-            "1" : {
-              "custom_css" : {
-                "type" : "css",
-                "file" : "admin_css.css"
+      "incubate_admin_new": {
+        "header": {
+          "assets": {
+            "1": {
+              "custom_css": {
+                "type": "css",
+                "file": "admin_css.css"
               }
             }
           }
         },
-        "content" : {
-          "type" : "page/view",
-          "template" : "App/Incubate/View/Template/New.phtml"
+        "content": {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/New.phtml"
         }
       },
       "incubate_index_index": {
-        "header" : {
-          "assets" : {
-            "1" : {
-              "custom_css" : {
-                "type" : "css",
-                "file" : "admin_css.css"
+        "header": {
+          "assets": {
+            "1": {
+              "custom_css": {
+                "type": "css",
+                "file": "admin_css.css"
               }
             }
           }
         },
-        "content" : {
-          "type" : "page/view",
-          "template" : "App/Incubate/View/Template/Admin.phtml"
+        "content": {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/Landing.phtml"
+        }
+      },
+      "incubate_user_index": {
+        "header": {
+          "assets": {
+            "1": {
+              "custom_css": {
+                "type": "css",
+                "file": "admin_css.css"
+              }
+            }
+          }
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/Dashboard.phtml"
+        }
+      },
+      "incubate_index_register": {
+        "header": {
+          "assets": {
+            "1": {
+              "custom_css": {
+                "type": "css",
+                "file": "admin_css.css"
+              }
+            }
+          }
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/Register.phtml"
         }
       }
-
     }
   }
 }

@@ -5,41 +5,57 @@
  * Date: 7/17/15
  * Time: 10:26 AM
  */
-class Incubate_Controller_Index extends Core_Controller_Authorization
+class Incubate_Controller_Index extends Core_Controller_Abstract
 {
     public function indexAction()
     {
         $view = $this->loadLayout();
 
         //check if user asked to log out, then logout
+        $googleClient = new Google_Client();
+
+        $auth = new Core_Helpers_GoogleAuth($googleClient);
 
         //check redirect code,if its set, get access token
-        $this->checkRedirectCode();
+        if($auth->checkRedirectCode()) {
+            header('Location: http://apprentice.dev/incubate/index/index');
+        }
 
-        //check if access token is set
-        $this->checkAccessTokenSet();
+        //ensure access token is set
+        $auth->checkAccessTokenSet();
 
+        //checks if usr is logged in
+        if($googleClient->getAccessToken()) {
 
-        if($this->googleClient->getAccessToken()) {
-            $googleId = $this->googlePlus->people->get('me')->getId();
-            $user = Core_Model_Database::getInstance()->get('user', array ('google_id', '=', $googleId))->first();
+            $auth->setAllUserData();
 
-            Core_Helpers_Session::set('user', $user);
+            $user = $auth->getUserData();
+            $view->getContent()->setUser($user);
 
-            $_SESSION['access_token'] = $this->googleClient->getAccessToken();
+            $googleUser = $auth->getGoogleUserData();
+            $view->getContent()->setGoogle($googleUser);
 
             if($user->permission == 3) {
-                $this->redirect('Incubate', 'Admin', 'indexAction');
+                $view->getContent()->setTemplate('App/Incubate/View/Template/Admin.phtml');
             }
             elseif($user->permission == 2) {
-                $this->redirect('Incubate', 'Teacher', 'indexAction');
+                $view->getContent()->setTemplate('App/Incubate/View/Template/Teacher.phtml');
             }
             else {
-                $this->redirect('Incubate', 'Student', 'indexAction');
+                $view->getContent()->setTemplate('App/Incubate/View/Template/User.phtml');
             }
         }
         else {
-            $view->getContent()->setAuthurl($this->googleClient->createAuthUrl());
+            $view->getContent()->setAuthurl($googleClient->createAuthUrl());
         }
+        $view->render();
+    }
+
+    public function logoutAction()
+    {
+        $googleClient = new Google_Client();
+        $auth = new Core_Helpers_GoogleAuth($googleClient);
+        $auth->logout();
+        $this->redirect('Incubate', 'Index', 'indexAction');
     }
 }

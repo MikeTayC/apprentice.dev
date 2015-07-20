@@ -29,7 +29,7 @@ abstract class Core_Controller_Admin_Abstract extends Core_Controller_Abstract
     public function checkAdminStatus($userPermissionId)
     {
 
-        $permission = $this->_db->get('permission', array('id', '=', $userPermissionId));
+        $permission = Core_Model_Database::getInstance()->get('permission', array('id', '=', $userPermissionId));
 
         if($permission->count()) {
             $permissionRole = $permission->first()->name;
