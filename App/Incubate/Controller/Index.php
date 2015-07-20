@@ -35,10 +35,10 @@ class Incubate_Controller_Index extends Core_Controller_Abstract
             $googleUser = $auth->getGoogleUserData();
             $view->getContent()->setGoogle($googleUser);
 
-            if($user->permission == 3) {
+            if($user->role == 'admin') {
                 $view->getContent()->setTemplate('App/Incubate/View/Template/Admin.phtml');
             }
-            elseif($user->permission == 2) {
+            elseif($user->role == 'teacher') {
                 $view->getContent()->setTemplate('App/Incubate/View/Template/Teacher.phtml');
             }
             else {

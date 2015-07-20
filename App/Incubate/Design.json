@@ -7,7 +7,7 @@
             "1": {
               "custom_css": {
                 "type": "css",
-                "file": "admin_css.css"
+                "file": "main_css.css"
               }
             }
           }
@@ -23,7 +23,7 @@
             "1": {
               "custom_css": {
                 "type": "css",
-                "file": "admin_css.css"
+                "file": "_css.css"
               }
             }
           }
@@ -39,7 +39,7 @@
             "1": {
               "custom_css": {
                 "type": "css",
-                "file": "admin_css.css"
+                "file": "main_css.css"
               }
             }
           }

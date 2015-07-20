@@ -5,16 +5,19 @@
  * Date: 7/15/15
  * Time: 6:24 PM
  */
-class Incubate_Controller_Admin extends Core_Controller_Admin_Abstract
+class Incubate_Controller_Admin extends Core_Controller_Abstract
 {
+    public $user;
     /*
      * admin home
      */
     public function __construct()
     {
-        if (!$this->checkAdminStatus(Core_Model_Request::getInstance()->getUser('permission'))) {
-            $this->redirect('Incubate', 'Index', 'signInAction');
+        if(!$this->user = Core_Model_Request::getInstance()->getUserData()){
+            $this->redirect('Incubate', 'Index','indexAction');
         }
+
+        $this->checkAdminStatus();
     }
     public function indexAction()
     {
@@ -70,5 +73,12 @@ class Incubate_Controller_Admin extends Core_Controller_Admin_Abstract
             }
         }
         $this->redirect('Incubate', 'Admin' , 'indexAction');
+    }
+
+    private function checkAdminStatus()
+    {
+        if($this->user->role != 'admin'){
+            $this->redirect('Incubate', 'index', 'indexAction');
+        }
     }
 }

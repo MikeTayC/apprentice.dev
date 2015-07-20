@@ -11,7 +11,15 @@
             "0": {
               "uikit_css": {
                 "type": "css",
-                "file": "uikit.almost-flat.min.css"
+                "file": "uikit.almot-flat.min.css"
+              },
+              "main_css" : {
+                "type" :  "css",
+                "file" : "main_css.css"
+              },
+              "jquery": {
+                "type": "jquery",
+                "file":"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
               },
               "uikit_min_js": {
                 "type": "js",
@@ -21,9 +29,9 @@
                 "type": "js",
                 "file": "js/uikit.js"
               },
-              "jquery": {
-                "type": "jquery",
-                "file":"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+              "general_js": {
+                "type" : "js",
+                "file" : "js/general_js.js"
               }
             }
           }
