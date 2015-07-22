@@ -17,28 +17,56 @@ class Incubate_Controller_Create extends Core_Controller_Admin
     public function lessonAction()
     {
         $view = $this->loadLayout();
-        $view->getDefault()->setUser($this->user);
         if(!empty($_POST)) {
+            $tagArray = array();
+
+            foreach ($_POST as $post) {
+                if(is_numeric($post)){
+                    $tagArray[] = $post;
+                }
+            }
             $user = new Incubate_Model_User();
-            $user->createLesson(array(
+
+            $user->create('lesson', array(
                 'name' => $_POST['name'],
                 'description' => $_POST['description']
             ));
+
+            $db = Core_Model_Database::getInstance()->get('lesson', array('name', '=', $_POST['name']));
+            $newLesson = $db->first();
+
+            foreach($tagArray as $tag) {
+                $user->create('lesson_tag_map', array(
+                   'lesson_id' => $newLesson->lesson_id,
+                    'tag_id' => $tag
+                ));
+            }
+
+            $this->redirect('Incubate', 'Lesson', 'indexAction');
         }
+
+        $db = Core_Model_Database::getInstance()->get('tag', array('1', '=', '1'));
+        $tag = $db->results();
+        $view->getContent()->setTag($tag);
+        $view->getDefault()->setUser($this->user);
         $view->render();
     }
 
     public function tagAction()
     {
-        $db = Core_Model_Database::getInstance()->get('tag', array('1', '=', '1'));
-        $tag = $db->results();
 
         $view = $this->loadLayout();
-        $view->getDefault()->setUser($this->user);
-        $view->getContent()->setTag($tag);
         if(!empty($_POST)) {
 
+            $user = new Incubate_Model_User();
+            $user->create('tag', array(
+               'name' => $_POST['name']
+            ));
         }
+        $db = Core_Model_Database::getInstance()->get('tag', array('1', '=', '1'));
+        $tag = $db->results();
+        $view->getDefault()->setUser($this->user);
+        $view->getContent()->setTag($tag);
         $view->render();
     }
 

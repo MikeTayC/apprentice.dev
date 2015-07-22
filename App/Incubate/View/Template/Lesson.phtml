@@ -1,1 +1,30 @@
-<a href="http://apprentice.dev/incubate/create/lesson">Create new Lesson</a>
+<?php
+    $lessons = $this->getLesson();
+    $maps = $this->getMap();
+    $tags = $this->getTag();
+?>
+<div class="content">
+
+    <a href="http://apprentice.dev/incubate/create/lesson">Create new lesson</a><br>
+    <a href="http://apprentice.dev/incubate/create/tag">Create new tag</a><br>
+
+    <?php foreach($lessons as $lesson) {?>
+        <div id="box">
+            <div class="box-top"><?php echo $lesson->name; ?></div>
+
+            <div class="box-panel">
+                <?php
+                    foreach($maps as $map ){
+                        if($map->lesson_id == $lesson->lesson_id){
+                            foreach($tags as $tag) {
+                                if($map->tag_id == $tag->tag_id) {
+                                    echo $tag->name . '<br>';
+                                }
+                            }
+                        }
+                    }
+                ?>
+            </div>
+        </div>
+    <?php }?>
+</div>

@@ -1,19 +1,25 @@
+<?php
+    $tags = $this->getTag();
+?>
+
 <div class="content">
 <div id="form-main">
     <div id="form-div">
         <form class="form" id="form1" action="http://apprentice.dev/incubate/create/lesson" method="post">
 
             <p class="name">
-                <input name="name" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Name" id="name" />
-            </p>
-
-            <p class="tags">
-                <input name="tags" type="text" class="validate[required,custom[email]] feedback-input" id="tags" placeholder="Tags" />
+                <input name="name" type="text" placeholder="Name" id="name" />
             </p>
 
             <p class="text">
-                <textarea name="description" class="validate[required,length[6,300]] feedback-input" id="description" placeholder="Description"></textarea>
+                <textarea name="description" id="description" placeholder="Description"></textarea>
             </p>
+
+            <?php foreach($tags as $tag) {?>
+            <p>
+                <input name="<?php echo $tag->tag_id;?>" type="checkbox" id="tags" value="<?php echo $tag->tag_id; ?>"><?php echo $tag->name;?><br>
+            </p>
+            <?php }?>
 
 
             <div class="submit">
