@@ -78,7 +78,12 @@ class Core_Helpers_GoogleAuth
         $this->userData = Core_Model_Database::getInstance()->get('user', array ('google_id', '=', $googleId))->first();
 
         Core_Model_Request::getInstance()->setUser($this->userData);
+
+        Core_Helpers_Session::set('userData', $this->userData);
+
         Core_Model_Request::getInstance()->setGoogle($this->googleUserData);
+
+        Core_Helpers_Session::set('googleUserData', $this->googleUserData);
 
         $_SESSION['access_token'] = $this->googleClient->getAccessToken();
     }

@@ -30,23 +30,15 @@ class Incubate_Controller_Index extends Core_Controller_Abstract
             $auth->setAllUserData();
 
             $user = $auth->getUserData();
-            $view->getContent()->setUser($user);
+            $view->getDefault()->setUser($user);
 
             $googleUser = $auth->getGoogleUserData();
-            $view->getContent()->setGoogle($googleUser);
-
-            if($user->role == 'admin') {
-                $view->getContent()->setTemplate('App/Incubate/View/Template/Admin.phtml');
-            }
-            elseif($user->role == 'teacher') {
-                $view->getContent()->setTemplate('App/Incubate/View/Template/Teacher.phtml');
-            }
-            else {
-                $view->getContent()->setTemplate('App/Incubate/View/Template/User.phtml');
-            }
+            $view->getDefault()->setGoogle($googleUser);
         }
         else {
-            $view->getContent()->setAuthurl($googleClient->createAuthUrl());
+            $view->getDefault()->setTemplate('App/Incubate/View/Template/Landing.phtml');
+            $view->setContent(null);
+            $view->getDefault()->setAuthurl($googleClient->createAuthUrl());
         }
         $view->render();
     }

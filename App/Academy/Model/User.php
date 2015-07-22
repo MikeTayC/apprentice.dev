@@ -16,8 +16,6 @@ class Academy_Model_User
     public function __construct($user = null)
     {
         $this->_db = Core_Model_Database::getInstance();
-        $this->_sessionName = Core_Model_Config_Json::getModulesSessionConfig('session_name');
-        $this->_cookieName = Core_Model_Config_Json::getModulesCookieConfig('cookie_name');
 
         /*
          * to grab specific user details, use same user object

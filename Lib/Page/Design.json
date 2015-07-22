@@ -11,7 +11,7 @@
             "0": {
               "uikit_css": {
                 "type": "css",
-                "file": "uikit.almot-flat.min.css"
+                "file": "uikit.almost-flat.min.css"
               },
               "main_css" : {
                 "type" :  "css",
@@ -35,6 +35,10 @@
               }
             }
           }
+        },
+        "default" : {
+          "type" :"page/view",
+          "template" : "App/Incubate/View/Template/Dashboard.phtml"
         }
       },
       "core_index_index" : {

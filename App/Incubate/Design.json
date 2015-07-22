@@ -1,6 +1,44 @@
 {
   "layout": {
     "actions": {
+      "incubate_create_tag" : {
+        "content" : {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/TagForm.phtml"
+        }
+      },
+      "incubate_create_lesson": {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content" :{
+          "type": "page/view",
+          "template" : "App/Incubate/View/Template/LessonForm.phtml"
+        }
+      },
+      "incubate_lesson_index": {
+        "content" :{
+            "type": "page/view",
+            "template" : "App/Incubate/View/Template/Lesson.phtml"
+        }
+      },
+      "incubate_admin_students" : {
+        "content" : {
+          "type":"page/view",
+          "template": "App/Incubate/View/Template/Students.phtml"
+          }
+        },
       "incubate_admin_index": {
         "header": {
           "assets": {
@@ -14,7 +52,7 @@
         },
         "content": {
           "type": "page/view",
-          "template": "App/Incubate/View/Template/Admin.phtml"
+          "template": "App/Incubate/View/Template/.phtml"
         }
       },
       "incubate_admin_new": {
@@ -44,9 +82,9 @@
             }
           }
         },
-        "content": {
-          "type": "page/view",
-          "template": "App/Incubate/View/Template/Landing.phtml"
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Content.phtml"
         }
       },
       "incubate_user_index": {

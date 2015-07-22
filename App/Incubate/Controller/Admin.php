@@ -5,20 +5,11 @@
  * Date: 7/15/15
  * Time: 6:24 PM
  */
-class Incubate_Controller_Admin extends Core_Controller_Abstract
+class Incubate_Controller_Admin extends Core_Controller_Admin
 {
-    public $user;
     /*
      * admin home
      */
-    public function __construct()
-    {
-        if(!$this->user = Core_Model_Request::getInstance()->getUserData()){
-            $this->redirect('Incubate', 'Index','indexAction');
-        }
-
-        $this->checkAdminStatus();
-    }
     public function indexAction()
     {
         {
@@ -33,10 +24,8 @@ class Incubate_Controller_Admin extends Core_Controller_Abstract
 
         if(isset($param)) {
             $template = 'App/Incubate/View/Template/' . ucfirst($param) . '.phtml';
-
             $view->getContent()->setTemplate($template);
         }
-
         $view->render();
     }
 
@@ -75,10 +64,16 @@ class Incubate_Controller_Admin extends Core_Controller_Abstract
         $this->redirect('Incubate', 'Admin' , 'indexAction');
     }
 
-    private function checkAdminStatus()
+
+    public function studentsAction()
     {
-        if($this->user->role != 'admin'){
-            $this->redirect('Incubate', 'index', 'indexAction');
-        }
+        $view = $this->loadLayout();
+
+        $users = Core_Model_Database::getInstance()->get('user', array('1', '=', '1'));
+
+        $view->getContent()->setUsers($users->results());
+        $view->getDefault()->setUser($this->user);
+
+        $view->render();
     }
 }
