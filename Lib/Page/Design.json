@@ -136,8 +136,8 @@
         }
       },
       "core_error_error" :{
-        "type": "page/error",
-        "template": "Lib/Page/View/Template/Error.phtml"
+          "type": "page/error",
+          "template": "Lib/Page/View/Template/Error.phtml"
       }
     }
   }

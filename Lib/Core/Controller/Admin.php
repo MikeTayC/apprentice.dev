@@ -7,12 +7,13 @@
  *
  * child class will have ability to create/edit/delete users from database tables,
  */
- class Core_Controller_Admin extends Core_Controller_Abstract
+ class Core_Controller_Admin extends Core_Controller_Authorization
 {
-    protected $_db;
     public $user;
     public function __construct()
     {
+        parent::__construct();
+
         $this->setUserData();
         $this->checkAdminStatus();
     }
@@ -30,9 +31,4 @@
             $this->redirect('Incubate', 'index', 'indexAction');
         }
     }
-
-     public function isLoggedIn()
-     {
-     }
-
 }

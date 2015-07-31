@@ -1,11 +1,13 @@
 <?php
 
-class Incubate_Controller_Create extends Core_Controller_Admin
+class Incubate_Controller_Create extends Incubate_Controller_Admin
 {
-
     public function __construct()
     {
         parent::__construct();
+        if(!$this->auth->isLoggedIn()) {
+            $this->redirect('Incubate','Index','indexAction');
+        }
     }
     public function indexAction()
     {

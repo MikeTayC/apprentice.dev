@@ -10,10 +10,13 @@ class Core_Model_Request extends Core_Model_Object
 
     public static $pathUri;
 
+    private function __construct(){}
     public static function getInstance()
     {
         if (self::$instance === null) {
+
             self::$instance = new Core_Model_Request();
+
             return self::$instance;
         }
         else {
@@ -21,7 +24,6 @@ class Core_Model_Request extends Core_Model_Object
         }
     }
 
-    private function __construct(){}
 
     public function requestUri()
     {

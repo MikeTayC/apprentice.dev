@@ -1,25 +1,26 @@
 <?php
 
-class Incubate_Controller_Lesson extends Core_Controller_Admin
+class Incubate_Controller_Lesson extends Incubate_Controller_Admin
 {
 
     public function __construct()
     {
         parent::__construct();
+        if(!$this->auth->isLoggedIn()) {
+            $this->redirect('Incubate','Index','indexAction');
+        }
     }
     public function indexAction()
     {
 
         $view = $this->loadLayout();
+        $db = Core_Model_Database::getInstance();
+        $tagMap = $db->get('lesson_tag_map', array('1', '=', '1'))->results();
 
-        $dbTagMap = Core_Model_Database::getInstance()->get('lesson_tag_map', array('1', '=', '1'));
-        $tagMap = $dbTagMap->results();
+        $lessons = $db->get('lesson', array('1', '=', '1'))->results();
 
-        $dbLesson = Core_Model_Database::getInstance()->get('lesson', array('1', '=', '1'));
-        $lessons = $dbLesson->results();
+        $tags = $db->get('tag', array('1', '=', '1'))->results();
 
-        $dbTag = Core_Model_Database::getInstance()->get('tag', array('1', '=', '1'));
-        $tags = $dbTag->results();
         $view->getDefault()->setUser($this->user);
         $view->getContent()->setLesson($lessons);
         $view->getContent()->setMap($tagMap);

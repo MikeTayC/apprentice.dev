@@ -73,4 +73,13 @@ class Core_Model_Validator
     {
         return self::$_passed;
     }
+
+    public static function checkBlueAcornEmail($email)
+    {
+        $blueacorn = substr($email, -14);
+        if($blueacorn == '@blueacorn.com') {
+            return true;
+        }
+        return false;
+    }
 }

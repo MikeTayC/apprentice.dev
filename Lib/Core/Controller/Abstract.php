@@ -4,6 +4,10 @@ abstract class Core_Controller_Abstract
 {
     public $block;
 
+    /*
+     * loads view layout, creates a model  that can access some json data
+     * this data can then be
+     */
     public function loadLayout($default = true)
     {
         $model = Bootstrap::getModel('page/design_json');
@@ -25,6 +29,10 @@ abstract class Core_Controller_Abstract
     }
 
 
+    /*
+     * internal redirect,
+     * TODO ADD A SETPARAMS MEHTHOD
+     */
     public function redirect($module,$controller,$action)
     {
         $request = Core_Model_Request::getInstance();
@@ -34,5 +42,12 @@ abstract class Core_Controller_Abstract
                 ->continueDispatching();
     }
 
-
+    /*
+     * redirects the actual url, necessary so access code does not show
+     */
+    public function headerRedirect($module, $controller, $action)
+    {
+        $headerURL = 'Location: http://apprentice.dev/' . $module . '/' . $controller . '/' . $action;
+        header($headerURL);
+    }
 }

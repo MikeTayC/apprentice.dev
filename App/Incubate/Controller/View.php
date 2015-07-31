@@ -63,7 +63,12 @@ class Incubate_Controller_View extends Incubate_Controller_Admin
 //        }
 //        $this->redirect('Incubate', 'Admin' , 'indexAction');
 //    }
-
+    public function __construct() {
+        parent::__construct();
+        if(!$this->auth->isLoggedIn()) {
+            $this->redirect('Incubate','Index','indexAction');
+        }
+    }
 
     public function studentsAction()
     {
