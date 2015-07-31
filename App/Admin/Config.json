@@ -1,9 +1,0 @@
-{"config" : {
-    "modules" : {
-        "admin" : {
-            "pool" : "App",
-            "dir" : "Admin"
-        }
-    }
-  }
-}

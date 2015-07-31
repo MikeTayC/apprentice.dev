@@ -5,7 +5,7 @@
         "type": "page/view",
         "template": "Lib/Page/View/Template/View.phtml",
         "header": {
-          "type": "page/header",
+          "type": "page/view",
           "template": "Lib/Page/View/Template/Header.phtml",
           "assets": {
             "0": {
@@ -44,96 +44,8 @@
       "core_index_index" : {
           "content" : {
             "type" : "page/view",
-            "template" : "App/Incubate/View/Template/Landing.phtml"
+            "template" : "App/Incubate/View/Template/Default.phtml"
           }
-      },
-      "core_templates_index": {
-        "type": "page/view",
-        "template": "Lib/Page/View/Template/View.phtml",
-        "header": {
-          "type": "page/header",
-          "template": "Lib/Page/View/Template/Header.phtml",
-          "assets": {
-            "0":{
-              "bootstrap_css":{
-                  "type": "css",
-                  "file": "bootstrap.min.css"
-                },
-              "bootstrap_js":{
-                "type": "js",
-                "file": "js/bootstrap.min.js"
-                }
-             }
-          }
-        },
-        "content": {
-          "type": "page/content",
-          "template": "Lib/Page/View/Template/Content.phtml",
-          "navbar": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Navbar.phtml"
-          },
-          "jumbotron": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Jumbotron.phtml"
-          },
-          "buttons": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Buttons.phtml"
-          },
-          "tables": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Tables.phtml"
-          },
-          "thumbnails": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Thumbnails.phtml"
-          },
-          "labels": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Labels.phtml"
-          },
-          "badges": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Badges.phtml"
-          },
-          "dropmenu": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Dropmenu.phtml"
-          },
-          "navs": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Navs.phtml"
-          },
-          "alerts": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Alerts.phtml"
-          },
-          "progressbar": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Progressbar.phtml"
-          },
-          "list": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/List.phtml"
-          },
-          "panels": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Panels.phtml"
-          },
-          "well": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Well.phtml"
-          },
-          "carousel": {
-            "type": "page/view",
-            "template": "Lib/Page/View/Template/Carousel.phtml"
-          }
-        },
-        "footer": {
-          "type": "page/footer",
-          "template": "Lib/Page/View/Template/Footer.phtml"
-        }
       },
       "core_error_error" :{
           "type": "page/error",

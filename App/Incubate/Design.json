@@ -33,44 +33,6 @@
             "template" : "App/Incubate/View/Template/Lesson.phtml"
         }
       },
-      "incubate_view_students" : {
-        "content" : {
-          "type":"page/view",
-          "template": "App/Incubate/View/Template/Students.phtml"
-          }
-        },
-      "incubate_admin_index": {
-        "header": {
-          "assets": {
-            "1": {
-              "custom_css": {
-                "type": "css",
-                "file": "main_css.css"
-              }
-            }
-          }
-        },
-        "content": {
-          "type": "page/view",
-          "template": "App/Incubate/View/Template/.phtml"
-        }
-      },
-      "incubate_admin_new": {
-        "header": {
-          "assets": {
-            "1": {
-              "custom_css": {
-                "type": "css",
-                "file": "_css.css"
-              }
-            }
-          }
-        },
-        "content": {
-          "type": "page/view",
-          "template": "App/Incubate/View/Template/New.phtml"
-        }
-      },
       "incubate_index_index": {
         "header": {
           "assets": {
@@ -85,22 +47,6 @@
         "content" : {
           "type" : "page/view",
           "template" : "App/Incubate/View/Template/Content.phtml"
-        }
-      },
-      "incubate_user_index": {
-        "header": {
-          "assets": {
-            "1": {
-              "custom_css": {
-                "type": "css",
-                "file": "admin_css.css"
-              }
-            }
-          }
-        },
-        "content": {
-          "type": "page/view",
-          "template": "App/Incubate/View/Template/Dashboard.phtml"
         }
       },
       "incubate_login_index": {
