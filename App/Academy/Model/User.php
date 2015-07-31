@@ -35,6 +35,7 @@ class Academy_Model_User
                 }
             }
         }
+
         /*
          * if user is defined upon construction, will get a specifc user
          */
