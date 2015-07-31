@@ -53,6 +53,15 @@ class Incubate_Model_User
     {
         return $this->_data;
     }
+
+    public function getAllUserDataFromUserTable()
+    {
+        if($this->_data = $this->_db->getAll('user')->results()) {
+            return $this->_data;
+        }
+        return null;
+    }
+
     public function isLoggedIn()
     {
         return $this->_isLoggedIn;

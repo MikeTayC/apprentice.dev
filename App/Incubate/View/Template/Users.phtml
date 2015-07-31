@@ -1,5 +1,5 @@
 <?php
-    $users = $this->getUsers();
+    $userData = $this->getData('userData');
 ?>
 
 
@@ -10,7 +10,7 @@
     </div>
     <h1>Students</h1>
     <p>whatever</p>
-    <?php foreach($users as $user) {?>
+    <?php foreach($userData as $user) {?>
     <div id="box">
         <div class="box-top"><?php echo $user->name; ?></div>
         <div class="box-panel"><?php var_dump( $user); ?></div>
