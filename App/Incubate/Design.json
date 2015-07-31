@@ -67,6 +67,12 @@
           "type": "page/view",
           "template": "App/Incubate/View/Template/Landing.phtml"
         }
+      },
+      "incubate_student_index" : {
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Users.phtml"
+        }
       }
     }
   }
