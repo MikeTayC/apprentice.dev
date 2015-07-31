@@ -5,7 +5,7 @@
  * Date: 7/9/15
  * Time: 10:53 AM
  */
-class Core_Helpers_Session
+class Core_Helpers_Session extends Core_Model_Object
 {
     public static function exists($name)
     {
@@ -26,6 +26,11 @@ class Core_Helpers_Session
         if(self::exists($name)) {
             unset($_SESSION[$name]);
         }
+    }
+
+    public static function deleteAll()
+    {
+        unset($_SESSION);
     }
     public static function flash($name, $string = '')
     {

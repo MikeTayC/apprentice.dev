@@ -103,8 +103,11 @@
           "template": "App/Incubate/View/Template/Dashboard.phtml"
         }
       },
-      "incubate_index_register": {
+      "incubate_login_index": {
+        "type" : "page/view",
+        "template": "Lib/Page/View/Template/View.phtml",
         "header": {
+          "type" : "page/view",
           "assets": {
             "1": {
               "custom_css": {
@@ -116,7 +119,7 @@
         },
         "content": {
           "type": "page/view",
-          "template": "App/Incubate/View/Template/Register.phtml"
+          "template": "App/Incubate/View/Template/Landing.phtml"
         }
       }
     }

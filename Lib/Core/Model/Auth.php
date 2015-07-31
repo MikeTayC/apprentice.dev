@@ -11,10 +11,20 @@
  * this is going to contain all functionality regarding to authentication from google
  * checking if signed in, sessions set, checking code from google so we can authenticate with it
  */
-class Core_Helpers_GoogleAuth
+class Core_Model_Auth
 {
     //Reference to client
     protected $_client;
+
+    //Reference to Database wrapper
+    protected $_user;
+
+    //googleplus info
+    protected $_plus;
+
+    protected $_googleUser;
+
+    protected $_email;
 
     /*
      * We need to pass in an instance of the google client we set = to null incase it doesnt exists
@@ -22,15 +32,21 @@ class Core_Helpers_GoogleAuth
      * need to set client id, client secrete, the redirect uri, and the scopes we want to get from.
      *
      */
-    public function __construct(Google_Client $googleClient = null)
+    public function __construct(Incubate_Model_User $user = null, Google_Client $googleClient = null)
     {
         $this->_client = $googleClient;
+        $this->_user = $user;
 
-        if($this->_client) {
+        if ($this->_client) {
             $this->_client->setClientID('433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com');
             $this->_client->setClientSecret('iehdSyaJgoH5uwgsjwPYO9ro');
             $this->_client->setRedirectUri('http://apprentice.dev/incubate/login/index');
-            $this->_client->setScopes('email');
+            $this->_client->setScopes('email','scopes');
+
+            /*
+             * google_service_plus : interface for accessing google plus information
+             */
+            $this->_plus = new Google_Service_Plus($googleClient);
         }
     }
 
@@ -67,7 +83,7 @@ class Core_Helpers_GoogleAuth
          * then we set this token in a session. and return true for logic control
          *
          */
-        if(isset($_GET['code'])) {
+        if (isset($_GET['code'])) {
             $this->_client->authenticate($_GET['code']);
             $this->setToken($this->_client->getAccessToken());
 
@@ -87,114 +103,153 @@ class Core_Helpers_GoogleAuth
      */
     public function setToken($token)
     {
-        $_SESSION['access_token'] = $token;
-
+        Core_Helpers_Session::set('access_token', $token);
         $this->_client->setAccessToken($token);
     }
 
+    /*
+     * essentially logs the user out by ridding the session of its token
+     */
     public function logout()
     {
         unset($_SESSION['access_token']);
+        Core_Helpers_Session::deleteAll();
     }
 
-    public function getPayload()
+    /*
+     * To acquire the users email, we need to access the google clientwss attributes array 'payload',
+     *   'payload' =>
+            array (size=9)
+          'iss' => string 'accounts.google.com' (length=19)
+          'sub' => string '104525396091787311683' (length=21)
+          'azp' => string '433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com' (length=72)
+          'email' => string 'tayzerphazerlazerblazer@gmail.com' (length=33)
+          'at_hash' => string 'UQ82_t_wLvsTXmHDHp-7bA' (length=22)
+          'email_verified' => boolean true
+          'aud' => string '433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com' (length=72)
+          'iat' => int 1438206109
+          'exp' => int 1438209709
+     */
+    public function setEmail()
     {
-        $payload = $this->_client->verifyIdToken()->getAttributes()['payload'];
-        return $payload;
+        return $this->_client->verifyIdToken()->getAttributes()['payload']['email'];
+
     }
 
-    protected function storeUser($payload)
+    //returns set email
+    public function getEmail()
     {
-        //insert into user if new
+        return $this->_email;
     }
-//    public function setAllUserData()
-//    {
-//
-//        $this->userData = Core_Model_Database::getInstance()->get('user', array ('google_id', '=', $googleId))->first();
-//
-//        Core_Helpers_Session::set('userData', $this->userData);
-//
-//        Core_Helpers_Session::set('googleUserData', $this->googleUserData);
-//
-//        $_SESSION['access_token'] = $this->googleClient->getAccessToken();
-//    }
-/**}
 
-//    public $googleClie;
-//    public $googlePl;/
-//    public $googleUserDa;
-//    public $userDa;/
-//    public function __construct(Google_Client $client = nu)
-//  {
-//        $this->googleClient = $clie;
-//        //check if the user has requested to clear login informati,
-//        $this->googleClient->setClientID('433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com;
-//        $this->googleClient->setClientSecret('iehdSyaJgoH5uwgsjwPYO9ro;
-//        $this->googleClient->setRedirectUri('http://apprentice.dev/incubate/index/index;
-//        $this->googleClient->setScopes(array('https://www.googleapis.com/auth/plus.me';/
-//        $this->googlePlus = new Google_Service_Plus($this->googleClien;
-//  }/
-//    public function setAllUserDat)
-//  {
-//        $googleId = $this->googlePlus->people->get('me')->getId;/
-//        $this->googleUserData = $this->googlePlus->people->get('me;
-//        $this->userData = Core_Model_Database::getInstance()->get('user', array ('google_id', '=', $googleId))->first;/
-//        Core_Model_Request::getInstance()->setUser($this->userDat;/
-//        Core_Helpers_Session::set('userData', $this->userDat;/
-//        Core_Model_Request::getInstance()->setGoogle($this->googleUserDat;/
-//        Core_Helpers_Session::set('googleUserData', $this->googleUserDat;/
-//        $_SESSION['access_token'] = $this->googleClient->getAccessToken;
-//  }/
-//    public function getUserDat)
-//  {
-//        return $this->userDa;
-//  }/
-//    public function getGoogleUserDat)
-//  {
-//        return $this->googleUserDa;
-//  }
-//    public function checkRedirectCod)
-//  {
-//        if (isset($_GET['code']){
-//            $this->googleClient->authenticate($_GET['code';
-//            $_SESSION['access_token'] = $this->googleClient->getAccessToken;
-//            return tr;
-//      }
-//        return fal;
-//  }/
-//    public function checkAccessTokenSe)
-//  {
-//        if(isset($_SESSION['access_token']){
-//            $this->googleClient->setAccessToken($_SESSION['access_token';
-//      }
-//  }/
-//    public function checkAccessTokenExpire)
-//  {
-//        if ($this->googleClient->isAccessTokenExpired)
-//      {
-//            $this->logout;
-//      }
-//  }
-//    public function logou)
-//  {
-//        unset($_SESSION['access_token';
-//  }/
-//    public function isLoggedI)
-//  {
-//        return isset($_SESSION['access_token';
-//  }/
-//    public function getGoogleUserI)
-//  {
-//        $googleId = $this->googlePlus->people->get('me')->getId;
-//        return $google;
-//  }/
-//    public function getGoogleEmai)
-//  {
-//        $googleEmail = $this->googlePlus->people->get('me')->getEmails;
-//        return $googleEma;
-//  }/
-//    public function getGoogleNam)
-//  {
-//        $googleName = $this->googlePlus->people->get('me')->getDisplayName;
-//        return $googleNa;
-//  */  }
+
+    /*
+     * creates an instance of the google service plus class to retrieve all
+     * of the users google profile information
+     */
+    public function setGooglePlusInfo()
+    {
+        $this->_googleUser = $this->_plus->people->get('me');
+        return $this->_googleUser;
+    }
+
+    /*
+     * returns the google id, uses an instance of the google_servie plus class to retrieve it
+     */
+    public function getGooglePlusId()
+    {
+
+        $googleId = $this->_googleUser->getId();
+        return $googleId;
+    }
+    /*
+     * need to access google profile name to access users name,
+     * if we ever need more profile information manage here
+     */
+    public function getGooglePlusDisplayName()
+    {
+        $displayName = $this->_googleUser->getDisplayName();
+        return $displayName;
+    }
+
+    /*
+     * checks database against google user information, will use google id, and email to do this.
+     * if located, will store user info in the session
+     *
+     */
+    public function checkDatabaseForUser($googleId)
+    {
+        /*
+         * check user data for google id, against the person trying to log in
+         */
+        if($this->_user->checkUserDataForGoogleId($googleId)) {
+            Core_Helpers_Session::set('google_id', $googleId);
+            Core_Helpers_Session::set('logged_in', true);
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * this will be called in the even the user is attempting to login, but is not located in the database
+     * we will pass validation and see if the user has a blue acorn email addres
+     *
+     */
+    public function validateNewEmailAddress($email)
+    {
+        $blueAcorn =  substr($email, -14);
+        if($blueAcorn == "@blueacorn.com") {
+            return true;
+        }
+        return false;
+
+    }
+
+    /*
+     * will check if the user logged has admin status
+     */
+    public function checkAdminStatus()
+    {
+        //check return true if admin has been set, if it hasnt, return false
+        if(Core_Helpers_Session::get('admin_status')){
+            return true;
+        }
+        return false;
+
+
+    }
+    public function assignAdminStatus()
+    {
+        //set local variable, assigned session google_id
+        $googleId = Core_Helpers_Session::get('google_id');
+
+        //check admin status in database using google_id
+        if($this->_user->checkUserDataForAdminStatus($googleId)) {
+            Core_Helpers_Session::set('admin_status', true);
+        }
+        else {
+            Core_Helpers_Session::set('admin_status', false);
+        }
+    }
+
+    /*
+     * if we are adding a new user, blueacorn email address should have been validated already
+     *
+     * after user has been added to database, after checking, sttart the new users session.
+     */
+    public function addNewUser($googleId,$googleDisplayName, $email)
+    {
+        $this->_user->create('user', array(
+            'google_id' => $googleId,
+            'name'      => $googleDisplayName,
+            'email'     => $email,
+            'role'      => 'standard',
+            'joined'    => date('Y-m-d H:i:s')
+        ));
+
+        if($this->_user->checkUserDataForGoogleId($googleId)) {
+            Core_Helpers_Session::set('google_id', $googleId);
+            Core_Helpers_Session::set('logged_in', true);
+        }
+    }
+}

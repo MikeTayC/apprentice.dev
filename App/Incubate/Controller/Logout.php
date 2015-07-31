@@ -9,8 +9,8 @@ class Incubate_Controller_Logout extends Core_Controller_Abstract
 {
     public function indexAction()
     {
-        $auth = new Core_Helpers_GoogleAuth();
+        $auth = new Core_Model_Auth();
         $auth->logout();
-        $this->redirect('Incubate', 'Index', 'indexAction');
+        $this->redirect('Incubate', 'Login', 'indexAction');
     }
 }

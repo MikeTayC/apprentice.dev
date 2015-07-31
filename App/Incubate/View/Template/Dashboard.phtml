@@ -1,10 +1,6 @@
-<?php
-$userData = $this->getUser();
-$googleUserData = $this->getGoogle();
-?>
 <div id="header">
     <div class="logo"><a href="#">Blue<span>Acorn</span></a></div>
-    <div class="logout"><a href="http://apprentice.dev/incubate/index/logout">Logout of Google+</a></div>
+    <div class="logout"><a href="http://apprentice.dev/incubate/logout/index">Logout of Google+</a></div>
 </div>
 <a class="mobile" href="#">MENU</a>
 <div id="container">
@@ -13,13 +9,12 @@ $googleUserData = $this->getGoogle();
             <li><a href="../index/index">Dashboard</a></li>
             <li><a href="#">Search</a></li>
             <li><a href="http://apprentice.dev/incubate/lesson/index">Lessons</a></li>
-            <?php if($userData->role == 'admin' || $userData->role == 'teacher') {?>
-                <li><a href="../admin/students">Students</a></li>
-            <?php }if( $userData->role == 'admin'){ ?>
+            <?php if(Core_Helpers_Session::get('admin_status')) : ?>
+                <li><a href="../view/students">Students</a></li>
                 <li><a href="#">Teachers</a></li>
                 <li><a href="#">Admin</a></li>
-            <?php } if($userData->role == 'standard'){ ?>
-                <li><a href="#">Progress</a></li>
-            <?php } ?>
+            <?php else :?>
+                 <li><a href="#">Progress</a></li>
+            <?php endif; ?>
         </ul>
     </div>

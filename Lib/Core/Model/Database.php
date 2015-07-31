@@ -192,7 +192,10 @@ class Core_Model_Database
 
     public function first()
     {
-        return $this->_results[0];
+        if($this->_results) {
+            return $this->_results[0];
+        }
+        return null;
     }
 
     /*
