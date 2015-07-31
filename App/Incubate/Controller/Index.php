@@ -7,20 +7,15 @@
  */
 class Incubate_Controller_Index extends Core_Controller_Abstract
 {
-    public $view;
-    public $auth;
-    public $googleClient;
-
-    public function __construct()
-    {
-        if(!Core_Helpers_Session::get('logged_in')) {
-            $this->redirect('Incubate', 'Login', 'actionIndex');
-        }
-    }
     public function indexAction()
     {
+        if(!Core_Helpers_Session::get('logged_in')) {
+            $this->redirect('Incubate', 'Login', 'indexAction');
+        }
+        else {
             $view = $this->loadLayout();
 
             $view->render();
+        }
     }
 }

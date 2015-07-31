@@ -113,7 +113,7 @@ class Core_Model_Auth
     public function logout()
     {
         unset($_SESSION['access_token']);
-        Core_Helpers_Session::deleteAll();
+        Core_Helpers_Session::set('logged_in', false);
     }
 
     /*

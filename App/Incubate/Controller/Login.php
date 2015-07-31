@@ -47,7 +47,7 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
                 $auth->assignAdminStatus();
 
                 //direct to dashboard
-                header("Location: http://apprentice.dev/incubate/index/index");
+                $this->headerRedirect('incubate', 'index', 'index');
             }
 
             /*
@@ -68,7 +68,7 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
                 $auth->assignAdminStatus();
 
                 //direct to dashboard
-                header("Location: http://apprentice.dev/incubate/index/index");
+                $this->headerRedirect('incubate','index','index');
 
             }
 
