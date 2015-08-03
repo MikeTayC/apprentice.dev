@@ -34,17 +34,23 @@ abstract class Core_Controller_Abstract
 
 
     /**
+     *
+     * function enables internal redirects
      * @param $module : module/directory where controller is located controller
      * @param $controller : controller we are trying to gain access too
      * @param $action : the method within controller that we want to use
+     * @param $param : optional argument to allow for arguments in the redirect
      */
-    public function redirect($module,$controller,$action)
+    public function redirect($module,$controller,$action,$param = null)
     {
         $request = Core_Model_Request::getInstance();
         $request->setModule($module)
                 ->setController($controller)
-                ->setAction($action)
-                ->continueDispatching();
+                ->setAction($action);
+        if($param) {
+            $request->setParam($param);
+        }
+        $request->continueDispatching();
     }
 
     /*
