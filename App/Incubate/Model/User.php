@@ -67,6 +67,20 @@ class Incubate_Model_User
         return $this->_isLoggedIn;
     }
 
+    public function getAllLessonsFromLessonTable()
+    {
+        if($this->_data =  $this->db->getAll('lesson')->results()) {
+            return $this->_data;
+        }
+        return null;
+    }
 
+    public function getAllTagsFromTagTable()
+    {
+        if($this->_data = $this->db->getAll('tag')->results()) {
+            return $this->_data;
+        }
+        return null;
+    }
 
 }

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Core_Controller_Abstract
+ */
 abstract class Core_Controller_Abstract
 {
     public $block;
@@ -29,9 +32,11 @@ abstract class Core_Controller_Abstract
     }
 
 
-    /*
-     * internal redirect,
-     * TODO ADD A SETPARAMS MEHTHOD
+
+    /**
+     * @param $module : module/directory where controller is located controller
+     * @param $controller : controller we are trying to gain access too
+     * @param $action : the method within controller that we want to use
      */
     public function redirect($module,$controller,$action)
     {
