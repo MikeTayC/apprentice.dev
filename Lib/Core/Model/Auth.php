@@ -103,7 +103,7 @@ class Core_Model_Auth
      */
     public function setToken($token)
     {
-        Core_Helpers_Session::set('access_token', $token);
+        Core_Model_Session::set('access_token', $token);
         $this->_client->setAccessToken($token);
     }
 
@@ -113,7 +113,7 @@ class Core_Model_Auth
     public function logout()
     {
         unset($_SESSION['access_token']);
-        Core_Helpers_Session::set('logged_in', false);
+        Core_Model_Session::set('logged_in', false);
     }
 
     /*
@@ -183,8 +183,8 @@ class Core_Model_Auth
          * check user data for google id, against the person trying to log in
          */
         if($this->_user->checkUserDataForGoogleId($googleId)) {
-            Core_Helpers_Session::set('google_id', $googleId);
-            Core_Helpers_Session::set('logged_in', true);
+            Core_Model_Session::set('google_id', $googleId);
+            Core_Model_Session::set('logged_in', true);
             return true;
         }
         return false;
@@ -211,7 +211,7 @@ class Core_Model_Auth
     public function checkAdminStatus()
     {
         //check return true if admin has been set, if it hasnt, return false
-        if(Core_Helpers_Session::get('admin_status')){
+        if(Core_Model_Session::get('admin_status')){
             return true;
         }
         return false;
@@ -221,14 +221,14 @@ class Core_Model_Auth
     public function assignAdminStatus()
     {
         //set local variable, assigned session google_id
-        $googleId = Core_Helpers_Session::get('google_id');
+        $googleId = Core_Model_Session::get('google_id');
 
         //check admin status in database using google_id
         if($this->_user->checkUserDataForAdminStatus($googleId)) {
-            Core_Helpers_Session::set('admin_status', true);
+            Core_Model_Session::set('admin_status', true);
         }
         else {
-            Core_Helpers_Session::set('admin_status', false);
+            Core_Model_Session::set('admin_status', false);
         }
     }
 
@@ -248,8 +248,8 @@ class Core_Model_Auth
         ));
 
         if($this->_user->checkUserDataForGoogleId($googleId)) {
-            Core_Helpers_Session::set('google_id', $googleId);
-            Core_Helpers_Session::set('logged_in', true);
+            Core_Model_Session::set('google_id', $googleId);
+            Core_Model_Session::set('logged_in', true);
         }
     }
 }

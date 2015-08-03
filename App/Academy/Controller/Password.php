@@ -11,7 +11,7 @@ class Academy_Controller_Password extends Core_Controller_Abstract
     {
         $view = $this->loadLayout();
 
-        $user = new Academy_Model_User(Core_Helpers_Session::get(Core_Model_Config_Json::getModulesSessionConfig('session_name')));
+        $user = new Academy_Model_User(Core_Model_Session::get(Core_Model_Config_Json::getModulesSessionConfig('session_name')));
         if(!$user->isLoggedIn()){
             $this->redirect('Academy','Index', 'indexAction');
         }
@@ -28,7 +28,7 @@ class Academy_Controller_Password extends Core_Controller_Abstract
                         'password' => Core_Helpers_Hash::make(Core_Helpers_Input::get('new_password'), $salt),
                         'salt' => $salt
                     ));
-                    Core_Helpers_Session::flash('home', 'Your password has been changed..');
+                    Core_Model_Session::flash('home', 'Your password has been changed..');
                     $this->redirect('Academy','Index', 'indexAction');
 
                 }

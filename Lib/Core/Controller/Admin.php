@@ -20,7 +20,7 @@
 
     public function setUserData()
     {
-        if(!$this->user = Core_Helpers_Session::get('userData')){
+        if(!$this->user = Core_Model_Session::get('userData')){
             $this->redirect('Incubate', 'Index','indexAction');
         }
     }

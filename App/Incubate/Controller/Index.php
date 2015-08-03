@@ -9,7 +9,7 @@ class Incubate_Controller_Index extends Core_Controller_Abstract
 {
     public function indexAction()
     {
-        if(!Core_Helpers_Session::get('logged_in')) {
+        if(!Core_Model_Session::get('logged_in')) {
             $this->redirect('Incubate', 'Login', 'indexAction');
         }
         else {

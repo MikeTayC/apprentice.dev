@@ -9,7 +9,7 @@
             <li><a href="../index/index">Dashboard</a></li>
             <li><a href="#">Search</a></li>
             <li><a href="http://apprentice.dev/incubate/lesson/index">Lessons</a></li>
-            <?php if(Core_Helpers_Session::get('admin_status')) : ?>
+            <?php if(Core_Model_Session::get('admin_status')) : ?>
                 <li><a href="http://apprentice.dev/incubate/user/index">Students</a></li>
                 <li><a href="#">Teachers</a></li>
                 <li><a href="#">Admin</a></li>

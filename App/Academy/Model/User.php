@@ -24,8 +24,8 @@ class Academy_Model_User
          * if user is not defined
          */
         if(!$user) {
-            if(Core_Helpers_Session::exists($this->_sessionName)) {
-                $user = Core_Helpers_Session::get($this->_sessionName);
+            if(Core_Model_Session::exists($this->_sessionName)) {
+                $user = Core_Model_Session::get($this->_sessionName);
 
                 if($this->find($user)) {
                     $this->_isLoggedIn = true;
@@ -66,14 +66,14 @@ class Academy_Model_User
     {
         if(!$username && !$password && $this->exists()) {
             //log user in by data id
-            Core_Helpers_Session::set($this->_sessionName, $this->data()->id);
+            Core_Model_Session::set($this->_sessionName, $this->data()->id);
             return true;
         }
         else {
             $user = $this->find($username);
             if ($user) {
                 if ($this->data()->password === Core_Helpers_Hash::make($password, $this->data()->salt)) {
-                    Core_Helpers_Session::set($this->_sessionName, $this->data()->id);
+                    Core_Model_Session::set($this->_sessionName, $this->data()->id);
 
                     /*
                      * if remember me is checked, we want to generate a hash, check to see if it doesnt already exists
@@ -164,8 +164,8 @@ class Academy_Model_User
     public function logout()
     {
         $this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
-        Core_Helpers_Session::delete($this->_sessionName);
-        Core_Helpers_Session::delete($this->_cookieName);
+        Core_Model_Session::delete($this->_sessionName);
+        Core_Model_Session::delete($this->_cookieName);
         Core_Helpers_Cookie::delete($this->_cookieName);
     }
 }

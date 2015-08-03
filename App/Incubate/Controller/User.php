@@ -9,7 +9,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 {
     public function indexAction()
     {
-        if (!Core_Helpers_Session::get('logged_in') || !Core_Helpers_Session::get('admin_status')) {
+        if (!Core_Model_Session::get('logged_in') || !Core_Model_Session::get('admin_status')) {
             $this->redirect('Incubate', 'Login', 'indexAction');
         }
         else {
@@ -23,6 +23,11 @@ class Incubate_Controller_User extends Core_Controller_Abstract
             //gets all users in user table
             $allUsers = $user->getAllUserDataFromUserTable();
 
+            /*
+             * load layout,
+             * set data on the content block
+             * render
+             */
             $view = $this->loadLayout();
             $view->getContent()->setData('userData', $allUsers);
             $view->render();

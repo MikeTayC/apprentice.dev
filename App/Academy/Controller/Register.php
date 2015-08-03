@@ -31,7 +31,7 @@ class Academy_Controller_Register extends Core_Controller_Abstract
 
                     ));
 
-                    Core_Helpers_Session::flash('home', 'You have been registered and can now log in');
+                    Core_Model_Session::flash('home', 'You have been registered and can now log in');
                 } catch(Exception $e) {
                     //probably be better to redirect with error message
                     die($e->getMessage());

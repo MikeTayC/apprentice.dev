@@ -11,7 +11,7 @@ class Academy_Controller_Update extends Core_Controller_Abstract
     {
         $view = $this->loadLayout();
 
-        $user = new Academy_Model_User(Core_Helpers_Session::get(Core_Model_Config_Json::getModulesSessionConfig('session_name')));
+        $user = new Academy_Model_User(Core_Model_Session::get(Core_Model_Config_Json::getModulesSessionConfig('session_name')));
         if($user->isLoggedIn()){
             $view->getContent()->setUser($user->data());
         }

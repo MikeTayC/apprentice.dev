@@ -2,14 +2,44 @@
     $userData = $this->getData('userData');
 ?>
 
-
-
 <div class="content">
-    <div id="box">
-        <div class="button"> help</div>
-    </div>
-    <h1>Students</h1>
-    <p>whatever</p>
+<table class="uk-table uk-table-hover uk-table-striped">
+    <h1>Bators</h1>
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Group
+        </th>
+        <th>
+            Role
+        </th>
+        <th>
+            Tags
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($userData as $user) {
+        echo '<tr>';
+        echo '<td>' . $user->name . '</td>';
+        echo '<td>' . $user->email . '</td>';
+        echo '<td>' . 'n/a' . '</td>';
+        echo '<td>' . $user->role . '</td>';
+        echo '</tr>';
+        }
+    ?>
+    </tbody>
+</table>
+
     <?php foreach($userData as $user) {?>
     <div id="box">
         <div class="box-top"><?php echo $user->name; ?></div>

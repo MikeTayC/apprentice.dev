@@ -4,7 +4,7 @@ class Academy_Controller_Index extends Core_Controller_Abstract
     public function indexAction()
     {
         $view = $this->loadLayout();
-        if(Core_Helpers_Cookie::exists(Core_Model_Config_Json::getModulesCookieConfig('cookie_name')) && !Core_Helpers_Session::exists(Core_Model_Config_Json::getModulesSessionConfig('session_name'))) {
+        if(Core_Helpers_Cookie::exists(Core_Model_Config_Json::getModulesCookieConfig('cookie_name')) && !Core_Model_Session::exists(Core_Model_Config_Json::getModulesSessionConfig('session_name'))) {
             $hash = Core_Helpers_Cookie::get(Core_Model_Config_Json::getModulesCookieConfig('cookie_name'));
             $hashCheck = Core_Model_Database::getInstance()->get('users_session', array('hash', '=', $hash));
 

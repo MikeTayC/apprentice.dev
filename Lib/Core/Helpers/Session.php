@@ -5,7 +5,7 @@
  * Date: 7/9/15
  * Time: 10:53 AM
  */
-class Core_Helpers_Session extends Core_Model_Object
+class Core_Model_Session extends Core_Model_Object
 {
     public static function exists($name)
     {
