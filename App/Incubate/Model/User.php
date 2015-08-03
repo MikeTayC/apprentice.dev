@@ -23,6 +23,12 @@ class Incubate_Model_User
         }
     }
 
+    public function get($table, $fields = array())
+    {
+        $data = $this->_db->get($table, $fields)->first();
+        return $data;
+    }
+
     public function checkUserDataForGoogleId($googleId)
     {
         /*

@@ -3,30 +3,30 @@
 ?>
 
 <div class="content">
-<div id="form-main">
-    <div id="form-div">
-        <form class="form" id="form1" action="http://apprentice.dev/incubate/create/lesson" method="post">
+    <div id="form-main">
+        <div id="form-div">
+            <form class="form" id="form1" action="http://apprentice.dev/incubate/create/index/lesson" method="post">
 
-            <p class="name">
-                <input name="name" type="text" placeholder="Name" id="name" />
-            </p>
+                <p class="name">
+                    <input name="name" type="text" placeholder="Name" id="name" />
+                </p>
 
-            <p class="text">
-                <textarea name="description" id="description" placeholder="Description"></textarea>
-            </p>
+                <p class="text">
+                    <textarea name="description" id="description" placeholder="Description"></textarea>
+                </p>
 
-            <?php foreach($tags as $tag) {?>
-            <p>
-                <input name="<?php echo $tag->tag_id;?>" type="checkbox" id="tags" value="<?php echo $tag->tag_id; ?>"><?php echo $tag->name;?><br>
-            </p>
-            <?php }?>
+                <?php foreach($tags as $tag) {?>
+                <p>
+                    <input name="<?php echo $tag->tag_id;?>" type="checkbox" id="tags" value="<?php echo $tag->tag_id; ?>"><?php echo $tag->name;?><br>
+                </p>
+                <?php }?>
 
 
-            <div class="submit">
-                <input type="submit" value="Create" id="button-blue"/>
-                <div class="ease"></div>
-            </div>
-        </form>
+                <div class="submit">
+                    <input type="submit" value="Create" id="button-blue"/>
+                    <div class="ease"></div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 </div>
