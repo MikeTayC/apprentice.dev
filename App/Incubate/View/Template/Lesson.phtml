@@ -5,8 +5,10 @@
 ?>
 <div class="content">
 
-    <a href="http://apprentice.dev/incubate/create/lesson">Create new lesson</a><br>
-    <a href="http://apprentice.dev/incubate/create/tag">Create new tag</a><br>
+    <?php if(Core_Model_Session::get('admin_status')) : ?>
+        <a href="http://apprentice.dev/incubate/create/lesson">Create new lesson</a><br>
+        <a href="http://apprentice.dev/incubate/create/tag">Create new tag</a><br>
+    <?php endif; ?>
 
     <?php foreach($lessons as $lesson) {?>
         <div id="box">
