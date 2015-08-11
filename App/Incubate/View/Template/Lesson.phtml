@@ -19,8 +19,8 @@
                     foreach($maps as $map ){
                         if($map->lesson_id == $lesson->lesson_id){
                             foreach($tags as $tag) {
-                                if($map->tag_id == $tag->tag_id) {
-                                    echo $tag->name . '<br>';
+                                if($map->tag_id == $tag->id) {
+                                    echo $tag->value . '<br>';
                                 }
                             }
                         }

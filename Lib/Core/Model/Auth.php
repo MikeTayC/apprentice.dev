@@ -41,7 +41,7 @@ class Core_Model_Auth
             $this->_client->setClientID('433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com');
             $this->_client->setClientSecret('iehdSyaJgoH5uwgsjwPYO9ro');
             $this->_client->setRedirectUri('http://apprentice.dev/incubate/login/index');
-            $this->_client->setScopes('email','scopes');
+            $this->_client->setScopes('email','profile');
 
             /*
              * google_service_plus : interface for accessing google plus information

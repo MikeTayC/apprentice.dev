@@ -1,25 +1,18 @@
-<?php
-    $tags = $this->getTag();
-?>
 <div class="content">
     <div id="form-main">
         <div id="form-div">
-            <form class="form" id="form1" action="http://apprentice.dev/incubate/create/tag" method="post">
 
-                <p class="name">
-                    <input name="name" id="name"type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Tag Name"  />
-                </p>
+            <form class="uk-form" id="form" action="http://apprentice.dev/incubate/create/index/tag" method="post">
+            <h2>Tag Creator</h2>
+                <p></p>
+                <ul class="tagit ui-widget ui-widget-content ui-corner-all" id="myTags"></ul>
 
                 <div class="submit">
                     <input type="submit" value="Create" id="button-blue"/>
                     <div class="ease"></div>
                 </div>
             </form>
+
         </div>
     </div>
-    <?php foreach($tags as $tag) {?>
-        <div id="box">
-            <div class="box-top"><?php echo $tag->name; ?></div>
-        </div>
-    <?php }?>
 </div>

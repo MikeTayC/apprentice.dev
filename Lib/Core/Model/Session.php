@@ -18,7 +18,10 @@ class Core_Model_Session extends Core_Model_Object
     }
     public static function get($name)
     {
-        return $_SESSION[$name];
+        if(self::exists($name)) {
+            return $_SESSION[$name];
+        }
+        return null;
     }
 
     public static function delete($name)

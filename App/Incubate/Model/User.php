@@ -60,6 +60,9 @@ class Incubate_Model_User
         return $this->_data;
     }
 
+    /*
+     * get all users data from tablef
+     */
     public function getAllUserDataFromUserTable()
     {
         if($this->_data = $this->_db->getAll('user')->results()) {
@@ -73,6 +76,9 @@ class Incubate_Model_User
         return $this->_isLoggedIn;
     }
 
+    /*
+     * retrieves all lessons informatino from lesson table
+     */
     public function getAllLessonsFromLessonTable()
     {
         if($lesson =  $this->_db->getAll('lesson')->results()) {
@@ -81,6 +87,9 @@ class Incubate_Model_User
         return null;
     }
 
+    /*
+     * returns all tag inforamation from tag table
+     */
     public function getAllTagsFromTagTable()
     {
         if($tags = $this->_db->getAll('tag')->results()) {
@@ -89,12 +98,46 @@ class Incubate_Model_User
         return null;
     }
 
+    /*
+     * returns a json encoded version of all tag names
+     */
+    public function getAllTagNames()
+    {
+        $tags = $this->getAllTagsFromTagTable();
+        foreach ($tags as $tag) {
+            $tagNameArray[] = $tag->value;
+        }
+
+        return $tagNameArray;
+    }
+
+    public function jsonEncode($value)
+    {
+        $jsonValue = json_encode($value);
+        return $jsonValue;
+    }
+
     public function getTagLessonMap()
     {
         if($map = $this->_db->getAll('lesson_tag_map')->results()) {
             return $map;
         }
         return null;
+    }
+
+    /*
+     * searches for new tags to be added to the array
+     */
+    public function AddNewTagsToDb($tagArray)
+    {
+        $dbTags = $this->getAllTagNames();
+        foreach($tagArray as $tag) {
+            if(!in_array($tag, $dbTags)) {
+                $this->create('tag', array(
+                    'value' => $tag
+                ));
+            }
+        }
     }
 
 }

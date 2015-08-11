@@ -36,15 +36,18 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
         if (!empty($_POST)) {
 
             /*
-             * set all post information, if the post variable is numeric, it is a tag
-             * add it to the $tagArray
+             * set all post information,
+             *
+             * if the post variable is tag, it is a comma seprated list, explode it into $tagArray
              */
-            $tagArray = array();
-            foreach ($_POST as $post) {
-                if (is_numeric($post)) {
-                    $tagArray[] = $post;
-                }
-            }
+            $tagArray = explode(',', $_POST['tags']);
+
+            /*
+             * adds any newly entered tags into database,
+             *
+             * takes an array of $tags as argument
+             */
+            $user->AddNewTagsToDb($tagArray);
 
             /*
              * add the lesson to the database,
@@ -52,26 +55,23 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
              */
             $user->create('lesson', array(
                 'name' => $_POST['name'],
-                'description' => $_POST['description']
+                'description' => $_POST['description'],
+                'duration' => $_POST['duration']
             ));
 
             $newLesson = $user->get('lesson', array('name', '=', $_POST['name']));
 
             foreach ($tagArray as $tag) {
+                $tagInfo = $user->get('tag', array('value', '=', $tag));
                 $user->create('lesson_tag_map', array(
                     'lesson_id' => $newLesson->lesson_id,
-                    'tag_id' => $tag
+                    'tag_id' => $tagInfo->id
                 ));
             }
 
             $this->redirect('Incubate', 'Lesson', 'indexAction');
         }
         else {
-            $tag = $user->getAllTagsFromTagTable();
-
-            if ($tag) {
-                $view->getContent()->setTag($tag);
-            }
             $view->render();
         }
     }
@@ -85,20 +85,16 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
         //load user model
         $user = Bootstrap::getModel('incubate/user');
 
-        //if post is set, add theh created tag to the database
+        /*
+         * if post is set, add theh created tag to the database
+         *
+         * TODO FORM VALIDATION
+         */
         if(!empty($_POST)) {
-
-            $user->create('tag', array(
-               'name' => $_POST['name']
-            ));
+            $user->AddNewTagstoDb($_POST['tags']);
         }
 
-        //retrieve all tags from database
-        $tag = $user->getAllTagsFromTagTable();
-        if($tag) {
-            $view->getContent()->setTag($tag);
-        }
-        $view->render();
+        $this->redirect('Incubate', 'Lesson', 'indexAction');
     }
 
 }

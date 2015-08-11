@@ -26,16 +26,14 @@ abstract class Page_View_Abstract extends Core_Model_Object
 
     public function getAssets(){
         $assets = $this->sortAssets();
-        foreach($assets as $nodeKey => $nodeValue){
-            if($nodeValue['type'] === 'css'){
-                 echo "<link href='" . '/assets/css/' . $nodeValue['file'] . "' rel='stylesheet'>";
-            }
-            elseif($nodeValue['type'] === 'js'){
-                echo "<script src='" . '/assets/' . $nodeValue['file'] . "'></script>";
-            }
-            elseif($nodeValue['type'] === 'jquery'){
-                echo "<script src='" . $nodeValue['file'] . "'></script>";
-            }
+        foreach($assets as $nodeKey => $nodeValue) {
+            if ($nodeValue['type'] === 'css') {
+                echo "<link href='" . '/assets/css/' . $nodeValue['file'] . "' rel='stylesheet'>" . "\n";
+            } elseif ($nodeValue['type'] === 'js') {
+                echo "<script src='" . '/assets/' . $nodeValue['file'] . "'></script>" . "\n";
+            } elseif ($nodeValue['type'] === 'jquery') {
+                echo "<script src='" . $nodeValue['file'] . "'></script>" . "\n";
+            };
         }
     }
 
