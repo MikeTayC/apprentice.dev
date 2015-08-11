@@ -5,7 +5,8 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
     public function indexAction($param)
     {
         if(!Core_Model_Session::get('logged_in') || !Core_Model_Session::get('admin_status')) {
-            $this->redirect('Incubate', 'Login', 'indexAction');
+            $this->headerRedirect('Incubate', 'Login', 'index');
+            exit;
         }
 
         if($param) {
