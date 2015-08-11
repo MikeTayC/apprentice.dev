@@ -14,6 +14,9 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
 
             $this->redirect('Incubate', 'Create', $param . 'Action');
         }
+        else {
+            $this->redirect('Incubate','Lesson', 'Index');
+        }
     }
 
     public function lessonAction()
