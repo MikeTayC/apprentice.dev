@@ -78,23 +78,26 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
 
     public function tagAction()
     {
-
-        //load view
-        $view = $this->loadLayout();
-
         //load user model
         $user = Bootstrap::getModel('incubate/user');
 
         /*
-         * if post is set, add theh created tag to the database
+         * if post is set, add the created tag to the database
          *
          * TODO FORM VALIDATION
          */
         if(!empty($_POST)) {
-            $user->AddNewTagstoDb($_POST['tags']);
+
+            $tagArray = explode(',', $_POST['tags']);
+            $user->AddNewTagsToDb($tagArray);
+            $this->redirect('Incubate', 'Lesson', 'indexAction');
+        }
+        else {
+            //load view
+            $this->loadLayout();
+            $this->render();
         }
 
-        $this->redirect('Incubate', 'Lesson', 'indexAction');
     }
 
 }

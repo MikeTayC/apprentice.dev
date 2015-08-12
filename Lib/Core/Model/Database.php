@@ -116,7 +116,38 @@ class Core_Model_Database
         }
         return false;
     }
+    /*
+     * abstraction, wrapper function to make it easier and readible to manipulate db data
+     * $action: select/insert..
+     * $table = db table
+     * $where = where clause
+     * count($where) === 3, need a field/operator/value
+     */
+    public function multiAction($action, $table, $where = array(), $where2 = array())
+    {
+        if(count($where) === 3 && count($where2) === 3) {
+            $operators = array('=','<','>','<=','>=');
 
+            $field = $where[0];
+            $operator = $where[1];
+            $value = $where[2];
+
+            $field2 = $where2[0];
+            $operator2 = $where2[1];
+            $value2 = $where2[2];
+
+            if(in_array($operator, $operators)){
+                /*
+                 * TODO TRY WHERE 1=1, TO GET ALL POST WHEN THERE ARE NO CHECKS
+                 */
+                $sql = "{$action} FROM {$table} WHERE {$field} {$operator} ? AND {$field2} {$operator2} ?";
+                if(!$this->query($sql, array($value, $value2))->error()){
+                    return $this;
+                }
+            }
+        }
+        return false;
+    }
     /*
      * EXAMPLE USE:
      * $user = Core_Model_Database::getInstance()->get('users', array('username', '=', 'mctaystee'));
@@ -129,6 +160,11 @@ class Core_Model_Database
     public function getAll($table)
     {
         return $this->action('SELECT * ', $table, array('1','=','1'));
+    }
+
+    public function getMultiArgument($table, $where, $where2)
+    {
+        return $this->multiAction('SELECT *', $table, $where, $where2);
     }
 
     public function delete($table, $where)

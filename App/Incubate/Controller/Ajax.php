@@ -11,6 +11,7 @@ class Incubate_Controller_Ajax extends Core_Controller_Abstract
     {
         if(!empty($_GET['id'])) {
             switch($_GET['id']) {
+
                 case 'tag' :
                     $user = Bootstrap::getModel('incubate/user');
                     $tagNames = $user->getAllTagNames();
@@ -18,8 +19,18 @@ class Incubate_Controller_Ajax extends Core_Controller_Abstract
                     echo $jsonTags;
                     break;
 
-                default:
-                    echo 'Error loading json';
+                case 'lesson' :
+                    $user = Bootstrap::getModel('incubate/user');
+                    $lessonNames = $user->getAllLessonNames();
+                    $jsonLessons = $user->jsonEncode($lessonNames);
+                    echo $jsonLessons;
+                    break;
+
+                case 'student' :
+                    $user = Bootstrap::getModel('incubate/user');
+                    $studentNames = $user->getAllStudentNames();
+                    $jsonStudents = $user->jsonEncode($studentNames);
+                    echo $jsonStudents;
                     break;
 
             }

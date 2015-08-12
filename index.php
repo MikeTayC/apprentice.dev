@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 require_once "Lib/Bootstrap.php";
 require_once 'google-api-php-client/src/Google/autoload.php';
 require_once 'google-api-php-client/src/Google/Client.php';
+require_once 'google-api-php-client/src/Google/Service/Calendar.php';
 
 Bootstrap::setIncludePath();
 

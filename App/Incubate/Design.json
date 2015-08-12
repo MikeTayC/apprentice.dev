@@ -21,13 +21,13 @@
                 "type" : "js",
                 "file" : "js/tag-it.js"
               },
-              "form_js" : {
-                "type" : "js",
-                "file" : "js/form_js.js"
-              },
               "form_css" : {
                 "type" : "css",
                 "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
               }
             }
           }
@@ -121,10 +121,81 @@
         }
       },
       "incubate_schedule_index" : {
-
+        "content" : {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/Schedule.phtml"
+        }
+      },
+      "incubate_schedule_lesson" : {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "schedule_js" : {
+                "type" : "js",
+                "file" : "js/schedule_js.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/ScheduleLesson.phtml"
+        }
+      },
+      "incubate_schedule_student" : {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "student_js" : {
+                "type" : "js",
+                "file" : "js/student_js.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              }
+            }
+          }
+        },
         "content" : {
           "type" : "page/view",
-          "template" : "App/Incubate/View/Template/Schedule.phtml"
+          "template" : "App/Incubate/View/Template/ScheduleStudent.phtml"
         }
       },
       "incubate_tagit_index" : {
