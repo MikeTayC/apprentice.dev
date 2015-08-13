@@ -1,11 +1,10 @@
 <?php
     $userData = $this->getData('userData');
+    $userCompletedCourses = $this->getData('userCompletedCourses');
+    $totalLessonCount = $this->getData('totalLessonCount');
 ?>
 
 <div class="content">
-    <span id="clock"></span>
-    <div data-countdown="2016/01/01"></div>
-    <div data-countdown="2017/01/01"></div>
 <table class="uk-table uk-table-hover uk-table-striped">
     <h1>Bators</h1>
     <thead>
@@ -14,29 +13,31 @@
             Name
         </th>
         <th>
-            Email
-        </th>
-        <th>
-            Title
+            Incubation Time
         </th>
         <th>
             Group
         </th>
         <th>
-            Role
+            Percentage of Courses Taken
         </th>
         <th>
-            Tags
+            Admin Stuff
         </th>
     </tr>
     </thead>
     <tbody>
     <?php foreach($userData as $user) {
+        $incubationTimer = date('Y-m-d', strtotime($user->joined . "+90 days"));
+        $userProgress = $userCompletedCourses[$user->name] / $totalLessonCount * 100;
         echo '<tr>';
         echo '<td>' . $user->name . '</td>';
-        echo '<td>' . $user->email . '</td>';
-        echo '<td>' . 'n/a' . '</td>';
-        echo '<td>' . $user->role . '</td>';
+        echo '<td><div data-countdown="' . $incubationTimer . '"></div></td>';
+        echo '<td>' . $user->groups . '</td>';
+        echo '<td>';
+        echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $userProgress .'%">' . $userProgress . '%</div></div>';
+        echo '</td>';
+        echo '<td><a class="uk-button" href="http://apprentice.dev/incubate/user/profile/' . $user->user_id . '">Edit</a></td>';
         echo '</tr>';
         }
     ?>

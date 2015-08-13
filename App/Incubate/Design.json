@@ -122,6 +122,10 @@
                 "type" : "js",
                 "file" : "js/jquery.countdown.js"
               },
+              "progress_bar" : {
+                "type" : "css",
+                "file" : "progress.almost-flat.css"
+              },
               "user_css" : {
                 "type" : "css",
                 "file" : "user_index.css"

@@ -286,4 +286,10 @@ class Incubate_Model_User
         }
     }
 
+    public function getCount($table, $fields = array())
+    {
+        $data = $this->_db->get($table, $fields)->count();
+        return $data;
+    }
+
 }

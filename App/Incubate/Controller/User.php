@@ -22,6 +22,17 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
             //gets all users in user table
             $allUsers = $user->getAllUserDataFromUserTable();
+                //$user->get('user', array('1', '=', '1'));
+
+            $completedCourses = array();
+
+            foreach($allUsers as $key => $users)
+            {
+                $courseCount = $user->getCount('completed_courses', array('user_id', '=', $users->user_id));
+                $completedCourses[$users->name] = $courseCount;
+            }
+
+            $totalLessonCount = $user->getCount('lesson', array('1', '=', '1'));
 
             /*
              * load layout,
@@ -30,7 +41,24 @@ class Incubate_Controller_User extends Core_Controller_Abstract
              */
             $view = $this->loadLayout();
             $view->getContent()->setData('userData', $allUsers);
+            $view->getContent()->setData('userCompletedCourses', $completedCourses);
+            $view->getContent()->setData('totalLessonCount', $totalLessonCount);
             $view->render();
         }
+    }
+
+    public function profileAction($userId)
+    {
+        $view = $this->loadLayout();
+
+        $user = Bootstrap::getModel('incubate/user');
+        if($userId) {
+
+            $userData = $user->get('user', array('user_id', '=', $userId));
+
+        }
+
+
+        $view->render();
     }
 }
