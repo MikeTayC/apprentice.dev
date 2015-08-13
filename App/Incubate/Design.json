@@ -115,6 +115,24 @@
         }
       },
       "incubate_user_index" : {
+        "header" : {
+          "assets" :{
+            "1" : {
+              "jquery_countdown" : {
+                "type" : "js",
+                "file" : "js/jquery.countdown.js"
+              },
+              "user_css" : {
+                "type" : "css",
+                "file" : "user_index.css"
+              },
+              "user_js" : {
+                "type" : "js",
+                "file" : "js/user_index.js"
+              }
+            }
+          }
+        },
         "content" : {
           "type" : "page/view",
           "template" : "App/Incubate/View/Template/Users.phtml"
