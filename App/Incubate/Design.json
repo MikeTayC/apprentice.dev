@@ -198,11 +198,78 @@
           "template" : "App/Incubate/View/Template/ScheduleStudent.phtml"
         }
       },
-      "incubate_tagit_index" : {
-        "type" : "page/view",
-        "template" : "App/Incubate/View/Template/Tagit.phtml"
+      "incubate_schedule_datetime" : {
+        "header"  : {
+          "assets" :{
+            "1" : {
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "datepicker_css" : {
+                "type" : "css",
+                "file" : "datepicker.almost-flat.css"
+              },
+              "datepicker_js" : {
+                "type" :  "js",
+                "file" : "js/components/datepicker.js"
+              },
+              "autocomplete_css" : {
+                "type" : "css",
+                "file" : "autocomplete.almost-flat.css"
+              },
+              "autocomplete_js" : {
+                "type" : "js",
+                "file" : "js/components/autocomplete.js"
+              },
+              "timpicker_js" : {
+                "type" : "js",
+                "file" : "js/components/timepicker.js"
+              }
+            }
+          }
+        }    ,
+        "content" : {
+          "type": "page/view",
+          "template" : "App/Incubate/View/Template/ScheduleDatetime.phtml"
+        }
+      },
+      "incubate_schedule_confirmation" : {
+        "header" : {
+          "assets" :{
+            "1" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "form_css": {
+                "type": "css",
+                "file" : "form_css.css"
+              },
+              "confirmation_js": {
+                "type" : "js",
+                "file": "js/student_js.js"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/ScheduleConfirmation.phtml"
+        }
       }
-
     }
   }
 }

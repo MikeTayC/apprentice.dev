@@ -109,6 +109,13 @@ class Incubate_Model_User
         return null;
     }
 
+    public function getUserEmail($studentName) {
+        if($user = $this->get('user', array('name', '=', $studentName))) {
+            return $user->email;
+        }
+        return null;
+    }
+
     /*
      * returns all tag inforamation from tag table
      */
@@ -120,6 +127,13 @@ class Incubate_Model_User
         return null;
     }
 
+    public function getTagsFromTagTableByTagId($tagId)
+    {
+        if($tag = $this->get('tag', array('id', '=', $tagId))) {
+            return $tag->value;
+        }
+        return null;
+    }
     /*
      * returns a json encoded version of all tag names
      */
@@ -161,6 +175,14 @@ class Incubate_Model_User
     {
         if($map = $this->_db->getAll('lesson_tag_map')->results()) {
             return $map;
+        }
+        return null;
+    }
+
+    public function getTagLessonMapFromLessonId($lesson_id)
+    {
+        if($lessonTags = $this->getAll('lesson_tag_map', array('lesson_id', '=', $lesson_id))){
+            return $lessonTags;
         }
         return null;
     }

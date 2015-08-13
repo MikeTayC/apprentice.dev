@@ -36,17 +36,24 @@ class Core_Model_Calendar
 
         $googleClient->setAssertionCredentials($cred);
 
-        $cals = $this->service->calendarList->listCalendarList();
-        echo '<pre>';
-        print_r($cals);
-        echo '</pre>';
+//        $cals = $this->service->calendarList->listCalendarList();
+//        echo '<pre>';
+//        print_r($cals);
+//        echo '</pre>';
     }
 
-    public function setEvent($title, $desc, $eventStart, $eventEnd)
+    public function setEvent($title, $description, $eventStart, $eventEnd, $inviteList = array())
     {
+        foreach ($inviteList as $email) {
+            if($email) {
+                $attendee = new Google_Service_Calendar_EventAttendee();
+                $attendee->setEmail($email);
+                $attendeeArray[] = $attendee;
+            }
+        }
         $event = new Google_Service_Calendar_Event();
         $event->setSummary($title);
-        $event->setDescription($desc);
+        $event->setDescription($description);
 
         $start = new Google_Service_Calendar_EventDateTime();
         $start->setDateTime($eventStart);
@@ -56,9 +63,14 @@ class Core_Model_Calendar
         $end->setDateTime($eventEnd);
         $event->setEnd($end);
 
-        $createdEvent = $this->service->events->insert($this->calendarId, $event);
+        $event->setAttendees($attendeeArray);
 
-        echo '<pre>';
-        echo var_dump($createdEvent);
+        $optArgs = array(
+          "sendNotifications" => true
+        );
+
+        $createdEvent = $this->service->events->insert($this->calendarId, $event, $optArgs);
+
+
     }
 }

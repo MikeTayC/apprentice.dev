@@ -14,12 +14,6 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
             $this->headerRedirect('Incubate', 'Login', 'index');
             exit;
         }
-
-        if($param  && Core_Model_Session::get('admin_status')) {
-            $param = strtolower($param);
-
-            $this->redirect('Incubate', 'Schedule', $param . 'Action');
-        }
         else {
             $this->loadLayout();
             $this->render();
@@ -28,6 +22,12 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 
     public function lessonAction()
     {
+        //check for admin status, if not admin send back to schedule index
+        if(!Core_Model_Session::get('admin_status')) {
+            $this->headerRedirect('incubate', 'schedule', 'index');
+            exit;
+        }
+
         if(!empty($_POST) && isset($_POST['lesson_name'])) {
 
             //store post in local variable
@@ -46,7 +46,7 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
             Core_Model_Session::set('lesson_name', $lessonName);
 
             //redirect to next stage in scheduling, students invite list
-            $this->redirect('Incubate', 'Schedule', 'studentAction');
+            $this->headerRedirect('incubate', 'schedule', 'student');
         }
         else {
             $this->loadLayout();
@@ -54,20 +54,13 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
         }
     }
 
-    public function createAction()
-    {
-        if(!empty($_POST)) {
-
-        }
-        $client = new Google_Client();
-
-        $calendar = new Core_Model_Calendar($client);
-
-        $calendar->setEvent('first event', 'this is a test', '2015-08-07T09:00:00-07:00', '2015-08-07T17:00:00-07:00');
-    }
-
     public function studentAction()
     {
+        //check for admin status, if not admin send back to schedule index
+        if(!Core_Model_Session::get('admin_status')) {
+            $this->headerRedirect('incubate', 'schedule', 'index');
+            exit;
+        }
         //load view
         $view = $this->loadLayout();
 
@@ -76,7 +69,16 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 
         //check post is not empty and set
         if(!empty($_POST) && isset($_POST['student_list'])) {
-        
+
+            //store post variable in local variable
+            $student_list = $_POST['student_list'];
+
+            //store student list in session for later confirmation
+            Core_Model_Session::set('student_list', $student_list);
+
+            //redirect to next page in scheduling process
+            $this->headerRedirect('incubate','schedule', 'datetime');
+            exit;
         }
         else {
 
@@ -98,6 +100,135 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
             $view->getContent()->setStudents($studentInviteList);
 
             $view->render();
+        }
+    }
+
+    public function datetimeAction()
+    {
+        //check for admin status, if not admin send back to schedule index
+        if(!Core_Model_Session::get('admin_status')) {
+            $this->headerRedirect('incubate', 'schedule', 'index');
+            exit;
+        }
+
+
+        if(!empty($_POST) && isset($_POST['date']) && isset($_POST['start_time'])) {
+
+            //store post variables in local ones
+            $date = $_POST['date'];
+            $start_time = $_POST['start_time'];
+
+            //store date and start time in session for later confirmation
+            Core_Model_Session::set('date', $date);
+            Core_Model_Session::set('start_time', $start_time);
+
+            //redirect to final confirmation page
+            $this->headerRedirect('incubate', 'schedule', 'confirmation');
+            exit;
+        }
+        else {
+            $view = $this->loadLayout();
+            $view->render();
+        }
+    }
+
+    public function confirmationAction()
+    {
+        //check for admin status, if not admin send back to schedule index
+        if(!Core_Model_Session::get('admin_status')) {
+            $this->headerRedirect('incubate', 'schedule', 'index');
+            exit;
+        }
+
+        //store session varialbes in local variables
+        $lesson_name  = Core_Model_Session::get('lesson_name');
+        $student_list = Core_Model_Session::get('student_list');
+        $date         = Core_Model_Session::get('date');
+        $start_time   = Core_Model_Session::get('start_time');
+
+        //if any of these are null and not set, the form is incomplete, send back to index
+        if(!($lesson_name && $student_list && $date && $start_time)) {
+            echo "You must have forgot to fill something out, try again.";
+            $this->headerRedirect('incubate', 'schedule', 'index');
+        }
+
+        $view = $this->loadLayout();
+        $user = new Incubate_Model_User();
+
+        //from lesson name get all lesson description, duration , lesson id
+        $lessonData = $user->get('lesson', array('name', '=', $lesson_name));
+
+        //get tags specific to lesson
+        $lessonTagMap = $user->getTagLessonMapFromLessonId($lessonData->lesson_id);
+
+        //for eaach tag in the map, get the specific tag names from the tag table
+        foreach ($lessonTagMap as $mapKey => $mapValue) {
+            $lessonTags[] = $user->getTagsFromTagTableByTagId($mapValue->tag_id);
+        }
+
+        //turn comma separted list into array
+        $studentArray = explode(',', $student_list);
+
+        //get end time calculated from class duration, keeping same format
+        $time = strtotime($start_time);
+        $timeDuration = '+' . $lessonData->duration . 'minutes';
+        $endTime = date("H:i", strtotime($timeDuration, $time));
+        $endTime = date("g:i a", strtotime($endTime));
+        $startTime = date("g:i a", $time);
+
+        //bind name
+        $view->getContent()->setName($lessonData->name);
+
+        //bind description
+        $view->getContent()->setDescription($lessonData->description);
+
+        //bind tags
+        $view->getContent()->setTags($lessonTags);
+
+        //bind student list
+        $view->getContent()->setStudents($studentArray);
+
+        //bind start date
+        $view->getContent()->setDate($date);
+
+        //bind start time
+        $view->getContent()->setStart($startTime);
+
+        //bind endTime
+        $view->getContent()->setEnd($endTime);
+
+        $view->render();
+    }
+
+    public function eventAction()
+    {
+        if(!empty($_POST)) {
+
+            $user = Bootstrap::getModel('incubate/user');
+
+            $lessonName = $_POST['lesson_name'];
+            $description = $_POST['description'];
+            $studentList = $_POST['student_list'];
+            $startTime = $_POST['start_time'];
+            $date = $_POST['date'];
+            $endTime = $_POST['end_time'];
+
+            $studentNameArray = explode(',', $studentList);
+
+            foreach ($studentNameArray as $student) {
+                $studentEmailArray[] = $user->getUserEmail($student);
+            }
+
+            $startDateTime = date('Y-m-d\TH:i:sP', strtotime($date . ' ' . $startTime));
+            $endDateTime = date('Y-m-d\TH:i:sP', strtotime($date . ' ' . $endTime));
+
+            $client = new Google_Client();
+
+            $calendar = new Core_Model_Calendar($client);
+
+            $calendar->setEvent($lessonName, $description,$startDateTime, $endDateTime, $studentEmailArray);
+
+            $this->redirect('Incubate', 'Schedule', 'indexAction');
         }
     }
 }
