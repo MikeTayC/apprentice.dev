@@ -11,8 +11,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
     {
         if (!Core_Model_Session::get('logged_in') || !Core_Model_Session::get('admin_status')) {
             $this->redirect('Incubate', 'Login', 'indexAction');
-        }
-        else {
+        } else {
 
             /*
              * instantiate user  model using boot strap factory,

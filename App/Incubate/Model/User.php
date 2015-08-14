@@ -26,7 +26,7 @@ class Incubate_Model_User
 
     public function create($table, $fields = array()) {
         if(!$this->_db->insert($table, $fields)) {
-            throw new Exception('Problem creating a new lesson!');
+            throw new Exception('Problem!');
         }
     }
 
