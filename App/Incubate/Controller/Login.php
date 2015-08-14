@@ -92,11 +92,13 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
         /*
          * will render the default google login landing page
          */
+            echo Core_Model_Session::flash('no_login');
             $view->render();
         }
         else {
             //if all else fails, the user is logged in but directly tried accessing default login page
             //prompt user to signout or redirect
+            echo Core_Model_Session::flash('no_login');
             $view->render();
         }
 

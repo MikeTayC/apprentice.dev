@@ -100,11 +100,24 @@
         "template": "Lib/Page/View/Template/View.phtml",
         "header": {
           "type" : "page/view",
+          "template": "Lib/Page/View/Template/Header.phtml",
           "assets": {
-            "1": {
-              "custom_css": {
+            "0": {
+              "uikit_css": {
                 "type": "css",
-                "file": "admin_css.css"
+                "file": "uikit.almost-flat.min.css"
+              },
+              "jquery": {
+                "type": "jquery",
+                "file":"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+              },
+              "uikit_min_js": {
+                "type": "js",
+                "file": "js/uikit.min.js"
+              },
+              "uikit_js":{
+                "type": "js",
+                "file": "js/uikit.js"
               }
             }
           }
@@ -142,6 +155,34 @@
           "template" : "App/Incubate/View/Template/Users.phtml"
         }
       },
+      "incubate_user_profile" : {
+          "header" : {
+            "assets" :{
+              "1" : {
+                "jquery_countdown" : {
+                  "type" : "js",
+                  "file" : "js/jquery.countdown.js"
+                },
+                "progress_bar" : {
+                  "type" : "css",
+                  "file" : "progress.almost-flat.css"
+                },
+                "user_css" : {
+                  "type" : "css",
+                  "file" : "user_index.css"
+                },
+                "user_js" : {
+                  "type" : "js",
+                  "file" : "js/user_profile.js"
+                }
+              }
+            }
+          },
+          "content" : {
+            "type" : "page/view",
+            "template" : "App/Incubate/View/Template/Profile.phtml"
+          }
+        },
       "incubate_schedule_index" : {
         "content" : {
           "type": "page/view",
