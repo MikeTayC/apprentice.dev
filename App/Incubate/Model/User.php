@@ -310,4 +310,9 @@ class Incubate_Model_User
         $data = $this->_db->deleteMultiArgument($table, $where, $where2);
         return $data;
     }
+
+    public function update($table, $fieldToCheck, $fieldCheck, $fields)
+    {
+        $this->_db->update($table, $fieldToCheck, $fieldCheck, $fields);
+    }
 }

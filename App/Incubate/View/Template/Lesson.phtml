@@ -6,27 +6,57 @@
 <div class="content">
 
     <?php if(Core_Model_Session::get('admin_status')) : ?>
-        <a href="http://apprentice.dev/incubate/create/index/lesson">Create new lesson</a><br>
-        <a href="http://apprentice.dev/incubate/create/index/tag">Create new tag</a><br>
+        <a class="uk-button uk-button-large uk-button-success" href="http://apprentice.dev/incubate/create/index/lesson">Create Lesson</a>
+
+        <a class="uk-button uk-button-large uk-button-primary" href="http://apprentice.dev/incubate/create/index/tag">Create Tags</a>
     <?php endif; ?>
 
-    <?php foreach($lessons as $lesson) {?>
-        <div id="box">
-            <div class="box-top"><?php echo $lesson->name; ?></div>
+    <table class="uk-table uk-table-hover uk-table-striped">
+        <h1>Lessons</h1>
+        <tbody>
+        <?php
+        foreach($lessons as $lesson) {
 
-            <div class="box-panel">
-                <?php
-                    foreach($maps as $map ){
-                        if($map->lesson_id == $lesson->lesson_id){
-                            foreach($tags as $tag) {
-                                if($map->tag_id == $tag->id) {
-                                    echo $tag->value . '<br>';
-                                }
-                            }
-                        }
-                    }
-                ?>
-            </div>
-        </div>
-    <?php }?>
+            echo '<tr>';
+            echo '<td>' . $lesson->name . '</td>';
+
+            echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
+
+            echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">Edit</a></td>';
+
+            echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">Delete</a></td>';
+
+
+            }
+
+            echo '</tr>';
+
+        ?>
+        </tbody>
+    </table>
+
+
+
+<!---->
+<!--    <div>-->
+<!--        <div class="uk-accordion" data-uk-accordion>-->
+<!--    --><?php
+//        foreach($lessons as $lesson) {
+//            echo '<h3 class="uk-accordion-title">' . $lesson->name . '</h3>';
+//            echo '<div class="uk-accordion-content">';
+////            foreach ($maps as $map) {
+////                if ($map->lesson_id == $lesson->lesson_id) {
+////                    foreach ($tags as $tag) {
+////                        if ($map->tag_id == $tag->id) {
+////                            echo $tag->value;
+////                        }
+////                    }
+////                }
+////            }
+//            echo $lesson->description;
+//            echo '</div>';
+//        }
+//    ?>
+<!--    </div>-->
+<!--    </div>-->
 </div>

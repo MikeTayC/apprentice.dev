@@ -209,12 +209,12 @@ class Core_Model_Database
 
     /*
      * EXAMPLE USE:
-     * $user = Core_Model_Database::getInstance()->udpate('users', 3, array(
+     * $user = Core_Model_Database::getInstance()->udpate('users', 3, 'user_id', array(
      *      'username' => 'mctay'
      *      'password' => 'newpassword'
      * ));
      */
-    public function update($table, $id, $fields = array())
+    public function update($table, $fieldToCheck, $fieldCheck, $fields = array())
     {
         $set = '';
         $x = 1;
@@ -227,7 +227,7 @@ class Core_Model_Database
             $x++;
         }
 
-        $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+        $sql = "UPDATE {$table} SET {$set} WHERE {$fieldCheck} = {$fieldToCheck}";
 
         if (!$this->query($sql, $fields)->error()) {
             return true;

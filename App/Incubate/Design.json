@@ -74,7 +74,21 @@
         }
       },
       "incubate_lesson_index": {
-        "content" :{
+        "header" : {
+          "assets": {
+            "0" : {
+              "accordian_css": {
+                "type": "css",
+                "file": "accordion.almost-flat.css"
+              },
+              "accordian_js" : {
+                "type" : "js",
+                "file" : "js/accordion.js"
+              }
+            }
+          }
+        },
+        "content" : {
             "type": "page/view",
             "template" : "App/Incubate/View/Template/Lesson.phtml"
         }
@@ -100,12 +114,15 @@
         "template": "Lib/Page/View/Template/View.phtml",
         "header": {
           "type" : "page/view",
-          "template": "Lib/Page/View/Template/Header.phtml",
           "assets": {
-            "0": {
+            "1": {
               "uikit_css": {
                 "type": "css",
                 "file": "uikit.almost-flat.min.css"
+              },
+              "main_css" : {
+                "type" :  "css",
+                "file" : "main_css.css"
               },
               "jquery": {
                 "type": "jquery",
@@ -291,7 +308,7 @@
               }
             }
           }
-        }    ,
+        },
         "content" : {
           "type": "page/view",
           "template" : "App/Incubate/View/Template/ScheduleDatetime.phtml"
@@ -331,6 +348,26 @@
         "content" : {
           "type" : "page/view",
           "template" : "App/Incubate/View/Template/ScheduleConfirmation.phtml"
+        }
+      },
+      "incubate_register_index" : {
+        "type" : "page/view",
+        "template" : "Lib/Page/View/Template/View.phtml",
+        "header" : {
+          "type" : "page/view",
+          "template" : "Lib/Page/View/Template/Header.phtml",
+          "assets" : {
+            "0" : {
+              "group_radio" : {
+                "type" : "css",
+                "file" :"group_radio.css"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Register.phtml"
         }
       }
     }
