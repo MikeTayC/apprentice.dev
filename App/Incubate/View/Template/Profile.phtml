@@ -1,0 +1,62 @@
+<?php
+    $userData = $this->getData('userData');
+    $percentageCoursesTaken = $this->getData('percentage_taken');
+    $incubationTimer = date('Y-m-d', strtotime($userData->joined . "+90 days"));
+    $lessonData = $this->getData('lesson_data');
+    $completedCourses = $this->getData('completed_courses');
+?>
+
+<div class="content">
+    <h2>User Name : <?php echo $userData->name; ?></h2>
+
+    Incubation Progress:
+    <div class="uk-progress">
+       <?php echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $percentageCoursesTaken .'%">' . $percentageCoursesTaken . '%</div></div>'; ?>
+    </div>
+    <hr>
+    Incubation Time:
+    <div data-countdown=" <?php echo $incubationTimer ?> "></div>
+    <hr>
+    <table class="uk-table uk-table-hover uk-table-striped">
+        <h1>Lesson Status</h1>
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Completetion status
+        </th>
+        <th>
+            Change status
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+        foreach($lessonData as $lesson) {
+            foreach($completedCourses as $course) {
+
+                echo '<td>' . $lesson->name . '</td>';
+
+                if($lesson->lesson_id == $course->lesson_id) {
+                    echo '<td>';
+                    echo '<div class="uk-badge uk-badge-success">Completed</div>';
+                    echo '</td>';
+                    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
+                }
+                else {
+                    echo '<td>';
+                    echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
+                    echo '</td>';
+                    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
+
+                }
+
+                echo '</tr>';
+            }
+    }
+    ?>
+    </tbody>
+    </table>
+</div>

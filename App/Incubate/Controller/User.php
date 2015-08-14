@@ -51,10 +51,30 @@ class Incubate_Controller_User extends Core_Controller_Abstract
     {
         $view = $this->loadLayout();
 
-        $user = Bootstrap::getModel('incubate/user');
+//        $user = Bootstrap::getModel('incubate/user');
+        $user = new Incubate_Model_User();
         if($userId) {
 
-            $userData = $user->get('user', array('user_id', '=', $userId));
+            if($userData = $user->get('user', array('user_id', '=', $userId))) {
+
+                $lessonData = $user->getAllLessonsFromLessonTable();
+
+                $userCompletedCourses = $user->getAllUserCompletedCourses($userId);
+
+                $completedCourseCount = count($userCompletedCourses);
+
+                $totalCourseCount = count($lessonData);
+
+                $percentageCoursesTaken = $completedCourseCount / $totalCourseCount * 100;
+
+                $view->getContent()->setData('completed_courses', $userCompletedCourses);
+
+                $view->getContent()->setData('percentage_taken', $percentageCoursesTaken);
+
+                $view->getContent()->setData('userData', $userData);
+
+                $view->getContent()->setData('lesson_data', $lessonData);
+            }
 
         }
 

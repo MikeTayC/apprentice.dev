@@ -286,6 +286,18 @@ class Incubate_Model_User
         }
     }
 
+    public function getAllUserCompletedCourses($userId)
+    {
+        if($userCompletedCourseId = $this->getAll('completed_courses', array('user_id', '=', $userId))) {
+
+            foreach($userCompletedCourseId as $key => $value) {
+                $userCompletedCourses[] = $this->get('lesson', array('lesson_id', '=', $value->lesson_id));
+            }
+            return $userCompletedCourses;
+        }
+        return null;
+    }
+
     public function getCount($table, $fields = array())
     {
         $data = $this->_db->get($table, $fields)->count();
