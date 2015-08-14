@@ -286,16 +286,17 @@ class Incubate_Model_User
         }
     }
 
-    public function getAllUserCompletedCourses($userId)
+    public function getAllUserCompletedCourseId($userId)
     {
         if($userCompletedCourseId = $this->getAll('completed_courses', array('user_id', '=', $userId))) {
 
             foreach($userCompletedCourseId as $key => $value) {
-                $userCompletedCourses[] = $this->get('lesson', array('lesson_id', '=', $value->lesson_id));
+                $userCompletedCourse = $this->get('lesson', array('lesson_id', '=', $value->lesson_id));
+                $userCompletedCourseIdArray[] = $userCompletedCourse->lesson_id;
             }
-            return $userCompletedCourses;
+            return $userCompletedCourseIdArray;
         }
-        return null;
+        return array();
     }
 
     public function getCount($table, $fields = array())
@@ -304,4 +305,9 @@ class Incubate_Model_User
         return $data;
     }
 
+    public function deleteMultiArguments($table, $where, $where2)
+    {
+        $data = $this->_db->deleteMultiArgument($table, $where, $where2);
+        return $data;
+    }
 }

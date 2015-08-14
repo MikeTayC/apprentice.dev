@@ -172,6 +172,11 @@ class Core_Model_Database
         return $this->action('DELETE ', $table, $where);
     }
 
+    public function deleteMultiArgument($table, $where, $where2)
+    {
+        return $this->multiAction('DELETE ', $table, $where, $where2);
+    }
+
     /*
      * EXAMPLE USE:
      * $user = Core_Model_Database::getInstance()->insert('users', array(

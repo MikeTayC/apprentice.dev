@@ -21,12 +21,11 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
             //gets all users in user table
             $allUsers = $user->getAllUserDataFromUserTable();
-                //$user->get('user', array('1', '=', '1'));
+            //$user->get('user', array('1', '=', '1'));
 
             $completedCourses = array();
 
-            foreach($allUsers as $key => $users)
-            {
+            foreach ($allUsers as $key => $users) {
                 $courseCount = $user->getCount('completed_courses', array('user_id', '=', $users->user_id));
                 $completedCourses[$users->name] = $courseCount;
             }
@@ -52,13 +51,15 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
 //        $user = Bootstrap::getModel('incubate/user');
         $user = new Incubate_Model_User();
-        if($userId) {
+        if ($userId) {
 
-            if($userData = $user->get('user', array('user_id', '=', $userId))) {
+            if ($userData = $user->get('user', array('user_id', '=', $userId))) {
 
                 $lessonData = $user->getAllLessonsFromLessonTable();
 
-                $userCompletedCourses = $user->getAllUserCompletedCourses($userId);
+
+
+                $userCompletedCourses = $user->getAllUserCompletedCourseId($userId);
 
                 $completedCourseCount = count($userCompletedCourses);
 
@@ -76,8 +77,45 @@ class Incubate_Controller_User extends Core_Controller_Abstract
             }
 
         }
-
-
         $view->render();
     }
+
+    public function deleteAction($userId, $lessonId)
+    {
+        if ($userId && $lessonId) {
+            $user = new Incubate_Model_User();
+
+            if ($user->getMultiArguments('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))) {
+                try {
+                    $user->deleteMultiArguments('completed_courses', array( 'user_id', '=', $userId), array('lesson_id', '=', $lessonId));
+                } catch (Exception $e) {
+                    Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
+                }
+
+            }
+        }
+        $this->redirect('Incubate', 'User', 'profileAction', $userId);
+    }
+
+    public function addAction($userId, $lessonId)
+    {
+        if ($userId && $lessonId) {
+            $user = new Incubate_Model_User();
+
+            if (!$user->getMultiArguments('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))) {
+
+                try {
+                    $user->create('completed_courses', array(
+                        'user_id' => $userId,
+                        'lesson_id' => $lessonId
+                    ));
+                } catch (Exception $e) {
+                    Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
+                }
+
+            }
+        }
+        $this->redirect('Incubate', 'User', 'profileAction', $userId);
+    }
+
 }
