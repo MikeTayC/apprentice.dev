@@ -62,14 +62,14 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
                 /*
                  * auth will use the user model to add to database
                  */
+
                 $auth->addNewUser($googleId, $googleDisplayName, $email);
 
                 //assigns admin status to true or false
                 $auth->assignAdminStatus();
 
                 //direct to dashboard
-                $this->headerRedirect('incubate','index','index');
-
+                $this->redirect('incubate','register','indexAction', $googleId);
             }
 
             /*
@@ -92,11 +92,13 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
         /*
          * will render the default google login landing page
          */
+            echo Core_Model_Session::flash('error');
             $view->render();
         }
         else {
             //if all else fails, the user is logged in but directly tried accessing default login page
             //prompt user to signout or redirect
+            echo Core_Model_Session::flash('error');
             $view->render();
         }
 

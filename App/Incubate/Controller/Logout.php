@@ -11,6 +11,6 @@ class Incubate_Controller_Logout extends Core_Controller_Abstract
     {
         $auth = new Core_Model_Auth();
         $auth->logout();
-        $this->redirect('Incubate', 'Login', 'indexAction');
+        $this->headerRedirect('incubate', 'login', 'index');
     }
 }

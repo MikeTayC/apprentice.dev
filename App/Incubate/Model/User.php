@@ -26,7 +26,7 @@ class Incubate_Model_User
 
     public function create($table, $fields = array()) {
         if(!$this->_db->insert($table, $fields)) {
-            throw new Exception('Problem creating a new lesson!');
+            throw new Exception('Problem!');
         }
     }
 
@@ -286,10 +286,33 @@ class Incubate_Model_User
         }
     }
 
+    public function getAllUserCompletedCourseId($userId)
+    {
+        if($userCompletedCourseId = $this->getAll('completed_courses', array('user_id', '=', $userId))) {
+
+            foreach($userCompletedCourseId as $key => $value) {
+                $userCompletedCourse = $this->get('lesson', array('lesson_id', '=', $value->lesson_id));
+                $userCompletedCourseIdArray[] = $userCompletedCourse->lesson_id;
+            }
+            return $userCompletedCourseIdArray;
+        }
+        return array();
+    }
+
     public function getCount($table, $fields = array())
     {
         $data = $this->_db->get($table, $fields)->count();
         return $data;
     }
 
+    public function deleteMultiArguments($table, $where, $where2)
+    {
+        $data = $this->_db->deleteMultiArgument($table, $where, $where2);
+        return $data;
+    }
+
+    public function update($table, $fieldToCheck, $fieldCheck, $fields)
+    {
+        $this->_db->update($table, $fieldToCheck, $fieldCheck, $fields);
+    }
 }

@@ -1,16 +1,21 @@
-<div class="uk-container uk-container-center">
-        <h2>
-            Welcome to the Incubator,
-        </h2>
-        <p>
-            Incubate requires your Google Plus account linked to your Blue Acorn email address
-        </p>
-        <p>
-            <?php if($this->getAuthurl()) : ?>
-                <a href="<?php echo $this->getAuthurl(); ?>">Sign in with Google+</a>
-            <?php else: ?>
-                You are signed in. <a href="http://apprentice.dev/incubate/logout/index">Sign out</a>
-            <?php endif; ?>
+<<<<<<< HEAD
+=======
+<div class="uk-grid">
+    <div class="uk-container uk-container-center">
+        <div class="uk-panel">
+            <div class="uk-width-large-1-1">
+            <h2 class="uk-">Welcome to the Incubator,</h2>
+            <p>Incubate requires your Google Plus account linked to your Blue Acorn email address</p>
+            <p>
+                <?php if($this->getAuthurl()) : ?>
+                    <a class="uk-button uk-button-primary" href="<?php echo $this->getAuthurl(); ?>">Sign in with Google+</a>
+                <?php else: ?>
+                    You are signed in. <a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/logout/index">Sign out</a>
+                <?php endif; ?>
+>>>>>>> f7b776a45e2778e4a197f68ba7deb172ceffe520
 
-        </p>
+            </p>
+            </div>
+        </div>
+    </div>
 </div>

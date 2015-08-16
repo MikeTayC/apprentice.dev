@@ -11,12 +11,15 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
     public function indexAction($param)
     {
         if(!Core_Model_Session::get('logged_in')) {
-            $this->headerRedirect('Incubate', 'Login', 'index');
+            Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>You are not logged in, bro. Got redirected</p></div>');
+            $this->headerRedirect('incubate', 'login', 'index');
             exit;
         }
         else {
+            echo Core_Model_Session::flash('error');
             $this->loadLayout();
             $this->render();
+
         }
     }
 
@@ -24,6 +27,7 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
     {
         //check for admin status, if not admin send back to schedule index
         if(!Core_Model_Session::get('admin_status')) {
+            Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Admins only bro</p></div>');
             $this->headerRedirect('incubate', 'schedule', 'index');
             exit;
         }
