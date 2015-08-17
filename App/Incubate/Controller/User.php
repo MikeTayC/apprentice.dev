@@ -18,19 +18,19 @@ class Incubate_Controller_User extends Core_Controller_Abstract
              * string indicates which module and name of model to insantiate
              */
             $user = Bootstrap::getModel('incubate/user');
-
+			$lesson = Bootstrap::getModel('incubate/lesson');
             //gets all users in user table
-            $allUsers = $user->getAllUserDataFromUserTable();
+            $allUsers = $user->getAll();
             //$user->get('user', array('1', '=', '1'));
 
             $completedCourses = array();
 
-            foreach ($allUsers as $key => $users) {
-                $courseCount = $user->getCount('completed_courses', array('user_id', '=', $users->user_id));
+            foreach ($allUsers as $users) {
+                $courseCount = $user->getCompletedCourseCount($users->user->id);
                 $completedCourses[$users->name] = $courseCount;
             }
 
-            $totalLessonCount = $user->getCount('lesson', array('1', '=', '1'));
+            $totalLessonCount = $lesson->getTotalCount();
 
             /*
              * load layout,
@@ -51,28 +51,36 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
 //        $user = Bootstrap::getModel('incubate/user');
         $user = new Incubate_Model_User();
+		$lesson = Bootstrap::getModel('incubate/lesson');
+
+		//if user id is set
         if ($userId) {
 
-            if ($userData = $user->get('user', array('user_id', '=', $userId))) {
+			//use user id to get specific user data
+            if ($userData = $user->get(array('user_id', '=', $userId))) {
 
-                $lessonData = $user->getAllLessonsFromLessonTable();
+				//retrieve all lesson data
+                $lessonData = $lesson->getAll();
 
-
-
+				/*
+				 * get all of the users completed course ids
+				 * we will need them to tell which courses are compeleted when rendering
+				 */
                 $userCompletedCourses = $user->getAllUserCompletedCourseId($userId);
 
+				//gives us a count of tthe total amount of users completed courses
                 $completedCourseCount = count($userCompletedCourses);
 
+				//gives count of all courses in databases
                 $totalCourseCount = count($lessonData);
 
+				//user percentage of completed course
                 $percentageCoursesTaken = $completedCourseCount / $totalCourseCount * 100;
 
+				//binds data to view
                 $view->getContent()->setData('completed_courses', $userCompletedCourses);
-
                 $view->getContent()->setData('percentage_taken', $percentageCoursesTaken);
-
                 $view->getContent()->setData('userData', $userData);
-
                 $view->getContent()->setData('lesson_data', $lessonData);
             }
 
@@ -85,9 +93,9 @@ class Incubate_Controller_User extends Core_Controller_Abstract
         if ($userId && $lessonId) {
             $user = new Incubate_Model_User();
 
-            if ($user->getMultiArguments('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))) {
+            if ($user->checkIfUserCompletedSpecificCourse($userId,$lessonId)) {
                 try {
-                    $user->deleteMultiArguments('completed_courses', array( 'user_id', '=', $userId), array('lesson_id', '=', $lessonId));
+                    $user->markCourseIncomplete($userId, $lessonId);
                 } catch (Exception $e) {
                     Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
                 }

@@ -108,15 +108,6 @@ class Core_Model_Auth
     }
 
     /*
-     * essentially logs the user out by ridding the session of its token
-     */
-    public function logout()
-    {
-        unset($_SESSION['access_token']);
-        Core_Model_Session::set('logged_in', false);
-    }
-
-    /*
      * To acquire the users email, we need to access the google clientwss attributes array 'payload',
      *   'payload' =>
             array (size=9)
@@ -225,26 +216,6 @@ class Core_Model_Auth
         }
         else {
             Core_Model_Session::set('admin_status', false);
-        }
-    }
-
-    /*
-     * if we are adding a new user, blueacorn email address should have been validated already
-     *
-     * after user has been added to database, after checking, sttart the new users session.
-     */
-    public function addNewUser($googleId,$googleDisplayName, $email)
-    {
-        $this->_user->create('user', array(
-            'google_id' => $googleId,
-            'name'      => $googleDisplayName,
-            'email'     => $email,
-            'role'      => 'student',
-            'joined'    => date('Y-m-d')
-        ));
-        if($this->_user->checkUserDataForGoogleId($googleId)) {
-            Core_Model_Session::set('google_id', $googleId);
-            Core_Model_Session::set('logged_in', true);
         }
     }
 }

@@ -9,8 +9,8 @@ class Incubate_Controller_Logout extends Core_Controller_Abstract
 {
     public function indexAction()
     {
-        $auth = new Core_Model_Auth();
-        $auth->logout();
+        $user = Bootstrap::getModel('incubate/user');
+        $user->logout();
         $this->headerRedirect('incubate', 'login', 'index');
     }
 }

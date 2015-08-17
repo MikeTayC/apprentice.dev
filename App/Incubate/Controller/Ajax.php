@@ -13,22 +13,22 @@ class Incubate_Controller_Ajax extends Core_Controller_Abstract
             switch($_GET['id']) {
 
                 case 'tag' :
-                    $user = Bootstrap::getModel('incubate/user');
-                    $tagNames = $user->getAllTagNames();
-                    $jsonTags = $user->jsonEncode($tagNames);
+                    $tag = Bootstrap::getModel('incubate/tag');
+                    $tagNames = $tag->getAll();
+                    $jsonTags = $tag->jsonEncode($tagNames);
                     echo $jsonTags;
                     break;
 
                 case 'lesson' :
-                    $user = Bootstrap::getModel('incubate/user');
-                    $lessonNames = $user->getAllLessonNames();
-                    $jsonLessons = $user->jsonEncode($lessonNames);
+                    $lesson = Bootstrap::getModel('incubate/lesson');
+                    $lessonNames = $lesson->getAll();
+                    $jsonLessons = $lesson->jsonEncode($lessonNames);
                     echo $jsonLessons;
                     break;
 
                 case 'student' :
                     $user = Bootstrap::getModel('incubate/user');
-                    $studentNames = $user->getAllStudentNames();
+                    $studentNames = $user->getAll();
                     $jsonStudents = $user->jsonEncode($studentNames);
                     echo $jsonStudents;
                     break;

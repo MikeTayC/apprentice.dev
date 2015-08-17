@@ -26,6 +26,8 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
 
         //load user model
         $user = Bootstrap::getModel('incubate/user');
+		$tag = Bootstrap::getModel('incubate/tag');
+		$lesson = Bootstrap::getModel('incubate/lesson');
 
         /*
          * if form is set, add it to the database
@@ -47,26 +49,22 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
              *
              * takes an array of $tags as argument
              */
-            $user->AddNewTagsToDb($tagArray);
-
+            $tag->AddNewTagsToDb($tagArray);
             /*
              * add the lesson to the database,
              * TODO FORM VALIDATION
              */
-            $user->create('lesson', array(
+            $lesson->create(array(
                 'name' => $_POST['name'],
                 'description' => $_POST['description'],
                 'duration' => $_POST['duration']
             ));
 
-            $newLesson = $user->get('lesson', array('name', '=', $_POST['name']));
+            $newLesson = $lesson->get(array('name', '=', $_POST['name']));
 
             foreach ($tagArray as $tag) {
-                $tagInfo = $user->get('tag', array('value', '=', $tag));
-                $user->create('lesson_tag_map', array(
-                    'lesson_id' => $newLesson->lesson_id,
-                    'tag_id' => $tagInfo->id
-                ));
+                $tagInfo = $tag->get(array('name', '=', $tag));
+                $lesson->createTagMap($newLesson->lesson_id, $tagInfo->id);
             }
 
             $this->redirect('Incubate', 'Lesson', 'indexAction');
@@ -78,8 +76,8 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
 
     public function tagAction()
     {
-        //load user model
-        $user = Bootstrap::getModel('incubate/user');
+        //load user mode
+		$tag = Bootstrap::getModel('incubate/tag');
 
         /*
          * if post is set, add the created tag to the database
@@ -89,7 +87,7 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
         if(!empty($_POST)) {
 
             $tagArray = explode(',', $_POST['tags']);
-            $user->AddNewTagsToDb($tagArray);
+            $tag->AddNewTagsToDb($tagArray);
             $this->redirect('Incubate', 'Lesson', 'indexAction');
         }
         else {

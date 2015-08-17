@@ -24,11 +24,12 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
         $view = $this->loadLayout();
 
         //load model
-        $user = Bootstrap::getModel('incubate/user');
+        $lesson = Bootstrap::getModel('incubate/lesson');
+        $tag = Bootstrap::getModel('incubate/tag');
 
-        $lessonData = $user->getAllLessonsFromLessonTable();
-        $tagData = $user->getAllTagsFromTagTable();
-        $mapData = $user->getTagLessonMap();
+        $lessonData = $lesson->getAll();
+        $tagData = $tag->getAll();
+        $mapData = $lesson->getTagLessonMap();
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
         if($lessonData && $tagData && $mapData) {
