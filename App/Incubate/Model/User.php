@@ -58,28 +58,38 @@ class Incubate_Model_User
          * set of info  found, store in $_data
          */
         if($this->_data = $this->_db->get('user', array('google_id', '=', $googleId))->first()) {
-
+			Core_Model_Session::set('user_id', $this->_data->user_id);
+			Core_Model_Session::set('logged_in', true);
+			if($this->_data->role == 'admin'){
+				Core_Model_Session::set('admin_status', true);
+			}
+			else {
+				Core_Model_Session::set('admin_status', false);
+			}
             return true;
         }
+
+		/*
+		 *
+		 * even if they are not in the database, store google id in the session,
+		 * will need to use later if the user must be added to the database.
+		 */
+			Core_Model_Session::set('google_id', $googleId);
+
         return false;
     }
-
 
     /*
      * will return false if data has not been set
      * cheks user
      */
-    public function checkUserDataForAdminStatus()
+    public function checkUserDataForAdminStatus($googleId)
     {
-        if($this->_data->role == 'admin') {
+		$user = $this->get('user', array('google_id', '=', $googleId));
+        if(isset($user->role) && $user->role == 'admin') {
             return true;
         }
         return false;
-    }
-
-    public function getAllUserData()
-    {
-        return $this->_data;
     }
 
     /*
@@ -140,29 +150,34 @@ class Incubate_Model_User
     public function getAllTagNames()
     {
         $tags = $this->getAllTagsFromTagTable();
-        foreach ($tags as $tag) {
-            $tagNameArray[] = $tag->value;
-        }
-
-        return $tagNameArray;
+		if($tags) {
+        	foreach ($tags as $tag) {
+            	$tagNameArray[] = $tag->value;
+        	}
+        	return $tagNameArray;
+		}
+		return null;
     }
 
     public function getAllStudentNames()
     {
-        $users = $this->getAllUserDataFromUserTable();
-        foreach ($users as $user) {
-            $userNameArray[] = $user->name;
-        }
-
-        return $userNameArray;
-    }
+        if($users = $this->getAllUserDataFromUserTable()) {
+        	foreach ($users as $user) {
+            	$userNameArray[] = $user->name;
+        	}
+			return $userNameArray;
+		}
+		return null;
+	}
     public function getAllLessonNames()
     {
-        $lessons = $this->getAllLessonsFromLessonTable();
-        foreach($lessons as $lesson) {
-            $lessonNameArray[] = $lesson->name;
-        }
-        return $lessonNameArray;
+        if($lessons = $this->getAllLessonsFromLessonTable()) {
+        	foreach($lessons as $lesson) {
+            	$lessonNameArray[] = $lesson->name;
+        	}
+        	return $lessonNameArray;
+		}
+		return null;
     }
 
     public function jsonEncode($value)
@@ -265,13 +280,13 @@ class Incubate_Model_User
 
         foreach($tagLessonMapData as $key => $tag) {
             switch($tag->tag_id) {
-                case '14' :
+                case '1' :
                     $this->AE = true;
                     break;
-                case '15':
+                case '2':
                     $this->QA = true;
                     break;
-                case '16' :
+                case '3' :
                     $this->FE = true;
                     break;
             }

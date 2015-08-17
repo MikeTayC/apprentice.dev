@@ -1,5 +1,6 @@
 <?php
-
+ 	$userName = $this->getName();
+	$userEmail = $this->getEmail();
 ?>
 <div class="content">
     <div id="form-main">
@@ -8,7 +9,19 @@
 
                 <h2>Slow your role</h2>
                 <h3>We need your role</h3>
-                <div class="uk-form-row">
+				<p>If this information looks right, verify your job role.</p>
+				<div class="uk-form-row">
+					<label>Name:</label>
+					<br>
+					<input type="text" name="name" value="<?php if(isset($userName)){echo $userName;}?>">
+				</div>
+				<div class="uk-form-row">
+					<label>Email:</label>
+					<br>
+					<input readonly type="text" name="email" value="<?php if(isset($userEmail)){echo $userEmail;}?>">
+				</div>
+				<div class="uk-form-row">
+
 
                     <fieldset tabindex="1" class='radioGroup'>
                         <legend>Choose wisely..</legend>
@@ -22,7 +35,7 @@
                 </div>
 
                 <div class="submit">
-                    <input type="submit" value="Create" id="button-blue"/>
+                    <input type="submit" value="Submit" id="button-blue"/>
                     <div class="ease"></div>
                 </div>
             </form>

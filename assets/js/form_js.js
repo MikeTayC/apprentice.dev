@@ -24,7 +24,8 @@ $(function(){
         removeConfirmation: true,
         allowSpaces: true,
         showAutocompleteOnFocus: true,
-        singleField: true
+        singleField: true,
+        fieldName: 'tags'
     });
 
 });

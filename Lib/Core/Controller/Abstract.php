@@ -48,8 +48,9 @@ abstract class Core_Controller_Abstract
                 ->setController($controller)
                 ->setAction($action);
         if($param) {
-            $request->setParam($param);
+            $request->setParams($param);
         }
+
         $request->continueDispatching();
     }
 

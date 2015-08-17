@@ -114,8 +114,9 @@
         "template": "Lib/Page/View/Template/View.phtml",
         "header": {
           "type" : "page/view",
+            "template" : "Lib/Page/View/Template/Header.phtml",
           "assets": {
-            "1": {
+            "0": {
               "uikit_css": {
                 "type": "css",
                 "file": "uikit.almost-flat.min.css"
@@ -226,14 +227,38 @@
                 "type" : "js",
                 "file" : "js/tag-it.js"
               },
-              "schedule_js" : {
+              "student_js" : {
                 "type" : "js",
-                "file" : "js/schedule_js.js"
+                "file" : "js/student_js.js"
               },
+                "form_js" : {
+                    "type" : "js",
+                    "file" : "js/form_js.js"
+                },
               "form_css" : {
                 "type" : "css",
                 "file" : "form_css.css"
-              }
+              },
+                "datepicker_css" : {
+                    "type" : "css",
+                    "file" : "datepicker.almost-flat.css"
+                },
+                "datepicker_js" : {
+                    "type" :  "js",
+                    "file" : "js/components/datepicker.js"
+                },
+                "autocomplete_css" : {
+                    "type" : "css",
+                    "file" : "autocomplete.almost-flat.css"
+                },
+                "autocomplete_js" : {
+                    "type" : "js",
+                    "file" : "js/components/autocomplete.js"
+                },
+                "timpicker_js" : {
+                    "type" : "js",
+                    "file" : "js/components/timepicker.js"
+                }
             }
           }
         },

@@ -1,25 +1,72 @@
-
+<?php
+$lessonName = $this->getName();
+$description = $this->getDescription();
+$tags = $this->getTags();
+$suggestedStudents = is_array($this->getStudents()) ? $this->getStudents(): array($this->getStudents());
+?>
 <div class="content">
-    <div id="form-main">
-        <div id="form-div">
-            <form class="uk-form" id="form" action="http://apprentice.dev/incubate/schedule/lesson" method="post">
+	<div id="form-main">
+		<div id="form-div">
+			<h3>Schedule a Lesson</h3>
+			<form class="uk-form" id="form" action="http://apprentice.dev/incubate/schedule/event" method="post">
+				<div class="uk-form-row">
+					<label>Lesson Name:</label>
+					<br>
+					<input readonly type="text" name="lesson_name" value="<?php if(isset($lessonName)){echo $lessonName;}?>">
+					<a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/index">Change</a>
+				</div>
+				<div class="uk-form-row">
+					<label>Description:</label>
+					<textarea type="text" name="description"><?php if(isset($description)) { echo $description; } ?></textarea>
+				</div>
+				<div class="uk-form-row">
+					<label>Tags:</label>
+					<ul class="tagit ui-widget ui-widget-content ui-corner-all" id="myTags">
+						<?php
+						if(isset($tags)) {
+							foreach($tags as $tag) {
+								echo '<li>' . $tag . '</li>';
+							}
+						}
+						?>
+					</ul>
+				</div>
+				<div class="uk-form-row">
+					<div class="uk-grid">
+						<div class="uk-width-1-2">
+							Date:
+							<input type="text" name="date" data-uk-datepicker="{format:'MM/DD/YYYY'}">
+						</div>
+						<div class="uk-width-1-2">
+							Time:
+							<div class="uk-autocomplete">
+								<input type="text" name="start_time" data-uk-timepicker="{format:'12h'}">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="uk-form-row">
+					<label>Students:</label>
+					<ul class="tagit ui-widget ui-widget-content ui-corner-all" id="myStudents">
+						<?php
+						if(isset($suggestedStudents))
+						{
+							foreach($suggestedStudents as $student) {
+								echo "<li>" . $student . "</li>";
+							}
+						}
+						?>
+					</ul>
+				</div>
+				<div class="uk-form-row">
+					<div class="submit">
+						<input type="submit" value="Submit" id="button-blue"/>
+						<div class="ease"></div>
+					</div>
+				</div>
+			</form>
 
-                <div class="uk-form-row">
-                    Lesson Name:
-                </div>
-                <p>You can submit one and only one lesson.</p>
-                <div class="uk-form-row">
-                    <ul class="tagit ui-widget ui-widget-content ui-corner-all" id="myLessons"></ul>
-                </div>
-                <div class="uk-form-row">
-                    <div class="submit">
-                        <input type="submit" value="Next" id="button-blue"/>
-                        <div class="ease"></div>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 

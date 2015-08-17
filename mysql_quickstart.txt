@@ -1,0 +1,21 @@
+CREATE DATABASE incubate;
+
+USE incubate;
+
+CREATE TABLE user (user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, google_id VARCHAR(60), name VARCHAR(50), email VARCHAR(60), joined DATE, role VARCHAR(20), groups VARCHAR(60));
+
+CREATE TABLE tag (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, value VARCHAR(60));
+
+CREATE TABLE lesson(lesson_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60), description VARCHAR(255), duration INT);
+
+CREATE TABLE lesson_tag_map(map_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, tag_id INT, lesson_id INT);
+
+CREATE TABLE completed_courses(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT);
+
+INSERT INTO `tag` (`value`) VALUES ('Application Engineer');
+
+INSERT INTO `tag` (`value`) VALUES ('Quality Assurance Analyst');
+
+INSERT INTO `tag` (`value`) VALUES ('Front End Developer');
+
+

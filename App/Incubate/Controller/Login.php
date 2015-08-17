@@ -43,9 +43,6 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
              */
             if($auth->checkDatabaseForUser($googleId)){
 
-                //assign the admin status to true or false
-                $auth->assignAdminStatus();
-
                 //direct to dashboard
                 $this->headerRedirect('incubate', 'index', 'index');
             }
@@ -58,18 +55,7 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
              *
              */
             elseif($auth->validateNewEmailAddress($email)) {
-
-                /*
-                 * auth will use the user model to add to database
-                 */
-
-                $auth->addNewUser($googleId, $googleDisplayName, $email);
-
-                //assigns admin status to true or false
-                $auth->assignAdminStatus();
-
-                //direct to dashboard
-                $this->redirect('incubate','register','indexAction', $googleId);
+                $this->redirect('Incubate','Register','indexAction', array($email, $googleDisplayName));
             }
 
             /*

@@ -15,22 +15,21 @@
         <h1>Lessons</h1>
         <tbody>
         <?php
-        foreach($lessons as $lesson) {
+		if(isset($lessons)) {
+			foreach($lessons as $lesson) {
 
-            echo '<tr>';
-            echo '<td>' . $lesson->name . '</td>';
+				echo '<tr>';
+				echo '<td>' . $lesson->name . '</td>';
 
-            echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
+				echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
 
-            echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">Edit</a></td>';
+				echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">Edit</a></td>';
 
-            echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">Delete</a></td>';
+				echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">Delete</a></td>';
+				}
 
-
-            }
-
-            echo '</tr>';
-
+				echo '</tr>';
+		}
         ?>
         </tbody>
     </table>
