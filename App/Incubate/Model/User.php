@@ -10,12 +10,8 @@ class Incubate_Model_User extends Core_Model_Abstract
 
     private $_isLoggedIn;
 
-    /*
-     * reference to group tags
-     */
-    private $AE = false;
-    private $QA = false;
-    private $FE = false;
+    //stores recommended students to invite
+    public $studentInviteList = array();
 
 	public function __construct()
 	{
@@ -50,7 +46,7 @@ class Incubate_Model_User extends Core_Model_Abstract
          * check db, for USER table, WHERE google_id = $googleid, return the first
          * set of info  found, store in $_data
          */
-        if($this->_data = $this->get(array('google_id', '=', $googleId))->first()) {
+        if($this->_data = $this->get(array('google_id', '=', $googleId))) {
 			Core_Model_Session::set('user_id', $this->_data->user_id);
 			Core_Model_Session::set('logged_in', true);
 			if($this->_data->role == 'admin'){
@@ -108,8 +104,6 @@ class Incubate_Model_User extends Core_Model_Abstract
      */
     public function AddStudentsIfNotTaken($group, $lessonId)
     {
-        //stores recommended students to invite
-        $studentInviteList = array();
 
         //stores all users in table
         $allUserData = $this->getAllBasedOnGivenFields(array('groups', '=', $group));
@@ -121,19 +115,21 @@ class Incubate_Model_User extends Core_Model_Abstract
          * if they have not, check if theyre group is tagged by the lesson,
          * store their names in student invite list
          */
-        foreach($allUserData as $user) {
+        if(isset($allUserData)) {
 
-            if($this->checkIfUserCompletedSpecificCourse($lessonId, $user)){
-                continue;
+            foreach($allUserData as $user) {
+
+                if($this->checkIfUserCompletedSpecificCourse($lessonId, $user)){
+                    continue;
+                }
+			    $this->studentInviteList[] = $user->name;
             }
-			$studentInviteList[] = $user->name;
         }
-        return $studentInviteList;
     }
 
     public function checkIfUserCompletedSpecificCourse($lessonId, $user)
     {
-        if($this->_db->getMultiArgument('completed_courses', array('user_id', '=', $user->user_id), array('lesson_id', '=', $lessonId)))
+        if($this->_db->getMultiArgument('completed_courses', array('user_id', '=', $user->user_id), array('lesson_id', '=', $lessonId))->results())
         {
             return true;
         }
@@ -142,7 +138,7 @@ class Incubate_Model_User extends Core_Model_Abstract
 
     public function getAllUserCompletedCourseId($userId)
     {
-        if($userCompletedCourseIdMap = $this->getAll('completed_courses', array('user_id', '=', $userId))) {
+        if($userCompletedCourseIdMap = $this->_db->getAll('completed_courses', array('user_id', '=', $userId))->results()) {
 
             foreach($userCompletedCourseIdMap as $mapValue) {
                 $userCompletedCourseIdArray[] = $mapValue->lesson_id;
@@ -157,8 +153,18 @@ class Incubate_Model_User extends Core_Model_Abstract
 		$this->_db->deleteMultiArgument('completed_courses', array('user_id', '=', $userId), array('lesson_id','=',$lessonId));
 	}
 
+    public function markCourseComplete($userId, $lessonId)
+    {
+        if($this->_db->insert('completed_courses', array('user_id' => $userId, 'lesson_id' => $lessonId))){
+            return true;
+        }
+        return false;
+    }
 	public function getCompletedCourseCount($userId)
 	{
-		$this->_db->getAll('completed_courses', array('user_id', '=', $userId))->count();
+		if($data = $this->_db->get('completed_courses', array('user_id', '=', $userId))->count()) {
+            return $data;
+        }
+        return null;
 	}
 }

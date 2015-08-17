@@ -30,11 +30,12 @@
     <?php foreach($userData as $user) {
 
         $incubationTimer = date('Y-m-d', strtotime($user->joined . "+90 days"));
-        if($totalLessonCount == 0) {
-			$userProgress = 0;
-		} else{
-			$userProgress = $userCompletedCourses[$user->name] / $totalLessonCount * 100;
-		}
+        if($totalLessonCount != 0) {
+            $userProgress = round($userCompletedCourses[$user->name] / $totalLessonCount * 100);
+        }
+        else {
+            $userProgress = 0;
+        }
         echo '<tr>';
         echo '<td>' . $user->name . '</td>';
         echo '<td><div data-countdown="' . $incubationTimer . '"></div></td>';

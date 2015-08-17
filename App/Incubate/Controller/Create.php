@@ -62,9 +62,9 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
 
             $newLesson = $lesson->get(array('name', '=', $_POST['name']));
 
-            foreach ($tagArray as $tag) {
-                $tagInfo = $tag->get(array('name', '=', $tag));
-                $lesson->createTagMap($newLesson->lesson_id, $tagInfo->id);
+            foreach ($tagArray as $tags) {
+                $tagInfo = $tag->get(array('name', '=', $tags));
+                $lesson->createTagMap($newLesson->lesson_id, $tagInfo->tag_id);
             }
 
             $this->redirect('Incubate', 'Lesson', 'indexAction');

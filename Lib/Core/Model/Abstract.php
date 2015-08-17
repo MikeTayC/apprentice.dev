@@ -40,6 +40,14 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 		return null;
 	}
 
+    public function get($fields = array())
+    {
+        if($this->_data = $this->_db->get($this->_table, $fields)->first()) {
+            return $this->_data;
+        }
+        return null;
+    }
+
 	public function getAll()
 	{
 		if($this->_data = $this->_db->getAll($this->_table)->results()) {
@@ -88,7 +96,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 
 	public function getTotalCount()
 	{
-		$data = $this->_db->getAll($this->_table);
+		$data = $this->_db->getAll($this->_table)->count();
 		return $data;
 	}
 

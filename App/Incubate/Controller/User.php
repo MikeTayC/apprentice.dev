@@ -26,7 +26,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
             $completedCourses = array();
 
             foreach ($allUsers as $users) {
-                $courseCount = $user->getCompletedCourseCount($users->user->id);
+                $courseCount = $user->getCompletedCourseCount($users->user_id);
                 $completedCourses[$users->name] = $courseCount;
             }
 
@@ -75,8 +75,11 @@ class Incubate_Controller_User extends Core_Controller_Abstract
                 $totalCourseCount = count($lessonData);
 
 				//user percentage of completed course
-                $percentageCoursesTaken = $completedCourseCount / $totalCourseCount * 100;
-
+                if($totalCourseCount != 0) {
+                    $percentageCoursesTaken = round($completedCourseCount / $totalCourseCount * 100);
+                } else {
+                    $percentageCoursesTaken = 0;
+                }
 				//binds data to view
                 $view->getContent()->setData('completed_courses', $userCompletedCourses);
                 $view->getContent()->setData('percentage_taken', $percentageCoursesTaken);
@@ -93,14 +96,12 @@ class Incubate_Controller_User extends Core_Controller_Abstract
         if ($userId && $lessonId) {
             $user = new Incubate_Model_User();
 
-            if ($user->checkIfUserCompletedSpecificCourse($userId,$lessonId)) {
-                try {
-                    $user->markCourseIncomplete($userId, $lessonId);
-                } catch (Exception $e) {
-                    Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
-                }
-
+            try {
+                $user->markCourseIncomplete($userId, $lessonId);
+            } catch (Exception $e) {
+                Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
             }
+
         }
         $this->redirect('Incubate', 'User', 'profileAction', $userId);
     }
@@ -110,18 +111,12 @@ class Incubate_Controller_User extends Core_Controller_Abstract
         if ($userId && $lessonId) {
             $user = new Incubate_Model_User();
 
-            if (!$user->getMultiArguments('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))) {
-
-                try {
-                    $user->create('completed_courses', array(
-                        'user_id' => $userId,
-                        'lesson_id' => $lessonId
-                    ));
-                } catch (Exception $e) {
-                    Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
-                }
-
+            try {
+                $user->markCourseComplete($userId, $lessonId);
+            } catch (Exception $e) {
+                Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
             }
+
         }
         $this->redirect('Incubate', 'User', 'profileAction', $userId);
     }

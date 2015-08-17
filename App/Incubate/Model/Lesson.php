@@ -21,10 +21,10 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 		return null;
 	}
 
-	public function getTagLessonMapFromLessonId()
+	public function getTagLessonMapFromLessonId($lessonId)
 	{
 		//TODO set lesson id somewhere
-		if($lessonTags = $this->_db->getAll('lesson_tag_map', array('lesson_id', '=', $this->_lesson_id))){
+		if($lessonTags = $this->_db->get('lesson_tag_map', array('lesson_id', '=', $lessonId))->results()){
 			return $lessonTags;
 		}
 		return null;

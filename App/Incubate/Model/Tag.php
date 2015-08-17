@@ -16,11 +16,17 @@ class Incubate_Model_Tag extends Core_Model_Abstract
 
 	public function getTagsFromTagTableByTagId($tagId)
 	{
-		if($tag = $this->get(array('tag_id', '=', $tagId))) {
+		if($tag = $this->getAllBasedOnGivenFields(array('tag_id', '=', $tagId))) {
 			return $tag->name;
 		}
 		return null;
 	}
+    public function getTagNameByTagId($tagId) {
+        if($tag = $this->get(array('tag_id', '=', $tagId))) {
+            return $tag->name;
+        }
+        return null;
+    }
 
 	/*
  * searches for new tags to be added to the array,
@@ -28,12 +34,12 @@ class Incubate_Model_Tag extends Core_Model_Abstract
  */
 	public function AddNewTagsToDb($tagArray)
 	{
-		$dbTags = $this->getAll();
+		$dbTags = $this->getAllNamesAsArray();
 		if(is_array($tagArray)) {
 			foreach ($tagArray as $tag) {
 				if (!in_array($tag, $dbTags)) {
-					$this->create('tag', array(
-						'value' => $tag
+					$this->create(array(
+						'name' => $tag
 					));
 				}
 			}

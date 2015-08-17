@@ -28,6 +28,7 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
         if(!empty($_POST)) {
 
             $user = Bootstrap::getModel('incubate/user');
+            $lesson = Bootstrap::getModel('incubate/lesson');
 
             $lessonName = $_POST['lesson_name'];
 			$tags = $_POST['tags'];
@@ -37,7 +38,7 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 			$date = $_POST['date'];
 
 			//get lesson data from lesson name
-			$lessonData = $user->get('lesson', array('name', '=', $lessonName));
+			$lessonData = $lesson->get(array('name', '=', $lessonName));
 
 			//get end time calculated from class duration, keeping same format
 			$time = strtotime($startTime);
@@ -85,7 +86,7 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 
 				//for eaach tag in the map, get the specific tag names from the tag table
 				foreach ($lessonTagMap as $mapValue) {
-					$tagName = $tag->getTagsFromTagTableByTagId($mapValue->tag_id);
+					$tagName = $tag->getTagNameByTagId($mapValue->tag_id);
 					$lesson->checkForGroupTagAndAssign($mapValue->tag_id);
 					$lessonTags[] = $tagName;
 				}
@@ -93,15 +94,15 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 				//for each student whos group is tagged, add themt o the list of recommended students to take
 				$studentInviteList = array();
 				if($lesson->AE) {
-					$studentInviteList[] = $user->AddStudentsIfNotTaken($lessonId, 'Application Engineer');
+					$user->AddStudentsIfNotTaken('Application Engineer', $lessonId);
 				}
 				if($lesson->QA) {
-					$studentInviteList[] = $user->AddStudentsIfNotTaken($lessonId, 'Quality Assurance Analyst');
+					$user->AddStudentsIfNotTaken('Quality Assurance Analyst', $lessonId);
 				}
 				if($lesson->FE){
-					$studentInviteList[] = $user->AddStudentsIfNotTaken($lessonId, 'Front End Developer');
+					$user->AddStudentsIfNotTaken('Front End Developer', $lessonId);
 				}
-
+                $studentInviteList = $user->studentInviteList;
 
 				$view->getContent()->setStudents($studentInviteList);
 				$view->getContent()->setTags($lessonTags);

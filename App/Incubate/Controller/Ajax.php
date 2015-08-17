@@ -14,21 +14,21 @@ class Incubate_Controller_Ajax extends Core_Controller_Abstract
 
                 case 'tag' :
                     $tag = Bootstrap::getModel('incubate/tag');
-                    $tagNames = $tag->getAll();
+                    $tagNames = $tag->getAllNamesAsArray();
                     $jsonTags = $tag->jsonEncode($tagNames);
                     echo $jsonTags;
                     break;
 
                 case 'lesson' :
                     $lesson = Bootstrap::getModel('incubate/lesson');
-                    $lessonNames = $lesson->getAll();
+                    $lessonNames = $lesson->getAllNamesAsArray();
                     $jsonLessons = $lesson->jsonEncode($lessonNames);
                     echo $jsonLessons;
                     break;
 
                 case 'student' :
                     $user = Bootstrap::getModel('incubate/user');
-                    $studentNames = $user->getAll();
+                    $studentNames = $user->getAllNamesAsArray();
                     $jsonStudents = $user->jsonEncode($studentNames);
                     echo $jsonStudents;
                     break;

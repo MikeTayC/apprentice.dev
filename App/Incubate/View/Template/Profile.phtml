@@ -34,26 +34,28 @@
     </thead>
     <tbody>
     <?php
+        if($lessonData) {
 
-        foreach($lessonData as $lesson) {
+            foreach($lessonData as $lesson) {
 
-            echo '<td>' . $lesson->name . '</td>';
+                echo '<td>' . $lesson->name . '</td>';
 
-            if(in_array($lesson->lesson_id, $completedCourses)) {
-                echo '<td>';
-                echo '<div class="uk-badge uk-badge-success">Completed</div>';
-                echo '</td>';
-                echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
+                if(in_array($lesson->lesson_id, $completedCourses)) {
+                    echo '<td>';
+                    echo '<div class="uk-badge uk-badge-success">Completed</div>';
+                    echo '</td>';
+                    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
+                }
+                else {
+                    echo '<td>';
+                    echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
+                    echo '</td>';
+                    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
+
+                }
+
+                echo '</tr>';
             }
-            else {
-                echo '<td>';
-                echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
-                echo '</td>';
-                echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
-
-            }
-
-            echo '</tr>';
         }
 
     ?>
