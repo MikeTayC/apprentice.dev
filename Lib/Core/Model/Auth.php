@@ -183,8 +183,7 @@ class Core_Model_Auth
          * check user data for google id, against the person trying to log in
          */
         if($this->_user->checkUserDataForGoogleId($googleId)) {
-            Core_Model_Session::set('google_id', $googleId);
-            Core_Model_Session::set('logged_in', true);
+
             return true;
         }
         return false;
@@ -218,11 +217,8 @@ class Core_Model_Auth
 
 
     }
-    public function assignAdminStatus()
+    public function assignAdminStatus($googleId)
     {
-        //set local variable, assigned session google_id
-        $googleId = Core_Model_Session::get('google_id');
-
         //check admin status in database using google_id
         if($this->_user->checkUserDataForAdminStatus($googleId)) {
             Core_Model_Session::set('admin_status', true);
@@ -243,10 +239,9 @@ class Core_Model_Auth
             'google_id' => $googleId,
             'name'      => $googleDisplayName,
             'email'     => $email,
-            'role'      => 'standard',
-            'joined'    => date('Y-m-d H:i:s')
+            'role'      => 'student',
+            'joined'    => date('Y-m-d')
         ));
-
         if($this->_user->checkUserDataForGoogleId($googleId)) {
             Core_Model_Session::set('google_id', $googleId);
             Core_Model_Session::set('logged_in', true);
