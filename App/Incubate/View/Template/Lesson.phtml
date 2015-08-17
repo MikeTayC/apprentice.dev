@@ -8,7 +8,7 @@
     <?php if(Core_Model_Session::get('admin_status')) : ?>
         <a class="uk-button uk-button-large uk-button-success" href="http://apprentice.dev/incubate/create/index/lesson">Create Lesson</a>
 
-        <a class="uk-button uk-button-large uk-button-primary" href="http://apprentice.dev/incubate/create/index/tag">Create Tags</a>
+        <a class="uk-button uk-button-large uk-button-primary" href="http://apprentice.dev/incubate/create/index/tag">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
     <?php endif; ?>
 
     <table class="uk-table uk-table-hover uk-table-striped">
@@ -23,9 +23,9 @@
 
 				echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
 
-				echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">Edit</a></td>';
+				echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 
-				echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">Delete</a></td>';
+				echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
 				}
 
 				echo '</tr>';

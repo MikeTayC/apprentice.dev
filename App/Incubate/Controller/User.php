@@ -10,6 +10,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
     public function indexAction()
     {
         if (!Core_Model_Session::get('logged_in') || !Core_Model_Session::get('admin_status')) {
+            Core_Model_Session::dangerflash('error', 'You cannot go there');
             $this->redirect('Incubate', 'Login', 'indexAction');
         } else {
 
@@ -47,6 +48,19 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function profileAction($userId)
     {
+        if(!Core_Model_Session::get('logged_in')) {
+            Core_Model_Session::dangerFlash('You are not logged in!');
+            $this->headerRedirect('incubate', 'login', 'index');
+            exit;
+        }
+
+        if(!Core_Model_Session::get('admin_status')) {
+
+            Core_Model_Session::dangerflash('error', 'Admins Only');
+            $this->headerRedirect('incubate','index','index');
+            exit;
+        }
+
         $view = $this->loadLayout();
 
 //        $user = Bootstrap::getModel('incubate/user');
@@ -93,6 +107,19 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function deleteAction($userId, $lessonId)
     {
+        if(!Core_Model_Session::get('logged_in')) {
+            Core_Model_Session::dangerFlash('You are not logged in!');
+            $this->headerRedirect('incubate', 'login', 'index');
+            exit;
+        }
+
+        if(!Core_Model_Session::get('admin_status')) {
+
+            Core_Model_Session::dangerflash('error', 'Admins Only');
+            $this->headerRedirect('incubate','index','index');
+            exit;
+        }
+
         if ($userId && $lessonId) {
             $user = new Incubate_Model_User();
 
@@ -108,6 +135,19 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function addAction($userId, $lessonId)
     {
+        if(!Core_Model_Session::get('logged_in')) {
+            Core_Model_Session::dangerFlash('You are not logged in!');
+            $this->headerRedirect('incubate', 'login', 'index');
+            exit;
+        }
+
+        if(!Core_Model_Session::get('admin_status')) {
+
+            Core_Model_Session::dangerflash('error', 'Admins Only');
+            $this->headerRedirect('incubate','index','index');
+            exit;
+        }
+
         if ($userId && $lessonId) {
             $user = new Incubate_Model_User();
 

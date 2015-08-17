@@ -26,6 +26,8 @@ class Core_Model_Auth
 
     protected $_email;
 
+//    protected $_calendar;
+
     /*
      * We need to pass in an instance of the google client we set = to null incase it doesnt exists
      * we can instantiate this class alone to logout out users
@@ -41,12 +43,14 @@ class Core_Model_Auth
             $this->_client->setClientID('433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com');
             $this->_client->setClientSecret('iehdSyaJgoH5uwgsjwPYO9ro');
             $this->_client->setRedirectUri('http://apprentice.dev/incubate/login/index');
-            $this->_client->setScopes('email','profile');
+            $this->_client->setScopes('email','profile', 'https://www.googleapis.com/auth/calendar');
 
             /*
              * google_service_plus : interface for accessing google plus information
              */
             $this->_plus = new Google_Service_Plus($googleClient);
+
+//            $this->_calendar = new Google_Service_Calendar($googleClient);
         }
     }
 
@@ -218,4 +222,36 @@ class Core_Model_Auth
             Core_Model_Session::set('admin_status', false);
         }
     }
+//
+//    public function setEvent($title, $description, $eventStart, $eventEnd, $inviteList = array())
+//    {
+//        foreach ($inviteList as $email) {
+//            if($email) {
+//                $attendee = new Google_Service_Calendar_EventAttendee();
+//                $attendee->setEmail($email);
+//                $attendeeArray[] = $attendee;
+//            }
+//        }
+//        $event = new Google_Service_Calendar_Event();
+//        $event->setSummary($title);
+//        $event->setDescription($description);
+//
+//        $start = new Google_Service_Calendar_EventDateTime();
+//        $start->setDateTime($eventStart);
+//        $event->setStart($start);
+//
+//        $end = new Google_Service_Calendar_EventDateTime();
+//        $end->setDateTime($eventEnd);
+//        $event->setEnd($end);
+//
+//        $event->setAttendees($attendeeArray);
+//
+//        $optArgs = array(
+//            "sendNotifications" => true
+//        );
+//
+//        $createdEvent = $this->ca->events->insert($this->calendarId, $event, $optArgs);
+
+
+//    }
 }

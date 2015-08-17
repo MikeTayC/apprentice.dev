@@ -63,7 +63,8 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
              */
             else {
                 //direct back to login, user is not located in database, and does not have a blue acorn email address
-                $this->redirect('Core','Error', 'errorAction');
+                Core_Model_Session::dangerflash('error', 'Blue Acorn Email addresses only');
+                $this->redirect('Incubate','Logout', 'indexAction');
             }
         }
 
@@ -78,13 +79,13 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
         /*
          * will render the default google login landing page
          */
-            echo Core_Model_Session::flash('error');
+            echo Core_Model_Session::dangerFlash('error');
             $view->render();
         }
         else {
             //if all else fails, the user is logged in but directly tried accessing default login page
             //prompt user to signout or redirect
-            echo Core_Model_Session::flash('error');
+            echo Core_Model_Session::dangerFlash('error');
             $view->render();
         }
 

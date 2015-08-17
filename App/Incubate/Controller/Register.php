@@ -29,10 +29,10 @@ class Incubate_Controller_Register extends Core_Controller_Abstract
 			$user->createUser($name, $email, $group, $googleId);
 
 			if($user->checkUserDataForGoogleId($googleId)) {
-				Core_Model_Session::flash('message', '<div class="uk-alert uk-alert-success" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>You have been successfully added to Incubate!</p></div>');
+				Core_Model_Session::successflash('message', 'You have been successfully added to Incubate!');
 			}
 			else {
-				Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>There was a problem adding you to Incubate!</p></div>');
+				Core_Model_Session::dangerFlash('error', 'There was a problem adding you to Incubate!');
 				$this->headerRedirect('incubate', 'logout', 'index');
 				exit;
 			}

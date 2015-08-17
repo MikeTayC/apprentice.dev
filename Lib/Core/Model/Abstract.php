@@ -111,4 +111,5 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 		$this->_db->update($this->_table, $fieldToCheck, $fieldCheck, $fields);
 	}
 
+
 }

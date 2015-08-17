@@ -35,15 +35,26 @@ class Core_Model_Session extends Core_Model_Object
     {
         unset($_SESSION);
     }
-    public static function flash($name, $string = '')
+    public static function dangerFlash($name, $string = '')
     {
         if(self::exists($name)) {
             $session = self::get($name);
             self::delete($name);
             return $session;
         }
-        else {
-            self::set($name, $string);
+        elseif(!empty($string)) {
+            self::set($name, '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>' . $string . '</p></div>');
+        }
+    }
+    public static function successFlash($name, $string = '')
+    {
+        if(self::exists($name)) {
+            $session = self::get($name);
+            self::delete($name);
+            return $session;
+        }
+        elseif(!empty($string)) {
+            self::set($name, '<div class="uk-alert uk-alert-success" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>' . $string . '</p></div>');
         }
     }
 }

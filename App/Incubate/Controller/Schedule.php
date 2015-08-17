@@ -8,15 +8,16 @@
 
 class Incubate_Controller_Schedule extends Core_Controller_Abstract
 {
-    public function indexAction($param)
+    public function indexAction()
     {
         if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>You are not logged in, bro. Got redirected</p></div>');
+            Core_Model_Session::dangerFlash('You are not logged in!');
             $this->headerRedirect('incubate', 'login', 'index');
             exit;
         }
         else {
-            echo Core_Model_Session::flash('error');
+            echo Core_Model_Session::dangerFlash('error');
+            echo Core_Model_Session::successFlash('message');
             $this->loadLayout();
             $this->render();
 
@@ -25,6 +26,19 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 
     public function eventAction()
     {
+        if(!Core_Model_Session::get('logged_in')) {
+            Core_Model_Session::dangerFlash('You are not logged in!');
+            $this->headerRedirect('incubate', 'login', 'index');
+            exit;
+        }
+
+        if(!Core_Model_Session::get('admin_status')) {
+
+            Core_Model_Session::dangerflash('error', 'Admins Only');
+            $this->headerRedirect('incubate','index','index');
+            exit;
+        }
+
         if(!empty($_POST)) {
 
             $user = Bootstrap::getModel('incubate/user');
@@ -64,7 +78,7 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
             $client = new Google_Client();
 
             $calendar = new Core_Model_Calendar($client);
-
+//            $auth = new Core_Model_Auth(null, $client);
             $calendar->setEvent($lessonName, $description, $startDateTime, $endDateTime, $studentEmailArray);
 
             $this->redirect('Incubate', 'Schedule', 'indexAction');
@@ -73,7 +87,20 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 
 	public function lessonAction($lessonId)
 	{
-		if(isset($lessonId)) {
+        if(!Core_Model_Session::get('logged_in')) {
+            Core_Model_Session::dangerFlash('You are not logged in!');
+            $this->headerRedirect('incubate', 'login', 'index');
+            exit;
+        }
+
+        if(!Core_Model_Session::get('admin_status')) {
+
+            Core_Model_Session::dangerflash('error', 'Admins Only');
+            $this->headerRedirect('incubate','index','index');
+            exit;
+        }
+
+        if(isset($lessonId)) {
 
 			$view = $this->loadLayout();
 			$user = new Incubate_Model_User();
@@ -85,11 +112,14 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 				$lessonTagMap = $lesson->getTagLessonMapFromLessonId($lessonData->lesson_id);
 
 				//for eaach tag in the map, get the specific tag names from the tag table
-				foreach ($lessonTagMap as $mapValue) {
-					$tagName = $tag->getTagNameByTagId($mapValue->tag_id);
-					$lesson->checkForGroupTagAndAssign($mapValue->tag_id);
-					$lessonTags[] = $tagName;
-				}
+                $lessonTags = array();
+                if(isset($lessonTagMap)) {
+                    foreach ($lessonTagMap as $mapValue) {
+                        $tagName = $tag->getTagNameByTagId($mapValue->tag_id);
+                        $lesson->checkForGroupTagAndAssign($mapValue->tag_id);
+                        $lessonTags[] = $tagName;
+                    }
+                }
 
 				//for each student whos group is tagged, add themt o the list of recommended students to take
 				$studentInviteList = array();

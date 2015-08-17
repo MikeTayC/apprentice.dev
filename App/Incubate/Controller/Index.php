@@ -13,7 +13,7 @@ class Incubate_Controller_Index extends Core_Controller_Abstract
             $this->redirect('Incubate', 'Login', 'indexAction');
         }
         else {
-			Core_Model_Session::flash('message');
+			Core_Model_Session::successFlash('message');
 
 			$view = $this->loadLayout();
 
