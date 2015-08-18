@@ -1,7 +1,5 @@
 <?php
     $lessons = $this->getLesson();
-    $maps = $this->getMap();
-    $tags = $this->getTag();
 ?>
 <div class="content">
 
@@ -20,8 +18,11 @@
 
 				echo '<tr>';
 				echo '<td>' . $lesson->name . '</td>';
+                echo '<td><a class="uk-button" href="http://apprentice.dev/incubate/view/lesson/'. $lesson->lesson_id .'">&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 				if(Core_Model_Session::get('admin_status')) {
+
 					echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
+
 
 					echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 
@@ -34,29 +35,4 @@
         ?>
         </tbody>
     </table>
-
-
-
-<!---->
-<!--    <div>-->
-<!--        <div class="uk-accordion" data-uk-accordion>-->
-<!--    --><?php
-//        foreach($lessons as $lesson) {
-//            echo '<h3 class="uk-accordion-title">' . $lesson->name . '</h3>';
-//            echo '<div class="uk-accordion-content">';
-////            foreach ($maps as $map) {
-////                if ($map->lesson_id == $lesson->lesson_id) {
-////                    foreach ($tags as $tag) {
-////                        if ($map->tag_id == $tag->id) {
-////                            echo $tag->value;
-////                        }
-////                    }
-////                }
-////            }
-//            echo $lesson->description;
-//            echo '</div>';
-//        }
-//    ?>
-<!--    </div>-->
-<!--    </div>-->
 </div>

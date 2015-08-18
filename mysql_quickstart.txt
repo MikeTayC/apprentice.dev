@@ -19,3 +19,14 @@ INSERT INTO `tag` (`name`) VALUES ('Quality Assurance Analyst');
 INSERT INTO `tag` (`name`) VALUES ('Front End Developer');
 
 
+
+INSERT INTO `user` (`google_id`, `name`, `email`, `joined`, `role`, `groups`) VALUES ('104525396091787311683', 'Tayzer Phazer', 'tayzerphazerlazerblazer@gmail.com','2015-07-07','student','Front End Developer');
+
+INSERT INTO `user` (`google_id`, `name`, `email`, `joined`, `role`, `groups`) VALUES ('107917196333946542054', 'Mike Tay C', 'miketayc@gmail.com','2015-06-17','student','Quality Assurance Analyst');
+
+INSERT INTO `user` (`google_id`, `name`, `email`, `joined`, `role`, `groups`) VALUES ('113562639224233147834', 'Sam Girl', 'sdepuy18@gmail.com','2015-08-10','student','Application Engineer');
+
+UPDATE `user` SET `role` = 'admin' WHERE `user`.`user_id` = '1';
+
+
+

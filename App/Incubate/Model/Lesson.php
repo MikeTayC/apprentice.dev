@@ -17,6 +17,7 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
     public function loadLesson($lessonId)
     {
         $this->_data = $this->get(array('lesson_id', '=', $lessonId));
+        return $this;
     }
 
     public function updateLessonName($lessonName)
@@ -24,6 +25,7 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
         if($this->_data) {
             $this->_data->name = $lessonName;
         }
+        return $this;
     }
 
     public function updateLessonDescription($lessonDescription)
@@ -31,6 +33,7 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
         if($this->_data) {
             $this->_data->description = $lessonDescription;
         }
+        return $this;
     }
 
     public function updateLessonDuration($lessonDuration)
@@ -38,6 +41,7 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
         if($this->_data) {
             $this->_data->duration = $lessonDuration;
         }
+        return $this;
     }
 
     public function saveUpdate()
@@ -84,7 +88,6 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 
 	public function getTagLessonMapFromLessonId($lessonId)
 	{
-		//TODO set lesson id somewhere
 		if($lessonTags = $this->_db->get('lesson_tag_map', array('lesson_id', '=', $lessonId))->results()){
 			return $lessonTags;
 		}

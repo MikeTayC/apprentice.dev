@@ -27,11 +27,8 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
 
         //load model
         $lesson = Bootstrap::getModel('incubate/lesson');
-        $tag = Bootstrap::getModel('incubate/tag');
 
         $lessonData = $lesson->getAll();
-        $tagData = $tag->getAll();
-        $mapData = $lesson->getTagLessonMap();
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
         if($lessonData) {
@@ -49,7 +46,7 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
         $tag = new Incubate_Model_Tag();
 
         if (!empty($_POST)) {
-            $lessonId = $_POST['lesson_id'];
+            $lessonId = Core_Model_Session::get('lesson_id');
             $lessonName = $_POST['name'];
             $lessonDescription = $_POST['description'];
             $lessonDuration = $_POST['duration'];
@@ -79,12 +76,13 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
              * call update funciton
              * save the updates
              */
-            $lesson->loadLesson($lessonId);
-            $lesson->updateLessonName($lessonName);
-            $lesson->updateLessonDescription($lessonDescription);
-            $lesson->updateLessonDuration($lessonDuration);
-            $lesson->saveUpdate();
+             $lesson->loadLesson($lessonId)
+                    ->updateLessonName($lessonName)
+                    ->updateLessonDescription($lessonDescription)
+                    ->updateLessonDuration($lessonDuration)
+                    ->saveUpdate();
 
+            Core_Model_Session::delete('lesson_id');
             Core_Model_Session::successFlash('message', 'Successfully updated');
             $this->headerRedirect('incubate','lesson','index');
             exit;
@@ -107,7 +105,7 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
                     $lessonTags[] = $tagName;
                 }
             }
-            $view->getContent()->setId($lessonId);
+            Core_Model_Session::set('lesson_id', $lessonId);
             $view->getContent()->setName($lessonData->name);
             $view->getContent()->setDescription($lessonData->description);
             $view->getContent()->setDuration($lessonData->duration);

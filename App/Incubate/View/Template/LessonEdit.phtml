@@ -1,5 +1,5 @@
 <?php
-    $lessonId = $this->getId();
+    $lessonId = Core_Model_Session::get('lesson_id');
     $name = $this->getName();
     $description = $this->getDescription();
     $duration = $this->getDuration();
@@ -50,11 +50,6 @@
                         }
                         ?>
                     </ul>
-                </div>
-                <div class="uk-form-row">
-                Lesson ID:
-                    <input readonly name="lesson_id" type="text" value="<?php echo $lessonId; ?>" id="lesson_id" />
-                    <div class="uk-badge uk-badge-danger">Read Only</div>
                 </div>
                 <div class="uk-form-row">
                 <div class="submit">
