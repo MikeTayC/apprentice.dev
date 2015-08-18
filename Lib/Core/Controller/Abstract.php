@@ -57,9 +57,12 @@ abstract class Core_Controller_Abstract
     /*
      * redirects the actual url, necessary so access code does not show
      */
-    public function headerRedirect($module, $controller, $action)
+    public function headerRedirect($module, $controller, $action, $param = null)
     {
         $headerURL = 'Location: http://apprentice.dev/' . $module . '/' . $controller . '/' . $action;
+        if($param) {
+            $headerURL .= '/' . $param;
+        }
         header($headerURL);
     }
 }

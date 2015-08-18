@@ -130,7 +130,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
             }
 
         }
-        $this->redirect('Incubate', 'User', 'profileAction', $userId);
+        $this->headerRedirect('incubate', 'user', 'profile', $userId);
     }
 
     public function addAction($userId, $lessonId)
@@ -158,7 +158,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
             }
 
         }
-        $this->redirect('Incubate', 'User', 'profileAction', $userId);
+        $this->headerRedirect('incubate', 'user', 'profile', $userId);
     }
 
 	public function removeAction($userId)

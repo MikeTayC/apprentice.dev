@@ -10,6 +10,7 @@
 			<li><a href="http://apprentice.dev/incubate/schedule/index">Schedule</a></li>
             <?php if(Core_Model_Session::get('admin_status')) : ?>
                 <li><a href="http://apprentice.dev/incubate/user/index">Students</a></li>
+                <li><a href="http://apprentice.dev/incubate/tag/index">Tags</a></li>
             <?php else :?>
                  <li><a href="http://apprentice.dev/incubate/user/profile/<?php echo Core_Model_Session::get('user_id');?>">Profile</a></li>
             <?php endif; ?>
