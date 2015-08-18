@@ -7,12 +7,29 @@
  */
 class Incubate_Controller_User extends Core_Controller_Abstract
 {
-    public function indexAction()
-    {
+    protected function _isLoggedIn(){
         if (!Core_Model_Session::get('logged_in') || !Core_Model_Session::get('admin_status')) {
             Core_Model_Session::dangerFlash('error', 'You cannot go there');
             $this->redirect('Incubate', 'Login', 'indexAction');
-        } else {
+            //@todo: Allow redirect function to handle below:
+            // $this->redirect('*', 'Login'); OR
+            // $this->redirect('module', 'Login', 'IndexAction');
+            exit;
+        }
+    }
+
+    protected function _checkAdminStatus(){
+        if(!Core_Model_Session::get('admin_status')) {
+
+            Core_Model_Session::dangerflash('error', 'Admins Only');
+            $this->headerRedirect('incubate','index','index');
+            exit;
+        }
+    }
+
+    public function indexAction()
+    {
+            $this->_isLoggedIn();
 
             /*
              * instantiate user  model using boot strap factory,
@@ -43,16 +60,11 @@ class Incubate_Controller_User extends Core_Controller_Abstract
             $view->getContent()->setData('userCompletedCourses', $completedCourses);
             $view->getContent()->setData('totalLessonCount', $totalLessonCount);
             $view->render();
-        }
     }
 
     public function profileAction($userId)
     {
-        if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::dangerFlash('You are not logged in!');
-            $this->headerRedirect('incubate', 'login', 'index');
-            exit;
-        }
+        $this->_isLoggedIn();
 
         if(Core_Model_Session::get('admin_status') || Core_Model_Session::get('user_id') == $userId) {
 			$view = $this->loadLayout();
@@ -89,10 +101,11 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 						$percentageCoursesTaken = 0;
 					}
 					//binds data to view
-					$view->getContent()->setData('completed_courses', $userCompletedCourses);
-					$view->getContent()->setData('percentage_taken', $percentageCoursesTaken);
-					$view->getContent()->setData('userData', $userData);
-					$view->getContent()->setData('lesson_data', $lessonData);
+					$view->getContent()
+                        ->setData('completed_courses', $userCompletedCourses)
+                        ->setData('percentage_taken', $percentageCoursesTaken)
+                        ->setData('userData', $userData)
+                        ->setData('lesson_data', $lessonData);
 				}
 
 			}
@@ -107,21 +120,12 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function deleteAction($userId, $lessonId)
     {
-        if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::dangerFlash('You are not logged in!');
-            $this->headerRedirect('incubate', 'login', 'index');
-            exit;
-        }
+        $this->_isLoggedIn();
 
-        if(!Core_Model_Session::get('admin_status')) {
-
-            Core_Model_Session::dangerflash('error', 'Admins Only');
-            $this->headerRedirect('incubate','index','index');
-            exit;
-        }
+        $this->_checkAdminStatus();
 
         if ($userId && $lessonId) {
-            $user = new Incubate_Model_User();
+            $user = Bootstrap::getModel('incubate/user');
 
             try {
                 $user->markCourseIncomplete($userId, $lessonId);
@@ -135,21 +139,12 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function addAction($userId, $lessonId)
     {
-        if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::dangerFlash('You are not logged in!');
-            $this->headerRedirect('incubate', 'login', 'index');
-            exit;
-        }
+        $this->_isLoggedIn();
 
-        if(!Core_Model_Session::get('admin_status')) {
-
-            Core_Model_Session::dangerflash('error', 'Admins Only');
-            $this->headerRedirect('incubate','index','index');
-            exit;
-        }
+        $this->_checkAdminStatus();
 
         if ($userId && $lessonId) {
-            $user = new Incubate_Model_User();
+            $user = Bootstrap::getModel('incubate/user');
 
             try {
                 $user->markCourseComplete($userId, $lessonId);
@@ -163,14 +158,10 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
 	public function removeAction($userId)
 	{
-		if(!Core_Model_Session::get('admin_status')) {
-			Core_Model_Session::dangerFlash('error', 'Admins only');
-			$this->headerRedirect('incubate','index','index');
-			exit;
-		}
+        $this->_isLoggedIn();
 
 		if(!empty($userId)) {
-			$user = new Incubate_Model_User();
+			$user = Bootstrap::getModel('incubate/user');
 
 			if($userData = $user->get(array('user_id', '=', $userId))){
 				$user->deleteCompletedCourseMap($userId);
@@ -189,11 +180,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
 	public function adminAction($userId)
 	{
-		if(!Core_Model_Session::get('admin_status')) {
-			Core_Model_Session::dangerFlash('error', 'Admins only');
-			$this->headerRedirect('incubate','index','index');
-			exit;
-		}
+        $this->_isLoggedIn();
 
 		if(!empty($userId)) {
 			$user = new Incubate_Model_User();
