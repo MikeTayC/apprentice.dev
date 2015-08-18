@@ -15,7 +15,7 @@
     <h2>
 		User Name : <?php echo $userName; ?>
 		<?php if (Core_Model_Session::get('admin_status')) : ?>
-		<a class="uk-button uk-align-right uk-button-large uk-button-danger" href="http://apprentice.dev/incubate/user/admin/<?php echo $userId; ?>">Admin</a>
+		<a class="uk-button uk-align-right uk-button-large uk-button-success" href="http://apprentice.dev/incubate/user/admin/<?php echo $userId; ?>">Admin</a>
 		<a class="uk-button uk-align-right uk-button-large uk-button-danger" href="http://apprentice.dev/incubate/user/remove/<?php echo $userId; ?>">Remove</a>
 		<?php endif;?>
 	</h2>

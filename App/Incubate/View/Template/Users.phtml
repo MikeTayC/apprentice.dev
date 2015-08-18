@@ -27,33 +27,31 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach($userData as $user) {
 
-        $incubationTimer = date('Y-m-d', strtotime($user->joined . "+90 days"));
-        if($totalLessonCount != 0) {
-            $userProgress = round($userCompletedCourses[$user->name] / $totalLessonCount * 100);
-        }
-        else {
-            $userProgress = 0;
-        }
-        echo '<tr>';
-        echo '<td>' . $user->name . '</td>';
-        echo '<td><div data-countdown="' . $incubationTimer . '"></div></td>';
-        echo '<td>' . $user->groups . '</td>';
-        echo '<td>';
-        echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $userProgress .'%">' . $userProgress . '%</div></div>';
-        echo '</td>';
-        echo '<td><a class="uk-button  uk-button-danger" href="http://apprentice.dev/incubate/user/profile/' . $user->user_id . '">Edit</a></td>';
-        echo '</tr>';
-        }
+    <?php
+		if(isset($userData)) {
+			foreach($userData as $user) {
+
+			$incubationTimer = date('Y-m-d', strtotime($user->joined . "+90 days"));
+			if($totalLessonCount != 0) {
+				$userProgress = round($userCompletedCourses[$user->name] / $totalLessonCount * 100);
+			}
+			else {
+				$userProgress = 0;
+			}
+			echo '<tr>';
+			echo '<td>' . $user->name . '</td>';
+			echo '<td><div data-countdown="' . $incubationTimer . '"></div></td>';
+			echo '<td>' . $user->groups . '</td>';
+			echo '<td>';
+			echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $userProgress .'%">' . $userProgress . '%</div></div>';
+			echo '</td>';
+			echo '<td><a class="uk-button  uk-button-danger" href="http://apprentice.dev/incubate/user/profile/' . $user->user_id . '">Edit</a></td>';
+			echo '</tr>';
+			}
+		} else
+		echo '<h2>There are no students to list</h2>';
     ?>
     </tbody>
 </table>
-
-    <?php foreach($userData as $user) {?>
-    <div id="box">
-        <div class="box-top"><?php echo $user->name; ?></div>
-        <div class="box-panel"><?php var_dump( $user); ?></div>
-    </div>
-    <?php }?>
 </div>

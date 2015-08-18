@@ -170,7 +170,8 @@ class Incubate_Model_User extends Core_Model_Abstract
 
     public function markCourseComplete($userId, $lessonId)
     {
-        if($this->_db->insert('completed_courses', array('user_id' => $userId, 'lesson_id' => $lessonId))){
+        if(!$this->_db->getMultiArgument('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))->count()) {
+			$this->_db->insert('completed_courses', array('user_id' => $userId, 'lesson_id' => $lessonId));
             return true;
         }
         return false;

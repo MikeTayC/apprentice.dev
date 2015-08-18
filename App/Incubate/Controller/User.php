@@ -25,12 +25,12 @@ class Incubate_Controller_User extends Core_Controller_Abstract
             //$user->get('user', array('1', '=', '1'));
 
             $completedCourses = array();
-
-            foreach ($allUsers as $users) {
-                $courseCount = $user->getCompletedCourseCount($users->user_id);
-                $completedCourses[$users->name] = $courseCount;
-            }
-
+			if(isset($allUsers)) {
+            	foreach ($allUsers as $users) {
+                	$courseCount = $user->getCompletedCourseCount($users->user_id);
+                	$completedCourses[$users->name] = $courseCount;
+            	}
+			}
             $totalLessonCount = $lesson->getTotalCount();
 
             /*
