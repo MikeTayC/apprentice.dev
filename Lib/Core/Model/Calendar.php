@@ -17,7 +17,7 @@ class Core_Model_Calendar
     {
         //service account info
         $client_id = '433657982361-40ctf1na0vahl950epgi1nffesb020kp.apps.googleusercontent.com';
-        $service_account_name = '433657982361-40ctf1na0vahl950epgi1nffesb020kp@developer.gserviceaccount.com';
+        $service_account_name = 'michael.tay@blueacorn.com';
         $key_file_location = '/home/mike/sites/apprentice.dev/Lib/Core/Model/apprentice-9faa49d689bf.p12';
 
         //calendar id

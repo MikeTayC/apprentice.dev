@@ -88,7 +88,7 @@ class Incubate_Controller_Create extends Core_Controller_Abstract
 
             $tagArray = explode(',', $_POST['tags']);
             $tag->AddNewTagsToDb($tagArray);
-            $this->redirect('Incubate', 'Lesson', 'indexAction');
+            $this->redirect('Incubate', 'Tag', 'indexAction');
         }
         else {
             //load view

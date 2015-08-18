@@ -29,7 +29,7 @@ class Incubate_Controller_Tag extends Core_Controller_Abstract
         //load model
         $tag = Bootstrap::getModel('incubate/tag');
 
-        $tagData = $tag->getAll();
+        $tagData = $tag->getAllBasedOnGivenFields(array('tag_id', '>', '3'));
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
         if($tagData) {

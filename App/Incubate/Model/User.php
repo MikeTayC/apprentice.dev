@@ -134,12 +134,27 @@ class Incubate_Model_User extends Core_Model_Abstract
 
             foreach($allUserData as $user) {
 
-                if($this->checkIfUserCompletedSpecificCourse($lessonId, $user)){
+                if($user->role == 'admin' || $this->checkIfUserCompletedSpecificCourse($lessonId, $user)){
                     continue;
                 }
 			    $this->studentInviteList[] = $user->name;
             }
         }
+    }
+
+    public function getAllStudentsAsArray()
+    {
+        $studentNameArray = array();
+        $userNameArray = $this->getAllNamesAsArray();
+        if(isset($userNameArray)) {
+            foreach($userNameArray as $user) {
+                if($user->role = 'student') {
+                    $studentNameArray[] = $user->name;
+                }
+            }
+            return $studentNameArray;
+        }
+        return null;
     }
 
     public function checkIfUserCompletedSpecificCourse($lessonId, $user)
