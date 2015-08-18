@@ -19,6 +19,21 @@ class Incubate_Model_User extends Core_Model_Abstract
 		parent::__construct();
 	}
 
+	public function loadUser($userId)
+	{
+		$this->_data = $this->get(array('user_id', '=', $userId));
+		return $this;
+	}
+
+
+
+	public function makeUserAdmin()
+	{
+		$this->update($this->_data->user_id, 'user_id', array(
+			'role' => 'admin'
+		));
+	}
+
 	public function createUser($name, $email, $group, $googleId) {
 		$this->create(array(
 			'name' => $name,
@@ -138,7 +153,7 @@ class Incubate_Model_User extends Core_Model_Abstract
 
     public function getAllUserCompletedCourseId($userId)
     {
-        if($userCompletedCourseIdMap = $this->_db->getAll('completed_courses', array('user_id', '=', $userId))->results()) {
+        if($userCompletedCourseIdMap = $this->_db->get('completed_courses', array('user_id', '=', $userId))->results()) {
 
             foreach($userCompletedCourseIdMap as $mapValue) {
                 $userCompletedCourseIdArray[] = $mapValue->lesson_id;
@@ -166,5 +181,14 @@ class Incubate_Model_User extends Core_Model_Abstract
             return $data;
         }
         return null;
+	}
+	public function deleteCompletedCourseMap($userId)
+	{
+		$this->_db->delete('completed_courses',array('user_id', '=', $userId));
+	}
+
+	public function deleteThisUser($userId)
+	{
+		$this->_db->delete($this->_table, array('user_id', '=', $userId));
 	}
 }

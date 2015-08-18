@@ -4,12 +4,26 @@
     $incubationTimer = date('Y-m-d', strtotime($userData->joined . "+90 days"));
     $lessonData = $this->getData('lesson_data');
     $completedCourses = $this->getData('completed_courses');
+
+	$userId = isset($userData->user_id) ? $userData->user_id : '';
+	$userName = isset($userData->name) ? $userData->name : '';
+	$userEmail = isset($userData->email) ? $userData->email : '';
+
 ?>
 
 <div class="content">
-    <h2>User Name : <?php echo $userData->name; ?></h2>
+    <h2>
+		User Name : <?php echo $userName; ?>
+		<?php if (Core_Model_Session::get('admin_status')) : ?>
+		<a class="uk-button uk-align-right uk-button-large uk-button-danger" href="http://apprentice.dev/incubate/user/admin/<?php echo $userId; ?>">Admin</a>
+		<a class="uk-button uk-align-right uk-button-large uk-button-danger" href="http://apprentice.dev/incubate/user/remove/<?php echo $userId; ?>">Remove</a>
+		<?php endif;?>
+	</h2>
 
-    Incubation Progress:
+	Email:
+	<?php echo $userEmail; ?>
+	<hr>
+	Incubation Progress:
     <div class="uk-progress">
        <?php echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $percentageCoursesTaken .'%">' . $percentageCoursesTaken . '%</div></div>'; ?>
     </div>
@@ -27,9 +41,11 @@
         <th>
             Completetion status
         </th>
+		<?php if(Core_Model_Session::get('admin_status')) : ?>
         <th>
             Change status
         </th>
+		<?php endif; ?>
     </tr>
     </thead>
     <tbody>
@@ -44,14 +60,17 @@
                     echo '<td>';
                     echo '<div class="uk-badge uk-badge-success">Completed</div>';
                     echo '</td>';
-                    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
-                }
+					if(Core_Model_Session::get('admin_status')) {
+                	    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
+					}
+				}
                 else {
                     echo '<td>';
                     echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
                     echo '</td>';
-                    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userData->user_id .'/' .$lesson->lesson_id .'">Change</a></td>';
-
+                    if(Core_Model_Session::get('admin_status')) {
+						echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
+					}
                 }
 
                 echo '</tr>';
@@ -61,4 +80,6 @@
     ?>
     </tbody>
     </table>
+	<hr>
+
 </div>

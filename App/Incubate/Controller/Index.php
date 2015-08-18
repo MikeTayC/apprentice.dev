@@ -13,19 +13,11 @@ class Incubate_Controller_Index extends Core_Controller_Abstract
             $this->redirect('Incubate', 'Login', 'indexAction');
         }
         else {
-			Core_Model_Session::successFlash('message');
+			$this->loadLayout();
+			echo Core_Model_Session::successFlash('message');
+			echo Core_Model_Session::dangerFlash('error');
+			$this->render();
 
-			$view = $this->loadLayout();
-
-            if(Core_Model_Session::get('admin_status')) {
-				$view->getContent()->setTemplate('App/Incubate/View/Template/.phtml');
-			}
-			else {
-				$userId = Core_Model_Session::get('user_id');
-				$this->redirect('Incubate', 'User', 'profileAction', $userId);
-			}
-
-			$view->render();
-        }
+		}
     }
 }

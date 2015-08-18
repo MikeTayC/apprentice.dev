@@ -20,12 +20,13 @@
 
 				echo '<tr>';
 				echo '<td>' . $lesson->name . '</td>';
+				if(Core_Model_Session::get('admin_status')) {
+					echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
 
-				echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
+					echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 
-				echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
-
-				echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+					echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+					}
 				}
 
 				echo '</tr>';
