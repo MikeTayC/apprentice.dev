@@ -57,7 +57,7 @@
                     echo '<div class="uk-badge uk-badge-success">Completed</div>';
                     echo '</td>';
 					if(Core_Model_Session::get('admin_status')) {
-                	    echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
+                	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
 					}
 				}
                 else {
@@ -65,7 +65,7 @@
                     echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
                     echo '</td>';
                     if(Core_Model_Session::get('admin_status')) {
-						echo '<td><a class="uk-button uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
+						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
 					}
                 }
 
@@ -78,8 +78,8 @@
     </table>
 	<hr>
     <?php if (Core_Model_Session::get('admin_status')) : ?>
-        <a class="uk-button uk-button-large uk-button-success" href="http://apprentice.dev/incubate/user/admin/<?php echo $userId; ?>">Admin</a>
-        <a class="uk-button uk-button-large uk-button-danger" href="http://apprentice.dev/incubate/user/remove/<?php echo $userId; ?>">Remove</a>
+        <a class="uk-button uk-button-small uk-button-success" href="http://apprentice.dev/incubate/user/admin/<?php echo $userId; ?>">Admin</a>
+        <a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/user/remove/<?php echo $userId; ?>">Remove</a>
     <?php endif;?>
 
 </div>
