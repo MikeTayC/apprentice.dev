@@ -110,23 +110,41 @@
         }
       },
       "incubate_lesson_index": {
+        "content" : {
+            "type": "page/view",
+            "template" : "App/Incubate/View/Template/Lesson.phtml"
+        }
+      },
+      "incubate_tag_index": {
+        "content" : {
+          "type": "page/view",
+          "template" : "App/Incubate/View/Template/Tag.phtml"
+        }
+      },
+      "incubate_view_lesson" : {
+        "content" : {
+          "type" : "page/view",
+          "template": "App/Incubate/View/Template/LessonView.phtml"
+        }
+        },
+      "incubate_tag_edit" : {
         "header" : {
-          "assets": {
+          "assets" : {
             "0" : {
-              "accordian_css": {
-                "type": "css",
-                "file": "accordion.almost-flat.css"
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
               },
-              "accordian_js" : {
+              "form_js" : {
                 "type" : "js",
-                "file" : "js/accordion.js"
+                "file" : "js/form_js.js"
               }
             }
           }
         },
         "content" : {
-            "type": "page/view",
-            "template" : "App/Incubate/View/Template/Lesson.phtml"
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/TagEdit.phtml"
         }
       },
       "incubate_index_index": {
