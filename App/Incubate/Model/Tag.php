@@ -22,9 +22,7 @@ class Incubate_Model_Tag extends Core_Model_Abstract
 
     public function changeTagName($newTagName)
     {
-        if($this->_data) {
-            $this->_data->name = $newTagName;
-        }
+        $this->setData('name', $newTagName);
         return $this;
     }
 
