@@ -56,4 +56,16 @@ class Core_Model_Request extends Core_Model_Object
         return $this;
     }
 
+    public function getPost($key){
+        return (array_key_exists($key, $_POST) ? $_POST[$key] : false);
+    }
+
+    public function hasPost($key){
+        return (bool) self::getPost($key);
+    }
+
+    public function isPost(){
+        return !empty($_POST);
+    }
+
 }

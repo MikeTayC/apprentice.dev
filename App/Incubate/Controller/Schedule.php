@@ -20,16 +20,19 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
     public function eventAction()
     {
+
+        $request = $this->_getRequest();
         $this->checkIfUserIsLoggedIn();
         $this->checkIfUserIsAdmin();
 
-        if(!empty($_POST)) {
+        if($request->isPost()) {
 
             $user = Bootstrap::getModel('incubate/user');
-			$duration = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName)->getDuration();
+            $lessonName = $request->getPost('lesson_name'); //@todo: convert other direct post accessors to this method
 
-            $lessonName = $_POST['lesson_name'];
-			$tags = $_POST['tags'];
+            $duration = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName)->getDuration();
+
+            $tags =  $_POST['tags'];
             $description = $_POST['description'];
             $studentList = $_POST['student_list'];
             $startTime = $_POST['start_time'];
@@ -81,6 +84,8 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
 			$user = Bootstrap::getModel('incubate/user');
 			$tag = Bootstrap::getModel('incubate/tag');
+
+            /** @var Incubate_Model_Lesson $lesson */
 			$lesson = Bootstrap::getModel('incubate/lesson');
 
 			$lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
@@ -99,7 +104,6 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
                 }
 
 				//for each student whos group is tagged, add themt o the list of recommended students to take
-				$studentInviteList = array();
 				if($lesson->AE) {
 					$user->AddStudentsIfNotTaken('Application Engineer', $lessonId);
 				}

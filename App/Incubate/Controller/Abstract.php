@@ -25,4 +25,8 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
             exit;
         }
     }
+
+    protected function _getRequest(){
+        return Core_Model_Request::getInstance();
+    }
 }
