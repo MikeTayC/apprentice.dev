@@ -26,6 +26,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
         }
     }
 
+
     public function flashCheck()
     {
         echo Core_Model_Session::dangerFlash('error');
@@ -78,4 +79,9 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
                 exit;
             }
         }
+
+    protected function _getRequest(){
+        return Core_Model_Request::getInstance();
+    }
+
 }

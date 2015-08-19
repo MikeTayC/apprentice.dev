@@ -36,17 +36,16 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
 
     public function editAction($lessonId)
     {
-        $view = $this->loadLayout();
-
+        $request = $this->_getRequest();
         $lesson = Bootstrap::getModel('incubate/lesson');
         $tag = Bootstrap::getModel('incubate/tag');
 
-        if (!empty($_POST)) {
+        if ($request->isPost()) {
             $lessonId = Core_Model_Session::get('lesson_id');
-            $lessonName = $_POST['name'];
-            $lessonDescription = $_POST['description'];
-            $lessonDuration = $_POST['duration'];
-            $lessonTags = $_POST['tags'];
+            $lessonName = $request->getPost('name');
+            $lessonDescription = $request->getPost('description');
+            $lessonDuration = $request->getPost('duration');
+            $lessonTags = $request->getPost('tags');
 
             //delete current tag map of lesson, easier to just create a new one
             $tag->deleteTagMapOfLesson($lessonId);
@@ -72,11 +71,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
              * call update funciton
              * save the updates
              */
-             $lesson->load($lessonId)
-                    ->setName($lessonName)
-                    ->setDescription($lessonDescription)
-                    ->setDuration($lessonDuration)
-                    ->save();
+             $lesson->load($lessonId)->setName($lessonName)->setDescription($lessonDescription)->setDuration($lessonDuration)->save();
 
             Core_Model_Session::delete('lesson_id');
             Core_Model_Session::successFlash('message', 'Successfully updated');
@@ -86,6 +81,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
         }
         elseif(isset($lessonId)) {
 
+            //retrieves lesson map for a particular lesson
             $lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
 
             //for each tag in the map, get the specific tag names from the tag table
@@ -94,9 +90,9 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
             //store lesson id in the session
             Core_Model_Session::set('lesson_id', $lessonId);
 
-            //set data for use in edit form
+            //load view, set data for use in edit form, and render
+            $view = $this->loadLayout();
             $view->getContent()->setLesson($lesson)->setTags($lessonTags);
-
             $view->render();
         }
         else {
@@ -111,7 +107,6 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
         if(!empty($lessonId)){
 
             //delete current tag map of lesson, then delte the lessson
-
             Bootstrap::getModel('incubate/lesson')->load($lessonId)->deleteTagMapOfLesson()->deleteCompletedCourseMap()->delete();
 
             Core_Model_Session::successFlash('message', 'Successfully deleted');

@@ -5,7 +5,7 @@
  * Date: 8/14/15
  * Time: 4:37 PM
  */
-class Incubate_Controller_Register extends Core_Controller_Abstract
+class Incubate_Controller_Register extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {
@@ -20,14 +20,15 @@ class Incubate_Controller_Register extends Core_Controller_Abstract
 
     public function newAction()
     {
-        if(!empty($_POST)){
+        $request = $this->_getRequest();
+        if($request->isPost()){
 
             //load user model
             $user = Bootstrap::getModel('incubate/user');
 
             //for all post information, add to user data
             foreach(array('name','email','group') as $field) {
-                $user->setData($field, $_POST[$field]);
+                $user->setData($field, $request->getPost($field));
             }
 
             //get google id from session, add add it to user data

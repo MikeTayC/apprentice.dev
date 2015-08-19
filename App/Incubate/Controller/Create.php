@@ -6,8 +6,13 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
 
     public function lessonAction()
     {
+        //check if user is logged in and admin
         $this->checkIfUserIsLoggedIn();
         $this->checkIfUserIsAdmin();
+
+        //load request objecgt
+        $request = $this->_getRequest();
+
 
         //load view
         $view = $this->loadLayout();
@@ -22,14 +27,14 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
          *
          * TODO FORM VALIDATION
          */
-        if (!empty($_POST)) {
+        if ($request->isPost()) {
 
             /*
              * set all post information,
              *
              * if the post variable is tag, it is a comma seprated list, explode it into $tagArray
              */
-            $tagArray = explode(',', $_POST['tags']);
+            $tagArray = explode(',', $request->getPost('tags'));
 
             /*
              * adds any newly entered tags into database,
@@ -42,7 +47,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
              * TODO FORM VALIDATION
              */
             foreach(array('name','description','duration') as $field) {
-                $lesson->setData($field, $_POST[$field]);
+                $lesson->setData($field, $request->getPost($field));
             }
 
             $lesson->save();
@@ -50,7 +55,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
             /*
              * load the new lesson by name
              */
-            $lessonName = $_POST['name'];
+            $lessonName = $request->getPost('name');
 
             $newLessonId = $lesson->loadByName($lessonName)->getId();
 
@@ -69,6 +74,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
 
     public function tagAction()
     {
+        $request = $this->_getRequest();
         $this->checkIfUserIsLoggedIn();
         $this->checkIfUserIsAdmin();
 
@@ -80,10 +86,12 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
          *
          * TODO FORM VALIDATION
          */
-        if(!empty($_POST)) {
+        if($request->isPost()) {
 
-            $tagArray = explode(',', $_POST['tags']);
+            $tagArray = explode(',', $request->getPost('tags'));
+
             $tag->addNewTagsToDb($tagArray);
+
             $this->headerRedirect('incubate', 'tag', 'index');
         }
         else {

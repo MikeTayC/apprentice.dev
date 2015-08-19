@@ -19,18 +19,20 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
     public function eventAction()
     {
+
+        $request = $this->_getRequest();
         $this->checkIfUserIsLoggedIn();
         $this->checkIfUserIsAdmin();
 
-        if(!empty($_POST)) {
+        if($request->isPost()) {
 
+            $lessonName = $request->getPost('lesson_name'); //@todo: convert other direct post accessors to this method
 
-            $lessonName = $_POST['lesson_name'];
-			$tags = $_POST['tags'];
-            $description = $_POST['description'];
-            $studentList = $_POST['student_list'];
-            $startTime = $_POST['start_time'];
-			$date = $_POST['date'];
+            $tags =  $request->getPost('tags');
+            $description = $request->getPost('description');
+            $studentList = $request->getPost('student_list');
+            $startTime = $request->getPost('start_time');
+			$date = $request->getPost('date');
 
 
 			$duration = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName)->getDuration();
@@ -71,6 +73,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
 			$view = $this->loadLayout();
 
+            /** @var Incubate_Model_Lesson $lesson */
 			$lesson = Bootstrap::getModel('incubate/lesson');
 
 			$lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
