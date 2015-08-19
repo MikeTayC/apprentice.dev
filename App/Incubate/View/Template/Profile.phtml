@@ -5,7 +5,7 @@
     $lessonData = $this->getData('lesson_data');
     $completedCourses = $this->getData('completed_courses');
 
-	$userId = isset($userData->user_id) ? $userData->user_id : '';
+	$userId = isset($userData->id) ? $userData->user_id : '';
 	$userName = isset($userData->name) ? $userData->name : '';
 	$userEmail = isset($userData->email) ? $userData->email : '';
 
@@ -52,12 +52,12 @@
 
                 echo '<td>' . $lesson->name . '</td>';
 
-                if(in_array($lesson->lesson_id, $completedCourses)) {
+                if(in_array($lesson->id, $completedCourses)) {
                     echo '<td>';
                     echo '<div class="uk-badge uk-badge-success">Completed</div>';
                     echo '</td>';
 					if(Core_Model_Session::get('admin_status')) {
-                	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
+                	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userId .'/' .$lesson->id .'">Change</a></td>';
 					}
 				}
                 else {
@@ -65,7 +65,7 @@
                     echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
                     echo '</td>';
                     if(Core_Model_Session::get('admin_status')) {
-						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userId .'/' .$lesson->lesson_id .'">Change</a></td>';
+						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userId .'/' .$lesson->id .'">Change</a></td>';
 					}
                 }
 

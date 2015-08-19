@@ -5,31 +5,25 @@
  * Date: 8/18/15
  * Time: 9:15 AM
  */
-class Incubate_Controller_Tag extends Core_Controller_Abstract
+class Incubate_Controller_Tag extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {
         //redirect if not logged in
-        if(!Core_Model_Session::get('logged_in')){
-            Core_Model_Session::dangerFlash('error', 'You are not logged in!');
-            $this->redirect('Incubate', 'Lesson', 'indexAction');
-        }
+        $this->checkIfUserIsLoggedIn();
 
         //redirect if not Admin
-        if(!Core_Model_Session::get('admin_status')){
-            Core_Model_Session::dangerFlash('error', 'You are not an admin!');
-            $this->redirect('Incubate', 'Lesson', 'indexAction');
-        }
+        $this->checkIfUserIsAdmin();
 
         //load view
         $view = $this->loadLayout();
+
+        //echo flashes if set
         echo Core_Model_Session::dangerFlash('error');
         echo  Core_Model_Session::successFlash('message');
 
         //load model
-        $tag = Bootstrap::getModel('incubate/tag');
-
-        $tagData = $tag->getAllBasedOnGivenFields(array('tag_id', '>', '3'));
+        $tagData = Bootstrap::getModel('incubate/tag')->getAllBasedOnGivenFields(array('id', '>', '3'));
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
         if($tagData) {
@@ -43,7 +37,7 @@ class Incubate_Controller_Tag extends Core_Controller_Abstract
     {
         $view = $this->loadLayout();
 
-        $tag = new Incubate_Model_Tag();
+        $tag = Bootstrap::getModel('incubate/tag');
 
         if (!empty($_POST)) {
 
@@ -51,13 +45,8 @@ class Incubate_Controller_Tag extends Core_Controller_Abstract
 
             $tagNewName = $_POST['tag'];
 
-            if(!$tagData = $tag->get(array('tag_id', '=', $tagId))){
-                Core_Model_Session::dangerFlash('error', 'This tag does not exist');
-                $this->headerRedirect('incubate','tag', 'index');
-                exit;
-            }
 
-            $tag->loadTag($tagId)->changeTagName($tagNewName)->saveUpdate();
+            $tag->load($tagId)->setName($tagNewName)->save();
 
             Core_Model_Session::delete('tag_id');
             Core_Model_Session::successFlash('message', 'Successfully updated');
@@ -66,22 +55,21 @@ class Incubate_Controller_Tag extends Core_Controller_Abstract
         }
         elseif(isset($tagId)) {
 
-            if(!$tagData = $tag->get(array('tag_id', '=', $tagId))) {
-                Core_Model_Session::dangerFlash('error', 'This tag does not exist');
-                $this->headerRedirect('incubate','tag', 'index');
-                exit;
-            }
-            $tagName = $tagData->name;
-            $tagId = $tagData->tag_id;
+            //load tag name from id
+            $tagName = Bootstrap::getModel('incubate/tag')->load($tagId)->getName();
 
-            Core_Model_Session::set('tag_id', $tagId);
+            //set id in session
+            Core_Model_Session::set('id', $tagId);
+
             $view->getContent()->setTag($tagName);
-
             $view->render();
         }
         else {
+
+            //all else fails, send back to index
             Core_Model_Session::dangerFlash('error', 'You did not specify a tag to edit');
             $this->headerRedirect('incubate','tag','index');
+            exit;
         }
     }
 
@@ -90,20 +78,18 @@ class Incubate_Controller_Tag extends Core_Controller_Abstract
         if(!empty($tagId)){
 
             $tag = Bootstrap::getModel('incubate/tag');
-            $lesson = Bootstrap::getModel('incubate/lesson');
 
-            if($tag->get(array('tag_id', '=', $tagId))) {
 
                 //delete current tag map of lesson
                 $tag->deleteTagMapOfLessonBasedOnTagId($tagId);
 
-
                 //delete this lesson
-                $tag->deleteThisTag($tagId);
+                $tag->delete($tagId);
 
                 Core_Model_Session::successFlash('message', 'Successfully deleted');
-            }
         }
+
         $this->headerRedirect('incubate','tag','index');
+        exit;
     }
 }

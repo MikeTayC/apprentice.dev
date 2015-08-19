@@ -7,27 +7,40 @@
  */
 class Incubate_Controller_Register extends Core_Controller_Abstract
 {
-    public function indexAction($email, $googleDisplayName)
+    public function indexAction()
     {
+        //load register form that will allow user to pick there job role
         $view = $this->loadLayout($default = false);
-		$view->getContent()->setName($googleDisplayName);
-		$view->getContent()->setEmail($email);
-
         $view->render();
+
+        //delete unnessary session information after the page is rendered
+        Core_Model_Session::delete('email');
+        Core_Model_Session::delete('googleDisplayName');
     }
 
     public function newAction()
     {
         if(!empty($_POST)){
+
+            //load user model
             $user = Bootstrap::getModel('incubate/user');
 
-			$name = $_POST['name'];
-			$email = $_POST['email'];
-			$group = $_POST['group'];
+            //for all post information, add to user data
+            foreach(array('name','email','group') as $field) {
+                $user->setData($field, $_POST[$field]);
+            }
+
+            //get google id from session, add add it to user data
 			$googleId = Core_Model_Session::get('google_id');
+            $user->setData('google_id', $googleId);
 
-			$user->createUser($name, $email, $group, $googleId);
+            //save the new user to the database;
+            $user->save();
 
+            /*
+             * this checkUSerDataForGoogleId will also store user information into the session i
+             * to log them in: including user_id, logged in status, and admin status.
+             */
 			if($user->checkUserDataForGoogleId($googleId)) {
 				Core_Model_Session::successflash('message', 'You have been successfully added to Incubate!');
 			}
@@ -38,5 +51,6 @@ class Incubate_Controller_Register extends Core_Controller_Abstract
 			}
 		}
 		$this->headerRedirect('incubate', 'index', 'index');
+        exit;
     }
 }

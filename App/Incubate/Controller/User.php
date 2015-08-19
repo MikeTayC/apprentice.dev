@@ -5,7 +5,7 @@
  * Date: 7/31/15
  * Time: 3:03 PM
  */
-class Incubate_Controller_User extends Core_Controller_Abstract
+class Incubate_Controller_User extends Incubate_Controller_Abstract
 {
     protected function _isLoggedIn(){
         if (!Core_Model_Session::get('logged_in') || !Core_Model_Session::get('admin_status')) {
@@ -29,7 +29,7 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function indexAction()
     {
-            $this->_isLoggedIn();
+            $this->checkIfUserIsLoggedIn();
 
             /*
              * instantiate user  model using boot strap factory,
@@ -37,15 +37,16 @@ class Incubate_Controller_User extends Core_Controller_Abstract
              */
             $user = Bootstrap::getModel('incubate/user');
 			$lesson = Bootstrap::getModel('incubate/lesson');
-            //gets all users in user table
-            $allUsers = $user->getAllBasedOnGivenFields(array('role', '=' ,'student'));
-            //$user->get('user', array('1', '=', '1'));
+
+            //gets all students in user table
+            $allUsers = $user->getAllStudents();
+
 
             $completedCourses = array();
 			if(isset($allUsers)) {
             	foreach ($allUsers as $users) {
-                	$courseCount = $user->getCompletedCourseCount($users->user_id);
-                	$completedCourses[$users->name] = $courseCount;
+                	$courseCount = $user->getCompletedCourseCount($users['id']);
+                	$completedCourses[$users['name']] = $courseCount;
             	}
 			}
             $totalLessonCount = $lesson->getTotalCount();
@@ -64,53 +65,52 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function profileAction($userId)
     {
-        $this->_isLoggedIn();
+        $this->checkIfUserIsLoggedIn();
 
         if(Core_Model_Session::get('admin_status') || Core_Model_Session::get('user_id') == $userId) {
-			$view = $this->loadLayout();
+            $view = $this->loadLayout();
 
-	//        $user = Bootstrap::getModel('incubate/user');
-			$user = new Incubate_Model_User();
-			$lesson = Bootstrap::getModel('incubate/lesson');
+            //        $user = Bootstrap::getModel('incubate/user');
 
-			//if user id is set
-			if ($userId) {
+            $lesson = Bootstrap::getModel('incubate/lesson');
 
-				//use user id to get specific user data
-				if ($userData = $user->get(array('user_id', '=', $userId))) {
+            //if user id is set
+            if ($userId) {
 
-					//retrieve all lesson data
-					$lessonData = $lesson->getAll();
+                $user = Bootstrap::getModel('incubate/user')->load($userId);
+                //use user id to get specific user data
 
-					/*
-					 * get all of the users completed course ids
-					 * we will need them to tell which courses are compeleted when rendering
-					 */
-					$userCompletedCourses = $user->getAllUserCompletedCourseId($userId);
+                //retrieve all lesson data
+                $lessonData = $lesson->getAll();
 
-					//gives us a count of tthe total amount of users completed courses
-					$completedCourseCount = count($userCompletedCourses);
+                /*
+                 * get all of the users completed course ids
+                 * we will need them to tell which courses are compeleted when rendering
+                 */
+                $userCompletedCourses = $user->getAllUserCompletedCourseId($userId);
 
-					//gives count of all courses in databases
-					$totalCourseCount = count($lessonData);
+                //gives us a count of tthe total amount of users completed courses
+                $completedCourseCount = count($userCompletedCourses);
 
-					//user percentage of completed course
-					if($totalCourseCount != 0) {
-						$percentageCoursesTaken = round($completedCourseCount / $totalCourseCount * 100);
-					} else {
-						$percentageCoursesTaken = 0;
-					}
-					//binds data to view
-					$view->getContent()
-                        ->setData('completed_courses', $userCompletedCourses)
-                        ->setData('percentage_taken', $percentageCoursesTaken)
-                        ->setData('userData', $userData)
-                        ->setData('lesson_data', $lessonData);
-				}
+                //gives count of all courses in databases
+                $totalCourseCount = count($lessonData);
 
-			}
-			$view->render();
-		}
+                //user percentage of completed course
+                if ($totalCourseCount != 0) {
+                    $percentageCoursesTaken = round($completedCourseCount / $totalCourseCount * 100);
+                } else {
+                    $percentageCoursesTaken = 0;
+                }
+                //binds data to view
+                $view->getContent()
+                    ->setData('completed_courses', $userCompletedCourses)
+                    ->setData('percentage_taken', $percentageCoursesTaken)
+                    ->setData('userData', $user)
+                    ->setData('lesson_data', $lessonData);
+            }
+
+            $view->render();
+        }
 		else {
 			Core_Model_Session::dangerFlash('error', 'Admins only');
 			$this->headerRedirect('incubate','index','index');
@@ -120,17 +120,16 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function deleteAction($userId, $lessonId)
     {
-        $this->_isLoggedIn();
-
-        $this->_checkAdminStatus();
+        $this->checkIfUserIsLoggedIn();
+        $this->checkIfUserIsAdmin();
 
         if ($userId && $lessonId) {
-            $user = Bootstrap::getModel('incubate/user');
 
             try {
-                $user->markCourseIncomplete($userId, $lessonId);
+                Bootstrap::getModel('incubate/user')->load($userId)->markCourseIncomplete($lessonId);
+
             } catch (Exception $e) {
-                Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
+                Core_Model_Session::dangerFlash('error', 'Could  not mark incomplete');
             }
 
         }
@@ -139,37 +138,38 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
     public function addAction($userId, $lessonId)
     {
-        $this->_isLoggedIn();
-
-        $this->_checkAdminStatus();
+        $this->checkIfUserIsLoggedIn();
+        $this->checkIfUserIsAdmin();
 
         if ($userId && $lessonId) {
-            $user = Bootstrap::getModel('incubate/user');
 
             try {
-                $user->markCourseComplete($userId, $lessonId);
+                Bootstrap::getModel('incubate/user')->load($userId)->markCourseComplete($lessonId);
             } catch (Exception $e) {
-                Core_Model_Session::flash('error', '<div class="uk-alert uk-alert-danger" data-uk-alert=""><a class="uk-alert-close uk-close" href=""></a><p>Database Connection, could not mark complete!</p></div>');
+                Core_Model_Session::dangerFlash('error', 'Could not mark Complete');
             }
 
         }
         $this->headerRedirect('incubate', 'user', 'profile', $userId);
+        exit;
     }
 
 	public function removeAction($userId)
 	{
-        $this->_isLoggedIn();
+        $this->checkIfUserIsLoggedIn();
+        $this->checkIfUserIsAdmin();
 
 		if(!empty($userId)) {
-			$user = Bootstrap::getModel('incubate/user');
 
-			if($userData = $user->get(array('user_id', '=', $userId))){
-				$user->deleteCompletedCourseMap($userId);
-				$user->deleteThisUser($userId);
-				Core_Model_Session::successFlash('message', 'User successfully removed');
-				$this->headerRedirect('incubate','user','index');
-				exit;
-			}
+			$user = Bootstrap::getModel('incubate/user')->load($userId);
+
+			$user->deleteCompletedCourseMap();
+
+            $user->delete();
+
+			Core_Model_Session::successFlash('message', 'User successfully removed');
+			$this->headerRedirect('incubate','user','index');
+			exit;
 		}
 		else {
 			Core_Model_Session::dangerFlash('error', 'You did not specify a user to remove');
@@ -180,17 +180,17 @@ class Incubate_Controller_User extends Core_Controller_Abstract
 
 	public function adminAction($userId)
 	{
-        $this->_isLoggedIn();
+
+        $this->checkIfUserIsLoggedIn();
+        $this->checkIfUserIsAdmin();
 
 		if(!empty($userId)) {
-			$user = new Incubate_Model_User();
 
-			if($userData = $user->get(array('user_id', '=', $userId))){
-				$user->loadUser($userId)->makeUserAdmin();
-				Core_Model_Session::successFlash('message', 'Successfully made this user an admin');
-				$this->headerRedirect('incubate','index','index');
-				exit;
-			}
+			Bootstrap::getModel()->load($userId)->setRole('admin')->save();
+
+			Core_Model_Session::successFlash('message', 'Successfully made this user an admin');
+			$this->headerRedirect('incubate','user','index');
+
 		}
 		else {
 			Core_Model_Session::dangerFlash('error', 'You did not specify a user to remove');

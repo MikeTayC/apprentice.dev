@@ -6,43 +6,27 @@
  * Time: 9:43 AM
  */
 
-class Incubate_Controller_Schedule extends Core_Controller_Abstract
+class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {
-        if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::dangerFlash('You are not logged in!');
-            $this->headerRedirect('incubate', 'login', 'index');
-            exit;
-        }
-        else {
-            echo Core_Model_Session::dangerFlash('error');
-            echo Core_Model_Session::successFlash('message');
-            $this->loadLayout();
-            $this->render();
+        $this->checkIfUserIsLoggedIn();
+        $this->loadLayout();
+        echo Core_Model_Session::dangerFlash('error');
+        echo Core_Model_Session::successFlash('message');
+        $this->render();
 
-        }
 	}
 
     public function eventAction()
     {
-        if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::dangerFlash('You are not logged in!');
-            $this->headerRedirect('incubate', 'login', 'index');
-            exit;
-        }
-
-        if(!Core_Model_Session::get('admin_status')) {
-
-            Core_Model_Session::dangerflash('error', 'Admins Only');
-            $this->headerRedirect('incubate','index','index');
-            exit;
-        }
+        $this->checkIfUserIsLoggedIn();
+        $this->checkIfUserIsAdmin();
 
         if(!empty($_POST)) {
 
             $user = Bootstrap::getModel('incubate/user');
-            $lesson = Bootstrap::getModel('incubate/lesson');
+			$duration = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName)->getDuration();
 
             $lessonName = $_POST['lesson_name'];
 			$tags = $_POST['tags'];
@@ -52,11 +36,10 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 			$date = $_POST['date'];
 
 			//get lesson data from lesson name
-			$lessonData = $lesson->get(array('name', '=', $lessonName));
 
 			//get end time calculated from class duration, keeping same format
 			$time = strtotime($startTime);
-			$timeDuration = '+' . $lessonData->duration . 'minutes';
+			$timeDuration = '+' . $duration . 'minutes';
 			$endTime = date("H:i", strtotime($timeDuration, $time));
 			$endTime = date("g:i a", strtotime($endTime));
 			$startTime = date("g:i a", $time);
@@ -66,7 +49,7 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 			//prepare student email array to be added to google event
             $studentNameArray = explode(',', $studentList);
             foreach ($studentNameArray as $student) {
-                $studentEmailArray[] = $user->getUserEmail($student);
+                $studentEmailArray[] = $user->loadByName($student)->getEmail();
             }
 
 			//append tags on to description for google event
@@ -78,45 +61,39 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
             $client = new Google_Client();
 
             $calendar = new Core_Model_Calendar($client);
-//            $auth = new Core_Model_Auth(null, $client);
+
             $calendar->setEvent($lessonName, $description, $startDateTime, $endDateTime, $studentEmailArray);
 
-            $this->redirect('Incubate', 'Schedule', 'indexAction');
+            $this->headerRedirect('incubate', 'schedule', 'index');
+            exit;
         }
     }
 
 	public function lessonAction($lessonId)
 	{
-        if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::dangerFlash('You are not logged in!');
-            $this->headerRedirect('incubate', 'login', 'index');
-            exit;
-        }
+        $this->checkIfUserIsLoggedIn();
 
-        if(!Core_Model_Session::get('admin_status')) {
-
-            Core_Model_Session::dangerflash('error', 'Admins Only');
-            $this->headerRedirect('incubate','index','index');
-            exit;
-        }
+        $this->checkIfUserIsAdmin();
 
         if(isset($lessonId)) {
 
 			$view = $this->loadLayout();
-			$user = new Incubate_Model_User();
+
+			$user = Bootstrap::getModel('incubate/user');
 			$tag = Bootstrap::getModel('incubate/tag');
 			$lesson = Bootstrap::getModel('incubate/lesson');
 
-			if($lessonData = $lesson->get(array('lesson_id','=', $lessonId))) {
-
-				$lessonTagMap = $lesson->getTagLessonMapFromLessonId($lessonData->lesson_id);
+			$lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
 
 				//for eaach tag in the map, get the specific tag names from the tag table
                 $lessonTags = array();
                 if(isset($lessonTagMap)) {
                     foreach ($lessonTagMap as $mapValue) {
-                        $tagName = $tag->getTagNameByTagId($mapValue->tag_id);
+
+                        $tagName = $tag->load(($mapValue->tag_id))->getName();
+
                         $lesson->checkForGroupTagAndAssign($mapValue->tag_id);
+
                         $lessonTags[] = $tagName;
                     }
                 }
@@ -132,15 +109,15 @@ class Incubate_Controller_Schedule extends Core_Controller_Abstract
 				if($lesson->FE){
 					$user->AddStudentsIfNotTaken('Front End Developer', $lessonId);
 				}
+
                 $studentInviteList = $user->studentInviteList;
 
 				$view->getContent()->setStudents($studentInviteList);
 				$view->getContent()->setTags($lessonTags);
-				$view->getContent()->setName($lessonData->name);
-				$view->getContent()->setDescription($lessonData->description);
+				$view->getContent()->setName($lesson->getName());
+				$view->getContent()->setDescription($lesson->getDescription());
 			}
 
 			$view->render();
 		}
-	}
 }

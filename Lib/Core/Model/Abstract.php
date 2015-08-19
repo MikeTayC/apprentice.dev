@@ -9,16 +9,49 @@
 abstract class Core_Model_Abstract extends Core_Model_Object
 {
 	protected $_db;
-	protected $_data;
 	protected $_table;
 
 	/*
 	 * gits an instance of the database, and sets the table to be worked with
 	 */
 	public function __construct()
-	{
-		$this->_db = Core_Model_Database::getInstance();
-	}
+    {
+        $this->_db = Core_Model_Database::getInstance();
+    }
+
+    public function load($lessonId)
+    {
+        $this->_data = $this->get(array('id', '=', $lessonId));
+        return $this;
+    }
+
+    public function loadByName($name)
+    {
+        $this->get(array('name', '=', $name));
+
+        return $this;
+    }
+
+    public function save()
+    {
+
+        $fields = $this->getData();
+
+        //check if the data is to create or update by checkign if there is an id to be loaded
+        if(isset($fields['id'])) {
+            //then update
+            $this->update($fields);
+        }
+        else {
+            $this->create($fields);
+        }
+    }
+
+    public function delete()
+    {
+        $this->_db->delete($this->_table, array('id', '=', $this->getId()));
+    }
+
 
 	/*
 	 * returns first result found from database search
@@ -106,9 +139,9 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 		return $data;
 	}
 
-	public function update($fieldToCheck, $fieldCheck, $fields)
+	public function update($fields)
 	{
-		$this->_db->update($this->_table, $fieldToCheck, $fieldCheck, $fields);
+		$this->_db->update($this->_table, $this->getId(), $fields);
 	}
 
 

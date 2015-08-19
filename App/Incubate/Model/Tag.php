@@ -14,53 +14,20 @@ class Incubate_Model_Tag extends Core_Model_Abstract
 		parent::__construct();
 	}
 
-    public function loadTag($tagId)
-    {
-        $this->_data = $this->get(array('tag_id', '=', $tagId));
-        return $this;
-    }
-
-    public function changeTagName($newTagName)
-    {
-        $this->setData('name', $newTagName);
-        return $this;
-    }
-
-    public function saveUpdate()
-    {
-        if($this->_data){
-            $tagId = $this->_data->tag_id;
-            $tagName = $this->_data->name;
-
-            $tagDataCheck = $this->get(array('tag_id','=', $tagId));
-            if($tagDataCheck->name != $tagName) {
-                $updateArray['name'] = $tagName;
-            }
-
-            if($updateArray) {
-                foreach($updateArray as $updateKey => $updateValue) {
-                    $this->updateBasedOnTagId(array(
-                        $updateKey  => $updateValue
-                    ));
-                }
-            }
-        }
-    }
-
     public function updateBasedOnTagId($fields = array())
     {
-        $this->update($this->_data->tag_id, 'tag_id', $fields);
+        $this->update($this->_data->id, 'id', $fields);
     }
 
 	public function getTagsFromTagTableByTagId($tagId)
 	{
-		if($tag = $this->getAllBasedOnGivenFields(array('tag_id', '=', $tagId))) {
+		if($tag = $this->getAllBasedOnGivenFields(array('id', '=', $tagId))) {
 			return $tag->name;
 		}
 		return null;
 	}
     public function getTagNameByTagId($tagId) {
-        if($tag = $this->get(array('tag_id', '=', $tagId))) {
+        if($tag = $this->get(array('id', '=', $tagId))) {
             return $tag->name;
         }
         return null;
@@ -96,7 +63,7 @@ class Incubate_Model_Tag extends Core_Model_Abstract
 
     public function deleteThisTag($tagId)
     {
-        $this->_db->delete($this->_table, array('tag_id', '=', $tagId));
+        $this->_db->delete($this->_table, array('id', '=', $tagId));
     }
 
     public function getTagLessonMapFromTagId($tagId)

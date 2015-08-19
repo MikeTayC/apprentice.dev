@@ -2,15 +2,15 @@ CREATE DATABASE incubate;
 
 USE incubate;
 
-CREATE TABLE user (user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, google_id VARCHAR(60), name VARCHAR(50), email VARCHAR(60), joined DATE, role VARCHAR(20), groups VARCHAR(60));
+CREATE TABLE user (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, google_id VARCHAR(60), name VARCHAR(50), email VARCHAR(60), joined DATE, role VARCHAR(20), groups VARCHAR(60));
 
-CREATE TABLE tag (tag_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60));
+CREATE TABLE tag (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60));
 
-CREATE TABLE lesson(lesson_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60), description VARCHAR(255), duration INT);
+CREATE TABLE lesson(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60), description VARCHAR(255), duration INT);
 
 CREATE TABLE lesson_tag_map(map_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, tag_id INT, lesson_id INT);
 
-CREATE TABLE completed_courses(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT);
+CREATE TABLE completed_courses(map_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT);
 
 INSERT INTO `tag` (`name`) VALUES ('Application Engineer');
 
@@ -24,5 +24,5 @@ INSERT INTO `user` (`google_id`, `name`, `email`, `joined`, `role`, `groups`) VA
 
 INSERT INTO `user` (`google_id`, `name`, `email`, `joined`, `role`, `groups`) VALUES ('113562639224233147834', 'Sam Girl', 'sdepuy18@gmail.com','2015-08-10','student','Application Engineer');
 
-UPDATE `user` SET `role` = 'admin' WHERE `user`.`user_id` = '1';
+UPDATE `user` SET `role` = 'admin' WHERE `user`.`id` = '1';
 
