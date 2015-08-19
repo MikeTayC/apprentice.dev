@@ -3,9 +3,9 @@
 class Incubate_Model_Lesson extends Core_Model_Abstract
 {
 	protected $_lessonId;
-	public $AE;
-	public $FE;
-	public $QA;
+	public $AE = false;
+	public $FE = false;
+	public $QA = false;
 
 	public function __construct()
 	{
@@ -22,7 +22,6 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 		}
 		return null;
 	}
-
 
 	public function getTagLessonMapForLesson()
 	{
@@ -51,25 +50,38 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 		));
 	}
 
-	public function checkForGroupTagAndAssign($tagId)
+	public function checkForGroupTagAndAssign($lessonTagMap)
 	{
-		switch($tagId) {
-			case '1' :
-				$this->AE = true;
-				break;
-			case '2':
-				$this->QA = true;
-				break;
-			case '3' :
-				$this->FE = true;
-				break;
-		}
+        if($lessonTagMap) {
+            foreach ($lessonTagMap as $mapValue) {
+                $mapTagId = $mapValue['tag_id'];
+                switch ($mapTagId) {
+                    case '1' :
+                        $this->AE = true;
+                        break;
+                    case '2':
+                        $this->QA = true;
+                        break;
+                    case '3' :
+                        $this->FE = true;
+                        break;
+                }
+            }
+        }
 	}
 
-    public function deleteCompletedCourseMap($lessonId)
+    public function deleteCompletedCourseMap()
     {
-        $this->_db->delete('completed_courses',array('lesson_id', '=', $lessonId));
+        $this->_db->delete('completed_courses',array('lesson_id', '=', $this->getId()));
+        return $this;
     }
+
+    public function deleteTagMapOfLesson($lessonId)
+    {
+        $this->_db->delete('lesson_tag_map',array('lesson_id', '=', $this->getId()));
+        return $this;
+    }
+
 
 
 }

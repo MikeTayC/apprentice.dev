@@ -1,16 +1,13 @@
 <?php
 $lessonId = Core_Model_Session::get('lesson_id');
-$name = $this->getName();
-$description = $this->getDescription();
-$duration = $this->getDuration();
-
+$lesson = $this->getLesson();
 ?>
 <div class="content">
     <div id="form-main">
         <div id="form-div">
             <form class="uk-form" id="form" action="http://apprentice.dev/incubate/lesson/edit" method="post">
                 <div id="box">
-                    <div class="box-top"><h2><?php echo $name . ' '; ?>
+                    <div class="box-top"><h2><?php echo $lesson->getName() . ' '; ?>
                            <?php if(Core_Model_Session::get('admin_status')) :?>
                             <a class="uk-button uk-button-small uk-align-right uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/<?php echo $lessonId;?>">Edit</a>
                             <?php endif;?>
@@ -18,9 +15,9 @@ $duration = $this->getDuration();
 
                     </div>
                     <div class="box-panel">
-                        Description and Tags: <?php echo $description; ?>
+                        Description and Tags: <?php echo $lesson->getDescription(); ?>
                         <br>
-                        Duration : <?php echo $duration; ?>
+                        Duration : <?php echo $lesson->getDuration(); ?>
                     </div>
                 </div>
 

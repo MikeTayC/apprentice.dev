@@ -19,11 +19,10 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
         $view = $this->loadLayout();
 
         //echo flashes if set
-        echo Core_Model_Session::dangerFlash('error');
-        echo  Core_Model_Session::successFlash('message');
+        $this->flashCheck();
 
         //load model
-        $tagData = Bootstrap::getModel('incubate/tag')->getAllBasedOnGivenFields(array('id', '>', '3'));
+        $tagData = Bootstrap::getModel('incubate/tag')->LoadAllEditableTags();
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
         if($tagData) {
@@ -35,7 +34,11 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
 
     public function editAction($tagId)
     {
+        $this->checkIfUserIsAdmin();
+        $this->checkIfUserIsLoggedIn();
+
         $view = $this->loadLayout();
+        $this->flashCheck();
 
         $tag = Bootstrap::getModel('incubate/tag');
 
@@ -44,7 +47,6 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
             $tagId = Core_Model_Session::get('tag_id');
 
             $tagNewName = $_POST['tag'];
-
 
             $tag->load($tagId)->setName($tagNewName)->save();
 
@@ -59,9 +61,10 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
             $tagName = Bootstrap::getModel('incubate/tag')->load($tagId)->getName();
 
             //set id in session
-            Core_Model_Session::set('id', $tagId);
+            Core_Model_Session::set('tag_id', $tagId);
 
             $view->getContent()->setTag($tagName);
+
             $view->render();
         }
         else {

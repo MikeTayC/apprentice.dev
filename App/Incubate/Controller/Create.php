@@ -36,7 +36,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
              *
              * takes an array of $tags as argument
              */
-            $tag->AddNewTagsToDb($tagArray);
+            $tag->addNewTagsToDb($tagArray);
             /*
              * add the lesson to the database,
              * TODO FORM VALIDATION
@@ -83,8 +83,8 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
         if(!empty($_POST)) {
 
             $tagArray = explode(',', $_POST['tags']);
-            $tag->AddNewTagsToDb($tagArray);
-            $this->redirect('Incubate', 'Tag', 'indexAction');
+            $tag->addNewTagsToDb($tagArray);
+            $this->headerRedirect('incubate', 'tag', 'index');
         }
         else {
             //load view

@@ -1,8 +1,7 @@
 <?php
-$lessonName = $this->getName();
-$description = $this->getDescription();
-$tags = $this->getTags();
-$suggestedStudents = is_array($this->getStudents()) ? $this->getStudents(): array($this->getStudents());
+    $lesson = $this->getLesson();
+    $tags = $this->getTags();
+    $suggestedStudents = is_array($this->getStudents()) ? $this->getStudents(): array($this->getStudents());
 ?>
 <div class="content">
 	<div id="form-main">
@@ -12,12 +11,12 @@ $suggestedStudents = is_array($this->getStudents()) ? $this->getStudents(): arra
 				<div class="uk-form-row">
 					<label>Lesson Name:</label>
 					<br>
-					<input readonly type="text" name="lesson_name" value="<?php if(isset($lessonName)){echo $lessonName;}?>">
+					<input readonly type="text" name="lesson_name" value="<?php echo $lesson->getName(); ?>">
 					<a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/lesson/index">Change</a>
 				</div>
 				<div class="uk-form-row">
 					<label>Description:</label>
-					<textarea type="text" name="description"><?php if(isset($description)) { echo $description; } ?></textarea>
+					<textarea type="text" name="description"><?php echo $lesson->getDescription(); ?></textarea>
 				</div>
 				<div class="uk-form-row">
 					<label>Tags:</label>

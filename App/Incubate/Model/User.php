@@ -11,7 +11,7 @@ class Incubate_Model_User extends Core_Model_Abstract
     private $_isLoggedIn;
 
     //stores recommended students to invite
-    public $studentInviteList = array();
+    protected $_studentInviteList = array();
 
 	public function __construct()
 	{
@@ -87,7 +87,7 @@ class Incubate_Model_User extends Core_Model_Abstract
     public function checkUserDataForAdminStatus($googleId)
     {
 		$user = $this->get(array('google_id', '=', $googleId));
-        if(isset($user->role) && $user->role == 'admin') {
+        if(isset($user['role']) && $user['role'] == 'admin') {
             return true;
         }
         return false;
@@ -114,11 +114,25 @@ class Incubate_Model_User extends Core_Model_Abstract
      *
      * returns an array of students to be invited
      */
+    public function addStudentsIfTaggedAndNotTaken($AE, $QA, $FE, $lessonId)
+    {
+        if($AE) {
+            $this->AddStudentsIfNotTaken('Application Engineer', $lessonId);
+        }
+        if($QA) {
+            $this->AddStudentsIfNotTaken('Quality Assurance Analyst', $lessonId);
+        }
+        if($FE){
+            $this->AddStudentsIfNotTaken('Front End Developer', $lessonId);
+        }
+
+        return $this->_studentInviteList;
+    }
+
     public function AddStudentsIfNotTaken($group, $lessonId)
     {
-
-        //stores all users in table
-        $allUserData = $this->getAllBasedOnGivenFields(array('groups', '=', $group));
+        //stores all users by group
+        $allUserData = $this->loadAllByGroup($group);
 
         /*
          * foreach user, check if the user has completed the lesson
@@ -131,12 +145,24 @@ class Incubate_Model_User extends Core_Model_Abstract
 
             foreach($allUserData as $user) {
 
-                if($user['role'] == 'admin' || $this->checkIfUserCompletedSpecificCourse($lessonId, $user)){
+                if($user->getRole() == 'admin' || $this->checkIfUserCompletedSpecificCourse($lessonId, $user->getId())){
                     continue;
                 }
-			    $this->studentInviteList[] = $user['name'];
+			    $this->_studentInviteList[] = $user->getName();
             }
         }
+    }
+
+    public function loadAllByGroup($group)
+    {
+        $usersByGroup = $this->loadAllBasedOnFields(array('groups', '=', $group));
+        return $usersByGroup;
+    }
+
+    public function loadAllStudents()
+    {
+        $allStudents = $this->loadAllBasedOnFields(array('role', '=', 'student'));
+        return $allStudents;
     }
 
     public function getAllStudentsAsArray()
@@ -154,25 +180,26 @@ class Incubate_Model_User extends Core_Model_Abstract
         return null;
     }
 
-    public function checkIfUserCompletedSpecificCourse($lessonId, $user)
+    public function checkIfUserCompletedSpecificCourse($lessonId, $userId)
     {
-        if($this->_db->getMultiArgument('completed_courses', array('user_id', '=', $user['id']), array('lesson_id', '=', $lessonId))->results())
+        if($this->_db->getMultiArgument('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))->results())
         {
             return true;
         }
 		return false;
     }
 
-    public function getAllUserCompletedCourseId($userId)
+    public function getAllUserCompletedCourseId()
     {
-        if($userCompletedCourseIdMap = $this->_db->get('completed_courses', array('user_id', '=', $userId))->results()) {
+        $userCompletedCourseIdArray = array();
+        if($userCompletedCourseIdMap = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->results()) {
 
             foreach($userCompletedCourseIdMap as $mapValue) {
-                $userCompletedCourseIdArray[] = $mapValue->lesson_id;
+                $userCompletedCourseIdArray[] = $mapValue['lesson_id'];
             }
-            return $userCompletedCourseIdArray;
         }
-        return array();
+        $this->setCompleted($userCompletedCourseIdArray);
+        return $this;
     }
 
 	public function markCourseIncomplete($lessonId)
@@ -188,16 +215,58 @@ class Incubate_Model_User extends Core_Model_Abstract
         }
         return false;
     }
-	public function getCompletedCourseCount($userId)
+	public function getCompletedCourseCount()
 	{
-		if($data = $this->_db->get('completed_courses', array('user_id', '=', $userId))->count()) {
+		if($data = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->count()) {
             return $data;
         }
         return null;
 	}
+
+    public function setAllUserIncubationTime($users)
+    {
+        if(isset($users)){
+            foreach($users as $user) {
+                $user->setUserIncubationTime();
+            }
+        }
+        return $users;
+    }
+
+    public function setUserIncubationTime()
+    {
+        $incubationTimer = date('Y-m-d', strtotime($this->getJoined() . "+90 days"));
+        $this->setIncubation($incubationTimer);
+        return $this;
+    }
+
+    public function setAllUserProgress($users, $totalCourseCount)
+    {
+        if (isset($users)) {
+            foreach ($users as $user) {
+                $user->setUserProgress($totalCourseCount);
+            }
+        }
+        return $users;
+    }
+
+    public function setUserProgress($totalCourseCount)
+    {
+        $courseCount = $this->getCompletedCourseCount();
+        if($totalCourseCount != 0) {
+            $progress = round($courseCount / $totalCourseCount * 100);
+            $this->setProgress($progress);
+        }
+        else{
+            $this->setProgress(0);
+        }
+        return $this;
+    }
+
 	public function deleteCompletedCourseMap()
 	{
 		$this->_db->delete('completed_courses',array('user_id', '=', $this->getId()));
+        return $this;
 	}
 
 	public function deleteThisUser($userId)

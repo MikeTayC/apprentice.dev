@@ -5,7 +5,7 @@
  * Date: 7/17/15
  * Time: 10:26 AM
  */
-class Incubate_Controller_Index extends Core_Controller_Abstract
+class Incubate_Controller_Index extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {
@@ -14,8 +14,9 @@ class Incubate_Controller_Index extends Core_Controller_Abstract
         }
         else {
 			$this->loadLayout();
-			echo Core_Model_Session::successFlash('message');
-			echo Core_Model_Session::dangerFlash('error');
+
+            $this->flashCheck();
+
 			$this->render();
 
 		}

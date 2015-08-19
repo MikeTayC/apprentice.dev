@@ -1,6 +1,6 @@
 <?php
 
-class Incubate_Controller_Lesson extends Core_Controller_Abstract
+class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
 {
 
     /*
@@ -16,23 +16,20 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
     {
 
         //redirect if not logged in
-        if(!Core_Model_Session::get('logged_in')){
-           $this->redirect('Incubate', 'Login', 'indexAction');
-        }
+        $this->checkIfUserIsLoggedIn();
 
-        echo Core_Model_Session::dangerFlash('error');
-        echo  Core_Model_Session::successFlash('message');
         //load view
         $view = $this->loadLayout();
 
+        $this->flashCheck();
+
         //load model
-        $lessonData = Bootstrap::getModel('incubate/lesson')->getAll();
+        $allLessonModels = Bootstrap::getModel('incubate/lesson')->loadAll();
 
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
-        if($lessonData) {
-            $view->getContent()->setLesson($lessonData);
-        }
+
+        $view->getContent()->setLesson($allLessonModels);
 
         $view->render();
     }
@@ -58,14 +55,14 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
             if(!empty($lessonTags)) {
 
                 //if $lessonTags is not empty, explode into an array
-                $lessonTagsArray = explode(',', $lessonTags);
+                $lessonTagsArray = $this->explode($lessonTags);
 
                 //Add any new tags into database
-                $tag->AddNewTagsToDb($lessonTagsArray);
+                $tag->addNewTagsToDb($lessonTagsArray);
 
                 //create a tag map for the newly edited lesson
                 foreach ($lessonTagsArray as $tags) {
-                    $tagId = $tag->loadByName($tags)->getId;
+                    $tagId = $tag->loadByName($tags)->getId();
                     $lesson->createTagMap($lessonId, $tagId);
                 }
             }
@@ -75,7 +72,7 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
              * call update funciton
              * save the updates
              */
-             $lesson->loadLesson($lessonId)
+             $lesson->load($lessonId)
                     ->setName($lessonName)
                     ->setDescription($lessonDescription)
                     ->setDuration($lessonDuration)
@@ -83,6 +80,7 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
 
             Core_Model_Session::delete('lesson_id');
             Core_Model_Session::successFlash('message', 'Successfully updated');
+
             $this->headerRedirect('incubate','lesson','index');
             exit;
         }
@@ -90,27 +88,15 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
 
             $lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
 
-
             //for each tag in the map, get the specific tag names from the tag table
-            $lessonTags = array();
-            if($lessonTagMap) {
-                foreach ($lessonTagMap as $mapValue) {
-
-                    //loads tag based on mapvalue tag id and returns the name of the tag and puts in array for use
-                    $tagName = $tag->load($mapValue['tag_id'])->getName();
-                    $lessonTags[] = $tagName;
-                }
-            }
+            $lessonTags = $tag->getTagNamesFromTagMap($lessonTagMap);
 
             //store lesson id in the session
             Core_Model_Session::set('lesson_id', $lessonId);
 
             //set data for use in edit form
-            $view->getContent()
-                 ->setName($lesson->getName())
-                 ->setDescription($lesson->getDescription())
-                 ->setDuration($lesson->getDuration())
-                 ->setTags($lessonTags);
+            $view->getContent()->setLesson($lesson)->setTags($lessonTags);
+
             $view->render();
         }
         else {
@@ -124,22 +110,11 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
     {
         if(!empty($lessonId)){
 
-            $tag = Bootstrap::getModel('incubate/tag');
-            $lesson = Bootstrap::getModel('incubate/lesson');
+            //delete current tag map of lesson, then delte the lessson
 
-            if($lesson->load($lessonId)) {
+            Bootstrap::getModel('incubate/lesson')->load($lessonId)->deleteTagMapOfLesson()->deleteCompletedCourseMap()->delete();
 
-                //delete current tag map of lesson
-                $tag->deleteTagMapOfLesson($lessonId);
-
-                //delete completed lesson map specific
-                $lesson->deleteCompletedCourseMap($lessonId);
-
-                //delete this lesson
-                $lesson->delete();
-
-                Core_Model_Session::successFlash('message', 'Successfully deleted');
-            }
+            Core_Model_Session::successFlash('message', 'Successfully deleted');
         }
         $this->headerRedirect('incubate','lesson','index');
         exit;

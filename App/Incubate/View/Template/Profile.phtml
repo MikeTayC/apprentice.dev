@@ -1,31 +1,23 @@
 <?php
-    $userData = $this->getData('userData');
-    $percentageCoursesTaken = $this->getData('percentage_taken');
-    $incubationTimer = date('Y-m-d', strtotime($userData->joined . "+90 days"));
-    $lessonData = $this->getData('lesson_data');
-    $completedCourses = $this->getData('completed_courses');
-
-	$userId = isset($userData->id) ? $userData->user_id : '';
-	$userName = isset($userData->name) ? $userData->name : '';
-	$userEmail = isset($userData->email) ? $userData->email : '';
-
+    $user = $this->getData('userData');
+    $lessonData = $this->getData('lessonData');
 ?>
 
 <div class="content">
     <h2>
-		User Name : <?php echo $userName; ?>
+		User Name : <?php echo $user->getName(); ?>
 	</h2>
 
 	Email:
-	<?php echo $userEmail; ?>
+	<?php echo $user->getEmail(); ?>
 	<hr>
 	Incubation Progress:
     <div class="uk-progress">
-       <?php echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $percentageCoursesTaken .'%">' . $percentageCoursesTaken . '%</div></div>'; ?>
+       <?php echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $user->getProgress() .'%">' . $user->getProgress() . '%</div></div>'; ?>
     </div>
     <hr>
     Incubation Time:
-    <div data-countdown=" <?php echo $incubationTimer ?> "></div>
+    <div data-countdown=" <?php echo $user->getIncubation(); ?> "></div>
     <hr>
     <table class="uk-table uk-table-hover uk-table-striped">
         <h1>Lesson Status</h1>
@@ -47,17 +39,16 @@
     <tbody>
     <?php
         if($lessonData) {
-
             foreach($lessonData as $lesson) {
 
-                echo '<td>' . $lesson->name . '</td>';
+                echo '<td>' . $lesson->getName() . '</td>';
 
-                if(in_array($lesson->id, $completedCourses)) {
+                if(in_array($lesson->getId(), $user->getCompleted())) {
                     echo '<td>';
                     echo '<div class="uk-badge uk-badge-success">Completed</div>';
                     echo '</td>';
 					if(Core_Model_Session::get('admin_status')) {
-                	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $userId .'/' .$lesson->id .'">Change</a></td>';
+                	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/delete/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
 					}
 				}
                 else {
@@ -65,7 +56,7 @@
                     echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
                     echo '</td>';
                     if(Core_Model_Session::get('admin_status')) {
-						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $userId .'/' .$lesson->id .'">Change</a></td>';
+						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/user/add/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
 					}
                 }
 
@@ -78,8 +69,8 @@
     </table>
 	<hr>
     <?php if (Core_Model_Session::get('admin_status')) : ?>
-        <a class="uk-button uk-button-small uk-button-success" href="http://apprentice.dev/incubate/user/admin/<?php echo $userId; ?>">Admin</a>
-        <a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/user/remove/<?php echo $userId; ?>">Remove</a>
+        <a class="uk-button uk-button-small uk-button-success" href="http://apprentice.dev/incubate/user/admin/<?php echo $user->getId(); ?>">Admin</a>
+        <a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/user/remove/<?php echo $user->getId(); ?>">Remove</a>
     <?php endif;?>
 
 </div>

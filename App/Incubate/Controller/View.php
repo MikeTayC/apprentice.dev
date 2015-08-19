@@ -1,63 +1,32 @@
 <?php
 
-class Incubate_Controller_View extends Core_Controller_Abstract
+class Incubate_Controller_View extends Incubate_Controller_Abstract
 {
     public function lessonAction($lessonId)
     {
-        $view = $this->loadLayout();
+        $this->checkIfUserIsLoggedIn();
 
-        $lesson = Bootstrap::getModel('incubate/lesson');
-        $tag = Bootstrap::getModel('incubate/tag');
+        //get lessson data
+        $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
 
-        if(!$lessonData = $lesson->get(array('id', '=', $lessonId))) {
-            Core_Model_Session::dangerFlash('error', 'This lesson does not exist');
-            $this->redirect('Incubate','Lesson', 'indexAction');
-        }
+        //get asssoiciated tag names
+        $lessonTagMap = $lesson->getTagLessonMapForLesson();
+        $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
 
-        $lessonTagMap = $lesson->getTagLessonMapFromLessonId($lessonData->id);
+        //append descrition and tags into readable format
+        $descriptionAndTags = $this->appendTagsAndDescition($lesson->getDescription(), $lessonTags);
+        $lesson->setDescription($descriptionAndTags);
 
-        //for eaach tag in the map, get the specific tag names from the tag table
-        $lessonTags = array();
-        if($lessonTagMap) {
-            foreach ($lessonTagMap as $mapValue) {
-                $tagName = $tag->getTagNameByTagId($mapValue->id);
-                $lesson->checkForGroupTagAndAssign($mapValue->id);
-                $lessonTags[] = $tagName;
-            }
-        }
-        if(!$lessonData = $lesson->get(array('id', '=', $lessonId))) {
-            Core_Model_Session::dangerFlash('error', 'This lesson does not exist');
-            $this->redirect('Incubate','Lesson', 'indexAction');
-        }
+        //ready duration parameter
+        $duration = $lesson->getDuration() . 'Min.';
+        $lesson->setDuration($duration);
 
-        $lessonTagMap = $lesson->getTagLessonMapFromLessonId($lessonData->id);
-
-        //for eaach tag in the map, get the specific tag names from the tag table
-        $lessonTags = array();
-        if($lessonTagMap) {
-            foreach ($lessonTagMap as $mapValue) {
-                $tagName = $tag->getTagNameByTagId($mapValue->id);
-                $lesson->checkForGroupTagAndAssign($mapValue->id);
-                $lessonTags[] = $tagName;
-            }
-        }
-
-        $description = $lessonData->description;
-        if(isset($lessonTags) && !empty($lessonTags)) {
-            foreach($lessonTags as $tag) {
-                $description .= ' #' . $tag;
-            }
-        }
-
-        $duration = $lessonData->duration . 'Min.';
-
+        //store lesson id in session
         Core_Model_Session::set('lesson_id', $lessonId);
-        $view->getContent()->setName($lessonData->name);
-        $view->getContent()->setDescription($description);
-        $view->getContent()->setDuration($duration);
 
-
-
+        //load,bind and render
+        $view = $this->loadLayout();
+        $view->getContent()->setLesson($lesson);
         $view->render();
     }
 }

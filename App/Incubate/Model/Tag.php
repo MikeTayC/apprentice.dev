@@ -33,11 +33,16 @@ class Incubate_Model_Tag extends Core_Model_Abstract
         return null;
     }
 
+    public function LoadAllEditableTags()
+    {
+        $loadedTags = $this->loadAllBasedOnFields(array('id', '>', '3'));
+        return $loadedTags;
+    }
 	/*
  * searches for new tags to be added to the array,
  * if it is not an rray
  */
-	public function AddNewTagsToDb($tagArray)
+	public function addNewTagsToDb($tagArray)
 	{
 		$dbTags = $this->getAllNamesAsArray();
 		if(is_array($tagArray)) {
@@ -72,5 +77,16 @@ class Incubate_Model_Tag extends Core_Model_Abstract
             return $lessonTags;
         }
         return null;
+    }
+
+    public function getTagNamesFromTagMap($lessonTagMap)
+    {
+        if($lessonTagMap) {
+            foreach($lessonTagMap as $mapValue) {
+                $tagName = Bootstrap::getModel('incubate/tag')->load($mapValue['tag_id'])->getName();
+                $lessonTags[] = $tagName;
+            }
+            return $lessonTags;
+        }
     }
 }

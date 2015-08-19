@@ -12,8 +12,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
     {
         $this->checkIfUserIsLoggedIn();
         $this->loadLayout();
-        echo Core_Model_Session::dangerFlash('error');
-        echo Core_Model_Session::successFlash('message');
+        $this->flashCheck();
         $this->render();
 
 	}
@@ -25,8 +24,6 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
         if(!empty($_POST)) {
 
-            $user = Bootstrap::getModel('incubate/user');
-			$duration = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName)->getDuration();
 
             $lessonName = $_POST['lesson_name'];
 			$tags = $_POST['tags'];
@@ -35,34 +32,29 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
             $startTime = $_POST['start_time'];
 			$date = $_POST['date'];
 
+
+			$duration = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName)->getDuration();
 			//get lesson data from lesson name
 
 			//get end time calculated from class duration, keeping same format
-			$time = strtotime($startTime);
-			$timeDuration = '+' . $duration . 'minutes';
-			$endTime = date("H:i", strtotime($timeDuration, $time));
-			$endTime = date("g:i a", strtotime($endTime));
-			$startTime = date("g:i a", $time);
-			$startDateTime = date('Y-m-d\TH:i:sP', strtotime($date . ' ' . $startTime));
-			$endDateTime = date('Y-m-d\TH:i:sP', strtotime($date . ' ' . $endTime));
+            $startDateTime  = $this->formatStartDateTime($date, $startTime);
+            $endDateTime = $this->formatEndDateTime($date, $startTime,$duration);
 
 			//prepare student email array to be added to google event
-            $studentNameArray = explode(',', $studentList);
+            $studentNameArray = $this->explode($studentList);
             foreach ($studentNameArray as $student) {
-                $studentEmailArray[] = $user->loadByName($student)->getEmail();
+                $studentEmailArray[] = Bootstrap::getModel('incubate/user')->loadByName($student)->getEmail();
             }
 
 			//append tags on to description for google event
-			$tagsArray = explode(',', $tags);
-			foreach($tagsArray as $tag) {
-				$description .= ' #' . $tag;
-			}
+            $tagsArray = $this->explode($tags);
+            $descriptionAndTags = $this->appendTagsAndDescition($description, $tagsArray);
 
+
+            //load new google calendar event, and fire event
             $client = new Google_Client();
-
             $calendar = new Core_Model_Calendar($client);
-
-            $calendar->setEvent($lessonName, $description, $startDateTime, $endDateTime, $studentEmailArray);
+            $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $studentEmailArray);
 
             $this->headerRedirect('incubate', 'schedule', 'index');
             exit;
@@ -79,45 +71,23 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
 			$view = $this->loadLayout();
 
-			$user = Bootstrap::getModel('incubate/user');
-			$tag = Bootstrap::getModel('incubate/tag');
 			$lesson = Bootstrap::getModel('incubate/lesson');
 
 			$lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
 
-				//for eaach tag in the map, get the specific tag names from the tag table
-                $lessonTags = array();
-                if(isset($lessonTagMap)) {
-                    foreach ($lessonTagMap as $mapValue) {
+            //for each tag in the map, get the specific tag names from the tag table
+            $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
 
-                        $tagName = $tag->load(($mapValue['tag_id']))->getName();
+            //assigns $AE,$QA, $FE properties to true if, they are tagged.
+            $lesson->checkForGroupTagAndAssign($lessonTagMap);
 
-                        $lesson->checkForGroupTagAndAssign($mapValue['tag_id']);
+            //for each student whos group is tagged, add themt o the list of recommended students to take
+            $studentInviteList = Bootstrap::getModel('incubate/user')->addStudentsIfTaggedAndNotTaken($lesson->AE, $lesson->QA, $lesson->FE, $lessonId);
 
-                        $lessonTags[] = $tagName;
-                    }
-                }
 
-				//for each student whos group is tagged, add themt o the list of recommended students to take
-				$studentInviteList = array();
-				if($lesson->AE) {
-					$user->AddStudentsIfNotTaken('Application Engineer', $lessonId);
-				}
-				if($lesson->QA) {
-					$user->AddStudentsIfNotTaken('Quality Assurance Analyst', $lessonId);
-				}
-				if($lesson->FE){
-					$user->AddStudentsIfNotTaken('Front End Developer', $lessonId);
-				}
+            $view->getContent()->setStudents($studentInviteList)->setTags($lessonTags)->setLesson($lesson);
 
-                $studentInviteList = $user->studentInviteList;
-
-				$view->getContent()->setStudents($studentInviteList);
-				$view->getContent()->setTags($lessonTags);
-				$view->getContent()->setName($lesson->getName());
-				$view->getContent()->setDescription($lesson->getDescription());
-			}
-
-			$view->render();
 		}
+		$view->render();
+	}
 }

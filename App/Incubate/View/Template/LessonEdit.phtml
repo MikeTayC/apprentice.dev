@@ -1,8 +1,6 @@
 <?php
     $lessonId = Core_Model_Session::get('lesson_id');
-    $name = $this->getName();
-    $description = $this->getDescription();
-    $duration = $this->getDuration();
+    $lesson = $this->getLesson();
     $tags = $this->getTags();
 ?>
 <div class="content">
@@ -13,7 +11,7 @@
                 Name:
                 </div>
                 <div class="uk-form-row">
-                    <input name="name" type="text" value="<?php echo $name; ?>" id="name" />
+                    <input name="name" type="text" value="<?php echo $lesson->getName(); ?>" id="name" />
                     <a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/index">Back</a>
                     <a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/<?php echo $lessonId ?>">Delete</a>
                 </div>
@@ -22,14 +20,14 @@
                 </div>
 
                 <div class="uk-form-row">
-                    <textarea name="description" id="description"> <?php echo $description; ?></textarea>
+                    <textarea name="description" id="description"> <?php echo $lesson->getDescription(); ?></textarea>
                 </div>
                 <div class="uk-form-row">
                     <label for=fader>Duration</label>
 
-                    <input name="duration" type=range min=0 max=180 value="<?php echo $duration;?>" id=fader step=1 oninput="outputUpdate(value)">
+                    <input name="duration" type=range min=0 max=180 value="<?php echo $lesson->getDuration();?>" id=fader step=1 oninput="outputUpdate(value)">
 
-                    <output for=fader id=duration> <?php echo $duration;?> min.</output>
+                    <output for=fader id=duration> <?php echo $lesson->getDuration();?> min.</output>
                     <script>
                         function outputUpdate(vol) {
                             document.querySelector('#duration').value = vol + ' min.';

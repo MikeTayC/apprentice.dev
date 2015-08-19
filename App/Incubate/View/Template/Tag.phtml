@@ -14,20 +14,18 @@ $tags = $this->getTag();
         <h1>Tags</h1>
         <tbody>
         <?php
-        if(isset($tags)) {
             foreach($tags as $tag) {
 
                 echo '<tr>';
-                echo '<td>' . $tag['name'] . '</td>';
+                echo '<td>' . $tag->getName() . '</td>';
 
-                echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/tag/edit/' . $tag['id'] .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+                echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/tag/edit/' . $tag->getId() .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 
-                echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/tag/delete/' . $tag['id'] .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+                echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/tag/delete/' . $tag->getId() .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
 
             }
 
             echo '</tr>';
-        }
         ?>
         </tbody>
     </table>
