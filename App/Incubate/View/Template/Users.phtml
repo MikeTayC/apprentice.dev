@@ -34,19 +34,19 @@
 
 			$incubationTimer = date('Y-m-d', strtotime($user->joined . "+90 days"));
 			if($totalLessonCount != 0) {
-				$userProgress = round($userCompletedCourses[$user->name] / $totalLessonCount * 100);
+				$userProgress = round($userCompletedCourses[$user['name']] / $totalLessonCount * 100);
 			}
 			else {
 				$userProgress = 0;
 			}
 			echo '<tr>';
-			echo '<td>' . $user->name . '</td>';
+			echo '<td>' . $user['name'] . '</td>';
 			echo '<td><div data-countdown="' . $incubationTimer . '"></div></td>';
-			echo '<td>' . $user->groups . '</td>';
+			echo '<td>' . $user['groups'] . '</td>';
 			echo '<td>';
 			echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $userProgress .'%">' . $userProgress . '%</div></div>';
 			echo '</td>';
-			echo '<td><a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/user/profile/' . $user->id . '">Edit</a></td>';
+			echo '<td><a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/user/profile/' . $user['id'] . '">Edit</a></td>';
 			echo '</tr>';
 			}
 		} else

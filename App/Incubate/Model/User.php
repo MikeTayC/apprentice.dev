@@ -131,10 +131,10 @@ class Incubate_Model_User extends Core_Model_Abstract
 
             foreach($allUserData as $user) {
 
-                if($user->role == 'admin' || $this->checkIfUserCompletedSpecificCourse($lessonId, $user)){
+                if($user['role'] == 'admin' || $this->checkIfUserCompletedSpecificCourse($lessonId, $user)){
                     continue;
                 }
-			    $this->studentInviteList[] = $user->name;
+			    $this->studentInviteList[] = $user['name'];
             }
         }
     }
@@ -145,8 +145,8 @@ class Incubate_Model_User extends Core_Model_Abstract
         $userNameArray = $this->getAllNamesAsArray();
         if(isset($userNameArray)) {
             foreach($userNameArray as $user) {
-                if($user->role = 'student') {
-                    $studentNameArray[] = $user->name;
+                if($user['role'] = 'student') {
+                    $studentNameArray[] = $user['name'];
                 }
             }
             return $studentNameArray;
@@ -156,7 +156,7 @@ class Incubate_Model_User extends Core_Model_Abstract
 
     public function checkIfUserCompletedSpecificCourse($lessonId, $user)
     {
-        if($this->_db->getMultiArgument('completed_courses', array('user_id', '=', $user->user_id), array('lesson_id', '=', $lessonId))->results())
+        if($this->_db->getMultiArgument('completed_courses', array('user_id', '=', $user['id']), array('lesson_id', '=', $lessonId))->results())
         {
             return true;
         }

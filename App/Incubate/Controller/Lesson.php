@@ -110,8 +110,8 @@ class Incubate_Controller_Lesson extends Core_Controller_Abstract
                  ->setName($lesson->getName())
                  ->setDescription($lesson->getDescription())
                  ->setDuration($lesson->getDuration())
-                 ->setTags($lessonTags)
-                 ->render();
+                 ->setTags($lessonTags);
+            $view->render();
         }
         else {
             Core_Model_Session::dangerFlash('error', 'You did not specify a lesson to edit');

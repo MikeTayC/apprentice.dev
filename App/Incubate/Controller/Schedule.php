@@ -90,9 +90,9 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
                 if(isset($lessonTagMap)) {
                     foreach ($lessonTagMap as $mapValue) {
 
-                        $tagName = $tag->load(($mapValue->tag_id))->getName();
+                        $tagName = $tag->load(($mapValue['tag_id']))->getName();
 
-                        $lesson->checkForGroupTagAndAssign($mapValue->tag_id);
+                        $lesson->checkForGroupTagAndAssign($mapValue['tag_id']);
 
                         $lessonTags[] = $tagName;
                     }

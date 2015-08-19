@@ -116,6 +116,7 @@
         }
       },
       "incubate_tag_index": {
+
         "content" : {
           "type": "page/view",
           "template" : "App/Incubate/View/Template/Tag.phtml"

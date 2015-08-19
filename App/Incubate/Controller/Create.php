@@ -36,7 +36,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
              *
              * takes an array of $tags as argument
              */
-//            $tag->AddNewTagsToDb($tagArray);
+            $tag->AddNewTagsToDb($tagArray);
             /*
              * add the lesson to the database,
              * TODO FORM VALIDATION
@@ -59,7 +59,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
                 $lesson->createTagMap($newLessonId, $tagId);
             }
 
-            $this->headeRedirect('incubate', 'lesson', 'index');
+            $this->headerRedirect('incubate', 'lesson', 'index');
             exit;
         }
         else {

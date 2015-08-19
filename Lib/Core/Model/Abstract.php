@@ -96,7 +96,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 	{
 		if($allData = $this->getAll()) {
 			foreach($allData as $data) {
-				$nameArray[] = $data->name;
+				$nameArray[] = $data['name'];
 			}
 			return $nameArray;
 		}

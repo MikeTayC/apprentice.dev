@@ -5,9 +5,9 @@ $tags = $this->getTag();
 <div class="content">
 
     <?php if(Core_Model_Session::get('admin_status')) : ?>
-        <a class="uk-button uk-button-large uk-button-success ba-success" href="http://apprentice.dev/incubate/create/index/lesson">Create Lesson</a>
+        <a class="uk-button uk-button-large uk-button-success ba-success" href="http://apprentice.dev/incubate/create/lesson">Create Lesson</a>
 
-        <a class="uk-button uk-button-large uk-button-primary ba-primary" href="http://apprentice.dev/incubate/create/index/tag">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
+        <a class="uk-button uk-button-large uk-button-primary ba-primary" href="http://apprentice.dev/incubate/create/tag">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
     <?php endif; ?>
 
     <table class="uk-table uk-table-hover uk-table-striped">
@@ -18,11 +18,11 @@ $tags = $this->getTag();
             foreach($tags as $tag) {
 
                 echo '<tr>';
-                echo '<td>' . $tag->name . '</td>';
+                echo '<td>' . $tag['name'] . '</td>';
 
-                echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/tag/edit/' . $tag->id .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+                echo '<td><a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/tag/edit/' . $tag['id'] .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 
-                echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/tag/delete/' . $tag->id .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+                echo '<td><a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/tag/delete/' . $tag['id'] .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
 
             }
 

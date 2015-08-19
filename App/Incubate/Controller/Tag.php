@@ -84,7 +84,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
                 $tag->deleteTagMapOfLessonBasedOnTagId($tagId);
 
                 //delete this lesson
-                $tag->delete($tagId);
+                $tag->load($tagId)->delete();
 
                 Core_Model_Session::successFlash('message', 'Successfully deleted');
         }
