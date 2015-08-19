@@ -55,7 +55,10 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
              *
              */
             elseif($auth->validateNewEmailAddress($email)) {
-                $this->redirect('Incubate','Register','indexAction', array($email, $googleDisplayName));
+                Core_Model_Session::set('email', $email);
+                Core_Model_Session::set('googleDisplayName', $googleDisplayName);
+                $this->headerRedirect('incubate','register','index');
+                exit;
             }
 
             /*
@@ -64,7 +67,8 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
             else {
                 //direct back to login, user is not located in database, and does not have a blue acorn email address
                 Core_Model_Session::dangerflash('error', 'Blue Acorn Email addresses only');
-                $this->redirect('Incubate','Logout', 'indexAction');
+                $this->headerRedirect('incubate','logout', 'index');
+                exit;
             }
         }
 

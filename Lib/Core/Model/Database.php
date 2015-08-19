@@ -77,7 +77,7 @@ class Core_Model_Database
             }
             if($this->_query->execute()){
                 if($this->_query->columnCount()){
-                    $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);
+                    $this->_results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
                     $this->_count = $this->_query->rowCount();
                 }
             }
@@ -214,7 +214,7 @@ class Core_Model_Database
      *      'password' => 'newpassword'
      * ));
      */
-    public function update($table, $fieldToCheck, $fieldCheck, $fields = array())
+    public function update($table, $fieldToCheck, $fields = array())
     {
         $set = '';
         $x = 1;
@@ -227,7 +227,7 @@ class Core_Model_Database
             $x++;
         }
 
-        $sql = "UPDATE {$table} SET {$set} WHERE {$fieldCheck} = {$fieldToCheck}";
+        $sql = "UPDATE {$table} SET {$set} WHERE id = {$fieldToCheck}";
 
         if (!$this->query($sql, $fields)->error()) {
             return true;

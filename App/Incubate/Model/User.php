@@ -19,31 +19,27 @@ class Incubate_Model_User extends Core_Model_Abstract
 		parent::__construct();
 	}
 
-	public function loadUser($userId)
+	public function loadUserByGoogleId($googleId)
 	{
-		$this->_data = $this->get(array('user_id', '=', $userId));
+		$this->_data = $this->get(array('google_id', '=', $googleId));
 		return $this;
 	}
 
 
 
 	public function makeUserAdmin()
-	{
-		$this->update($this->_data->user_id, 'user_id', array(
-			'role' => 'admin'
-		));
-	}
+    {
+        $this->update($this->_data->id, 'id', array(
+            'role' => 'admin'
+        ));
+    }
 
-	public function createUser($name, $email, $group, $googleId) {
-		$this->create(array(
-			'name' => $name,
-			'email' => $email,
-			'groups' => $group,
-			'google_id' => $googleId,
-			'joined' => date('Y-m-d'),
-			'role' => 'student'
-		));
-	}
+    public function getAllStudents()
+    {
+        $students = $this->getAllBasedOnGivenFields(array('role', '=', 'student'));
+
+        return $students;
+    }
 
 	/*
 	 * essentially logs the user out by ridding the session of its token
@@ -61,10 +57,11 @@ class Incubate_Model_User extends Core_Model_Abstract
          * check db, for USER table, WHERE google_id = $googleid, return the first
          * set of info  found, store in $_data
          */
-        if($this->_data = $this->get(array('google_id', '=', $googleId))) {
-			Core_Model_Session::set('user_id', $this->_data->user_id);
+        if($this->loadUserByGoogleId($googleId)) {
+
+			Core_Model_Session::set('user_id', $this->getId());
 			Core_Model_Session::set('logged_in', true);
-			if($this->_data->role == 'admin'){
+			if($this->getRole() == 'admin'){
 				Core_Model_Session::set('admin_status', true);
 			}
 			else {
@@ -178,15 +175,15 @@ class Incubate_Model_User extends Core_Model_Abstract
         return array();
     }
 
-	public function markCourseIncomplete($userId, $lessonId)
+	public function markCourseIncomplete($lessonId)
 	{
-		$this->_db->deleteMultiArgument('completed_courses', array('user_id', '=', $userId), array('lesson_id','=',$lessonId));
+		$this->_db->deleteMultiArgument('completed_courses', array('user_id', '=', $this->getId()), array('lesson_id','=',$lessonId));
 	}
 
-    public function markCourseComplete($userId, $lessonId)
+    public function markCourseComplete($lessonId)
     {
-        if(!$this->_db->getMultiArgument('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))->count()) {
-			$this->_db->insert('completed_courses', array('user_id' => $userId, 'lesson_id' => $lessonId));
+        if(!$this->_db->getMultiArgument('completed_courses', array('user_id', '=', $this->getId()), array('lesson_id', '=', $lessonId))->count()) {
+			$this->_db->insert('completed_courses', array('user_id' => $this->getId(), 'lesson_id' => $lessonId));
             return true;
         }
         return false;
@@ -198,13 +195,13 @@ class Incubate_Model_User extends Core_Model_Abstract
         }
         return null;
 	}
-	public function deleteCompletedCourseMap($userId)
+	public function deleteCompletedCourseMap()
 	{
-		$this->_db->delete('completed_courses',array('user_id', '=', $userId));
+		$this->_db->delete('completed_courses',array('user_id', '=', $this->getId()));
 	}
 
 	public function deleteThisUser($userId)
 	{
-		$this->_db->delete($this->_table, array('user_id', '=', $userId));
+		$this->_db->delete($this->_table, array('id', '=', $userId));
 	}
 }

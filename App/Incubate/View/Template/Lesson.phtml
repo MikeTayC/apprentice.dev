@@ -21,12 +21,12 @@
                 echo '<td><a class="uk-button uk-button-small" href="http://apprentice.dev/incubate/view/lesson/'. $lesson->lesson_id .'">&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 				if(Core_Model_Session::get('admin_status')) {
 
-					echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->lesson_id .'">Schedule</a></td>';
+					echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->id .'">Schedule</a></td>';
 
 
-					echo '<td><a class="uk-button uk-button-small uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->lesson_id .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+					echo '<td><a class="uk-button uk-button-small uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->id .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 
-					echo '<td><a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->lesson_id .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+					echo '<td><a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->id .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
 					}
 				}
 
