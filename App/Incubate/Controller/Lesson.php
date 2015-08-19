@@ -16,12 +16,12 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
     {
 
         //redirect if not logged in
-        $this->checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsLoggedIn();
 
         //load view
         $view = $this->loadLayout();
 
-        $this->flashCheck();
+        $this->_flashCheck();
 
         //load model
         $allLessonModels = Bootstrap::getModel('incubate/lesson')->loadAll();
@@ -41,7 +41,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
         $tag = Bootstrap::getModel('incubate/tag');
 
         if ($request->isPost()) {
-            $lessonId = Core_Model_Session::get('lesson_id');
+            $lessonId = $this->_sessionGet('lesson_id');
             $lessonName = $request->getPost('name');
             $lessonDescription = $request->getPost('description');
             $lessonDuration = $request->getPost('duration');
@@ -73,8 +73,8 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
              */
              $lesson->load($lessonId)->setName($lessonName)->setDescription($lessonDescription)->setDuration($lessonDuration)->save();
 
-            Core_Model_Session::delete('lesson_id');
-            Core_Model_Session::successFlash('message', 'Successfully updated');
+            $this->_sessionDelete('lesson_id');
+            $this->_successFlash('Successfully updated');
 
             $this->headerRedirect('incubate','lesson','index');
             exit;
@@ -88,7 +88,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
             $lessonTags = $tag->getTagNamesFromTagMap($lessonTagMap);
 
             //store lesson id in the session
-            Core_Model_Session::set('lesson_id', $lessonId);
+            $this->_sessionSet('lesson_id', $lessonId);
 
             //load view, set data for use in edit form, and render
             $view = $this->loadLayout();
@@ -96,7 +96,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
             $view->render();
         }
         else {
-            Core_Model_Session::dangerFlash('error', 'You did not specify a lesson to edit');
+            $this->_dangerFlash('You did not specify a lesson to edit');
             $this->headerRedirect('incubate','index','index');
             exit;
         }
@@ -109,7 +109,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
             //delete current tag map of lesson, then delte the lessson
             Bootstrap::getModel('incubate/lesson')->load($lessonId)->deleteTagMapOfLesson()->deleteCompletedCourseMap()->delete();
 
-            Core_Model_Session::successFlash('message', 'Successfully deleted');
+            $this->_successFlash('Successfully deleted');
         }
         $this->headerRedirect('incubate','lesson','index');
         exit;

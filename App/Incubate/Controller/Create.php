@@ -7,44 +7,36 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
     public function lessonAction()
     {
         //check if user is logged in and admin
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
         //load request objecgt
         $request = $this->_getRequest();
-
-
-        //load view
-        $view = $this->loadLayout();
-
-        //load  models
-        $tag = Bootstrap::getModel('incubate/tag');
-        $lesson = Bootstrap::getModel('incubate/lesson');
 
         /*
          * if form is set, add it to the database
          * else load a blank form
          *
-         * TODO FORM VALIDATION
          */
         if ($request->isPost()) {
 
+            //load  models
+            $tag = Bootstrap::getModel('incubate/tag');
+            $lesson = Bootstrap::getModel('incubate/lesson');
+
             /*
              * set all post information,
-             *
              * if the post variable is tag, it is a comma seprated list, explode it into $tagArray
              */
             $tagArray = explode(',', $request->getPost('tags'));
 
             /*
              * adds any newly entered tags into database,
-             *
              * takes an array of $tags as argument
              */
             $tag->addNewTagsToDb($tagArray);
             /*
              * add the lesson to the database,
-             * TODO FORM VALIDATION
              */
             foreach(array('name','description','duration') as $field) {
                 $lesson->setData($field, $request->getPost($field));
@@ -67,38 +59,35 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
             $this->headerRedirect('incubate', 'lesson', 'index');
             exit;
         }
-        else {
-            $view->render();
-        }
+        //else load view
+        $this->loadLayout();
+        $this->render();
+
     }
 
     public function tagAction()
     {
         $request = $this->_getRequest();
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
-
-        //load user mode
-        $tag = Bootstrap::getModel('incubate/tag');
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
         /*
          * if post is set, add the created tag to the database
-         *
-         * TODO FORM VALIDATION
          */
         if($request->isPost()) {
 
-            $tagArray = explode(',', $request->getPost('tags'));
+            $tagArray = $this->explode($request->getPost('tags'));
 
-            $tag->addNewTagsToDb($tagArray);
+            Bootstrap::getModel('incubate/tag')->addNewTagsToDb($tagArray);
 
             $this->headerRedirect('incubate', 'tag', 'index');
+            exit;
         }
-        else {
-            //load view
-            $this->loadLayout();
-            $this->render();
-        }
+
+        //load view
+        $this->loadLayout();
+        $this->render();
+
 
     }
 

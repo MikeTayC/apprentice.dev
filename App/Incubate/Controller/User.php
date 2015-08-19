@@ -10,8 +10,8 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
     public function indexAction()
     {
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
         /*
          * instantiate user  model using boot strap factory,
@@ -42,7 +42,7 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
     public function profileAction($userId)
     {
-        $this->checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsLoggedIn();
         $this->userProfileCheck($userId);
 
         $lesson = Bootstrap::getModel('incubate/lesson');
@@ -61,8 +61,8 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
     public function deleteAction($userId, $lessonId)
     {
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
         if ($userId && $lessonId) {
             Bootstrap::getModel('incubate/user')->load($userId)->markCourseIncomplete($lessonId);
@@ -72,8 +72,8 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
     public function addAction($userId, $lessonId)
     {
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
         if ($userId && $lessonId) {
 
@@ -86,19 +86,19 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
 	public function removeAction($userId)
 	{
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
 		if(!empty($userId)) {
 
 			Bootstrap::getModel('incubate/user')->load($userId)->deleteCompletedCourseMap()->delete();
 
-			Core_Model_Session::successFlash('message', 'User successfully removed');
+			$this->_successFlash('User successfully removed');
 			$this->headerRedirect('incubate','user','index');
 			exit;
 		}
 		else {
-			Core_Model_Session::dangerFlash('error', 'You did not specify a user to remove');
+			$this->_dangerFlash('You did not specify a user to remove');
 			$this->headerRedirect('incubate','index','index');
 			exit;
 		}
@@ -107,19 +107,19 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 	public function adminAction($userId)
 	{
 
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
 		if(!empty($userId)) {
 
 			Bootstrap::getModel('incubate/user')->load($userId)->setRole('admin')->save();
 
-			Core_Model_Session::successFlash('message', 'Successfully made this user an admin');
+			$this->_successFlash('Successfully made this user an admin');
 			$this->headerRedirect('incubate','user','index');
 
 		}
 		else {
-			Core_Model_Session::dangerFlash('error', 'You did not specify a user to remove');
+			$this->_dangerFlash('You did not specify a user to remove');
 			$this->headerRedirect('incubate','index','index');
 			exit;
 		}

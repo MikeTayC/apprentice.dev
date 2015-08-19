@@ -6,7 +6,7 @@
  * Time: 1:38 PM
  *
  */
-class Incubate_Controller_Login extends Core_Controller_Abstract
+class Incubate_Controller_Login extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {
@@ -15,7 +15,7 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
          * sign in with a blue acorn google plus account
          */
         $view = $this->loadLayout($default = false);
-
+        $this->_flashCheck();
         /*
          * instantiate google client and our authorization class and user model class
          */
@@ -45,6 +45,7 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
 
                 //direct to dashboard
                 $this->headerRedirect('incubate', 'index', 'index');
+                exit;
             }
 
             /*
@@ -55,8 +56,8 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
              *
              */
             elseif($auth->validateNewEmailAddress($email)) {
-                Core_Model_Session::set('email', $email);
-                Core_Model_Session::set('googleDisplayName', $googleDisplayName);
+                $this->_sessionSet('email', $email);
+                $this->_sessionSet('googleDisplayName', $googleDisplayName);
                 $this->headerRedirect('incubate','register','index');
                 exit;
             }
@@ -83,13 +84,13 @@ class Incubate_Controller_Login extends Core_Controller_Abstract
         /*
          * will render the default google login landing page
          */
-            echo Core_Model_Session::dangerFlash('error');
+
             $view->render();
         }
         else {
             //if all else fails, the user is logged in but directly tried accessing default login page
             //prompt user to signout or redirect
-            echo Core_Model_Session::dangerFlash('error');
+
             $view->render();
         }
 

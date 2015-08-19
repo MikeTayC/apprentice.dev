@@ -8,31 +8,40 @@
 abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 {
 
-    public function checkIfUserIsLoggedIn()
+    protected function _checkIfUserIsLoggedIn()
     {
-        if(!Core_Model_Session::get('logged_in')) {
-            Core_Model_Session::dangerFlash('You are not logged in!');
+        if(!$this->_sessionGet('logged_in')) {
+            $this->_dangerFlash('You are not logged in!');
             $this->headerRedirect('incubate', 'login', 'index');
             exit;
         }
     }
 
-    public function checkIfUserIsAdmin()
+    protected function _checkIfUserIsAdmin()
     {
         if(!Core_Model_Session::get('admin_status')) {
-            Core_Model_Session::dangerflash('error', 'Admins Only');
+            $this->_dangerFlash('Admins Only');
             $this->headerRedirect('incubate','index','index');
             exit;
         }
     }
 
 
-    public function flashCheck()
+    protected function _flashCheck()
     {
         echo Core_Model_Session::dangerFlash('error');
         echo  Core_Model_Session::successFlash('message');
     }
 
+    protected function _successFlash($message)
+    {
+        Core_Model_Session::successFlash('message', $message);
+    }
+
+    public function _dangerFlash($message)
+    {
+        Core_Model_Session::dangerFlash('error', $message);
+    }
     public function explode($list)
     {
         $newArray = explode(',', $list);
@@ -73,7 +82,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 
     public function userProfileCheck($userId)
     {
-        if(!Core_Model_Session::get('admin_status') && (Core_Model_Session::get('user_id') != $userId)) {
+        if(!$this->_sessionGet('admin_status') && ($this->_sessionGet('user_id') != $userId)) {
                 Core_Model_Session::dangerFlash('error', 'You must be an admin to visit another profile');
                 $this->headerRedirect('incubate','index','index');
                 exit;
@@ -82,6 +91,21 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 
     protected function _getRequest(){
         return Core_Model_Request::getInstance();
+    }
+
+    protected function _sessionGet($param)
+    {
+        return Core_Model_Session::get($param);
+    }
+
+    protected function _sessionSet($param, $value)
+    {
+        Core_Model_Session::set($param, $value);
+    }
+
+    protected function _sessionDelete($param)
+    {
+        Core_Model_Session::delete($param);
     }
 
 }

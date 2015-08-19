@@ -14,8 +14,8 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
         $view->render();
 
         //delete unnessary session information after the page is rendered
-        Core_Model_Session::delete('email');
-        Core_Model_Session::delete('googleDisplayName');
+        $this->_sessionDelete('email');
+        $this->_sessionDelete('googleDisplayName');
     }
 
     public function newAction()
@@ -32,7 +32,7 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
             }
 
             //get google id from session, add add it to user data
-			$googleId = Core_Model_Session::get('google_id');
+			$googleId = $this->_sessionGet('google_id');
             $user->setData('google_id', $googleId);
 
             //save the new user to the database;
@@ -43,10 +43,10 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
              * to log them in: including user_id, logged in status, and admin status.
              */
 			if($user->checkUserDataForGoogleId($googleId)) {
-				Core_Model_Session::successflash('message', 'You have been successfully added to Incubate!');
+				$this->_successFlash('You have been successfully added to Incubate!');
 			}
 			else {
-				Core_Model_Session::dangerFlash('error', 'There was a problem adding you to Incubate!');
+				$this->_dangerFlash('There was a problem adding you to Incubate!');
 				$this->headerRedirect('incubate', 'logout', 'index');
 				exit;
 			}

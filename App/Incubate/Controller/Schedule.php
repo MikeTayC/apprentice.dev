@@ -10,9 +10,9 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {
-        $this->checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsLoggedIn();
         $this->loadLayout();
-        $this->flashCheck();
+        $this->_flashCheck();
         $this->render();
 
 	}
@@ -21,8 +21,8 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
     {
 
         $request = $this->_getRequest();
-        $this->checkIfUserIsLoggedIn();
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
 
         if($request->isPost()) {
 
@@ -58,6 +58,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
             $calendar = new Core_Model_Calendar($client);
             $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $studentEmailArray);
 
+            $this->_successFlash('Your event has been scheduled');
             $this->headerRedirect('incubate', 'schedule', 'index');
             exit;
         }
@@ -65,9 +66,9 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
 	public function lessonAction($lessonId)
 	{
-        $this->checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsLoggedIn();
 
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsAdmin();
 
         if(isset($lessonId)) {
 

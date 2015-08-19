@@ -10,16 +10,16 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
     public function indexAction()
     {
         //redirect if not logged in
-        $this->checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsLoggedIn();
 
         //redirect if not Admin
-        $this->checkIfUserIsAdmin();
+        $this->_checkIfUserIsAdmin();
 
         //load view
         $view = $this->loadLayout();
 
         //echo flashes if set
-        $this->flashCheck();
+        $this->_flashCheck();
 
         //load model
         $tagData = Bootstrap::getModel('incubate/tag')->LoadAllEditableTags();
@@ -34,25 +34,25 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
 
     public function editAction($tagId)
     {
-        $this->checkIfUserIsAdmin();
-        $this->checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
+        $this->_checkIfUserIsLoggedIn();
         $request = $this->_getRequest();
 
         $view = $this->loadLayout();
-        $this->flashCheck();
+        $this->_flashCheck();
 
         $tag = Bootstrap::getModel('incubate/tag');
 
         if ($request->isPost()) {
 
-            $tagId = Core_Model_Session::get('tag_id');
+            $tagId = $this->_sessionGet('tag_id');
 
             $tagNewName = $request->getPost('tag');
 
             $tag->load($tagId)->setName($tagNewName)->save();
 
-            Core_Model_Session::delete('tag_id');
-            Core_Model_Session::successFlash('message', 'Successfully updated');
+            $this->_sessionDelete('tag_id');
+            $this->_successFlash('Successfully updated');
             $this->headerRedirect('incubate','tag','index');
             exit;
         }
@@ -62,7 +62,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
             $tagName = Bootstrap::getModel('incubate/tag')->load($tagId)->getName();
 
             //set id in session
-            Core_Model_Session::set('tag_id', $tagId);
+            $this->_sessionSet('tag_id', $tagId);
 
             $view->getContent()->setTag($tagName);
 
@@ -71,7 +71,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
         else {
 
             //all else fails, send back to index
-            Core_Model_Session::dangerFlash('error', 'You did not specify a tag to edit');
+            $this->_dangerFlash('You did not specify a tag to edit');
             $this->headerRedirect('incubate','tag','index');
             exit;
         }
@@ -90,7 +90,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
                 //delete this lesson
                 $tag->load($tagId)->delete();
 
-                Core_Model_Session::successFlash('message', 'Successfully deleted');
+                $this->_successFlash('Successfully deleted');
         }
 
         $this->headerRedirect('incubate','tag','index');

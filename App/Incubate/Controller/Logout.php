@@ -12,5 +12,6 @@ class Incubate_Controller_Logout extends Core_Controller_Abstract
         $user = Bootstrap::getModel('incubate/user');
         $user->logout();
         $this->headerRedirect('incubate', 'login', 'index');
+        exit;
     }
 }
