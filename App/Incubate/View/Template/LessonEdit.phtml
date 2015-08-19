@@ -6,14 +6,14 @@
 <div class="content">
     <div id="form-main">
         <div id="form-div">
-            <form class="uk-form" id="form" action="http://apprentice.dev/incubate/lesson/edit" method="post">
+            <form class="uk-form" id="form" action="<?php echo Bootstrap::getBaseUrl();?>lesson/edit" method="post">
                 <div class="uk-form-row">
                 Name:
                 </div>
                 <div class="uk-form-row">
                     <input name="name" type="text" value="<?php echo $lesson->getName(); ?>" id="name" />
-                    <a class="uk-button uk-button-success" href="http://apprentice.dev/incubate/lesson/index">Back</a>
-                    <a class="uk-button uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/<?php echo $lessonId ?>">Delete</a>
+                    <a class="uk-button uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/index">Back</a>
+                    <a class="uk-button uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>lesson/delete/<?php echo $lessonId ?>">Delete</a>
                 </div>
                 <div class="uk-form-row">
                 Description:

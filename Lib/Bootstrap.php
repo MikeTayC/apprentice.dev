@@ -64,4 +64,9 @@ final class Bootstrap
         }
         return $className;
     }
+
+    public static function getBaseUrl()
+    {
+        return "http://apprentice.dev/incubate/";
+    }
 }

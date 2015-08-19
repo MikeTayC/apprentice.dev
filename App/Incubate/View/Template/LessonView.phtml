@@ -5,13 +5,13 @@ $lesson = $this->getLesson();
 <div class="content">
     <div id="form-main">
         <div id="form-div">
-            <form class="uk-form" id="form" action="http://apprentice.dev/incubate/lesson/edit" method="post">
+            <form class="uk-form" id="form" action="<?php echo Bootstrap::getBaseUrl();?>lesson/edit" method="post">
                 <div id="box">
                     <div class="box-top"><h2><?php echo $lesson->getName() . ' '; ?>
                            <?php if(Core_Model_Session::get('admin_status')) :?>
-                            <a class="uk-button uk-button-small uk-align-right uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/<?php echo $lessonId;?>">Edit</a>
+                            <a class="uk-button uk-button-small uk-align-right uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/edit/<?php echo $lessonId;?>">Edit</a>
                             <?php endif;?>
-                            <a class="uk-button uk-button-small uk-align-right uk-button-danger" href="http://apprentice.dev/incubate/lesson/index">Back</a>
+                            <a class="uk-button uk-button-small uk-align-right uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>lesson/index">Back</a>
 
                     </div>
                     <div class="box-panel">

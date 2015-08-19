@@ -7,12 +7,12 @@
 	<div id="form-main">
 		<div id="form-div">
 			<h3>Schedule a Lesson</h3>
-			<form class="uk-form" id="form" action="http://apprentice.dev/incubate/schedule/event" method="post">
+			<form class="uk-form" id="form" action="<?php echo Bootstrap::getBaseUrl();?>schedule/event" method="post">
 				<div class="uk-form-row">
 					<label>Lesson Name:</label>
 					<br>
 					<input readonly type="text" name="lesson_name" value="<?php echo $lesson->getName(); ?>">
-					<a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/lesson/index">Change</a>
+					<a class="uk-button uk-button-small uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>lesson/index">Change</a>
 				</div>
 				<div class="uk-form-row">
 					<label>Description:</label>

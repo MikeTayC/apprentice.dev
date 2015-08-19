@@ -4,9 +4,9 @@
 <div class="content">
 
     <?php if(Core_Model_Session::get('admin_status')) : ?>
-        <a class="uk-button uk-button-large uk-button-success ba-success" href="http://apprentice.dev/incubate/create/lesson">Create Lesson</a>
+        <a class="uk-button uk-button-large uk-button-success ba-success" href="<?php echo Bootstrap::getBaseUrl();?>create/lesson">Create Lesson</a>
 
-        <a class="uk-button uk-button-large uk-button-primary ba-primary" href="http://apprentice.dev/incubate/create/tag">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
+        <a class="uk-button uk-button-large uk-button-primary ba-primary" href="<?php echo Bootstrap::getBaseUrl();?>create/tag">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
     <?php endif; ?>
 
     <table class="uk-table uk-table-hover">
@@ -18,15 +18,15 @@
 
 				echo '<tr>';
 				echo '<td>' . $lesson->getName() . '</td>';
-                echo '<td><a class="uk-button uk-button-small" href="http://apprentice.dev/incubate/view/lesson/'. $lesson->getId().'">&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+                echo '<td><a class="uk-button uk-button-small" href="'. Bootstrap::getBaseUrl() . 'view/lesson/'. $lesson->getId().'">&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 				if(Core_Model_Session::get('admin_status')) {
 
-					echo '<td><a class="uk-button uk-button-small uk-button-primary" href="http://apprentice.dev/incubate/schedule/lesson/'. $lesson->getId() .'">Schedule</a></td>';
+					echo '<td><a class="uk-button uk-button-small uk-button-primary" href="' . Bootstrap::getBaseUrl() . 'schedule/lesson/'. $lesson->getId() .'">Schedule</a></td>';
 
 
-					echo '<td><a class="uk-button uk-button-small uk-button-success" href="http://apprentice.dev/incubate/lesson/edit/' . $lesson->getId() .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+					echo '<td><a class="uk-button uk-button-small uk-button-success" href="' . Bootstrap::getBaseUrl() . 'lesson/edit/' . $lesson->getId() .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
 
-					echo '<td><a class="uk-button uk-button-small uk-button-danger" href="http://apprentice.dev/incubate/lesson/delete/' . $lesson->getId() .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+					echo '<td><a class="uk-button uk-button-small uk-button-danger" href="' .  Bootstrap::getBaseUrl() . 'lesson/delete/' . $lesson->getId() .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
 					}
 				}
 
