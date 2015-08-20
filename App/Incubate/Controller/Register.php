@@ -55,7 +55,6 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
 				exit;
 			}
 		}
-		$this->headerRedirect('incubate', 'index', 'index');
-        exit;
+        $this->_thisModuleRedirect('index');
     }
 }

@@ -75,9 +75,28 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         return $this;
     }
 
+    public function saveNoLoad()
+    {
+
+        $fields = $this->getData();
+
+        //check if the data is to create or update by checkign if there is an id to be loaded
+        if(isset($fields['id'])) {
+            //then update
+            $this->update($fields);
+        }
+        else {
+            $this->create($fields);
+        }
+        return $this;
+    }
+
     public function delete()
     {
+//        $modelShortName = somestringmanipulation(get_class($this)); // = incubate_lesson , incubate_user
+//        Bootstrap::dispatchEvent($modelShortName . '_delete_before', $eventObject);
         $this->_db->delete($this->_table, array('id', '=', $this->getId()));
+
     }
 
 

@@ -62,8 +62,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
             Bootstrap::dispatchEvent('schedule_event_after', $event);
 
             $this->_successFlash('Your event has been scheduled');
-            $this->headerRedirect('incubate', 'schedule', 'index');
-            exit;
+            $this->_thisModuleRedirect('schedule');
         }
     }
 

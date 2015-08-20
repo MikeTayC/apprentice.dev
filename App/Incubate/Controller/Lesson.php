@@ -72,8 +72,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
 
             $this->_sessionDelete('lesson_id');
             $this->_successFlash('Successfully updated');
-            $this->headerRedirect('incubate','lesson','index');
-            exit;
+            $this->_thisModuleRedirect('lesson');
         }
         elseif(isset($lessonId)) {
 
@@ -93,8 +92,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
         }
         else {
             $this->_dangerFlash('You did not specify a lesson to edit');
-            $this->headerRedirect('incubate','index','index');
-            exit;
+            $this->_thisModuleRedirect('index');
         }
     }
 
@@ -112,8 +110,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
 
             $this->_successFlash('Successfully deleted');
         }
-        $this->headerRedirect('incubate','lesson','index');
-        exit;
+        $this->_thisModuleRedirect('lesson');
     }
 
 }

@@ -195,30 +195,27 @@ class Incubate_Model_User extends Core_Model_Abstract
         if($userCompletedCourseIdMap = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->results()) {
 
             foreach($userCompletedCourseIdMap as $mapValue) {
-                $userCompletedCourseIdArray[] = $mapValue['lesson_id'];
+
+
+                if (new DateTime() >= new DateTime($mapValue['date']) ) {
+                    $userCompletedCourseIdArray[] = $mapValue['lesson_id'];
+                }
             }
         }
         $this->setCompleted($userCompletedCourseIdArray);
         return $this;
     }
 
-	public function markCourseIncomplete($lessonId)
-	{
-		$this->_db->deleteMultiArgument('completed_courses', array('user_id', '=', $this->getId()), array('lesson_id','=',$lessonId));
-	}
 
-    public function markCourseComplete($lessonId)
-    {
-        if(!$this->_db->getMultiArgument('completed_courses', array('user_id', '=', $this->getId()), array('lesson_id', '=', $lessonId))->count()) {
-			$this->_db->insert('completed_courses', array('user_id' => $this->getId(), 'lesson_id' => $lessonId));
-
-        }
-
-    }
 	public function getCompletedCourseCount()
 	{
-		if($data = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->count()) {
-            return $data;
+        $coursesToCount = array();
+		if($countData = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->results()) {
+            foreach($countData as $data)
+                if(new DateTime() >= new DateTime($data['date'])){
+                    $coursesToCount[] = $data;
+                }
+            return count($coursesToCount);
         }
         return null;
 	}

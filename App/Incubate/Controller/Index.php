@@ -10,7 +10,7 @@ class Incubate_Controller_Index extends Incubate_Controller_Abstract
     public function indexAction()
     {
         if(!$this->_sessionGet('logged_in')) {
-            $this->redirect('Incubate', 'Login', 'indexAction');
+            $this->_thisModuleRedirect('login');
         }
         else {
 			$this->loadLayout();

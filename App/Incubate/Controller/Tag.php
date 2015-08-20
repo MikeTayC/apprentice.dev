@@ -51,8 +51,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
 
             $this->_sessionDelete('tag_id');
             $this->_successFlash('Successfully updated');
-            $this->headerRedirect('incubate','tag','index');
-            exit;
+            $this->_thisModuleRedirect('tag');
         }
         elseif(isset($tagId)) {
 
@@ -71,7 +70,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
             //all else fails, send back to index
             $this->_dangerFlash('You did not specify a tag to edit');
             $this->headerRedirect('incubate','tag','index');
-            exit;
+            $this->_thisModuleRedirect('tag');
         }
     }
 
@@ -80,7 +79,6 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
         if(!empty($tagId)){
 
             $tag = Bootstrap::getModel('incubate/tag');
-
 
             //dispatch event prioer to delteing tag, remove tag from lesson tag map
             $event = Bootstrap::getModel('core/event')->setTag($tagId);
@@ -92,7 +90,6 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
             $this->_successFlash('Successfully deleted');
         }
 
-        $this->headerRedirect('incubate','tag','index');
-        exit;
+        $this->_thisModuleRedirect('tag');
     }
 }

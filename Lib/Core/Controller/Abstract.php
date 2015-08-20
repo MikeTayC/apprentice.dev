@@ -64,19 +64,31 @@ abstract class Core_Controller_Abstract
             $headerURL .= '/' . $param;
         }
         header($headerURL);
+        exit;
     }
 
     /*
  * redirects the actual url, necessary so access code does not show
  */
-    protected function _thisModuleRedirect($controller, $param = null)
+    protected function _thisModuleRedirect($controller)
     {
         $module = Core_Model_Request::getInstance()->getModule();
         $headerURL = 'Location: http://apprentice.dev/' . $module . '/' . $controller . '/' . 'index';
+        header($headerURL);
+        exit;
+    }
+
+    protected function _thisModuleRedirectParams($controller, $action, $param)
+    {
+        $module = Core_Model_Request::getInstance()->getModule();
+        $headerURL = 'Location: http://apprentice.dev/' . $module . '/' . $controller . '/' . $action;
         if($param) {
             $headerURL .= '/' . $param;
         }
         header($headerURL);
+        exit;
     }
+
+
 
 }

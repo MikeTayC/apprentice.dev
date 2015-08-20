@@ -44,8 +44,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             if($auth->checkDatabaseForUser($googleId)){
 
                 //direct to dashboard
-                $this->headerRedirect('incubate', 'index', 'index');
-                exit;
+                $this->_thisModuleRedirect('index');
             }
 
             /*
@@ -58,8 +57,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             elseif($auth->validateNewEmailAddress($email)) {
                 $this->_sessionSet('email', $email);
                 $this->_sessionSet('googleDisplayName', $googleDisplayName);
-                $this->headerRedirect('incubate','register','index');
-                exit;
+                $this->_thisModuleRedirect('register');
             }
 
             /*
@@ -68,8 +66,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             else {
                 //direct back to login, user is not located in database, and does not have a blue acorn email address
                 Core_Model_Session::dangerflash('error', 'Blue Acorn Email addresses only');
-                $this->headerRedirect('incubate','logout', 'index');
-                exit;
+                $this->_thisModuleRedirect('logout');
             }
         }
 

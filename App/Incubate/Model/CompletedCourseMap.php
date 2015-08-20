@@ -22,13 +22,25 @@ class Incubate_Model_CompletedCourseMap extends Core_Model_Abstract
 
     public function deleteUserCompletedCourseMap()
     {
-       $this->deleteMultiArguments(array('user_id', '=', $this->getUser()), array('lesson_id', '=', $this->getLesson()));
+        $userId = $this->getUser();
+        $lessonId = $this->getLesson();
+        $mapModel = $this->loadCompletedCourseRow($userId, $lessonId);
+        $mapModel->delete();
     }
 
     public function markUserCompletedCourseMap()
     {
-        if(!$this->_db->getMultiArgument($this->_table, array('user_id', '=', $this->getUser()), array('lesson_id', '=', $this->getLesson()))->count()) {
-            $this->create(array('user_id' => $this->getUser(), 'lesson_id' => $this->getLesson()));
-        }
+        $userId = $this->getUser();
+        $lessonId = $this->getLesson();
+
+        $mapModel = $this->loadCompletedCourseRow($userId,$lessonId);
+        $mapModel->setData('user_id', $userId)->setData('lesson_id', $lessonId)->saveNoLoad();
+
+    }
+
+    public function loadCompletedCourseRow($userId, $lessonId)
+    {
+        $this->getMultiArguments(array('user_id', '=', $userId), array('lesson_id', '=', $lessonId));
+        return $this;
     }
 }

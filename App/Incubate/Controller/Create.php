@@ -45,8 +45,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
 
             $this->_successFlash('You successfully created a lesson!');
 
-            $this->headerRedirect('incubate', 'lesson', 'index');
-            exit;
+            $this->_thisModuleRedirect('index');
         }
         //else load view
         $this->loadLayout();
@@ -70,8 +69,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
             Bootstrap::getModel('incubate/tag')->addNewTagsToDb($tagArray);
 
             $this->_successFlash('You made tag(s)');
-            $this->headerRedirect('incubate', 'tag', 'index');
-            exit;
+            $this->_thisModuleRedirect('index');
         }
 
         //load view

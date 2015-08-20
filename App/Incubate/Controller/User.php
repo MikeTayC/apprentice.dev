@@ -68,8 +68,7 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
             $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
             Bootstrap::dispatchEvent('unmark_completed_course', $event);
-
-            $this->headerRedirect('incubate', 'user', 'profile', $userId);
+            $this->_thisModuleRedirectParams('user','profile', $userId);
         }
     }
     public function markAction($userId, $lessonId)
@@ -83,8 +82,7 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
             Bootstrap::dispatchEvent('mark_completed_course', $event);
 
         }
-        $this->headerRedirect('incubate', 'user', 'profile', $userId);
-        exit;
+        $this->_thisModuleRedirectParams('user','profile', $userId);
     }
 
 	public function removeAction($userId)
@@ -97,13 +95,12 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 			Bootstrap::getModel('incubate/user')->load($userId)->deleteCompletedCourseMap()->delete();
 
 			$this->_successFlash('User successfully removed');
-			$this->headerRedirect('incubate','user','index');
+            $this->_thisModuleRedirect('user');
 			exit;
 		}
 		else {
 			$this->_dangerFlash('You did not specify a user to remove');
-			$this->headerRedirect('incubate','index','index');
-			exit;
+            $this->_thisModuleRedirect('index');
 		}
 	}
 
@@ -118,13 +115,12 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 			Bootstrap::getModel('incubate/user')->load($userId)->setRole('admin')->save();
 
 			$this->_successFlash('Successfully made this user an admin');
-			$this->headerRedirect('incubate','user','index');
+            $this->_thisModuleRedirect('user');
 
 		}
 		else {
 			$this->_dangerFlash('You did not specify a user to remove');
-			$this->headerRedirect('incubate','index','index');
-			exit;
+            $this->_thisModuleRedirect('index');
 		}
 	}
 

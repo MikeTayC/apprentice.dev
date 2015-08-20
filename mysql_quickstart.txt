@@ -8,9 +8,9 @@ CREATE TABLE tag (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60));
 
 CREATE TABLE lesson(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60), description VARCHAR(255), duration INT);
 
-CREATE TABLE lesson_tag_map(map_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, tag_id INT, lesson_id INT);
+CREATE TABLE lesson_tag_map(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, tag_id INT, lesson_id INT);
 
-CREATE TABLE completed_courses(map_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT, date DATETIME);
+CREATE TABLE completed_courses(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT, date DATETIME);
 
 INSERT INTO `tag` (`name`) VALUES ('Application Engineer');
 
