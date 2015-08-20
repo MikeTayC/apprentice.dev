@@ -13,6 +13,8 @@ class Core_Model_Config_Json
 
     private static $instance = null;
 
+    private static $registeredObservers = array();
+
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -21,6 +23,23 @@ class Core_Model_Config_Json
         return self::$instance;
     }
     private function __construct(){}
+
+    public static function setObservers($observerEvents)
+    {
+        self::$registeredObservers = $observerEvents;
+    }
+
+    public static function getRegisteredObservers($eventName = null)
+    {
+        if($eventName) {
+            $observers = self::getRegisteredObservers();
+            if(array_key_exists($eventName, $observers)) {
+                $specificObserver = $observers[$eventName];
+                return $specificObserver;
+            }
+        }
+        return self::$registeredObservers;
+    }
 
     public static function setJsonConfig()
     {
@@ -91,5 +110,27 @@ class Core_Model_Config_Json
         $module = strtolower(Core_Model_Request::getInstance()->getModule());
         $param = strtolower(Core_Model_Request::getInstance()->getParams()['0']);
         return self::$globalJsonArray['config']['modules'][$module]['validation']['admin'][$param];
+    }
+
+    public static function getEventConfig($event) {
+        $module = strtolower(Core_Model_Request::getInstance()->getModule());
+
+        $moduleConfig = self::getModulesConfig();
+
+        $eventArray = array();
+        foreach($moduleConfig as $nodeValue) {
+            if($nodeValue['events']) {
+                $eventArray[] = $nodeValue['events'][$event];
+            }
+        }
+        return $eventArray;
+
+    }
+
+    public static function getBaseUrl()
+    {
+        $module = strtolower(Core_Model_Request::getInstance()->getModule());
+
+        return self::$globalJsonArray['config']['modules'][$module]['baseUrl']['url'];
     }
 }

@@ -4,6 +4,9 @@
             "incubate": {
                 "pool": "Lib",
                 "dir": "Incubate",
+                "baseUrl" : {
+                  "url" : "http://apprentice.dev/incubate/"
+                },
                 "database": {
                     "type": "mysql",
                     "host": "localhost",
@@ -50,10 +53,20 @@
                 },
                 "events": {
                     "lesson_create_after": {
-                        "observer": {
-                            "class": "incubate/tag",
-                            "method": "attachTagToLesson"
-                        }
+                        "add_new_tags_to_db": {
+                        "class": "incubate/TagObserver",
+                        "method": "addNewTagsAfterLesson"
+                      },
+                      "attach_tag_to_lesson": {
+                        "class": "incubate/tagObserver",
+                        "method": "attachTagsToLesson"
+                      }
+                    },
+                    "lesson_create_before" : {
+                      "something" : {
+                        "class": "",
+                        "method" : ""
+                      }
                     }
                 }
 

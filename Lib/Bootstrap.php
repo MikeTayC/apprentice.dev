@@ -67,20 +67,44 @@ final class Bootstrap
 
     public static function getBaseUrl()
     {
-        return "http://apprentice.dev/incubate/";
+
+        return Core_Model_Config_Json::getBaseUrl();
     }
 
-	public static function dispatchEvent($eventName, $dataObject)
+    public static function registerObservers()
+    {
+        if($moduleConfig = Core_Model_Config_Json::getModulesConfig()) {
+            foreach($moduleConfig as $module) {
+                if(array_key_exists('events', $module)) {
+                    $observerEvents = $module['events'];
+                    Core_Model_Config_Json::setObservers($observerEvents);
+                }
+            }
+        }
+
+    }
+	public static function dispatchEvent($eventName, $params)
 	{
 		/*
 		 * 1. get all obersever nodes that listen to @var $eventName
 		 * 2. foreach $observers as $obserever, (expect associative array)
 		 * 		$observerModel = Bootstrap::getModel($observer['*class*'])
 		 * 		//check method
-		 * 		call_user_func_array(array($observerModel,
+		 * 		call_user_func_array(array($observerModel, $obserberMethodFrom Congif), $params
 		 *
 		 *
 		 */
+        //get all obersver nodes that listen to the event
+        //foreach observer (should be associative array, check for method, then call the appropriate method)
+         if($observers = Core_Model_Config_Json::getRegisteredObservers($eventName)) {
+            foreach($observers as $observer) {
+                $observerModel = Bootstrap::getModel($observer['class']);
+                $observerMethod = $observer['method'];
+                if(method_exists($observerModel, $observerMethod)) {
+                    call_user_func_array(array($observerModel, $observerMethod), array($params));
+                }
 
+            }
+        }
 	}
 }

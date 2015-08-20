@@ -14,5 +14,7 @@ Bootstrap::registerAutoload();
 
 Bootstrap::initJsonConfig();
 
+Bootstrap::registerObservers();
+
 Bootstrap::loadRunFrontController();
 

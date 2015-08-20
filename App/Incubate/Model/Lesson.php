@@ -42,14 +42,6 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
         return null;
     }
 
-	public function createTagMap($lesson_id, $tag_id)
-	{
-		$this->_db->insert('lesson_tag_map', array(
-			'lesson_id' => $lesson_id,
-			'tag_id' => $tag_id
-		));
-	}
-
 	public function checkForGroupTagAndAssign($lessonTagMap)
 	{
         if($lessonTagMap) {

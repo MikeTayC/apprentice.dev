@@ -21,7 +21,6 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
         if ($request->isPost()) {
 
             //load  models
-            $tag = Bootstrap::getModel('incubate/tag');
             $lesson = Bootstrap::getModel('incubate/lesson');
 
             /*
@@ -31,30 +30,18 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
             $tagArray = explode(',', $request->getPost('tags'));
 
             /*
-             * adds any newly entered tags into database,
-             * takes an array of $tags as argument
-             */
-            $tag->addNewTagsToDb($tagArray);
-            /*
              * add the lesson to the database,
              */
             foreach(array('name','description','duration') as $field) {
                 $lesson->setData($field, $request->getPost($field));
             }
 
-            $lesson->save();
+            $lessonId = $lesson->save()->getId();
 
-            /*
-             * load the new lesson by name
-             */
-            $lessonName = $request->getPost('name');
+            $event = Bootstrap::getModel('core/event')->setData('lessonId', $lessonId)->setData('tags', $tagArray);
 
-            $newLessonId = $lesson->loadByName($lessonName)->getId();
-
-            foreach ($tagArray as $tags) {
-                $tagId = $tag->loadByName($tags)->getId();
-                $lesson->createTagMap($newLessonId, $tagId);
-            }
+            //add new tags to the database if any, and map tags to t
+            Bootstrap::dispatchEvent('lesson_create_after', $event);
 
             $this->headerRedirect('incubate', 'lesson', 'index');
             exit;

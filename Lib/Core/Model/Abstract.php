@@ -66,11 +66,13 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         //check if the data is to create or update by checkign if there is an id to be loaded
         if(isset($fields['id'])) {
             //then update
-            $this->update($fields);
+           $this->update($fields);
         }
         else {
             $this->create($fields);
+            $this->loadByName($fields['name']);
         }
+        return $this;
     }
 
     public function delete()

@@ -65,4 +65,18 @@ abstract class Core_Controller_Abstract
         }
         header($headerURL);
     }
+
+    /*
+ * redirects the actual url, necessary so access code does not show
+ */
+    protected function _thisModuleRedirect($controller, $param = null)
+    {
+        $module = Core_Model_Request::getInstance()->getModule();
+        $headerURL = 'Location: http://apprentice.dev/' . $module . '/' . $controller . '/' . 'index';
+        if($param) {
+            $headerURL .= '/' . $param;
+        }
+        header($headerURL);
+    }
+
 }
