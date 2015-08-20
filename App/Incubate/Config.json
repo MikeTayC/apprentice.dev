@@ -1,54 +1,63 @@
 {
-  "config": {
-    "modules": {
-      "incubate": {
-        "pool": "Lib",
-        "dir": "Incubate",
-        "database": {
-          "type": "mysql",
-          "host": "localhost",
-          "name": "incubate",
-          "user": "root",
-          "pass": "root"
-        },
-        "validation": {
-          "admin": {
-            "user": {
-              "name": {
-                "required": "true"
-              },
-              "email": {
-                "required": "true",
-                "blueacorn": "@blueacorn.com"
-              },
-              "groups": {
-                "required": "true"
-              }
-            },
-            "lesson" :{
-              "name" : {
-                "required" : "true"
-              },
-              "description" : {
-                "required" : "true"
-              }
+    "config": {
+        "modules": {
+            "incubate": {
+                "pool": "Lib",
+                "dir": "Incubate",
+                "database": {
+                    "type": "mysql",
+                    "host": "localhost",
+                    "name": "incubate",
+                    "user": "root",
+                    "pass": "root"
+                },
+                "validation": {
+                    "admin": {
+                        "user": {
+                            "name": {
+                                "required": "true"
+                            },
+                            "email": {
+                                "required": "true",
+                                "blueacorn": "@blueacorn.com"
+                            },
+                            "groups": {
+                                "required": "true"
+                            }
+                        },
+                        "lesson" :{
+                            "name" : {
+                                "required" : "true"
+                            },
+                            "description" : {
+                                "required" : "true"
+                            }
 
-            },
-            "teacher" : {
-              "name": {
-                "required": "true"
-              },
-              "email": {
-                "required": "true",
-                "blueacorn": "@blueacorn.com"
-              },
-              "permission": {
+                        },
+                        "teacher" : {
+                            "name": {
+                                "required": "true"
+                            },
+                            "email": {
+                                "required": "true",
+                                "blueacorn": "@blueacorn.com"
+                            },
+                            "permission": {
 
-              }
+                            }
+                        }
+                    }
+                },
+                "events": {
+                    "lesson_create_after": {
+                        "observer": {
+                            "class": "incubate/tag",
+                            "method": "attachTagToLesson"
+                        }
+                    }
+                }
+
             }
-          }
         }
-      }
     }
-  }
 }

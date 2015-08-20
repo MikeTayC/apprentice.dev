@@ -50,14 +50,15 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 
     public function formatStartDateTime($date, $startTime)
     {
-        $startTime = $this->formatTime($startTime);
+        $startTime = strtotime($startTime);
+		$startTime = date("g:i a", $startTime);
         $startDateTime = date('Y-m-d\TH:i:sP', strtotime($date . ' ' . $startTime));
         return $startDateTime;
     }
 
     public function formatEndDateTime($date, $startTime, $duration)
     {
-        $startTime = $this->formatTime($startTime);
+        $startTime = strtotime($startTime);
         $timeDuration = '+' . $duration . 'minutes';
         $endTime = date("H:i", strtotime($timeDuration, $startTime));
         $endTime = date("g:i a", strtotime($endTime));
@@ -65,12 +66,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
         return $endDateTime;
     }
 
-    private function formatTime($time)
-    {
-        $time = strtotime($time);
-        $newTime = date("g:i a", $time);
-        return $newTime;
-    }
+
 
     public function appendTagsAndDescition($description, $tagsArray)
     {

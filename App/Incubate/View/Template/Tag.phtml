@@ -14,6 +14,7 @@ $tags = $this->getTag();
         <h1>Tags</h1>
         <tbody>
         <?php
+		if($tags) {
             foreach($tags as $tag) {
 
                 echo '<tr>';
@@ -26,6 +27,7 @@ $tags = $this->getTag();
             }
 
             echo '</tr>';
+		}
         ?>
         </tbody>
     </table>

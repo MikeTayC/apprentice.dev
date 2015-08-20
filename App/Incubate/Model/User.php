@@ -22,7 +22,7 @@ class Incubate_Model_User extends Core_Model_Abstract
 	public function loadUserByGoogleId($googleId)
 	{
 		$this->_data = $this->get(array('google_id', '=', $googleId));
-		return $this;
+		return $this->_data;
 	}
 
 

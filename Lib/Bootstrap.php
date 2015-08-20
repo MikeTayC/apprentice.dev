@@ -69,4 +69,18 @@ final class Bootstrap
     {
         return "http://apprentice.dev/incubate/";
     }
+
+	public static function dispatchEvent($eventName, $dataObject)
+	{
+		/*
+		 * 1. get all obersever nodes that listen to @var $eventName
+		 * 2. foreach $observers as $obserever, (expect associative array)
+		 * 		$observerModel = Bootstrap::getModel($observer['*class*'])
+		 * 		//check method
+		 * 		call_user_func_array(array($observerModel,
+		 *
+		 *
+		 */
+
+	}
 }

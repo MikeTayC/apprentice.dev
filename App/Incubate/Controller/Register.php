@@ -10,7 +10,11 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
     public function indexAction()
     {
         //load register form that will allow user to pick there job role
+		$name = $this->_sessionGet('googleDisplayName');
+		$email = $this->_sessionGet('email');
+
         $view = $this->loadLayout($default = false);
+		$view->getContent()->setName($name)->setEmail($email);
         $view->render();
 
         //delete unnessary session information after the page is rendered
@@ -27,7 +31,7 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
             $user = Bootstrap::getModel('incubate/user');
 
             //for all post information, add to user data
-            foreach(array('name','email','group') as $field) {
+            foreach(array('name','email','groups') as $field) {
                 $user->setData($field, $request->getPost($field));
             }
 

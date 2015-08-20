@@ -25,9 +25,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
         $tagData = Bootstrap::getModel('incubate/tag')->LoadAllEditableTags();
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
-        if($tagData) {
-            $view->getContent()->setTag($tagData);
-        }
+		$view->getContent()->setTag($tagData);
 
         $view->render();
     }
