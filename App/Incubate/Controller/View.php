@@ -14,7 +14,7 @@ class Incubate_Controller_View extends Incubate_Controller_Abstract
         $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
 
         //append descrition and tags into readable format
-        $descriptionAndTags = $this->appendTagsAndDescition($lesson->getDescription(), $lessonTags);
+        $descriptionAndTags = $this->appendTagsAndDescription($lesson->getDescription(), $lessonTags);
         $lesson->setDescription($descriptionAndTags);
 
         //ready duration parameter

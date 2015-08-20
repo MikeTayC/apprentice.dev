@@ -82,13 +82,14 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
             $tag = Bootstrap::getModel('incubate/tag');
 
 
-                //delete current tag map of lesson
-                $tag->deleteTagMapOfLessonBasedOnTagId($tagId);
+            //dispatch event prioer to delteing tag, remove tag from lesson tag map
+            $event = Bootstrap::getModel('core/event')->setTag($tagId);
+            Bootstrap::dispatchEvent('delete_tag_before', $event);
 
-                //delete this lesson
-                $tag->load($tagId)->delete();
+            //delete this lesson
+            $tag->load($tagId)->delete();
 
-                $this->_successFlash('Successfully deleted');
+            $this->_successFlash('Successfully deleted');
         }
 
         $this->headerRedirect('incubate','tag','index');

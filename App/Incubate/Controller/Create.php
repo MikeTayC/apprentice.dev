@@ -27,7 +27,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
              * set all post information,
              * if the post variable is tag, it is a comma seprated list, explode it into $tagArray
              */
-            $tagArray = explode(',', $request->getPost('tags'));
+            $tagArray = $this->explode($request->getPost('tags'));
 
             /*
              * add the lesson to the database,
@@ -42,6 +42,8 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
 
             //add new tags to the database if any, and map tags to t
             Bootstrap::dispatchEvent('lesson_create_after', $event);
+
+            $this->_successFlash('You successfully created a lesson!');
 
             $this->headerRedirect('incubate', 'lesson', 'index');
             exit;
@@ -67,6 +69,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
 
             Bootstrap::getModel('incubate/tag')->addNewTagsToDb($tagArray);
 
+            $this->_successFlash('You made tag(s)');
             $this->headerRedirect('incubate', 'tag', 'index');
             exit;
         }

@@ -48,7 +48,7 @@
                     echo '<div class="uk-badge uk-badge-success">Completed</div>';
                     echo '</td>';
 					if(Core_Model_Session::get('admin_status')) {
-                	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="'. Bootstrap::getBaseUrl() . 'user/delete/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
+                	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="'. Bootstrap::getBaseUrl() . 'user/unmark/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
 					}
 				}
                 else {
@@ -56,7 +56,7 @@
                     echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
                     echo '</td>';
                     if(Core_Model_Session::get('admin_status')) {
-						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="' . Bootstrap::getBaseUrl() . 'user/add/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
+						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="' . Bootstrap::getBaseUrl() . 'user/mark/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
 					}
                 }
 

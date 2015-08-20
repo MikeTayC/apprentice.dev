@@ -36,7 +36,9 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
          * render
          */
         $view = $this->loadLayout();
+
         $view->getContent()->setData('userData', $allUsers);
+
         $view->render();
     }
 
@@ -52,32 +54,33 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
         $user = Bootstrap::getModel('incubate/user')->load($userId)->setUserProgress($totalLessonCount)->setUserIncubationTime()->getAllUserCompletedCourseId();
 
         $view = $this->loadLayout();
-        $view->getContent()
-                ->setData('userData', $user)
-                ->setData('lessonData', $allLessonData);
+        $view->getContent()->setData('userData', $user)->setData('lessonData', $allLessonData);
         $view->render();
 
     }
 
-    public function deleteAction($userId, $lessonId)
+    public function unmarkAction($userId, $lessonId)
     {
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsAdmin();
 
         if ($userId && $lessonId) {
-            Bootstrap::getModel('incubate/user')->load($userId)->markCourseIncomplete($lessonId);
+
+            $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
+            Bootstrap::dispatchEvent('unmark_completed_course', $event);
+
+            $this->headerRedirect('incubate', 'user', 'profile', $userId);
         }
-        $this->headerRedirect('incubate', 'user', 'profile', $userId);
     }
-
-    public function addAction($userId, $lessonId)
+    public function markAction($userId, $lessonId)
     {
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsAdmin();
 
         if ($userId && $lessonId) {
 
-            Bootstrap::getModel('incubate/user')->load($userId)->markCourseComplete($lessonId);
+            $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
+            Bootstrap::dispatchEvent('mark_completed_course', $event);
 
         }
         $this->headerRedirect('incubate', 'user', 'profile', $userId);

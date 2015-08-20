@@ -211,9 +211,9 @@ class Incubate_Model_User extends Core_Model_Abstract
     {
         if(!$this->_db->getMultiArgument('completed_courses', array('user_id', '=', $this->getId()), array('lesson_id', '=', $lessonId))->count()) {
 			$this->_db->insert('completed_courses', array('user_id' => $this->getId(), 'lesson_id' => $lessonId));
-            return true;
+
         }
-        return false;
+
     }
 	public function getCompletedCourseCount()
 	{

@@ -62,13 +62,8 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
         }
 	}
 
-    public function deleteCompletedCourseMap()
-    {
-        $this->_db->delete('completed_courses',array('lesson_id', '=', $this->getId()));
-        return $this;
-    }
 
-    public function deleteTagMapOfLesson($lessonId)
+    public function deleteTagMapOfLesson()
     {
         $this->_db->delete('lesson_tag_map',array('lesson_id', '=', $this->getId()));
         return $this;

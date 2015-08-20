@@ -56,21 +56,6 @@ class Incubate_Model_Tag extends Core_Model_Abstract
 		}
 	}
 
-    public function deleteTagMapOfLesson($lessonId)
-    {
-        $this->_db->delete('lesson_tag_map',array('lesson_id', '=', $lessonId));
-    }
-
-    public function deleteTagMapOfLessonBasedOnTagId($tagId)
-    {
-        $this->_db->delete('lesson_tag_map',array('tag_id', '=', $tagId));
-    }
-
-    public function deleteThisTag($tagId)
-    {
-        $this->_db->delete($this->_table, array('id', '=', $tagId));
-    }
-
     public function getTagLessonMapFromTagId($tagId)
     {
         if($lessonTags = $this->_db->get('lesson_tag_map', array('tag_id', '=', $tagId))->results()){

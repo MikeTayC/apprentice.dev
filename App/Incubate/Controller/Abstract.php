@@ -68,10 +68,12 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 
 
 
-    public function appendTagsAndDescition($description, $tagsArray)
+    public function appendTagsAndDescription($description, $tagsArray)
     {
-        foreach($tagsArray as $tag) {
-            $description .= ' #' . $tag;
+        if(isset($tagsArray)) {
+            foreach ($tagsArray as $tag) {
+                $description .= ' #' . $tag;
+            }
         }
         return $description;
     }

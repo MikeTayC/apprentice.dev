@@ -50,13 +50,16 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
 			//append tags on to description for google event
             $tagsArray = $this->explode($tags);
-            $descriptionAndTags = $this->appendTagsAndDescition($description, $tagsArray);
-
+            $descriptionAndTags = $this->appendTagsAndDescription($description, $tagsArray);
 
             //load new google calendar event, and fire event
             $client = new Google_Client();
             $calendar = new Core_Model_Calendar($client);
             $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $studentEmailArray);
+
+            //TODO save end date in completed course table
+            $event = Bootstrap::getModel('core/event')->setStudents($studentList)->setEnd($endDateTime);
+            Bootstrap::dispatchEvent('schedule_event_after', $event);
 
             $this->_successFlash('Your event has been scheduled');
             $this->headerRedirect('incubate', 'schedule', 'index');

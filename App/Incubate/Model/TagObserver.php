@@ -22,8 +22,24 @@ class Incubate_Model_TagObserver extends Core_Model_Object
         if($tagArray && $lessonId) {
             foreach ($tagArray as $tags) {
                 $tagId = Bootstrap::getModel('incubate/tag')->loadByName($tags)->getId();
-                Bootstrap::getModel('incubate/tagMap')->createTagMap($lessonId, $tagId);
+                Bootstrap::getModel('incubate/tagMap')->setLesson($lessonId)->setTag($tagId)->createTagMap();
             }
+        }
+    }
+
+    public function deleteLessonTagMap($eventObject)
+    {
+        $lessonId = $eventObject->getData('lessonId');
+        if($lessonId) {
+            Bootstrap::getModel('incubate/tagMap')->setId($lessonId)->deleteLessonTagMap();
+        }
+    }
+
+    public function deleteTagMapOfLessonBasedOnTagId($eventObject)
+    {
+        $tagId = $eventObject->getTag();
+        if($tagId) {
+            Bootstrap::getModel('incubate/tagMap')->setId($tagId)->deleteTagMapOfLessonBasedOnTagId();
         }
     }
 

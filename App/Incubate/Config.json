@@ -54,7 +54,7 @@
                 "events": {
                     "lesson_create_after": {
                         "add_new_tags_to_db": {
-                        "class": "incubate/TagObserver",
+                        "class": "incubate/tagObserver",
                         "method": "addNewTagsAfterLesson"
                       },
                       "attach_tag_to_lesson": {
@@ -62,12 +62,46 @@
                         "method": "attachTagsToLesson"
                       }
                     },
-                    "lesson_create_before" : {
-                      "something" : {
-                        "class": "",
-                        "method" : ""
+                    "lesson_edit_before" : {
+                      "delete_lesson_tag_map" : {
+                        "class": "incubate/tagObserver",
+                        "method" : "deleteLessonTagMap"
                       }
+                    },
+                  "delete_lesson_after" : {
+                    "delete_lesson_tag_map" : {
+                      "class" : "incubate/tagObserver",
+                      "method" : "deleteLessonTagMap"
+                    },
+                    "delete_lesson_completed_courses" :{
+                      "class" : "incubate/lessonObserver",
+                      "method" : "deleteLessonCompletedCourseMap"
                     }
+                  },
+                  "schedule_event_after": {
+                    "set_completed_course_date" : {
+                      "class" : "icubate/userObserver",
+                      "method" : "setCompletedCourseDate"
+                    }
+                  },
+                  "delete_tag_before" : {
+                    "delete_tagmap_of_lesson": {
+                      "class" : "incubate/tagObserver",
+                      "method" : "deleteTagMapOfLessonBasedOnTagId"
+                    }
+                  },
+                  "unmark_completed_course" : {
+                    "delete_user_completed_course" : {
+                      "class" : "incubate/userObserver",
+                      "method" : "deleteUserCompletedCourseMap"
+                    }
+                  },
+                  "mark_completed_course" : {
+                    "mark_user_completed_course" : {
+                      "class" : "incubate/userObserver",
+                      "method" : "markUserCompletedCourseMap"
+                    }
+                  }
                 }
 
             }

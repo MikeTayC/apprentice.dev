@@ -13,11 +13,21 @@ class Incubate_Model_TagMap extends Core_Model_Abstract
         parent::__construct();
     }
 
-    public function createTagMap($lesson_id, $tag_id)
+    public function createTagMap()
     {
         $this->_db->insert($this->_table, array(
-            'lesson_id' => $lesson_id,
-            'tag_id' => $tag_id
+            'lesson_id' => $this->getLesson(),
+            'tag_id' => $this->getTag()
         ));
+    }
+
+    public function deleteLessonTagMap()
+    {
+        $this->_db->delete($this->_table, array('lesson_id', '=', $this->getId()));
+    }
+
+    public function deleteTagMapOfLessonBasedOnTagId()
+    {
+        $this->_db->delete($this->_table, array('tag_id', '=', $this->getId()));
     }
 }
