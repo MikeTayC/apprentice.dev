@@ -32,8 +32,10 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
 
     public function editAction($tagId)
     {
+
         $this->_checkIfUserIsAdmin();
         $this->_checkIfUserIsLoggedIn();
+
         $request = $this->_getRequest();
 
         $view = $this->loadLayout();
@@ -53,7 +55,7 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
             $this->_successFlash('Successfully updated');
             $this->_thisModuleRedirect('tag');
         }
-        elseif(isset($tagId)) {
+        elseif($this->_idCheck($tagId, 'tag')) {
 
             //load tag name from id
             $tagName = Bootstrap::getModel('incubate/tag')->load($tagId)->getName();
@@ -76,9 +78,8 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
 
     public function deleteAction($tagId)
     {
-        if(!empty($tagId)){
-
-            $tag = Bootstrap::getModel('incubate/tag');
+        $tag = Bootstrap::getModel('incubate/tag');
+        if(isset($tagId) && $tag->check($tagId)){
 
             //dispatch event prioer to delteing tag, remove tag from lesson tag map
             $event = Bootstrap::getModel('core/event')->setTag($tagId);

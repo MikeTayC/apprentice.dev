@@ -19,7 +19,7 @@ class Incubate_Model_TagObserver extends Core_Model_Object
     {
         $tagArray = $eventObject->getTags();
         $lessonId = $eventObject->getData('lessonId');
-        if($tagArray && $lessonId) {
+        if($tagArray[0] && $lessonId) {
             foreach ($tagArray as $tags) {
                 $tagId = Bootstrap::getModel('incubate/tag')->loadByName($tags)->getId();
                 Bootstrap::getModel('incubate/tagMap')->setLesson($lessonId)->setTag($tagId)->createTagMap();

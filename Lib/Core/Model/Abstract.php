@@ -197,5 +197,13 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 		$this->_db->update($this->_table, $this->getId(), $fields);
 	}
 
+    public function check($id)
+    {
+        if($id) {
+            return $this->getCount(array('id', '=', $id));
+        }
+        return null;
+    }
+
 
 }

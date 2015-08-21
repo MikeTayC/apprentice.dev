@@ -74,7 +74,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
             $this->_successFlash('Successfully updated');
             $this->_thisModuleRedirect('lesson');
         }
-        elseif(isset($lessonId)) {
+        elseif($this->_idCheck($lessonId, 'lesson')) {
 
             //retrieves lesson map for a particular lesson
             $lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
@@ -98,18 +98,18 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
 
     public function deleteAction($lessonId)
     {
-        if(!empty($lessonId)){
+        $this->_idCheck($lessonId, 'lesson');
 
-            //delete current tag map of lesson, then delte the lessson
-            $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
+        //delete current tag map of lesson, then delte the lessson
+        $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
 
-            $lesson->delete();
+        $lesson->delete();
 
-            $event = Bootstrap::getModel('core/event')->setData('lessonId', $lesson->getId());
-            Bootstrap::dispatchEvent('delete_lesson_after', $event);
+        $event = Bootstrap::getModel('core/event')->setData('lessonId', $lesson->getId());
+        Bootstrap::dispatchEvent('delete_lesson_after', $event);
 
-            $this->_successFlash('Successfully deleted');
-        }
+        $this->_successFlash('Successfully deleted');
+
         $this->_thisModuleRedirect('lesson');
     }
 

@@ -103,4 +103,13 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
         Core_Model_Session::delete($param);
     }
 
+    protected function _idCheck($id, $string)
+    {
+        if(!Bootstrap::getModel("incubate/{$string}")->check($id)) {
+            $this->_dangerFlash("Your request does not exist!");
+            $this->_thisModuleRedirect("{$string}");
+        }
+        return true;
+    }
+
 }

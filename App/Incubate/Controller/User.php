@@ -45,19 +45,16 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
     public function profileAction($userId)
     {
         $this->_checkIfUserIsLoggedIn();
+        $this->_idCheck($userId, 'user');
         $this->userProfileCheck($userId);
         $this->_flashCheck();
 
         $lesson = Bootstrap::getModel('incubate/lesson');
         $totalLessonCount = $lesson->getTotalCount();
         $allLessonData = $lesson->loadAll();
-
         $user = Bootstrap::getModel('incubate/user')->load($userId)->setUserProgress($totalLessonCount)->setUserIncubationTime()->getAllUserCompletedCourseId();
-
         $user->getId();
-
         $userTagArray = Bootstrap::getModel('incubate/userTagMap')->loadUserTags($userId);
-
         $tagNames = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($userTagArray);
 
         $view = $this->loadLayout();
@@ -70,79 +67,69 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
     {
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsAdmin();
+        $this->_idCheck($lessonId, 'lesson');
+        $this->_idCheck($userId, 'user');
 
-        if ($userId && $lessonId) {
+        $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
+        Bootstrap::dispatchEvent('unmark_completed_course', $event);
+        $this->_thisModuleRedirectParams('user','profile', $userId);
 
-            $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
-            Bootstrap::dispatchEvent('unmark_completed_course', $event);
-            $this->_thisModuleRedirectParams('user','profile', $userId);
-        }
+
     }
     public function markAction($userId, $lessonId)
     {
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsAdmin();
+        $this->_idCheck($lessonId, 'lesson');
+        $this->_idCheck($userId, 'user');
 
-        if ($userId && $lessonId) {
+        $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
+        Bootstrap::dispatchEvent('mark_completed_course', $event);
 
-            $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
-            Bootstrap::dispatchEvent('mark_completed_course', $event);
 
-        }
         $this->_thisModuleRedirectParams('user','profile', $userId);
     }
 
 	public function removeAction($userId)
-	{
+    {
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsAdmin();
+        $this->_idCheck($userId, 'user');
 
-		if(!empty($userId)) {
+        $userId = Bootstrap::getModel('incubate/user')->load($userId)->deleteCompletedCourseMap()->delete()->getId();
 
-			$userId = Bootstrap::getModel('incubate/user')->load($userId)->deleteCompletedCourseMap()->delete()->getId();
+        //need to delete users associated tags
+        $event = Bootstrap::getModel('core/event')->setId($userId);
+        Bootstrap::dispatchEvent('delete_user_after', $event);
 
-            //need to delete users associated tags
-            $event = Bootstrap::getModel('core/event')->setId($userId);
-            Bootstrap::dispatchEvent('delete_user_after', $event);
+        $this->_successFlash('User successfully removed');
+        $this->_thisModuleRedirect('user');
+    }
 
-			$this->_successFlash('User successfully removed');
-            $this->_thisModuleRedirect('user');
-			exit;
-		}
-		else {
-			$this->_dangerFlash('You did not specify a user to remove');
-            $this->_thisModuleRedirect('user');
-		}
-	}
 
 	public function adminAction($userId)
 	{
 
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsAdmin();
+        $this->_idCheck($userId, 'user');
 
-		if(!empty($userId)) {
 
-			Bootstrap::getModel('incubate/user')->load($userId)->setRole('admin')->save();
+        Bootstrap::getModel('incubate/user')->load($userId)->setRole('admin')->save();
 
-			$this->_successFlash('Successfully made this user an admin');
-            $this->_thisModuleRedirect('user');
-
-		}
-		else {
-			$this->_dangerFlash('You did not specify a user to remove');
-            $this->_thisModuleRedirect('index');
-		}
-	}
+        $this->_successFlash('Successfully made this user an admin');
+        $this->_thisModuleRedirect('user');
+}
 
     public function tagAction($userId)
     {
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsLoggedIn();
+        $this->_idCheck($userId, 'user');
 
         $request = $this->_getRequest();
 
-        if(isset($userId) && $request->isPost()) {
+        if($request->isPost()) {
 
             $tags = $this->explode($request->getPost('tags'));
             $event = Bootstrap::getModel('core/event')->setId($userId)->setTags($tags);

@@ -74,32 +74,32 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
         $this->_checkIfUserIsAdmin();
 
-        if(isset($lessonId)) {
+        $this->_idCheck($lessonId, 'lesson');
 
-			$view = $this->loadLayout();
+        $view = $this->loadLayout();
 
-            /** @var Incubate_Model_Lesson $lesson */
-			$lesson = Bootstrap::getModel('incubate/lesson');
+        /** @var Incubate_Model_Lesson $lesson */
+        $lesson = Bootstrap::getModel('incubate/lesson');
 
-			$lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
+        $lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
 
-            //for each tag in the map, get the specific tag names from the tag table
-            $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
+        //for each tag in the map, get the specific tag names from the tag table
+        $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
 
-            $userTagMap = Bootstrap::getModel('incubate/userTagMap')->loadAllByTagIds($lessonTagMap);
+        $userTagMap = Bootstrap::getModel('incubate/userTagMap')->loadAllByTagIds($lessonTagMap);
 
-            $completedCourseMap = Bootstrap::getModel('incubate/completedCourseMap');
+        $completedCourseMap = Bootstrap::getModel('incubate/completedCourseMap');
 
-            $studentInviteList = array();
-            foreach($userTagMap as $id) {
-                if(!$completedCourseMap->completedCheck($id,$lessonId)) {
-                    $studentInviteList[] = Bootstrap::getModel('incubate/user')->load($id);
-                }
+        $studentInviteList = array();
+        foreach($userTagMap as $id) {
+            if(!$completedCourseMap->completedCheck($id,$lessonId)) {
+                $studentInviteList[] = Bootstrap::getModel('incubate/user')->load($id);
             }
+        }
 
-            $view->getContent()->setStudents($studentInviteList)->setTags($lessonTags)->setLesson($lesson);
+        $view->getContent()->setStudents($studentInviteList)->setTags($lessonTags)->setLesson($lesson);
 
-		}
+
 		$view->render();
 	}
 }
