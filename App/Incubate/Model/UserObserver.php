@@ -39,4 +39,10 @@ class Incubate_Model_userObserver extends Core_Model_Object
             Bootstrap::getModel('incubate/completedCourseMap')->setUser($userId)->setlesson($lessonId)->setDate($dateTime)->markUserCompletedCourseMap();
         }
     }
+
+    public function addNewUserToDatabase($eventObject)
+    {
+        $user = $eventObject->getUser();
+        $user->save();
+    }
 }

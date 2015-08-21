@@ -187,7 +187,7 @@ class Incubate_Model_User extends Core_Model_Abstract
 
     public function checkIfUserCompletedSpecificCourse($lessonId, $userId)
     {
-        if($this->_db->getMultiArgument('completed_courses', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))->results())
+        if($this->_db->getMultiArgument('CompletedCoursesMap', array('user_id', '=', $userId), array('lesson_id', '=', $lessonId))->results())
         {
             return true;
         }
@@ -199,7 +199,7 @@ class Incubate_Model_User extends Core_Model_Abstract
         $userCompletedCourseIdArray = array();
         $userHiatusCourseIdArray = array();
         $hiatusIdToArrayMap = array();
-        if($userCompletedCourseIdMap = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->results()) {
+        if($userCompletedCourseIdMap = $this->_db->get('CompletedCoursesMap', array('user_id', '=', $this->getId()))->results()) {
 
             foreach($userCompletedCourseIdMap as $mapValue) {
 
@@ -221,7 +221,7 @@ class Incubate_Model_User extends Core_Model_Abstract
 	public function getCompletedCourseCount()
 	{
         $coursesToCount = array();
-		if($countData = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->results()) {
+		if($countData = $this->_db->get('CompletedCoursesMap', array('user_id', '=', $this->getId()))->results()) {
             foreach($countData as $data) {
                 $currentTime = new DateTime();
                 if ($currentTime >= new DateTime($data['date'])) {
@@ -275,7 +275,7 @@ class Incubate_Model_User extends Core_Model_Abstract
 
 	public function deleteCompletedCourseMap()
 	{
-		$this->_db->delete('completed_courses',array('user_id', '=', $this->getId()));
+		$this->_db->delete('CompletedCoursesMap',array('user_id', '=', $this->getId()));
         return $this;
 	}
 

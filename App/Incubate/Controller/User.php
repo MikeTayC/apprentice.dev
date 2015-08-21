@@ -12,7 +12,7 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
     {
         $this->_checkIfUserIsLoggedIn();
         $this->_checkIfUserIsAdmin();
-
+        $this->_flashCheck();
         /*
          * instantiate user  model using boot strap factory,
          * string indicates which module and name of model to insantiate
@@ -46,6 +46,7 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
     {
         $this->_checkIfUserIsLoggedIn();
         $this->userProfileCheck($userId);
+        $this->_flashCheck();
 
         $lesson = Bootstrap::getModel('incubate/lesson');
         $totalLessonCount = $lesson->getTotalCount();
@@ -53,8 +54,14 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
         $user = Bootstrap::getModel('incubate/user')->load($userId)->setUserProgress($totalLessonCount)->setUserIncubationTime()->getAllUserCompletedCourseId();
 
+        $user->getId();
+
+        $userTagArray = Bootstrap::getModel('incubate/userTagMap')->loadUserTags($userId);
+
+        $tagNames = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($userTagArray);
+
         $view = $this->loadLayout();
-        $view->getContent()->setData('userData', $user)->setData('lessonData', $allLessonData);
+        $view->getContent()->setData('userData', $user)->setData('lessonData', $allLessonData)->setTags($tagNames);
         $view->render();
 
     }
@@ -92,7 +99,11 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 
 		if(!empty($userId)) {
 
-			Bootstrap::getModel('incubate/user')->load($userId)->deleteCompletedCourseMap()->delete();
+			$userId = Bootstrap::getModel('incubate/user')->load($userId)->deleteCompletedCourseMap()->delete()->getId();
+
+            //need to delete users associated tags
+            $event = Bootstrap::getModel('core/event')->setId($userId);
+            Bootstrap::dispatchEvent('delete_user_after', $event);
 
 			$this->_successFlash('User successfully removed');
             $this->_thisModuleRedirect('user');
@@ -100,7 +111,7 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
 		}
 		else {
 			$this->_dangerFlash('You did not specify a user to remove');
-            $this->_thisModuleRedirect('index');
+            $this->_thisModuleRedirect('user');
 		}
 	}
 
@@ -123,5 +134,23 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
             $this->_thisModuleRedirect('index');
 		}
 	}
+
+    public function tagAction($userId)
+    {
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsLoggedIn();
+
+        $request = $this->_getRequest();
+
+        if(isset($userId) && $request->isPost()) {
+
+            $tags = $this->explode($request->getPost('tags'));
+            $event = Bootstrap::getModel('core/event')->setId($userId)->setTags($tags);
+            Bootstrap::dispatchEvent('edit_user_tags', $event);
+
+            $this->_successFlash('You changed this users tags!');
+            $this->_thisModuleRedirectParams('user', 'profile', $userId);
+        }
+    }
 
 }

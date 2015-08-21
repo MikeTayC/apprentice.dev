@@ -10,7 +10,7 @@ class Incubate_Model_CompletedCourseMap extends Core_Model_Abstract
 {
     public function __construct()
     {
-        $this->_table = 'completed_courses';
+        $this->_table = 'CompletedCoursesMap';
         parent::__construct();
     }
 
@@ -42,5 +42,14 @@ class Incubate_Model_CompletedCourseMap extends Core_Model_Abstract
     {
         $this->getMultiArguments(array('user_id', '=', $userId), array('lesson_id', '=', $lessonId));
         return $this;
+    }
+
+    public function completedCheck($userId, $lessonId)
+    {
+        $rowData = $this->loadCompletedCourseRow($userId, $lessonId);
+        if($rowData->_data) {
+            return true;
+        }
+        return false;
     }
 }

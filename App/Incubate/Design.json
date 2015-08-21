@@ -232,6 +232,30 @@
           "header" : {
             "assets" :{
               "1" : {
+                "tagit_css" : {
+                  "type" : "css",
+                  "file" : "jquery.tagit.css"
+                },
+                "zendesk_css" : {
+                  "type": "css",
+                  "file": "tagit.ui-zendesk.css"
+                },
+                "jquery_ui" : {
+                  "type" : "jquery",
+                  "file" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+                },
+                "tagit_js" : {
+                  "type" : "js",
+                  "file" : "js/tag-it.js"
+                },
+                "form_css" : {
+                  "type" : "css",
+                  "file" : "form_css.css"
+                },
+                "form_js" : {
+                  "type" : "js",
+                  "file" : "js/form_js.js"
+                },
                 "jquery_countdown" : {
                   "type" : "js",
                   "file" : "js/jquery.countdown.js"

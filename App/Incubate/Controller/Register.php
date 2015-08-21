@@ -39,8 +39,15 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
 			$googleId = $this->_sessionGet('google_id');
             $user->setData('google_id', $googleId);
 
-            //save the new user to the database;
-            $user->save();
+            //set default role
+            $user->setRole('student');
+
+            /*
+             * this dispatch will save the new user to the user table,
+             * the associative group tag will be added to the UserTagMap
+             */
+            $event = Bootstrap::getModel('core/event')->setUser($user);
+            Bootstrap::dispatchEvent('user_register_after', $event);
 
             /*
              * this checkUSerDataForGoogleId will also store user information into the session i

@@ -86,12 +86,16 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
             //for each tag in the map, get the specific tag names from the tag table
             $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
 
-            //assigns $AE,$QA, $FE properties to true if, they are tagged.
-            $lesson->checkForGroupTagAndAssign($lessonTagMap);
+            $userTagMap = Bootstrap::getModel('incubate/userTagMap')->loadAllByTagIds($lessonTagMap);
 
-            //for each student whos group is tagged, add themt o the list of recommended students to take
-            $studentInviteList = Bootstrap::getModel('incubate/user')->addStudentsIfTaggedAndNotTaken($lesson->AE, $lesson->QA, $lesson->FE, $lessonId);
+            $completedCourseMap = Bootstrap::getModel('incubate/completedCourseMap');
 
+            $studentInviteList = array();
+            foreach($userTagMap as $id) {
+                if(!$completedCourseMap->completedCheck($id,$lessonId)) {
+                    $studentInviteList[] = Bootstrap::getModel('incubate/user')->load($id);
+                }
+            }
 
             $view->getContent()->setStudents($studentInviteList)->setTags($lessonTags)->setLesson($lesson);
 

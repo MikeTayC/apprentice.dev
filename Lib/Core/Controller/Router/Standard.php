@@ -17,7 +17,7 @@ class Core_Controller_Router_Standard extends Core_Controller_Router_Abstract
     /*
      * Default parameters in the case of empty uri
      */
-    const DEFAULT_MODULE    = 'Core';
+    const DEFAULT_MODULE    = 'Incubate';
     const DEFAULT_CONTROLLER = 'Index';
     const DEFAULT_ACTION    = 'indexAction';
 

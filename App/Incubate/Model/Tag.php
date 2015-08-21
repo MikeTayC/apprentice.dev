@@ -45,12 +45,11 @@ class Incubate_Model_Tag extends Core_Model_Abstract
 	public function addNewTagsToDb($tagArray)
 	{
 		$dbTags = $this->getAllNamesAsArray();
-		if(is_array($tagArray)) {
+
+		if($tagArray[0]) {
 			foreach ($tagArray as $tag) {
 				if (!in_array($tag, $dbTags)) {
-					$this->create(array(
-						'name' => $tag
-					));
+					Bootstrap::getModel('incubate/tag')->setName($tag)->save();
 				}
 			}
 		}
@@ -58,16 +57,16 @@ class Incubate_Model_Tag extends Core_Model_Abstract
 
     public function getTagLessonMapFromTagId($tagId)
     {
-        if($lessonTags = $this->_db->get('lesson_tag_map', array('tag_id', '=', $tagId))->results()){
+        if($lessonTags = $this->_db->get('TagMap', array('tag_id', '=', $tagId))->results()){
             return $lessonTags;
         }
         return null;
     }
 
-    public function getTagNamesFromTagMap($lessonTagMap)
+    public function getTagNamesFromTagMap($tagMap)
     {
-        if($lessonTagMap) {
-            foreach($lessonTagMap as $mapValue) {
+        if($tagMap) {
+            foreach($tagMap as $mapValue) {
                 $tagName = Bootstrap::getModel('incubate/tag')->load($mapValue['tag_id'])->getName();
                 $lessonTags[] = $tagName;
             }

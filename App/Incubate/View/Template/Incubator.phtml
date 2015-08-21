@@ -30,7 +30,7 @@ $lessons = $this->getLessons();
         if($lessons) {
             foreach ($users as $user) {
                 echo '<tr>';
-                echo '<td>' . $user->getName() . '</td>';
+                echo '<td class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'user/profile/' . $user->getId() . '">' . $user->getName() . '</a></td>';
                 foreach ($lessons as $lesson) {
                     echo '<td>';
                     if (in_array($lesson->getId(), $user->getCompleted())) {

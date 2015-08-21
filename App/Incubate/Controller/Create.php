@@ -69,7 +69,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
             Bootstrap::getModel('incubate/tag')->addNewTagsToDb($tagArray);
 
             $this->_successFlash('You made tag(s)');
-            $this->_thisModuleRedirect('index');
+            $this->_thisModuleRedirect('tag');
         }
 
         //load view

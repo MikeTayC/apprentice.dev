@@ -17,7 +17,7 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 
 	public function getTagLessonMap()
 	{
-		if($map = $this->_db->getAll('lesson_tag_map')->results()) {
+		if($map = $this->_db->getAll('TagMap')->results()) {
 			return $map;
 		}
 		return null;
@@ -25,7 +25,7 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 
 	public function getTagLessonMapForLesson()
 	{
-		if($lessonTags = $this->_db->get('lesson_tag_map', array('lesson_id', '=', $this->getId()))->results()){
+		if($lessonTags = $this->_db->get('TagMap', array('lesson_id', '=', $this->getId()))->results()){
 			return $lessonTags;
 		}
 		return null;
@@ -65,7 +65,7 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 
     public function deleteTagMapOfLesson()
     {
-        $this->_db->delete('lesson_tag_map',array('lesson_id', '=', $this->getId()));
+        $this->_db->delete('TagMap',array('lesson_id', '=', $this->getId()));
         return $this;
     }
 

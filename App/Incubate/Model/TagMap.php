@@ -9,7 +9,7 @@ class Incubate_Model_TagMap extends Core_Model_Abstract
 {
     public function __construct()
     {
-        $this->_table = 'lesson_tag_map';
+        $this->_table = 'TagMap';
         parent::__construct();
     }
 

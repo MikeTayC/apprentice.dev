@@ -54,7 +54,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
              * we must add their information to the database and send to index
              *
              */
-            elseif($auth->validateNewEmailAddress($email)) {
+            elseif(true) {
                 $this->_sessionSet('email', $email);
                 $this->_sessionSet('googleDisplayName', $googleDisplayName);
                 $this->_thisModuleRedirect('register');

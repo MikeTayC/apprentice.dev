@@ -2,20 +2,43 @@
     $user = $this->getData('userData');
     $lessonData = $this->getData('lessonData');
     $hiatusToDateArray = $user->getData('hiatusToDate');
+    $tags = $this->getTags();
 ?>
 
 <div class="content">
     <h2>
-		User Name : <?php echo $user->getName(); ?>
+        Name : <?php echo $user->getName(); ?>
 	</h2>
 
 	Email:
 	<?php echo $user->getEmail(); ?>
-	<hr>
+    <br>
+	Group:
+    <?php echo $user->getGroups(); ?>
+    <br>
+    Tags:
+    <hr>
+    <form action="<?php echo Bootstrap::getBaseUrl(); ?>user/tag/<?php echo $user->getId();?>" method="post">
+         <div>
+            <ul class="tagit ui-widget ui-widget-content ui-corner-all" id="myTags">
+                <?php
+                if(isset($tags)) {
+                    foreach($tags as $tag) {
+                        echo '<li>' . $tag . '</li>';
+                    }
+                }
+                ?>
+            </ul>
+         </div>
+        <input class="uk-button uk-button-small uk-button-primary" type="submit" value="Change Tags"/>
+    </form>
+
+    <hr>
 	Incubation Progress:
     <div class="uk-progress">
        <?php echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $user->getProgress() .'%">' . $user->getProgress() . '%</div></div>'; ?>
     </div>
+
     <hr>
     Incubation Time:
     <div data-countdown=" <?php echo $user->getIncubation(); ?> "></div>

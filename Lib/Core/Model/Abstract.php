@@ -97,6 +97,12 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 //        Bootstrap::dispatchEvent($modelShortName . '_delete_before', $eventObject);
         $this->_db->delete($this->_table, array('id', '=', $this->getId()));
 
+        return $this;
+    }
+
+    public function deleteAll($fields = array())
+    {
+        $this->_db->delete($this->_table, $fields);
     }
 
 
