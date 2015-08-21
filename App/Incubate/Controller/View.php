@@ -6,7 +6,7 @@ class Incubate_Controller_View extends Incubate_Controller_Abstract
     {
         $this->_checkIfUserIsLoggedIn();
         $this->_idCheck($lessonId, 'lesson');
-        
+
         //get lessson data
         $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
 

@@ -18,7 +18,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
          * else load a blank form
          *
          */
-        if ($request->isPost()) {
+        if ($request->isPost() && $request->hasPost('name')) {
 
             //load  models
             $lesson = Bootstrap::getModel('incubate/lesson');
@@ -62,7 +62,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
         /*
          * if post is set, add the created tag to the database
          */
-        if($request->isPost()) {
+        if($request->isPost() && $request->hasPost('tags')) {
 
             $tagArray = $this->explode($request->getPost('tags'));
 

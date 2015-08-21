@@ -39,10 +39,9 @@ class Incubate_Controller_Tag extends Incubate_Controller_Abstract
         $request = $this->_getRequest();
 
         $view = $this->loadLayout();
-        $this->_flashCheck();
+
 
         $tag = Bootstrap::getModel('incubate/tag');
-
         if ($request->isPost()) {
 
             $tagId = $this->_sessionGet('tag_id');
