@@ -1,6 +1,7 @@
 <?php
     $user = $this->getData('userData');
     $lessonData = $this->getData('lessonData');
+    $hiatusToDateArray = $user->getData('hiatusToDate');
 ?>
 
 <div class="content">
@@ -51,6 +52,14 @@
                 	    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="'. Bootstrap::getBaseUrl() . 'user/unmark/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
 					}
 				}
+                elseif(in_array($lesson->getId(), $user->getHiatus())) {
+                    echo '<td>';
+                    echo '<div class="uk-badge uk-badge-warning">&nbsp;&nbsp;Expected: ' . $hiatusToDateArray[$lesson->getId()] . '&nbsp;&nbsp;</div>';
+                    echo '</td>';
+                    if(Core_Model_Session::get('admin_status')) {
+                        echo '<td><a class="uk-button uk-button-small uk-button-primary" href="'. Bootstrap::getBaseUrl() . 'user/unmark/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
+                    }
+                }
                 else {
                     echo '<td>';
                     echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';

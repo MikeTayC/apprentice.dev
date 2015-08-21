@@ -45,7 +45,7 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
 
             $this->_successFlash('You successfully created a lesson!');
 
-            $this->_thisModuleRedirect('index');
+            $this->_thisModuleRedirect('lesson');
         }
         //else load view
         $this->loadLayout();

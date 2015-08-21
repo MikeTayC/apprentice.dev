@@ -35,7 +35,9 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 			$date = $request->getPost('date');
 
 
-			$duration = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName)->getDuration();
+			$lesson  = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName);
+            $duration = $lesson->getDuration();
+
 			//get lesson data from lesson name
 
 			//get end time calculated from class duration, keeping same format
@@ -58,7 +60,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
             $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $studentEmailArray);
 
             //TODO save end date in completed course table
-            $event = Bootstrap::getModel('core/event')->setStudents($studentList)->setEnd($endDateTime);
+            $event = Bootstrap::getModel('core/event')->setLesson($lesson->getId())->setStudents($studentNameArray)->setDate($endDateTime);
             Bootstrap::dispatchEvent('schedule_event_after', $event);
 
             $this->_successFlash('Your event has been scheduled');

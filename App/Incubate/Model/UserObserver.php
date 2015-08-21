@@ -21,9 +21,22 @@ class Incubate_Model_userObserver extends Core_Model_Object
     {
         $userId = $eventObject->getUser();
         $lessonId = $eventObject->getLesson();
+        $dateTime = $eventObject->getDate();
         if($userId && $lessonId)
         {
-            Bootstrap::getModel('incubate/completedCourseMap')->setUser($userId)->setlesson($lessonId)->markUserCompletedCourseMap();
+            Bootstrap::getModel('incubate/completedCourseMap')->setUser($userId)->setlesson($lessonId)->setDate($dateTime)->markUserCompletedCourseMap();
+        }
+    }
+
+    public function setCompletedCourseDateForAllStudentsInList($eventObject)
+    {
+        $studentList = $eventObject->getStudents();
+        $lessonId = $eventObject->getLesson();
+        $dateTime = $eventObject->getDate();
+
+        foreach($studentList as  $studentName) {
+            $userId = Bootstrap::getModel('incubate/user')->loadByName($studentName)->getId();
+            Bootstrap::getModel('incubate/completedCourseMap')->setUser($userId)->setlesson($lessonId)->setDate($dateTime)->markUserCompletedCourseMap();
         }
     }
 }

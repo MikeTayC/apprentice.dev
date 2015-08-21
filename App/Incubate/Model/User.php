@@ -13,21 +13,20 @@ class Incubate_Model_User extends Core_Model_Abstract
     //stores recommended students to invite
     protected $_studentInviteList = array();
 
-	public function __construct()
-	{
-		$this->_table = 'user';
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        $this->_table = 'user';
+        parent::__construct();
+    }
 
-	public function loadUserByGoogleId($googleId)
-	{
-		$this->_data = $this->get(array('google_id', '=', $googleId));
-		return $this->_data;
-	}
+    public function loadUserByGoogleId($googleId)
+    {
+        $this->_data = $this->get(array('google_id', '=', $googleId));
+        return $this->_data;
+    }
 
 
-
-	public function makeUserAdmin()
+    public function makeUserAdmin()
     {
         $this->update($this->_data->id, 'id', array(
             'role' => 'admin'
@@ -41,15 +40,15 @@ class Incubate_Model_User extends Core_Model_Abstract
         return $students;
     }
 
-	/*
-	 * essentially logs the user out by ridding the session of its token
-	 */
-	public function logout()
-	{
-		unset($_SESSION['access_token']);
-		Core_Model_Session::set('logged_in', false);
-		Core_Model_Session::deleteAll();
-	}
+    /*
+     * essentially logs the user out by ridding the session of its token
+     */
+    public function logout()
+    {
+        unset($_SESSION['access_token']);
+        Core_Model_Session::set('logged_in', false);
+        Core_Model_Session::deleteAll();
+    }
 
     public function checkUserDataForGoogleId($googleId)
     {
@@ -57,25 +56,24 @@ class Incubate_Model_User extends Core_Model_Abstract
          * check db, for USER table, WHERE google_id = $googleid, return the first
          * set of info  found, store in $_data
          */
-        if($this->loadUserByGoogleId($googleId)) {
+        if ($this->loadUserByGoogleId($googleId)) {
 
-			Core_Model_Session::set('user_id', $this->getId());
-			Core_Model_Session::set('logged_in', true);
-			if($this->getRole() == 'admin'){
-				Core_Model_Session::set('admin_status', true);
-			}
-			else {
-				Core_Model_Session::set('admin_status', false);
-			}
+            Core_Model_Session::set('user_id', $this->getId());
+            Core_Model_Session::set('logged_in', true);
+            if ($this->getRole() == 'admin') {
+                Core_Model_Session::set('admin_status', true);
+            } else {
+                Core_Model_Session::set('admin_status', false);
+            }
             return true;
         }
 
-		/*
-		 *
-		 * even if they are not in the database, store google id in the session,
-		 * will need to use later if the user must be added to the database.
-		 */
-		Core_Model_Session::set('google_id', $googleId);
+        /*
+         *
+         * even if they are not in the database, store google id in the session,
+         * will need to use later if the user must be added to the database.
+         */
+        Core_Model_Session::set('google_id', $googleId);
 
         return false;
     }
@@ -86,8 +84,8 @@ class Incubate_Model_User extends Core_Model_Abstract
      */
     public function checkUserDataForAdminStatus($googleId)
     {
-		$user = $this->get(array('google_id', '=', $googleId));
-        if(isset($user['role']) && $user['role'] == 'admin') {
+        $user = $this->get(array('google_id', '=', $googleId));
+        if (isset($user['role']) && $user['role'] == 'admin') {
             return true;
         }
         return false;
@@ -98,8 +96,9 @@ class Incubate_Model_User extends Core_Model_Abstract
         return $this->_isLoggedIn;
     }
 
-    public function getUserEmail($studentName) {
-        if($user = $this->get(array('name', '=', $studentName))) {
+    public function getUserEmail($studentName)
+    {
+        if ($user = $this->get(array('name', '=', $studentName))) {
             return $user->email;
         }
         return null;
@@ -116,13 +115,13 @@ class Incubate_Model_User extends Core_Model_Abstract
      */
     public function addStudentsIfTaggedAndNotTaken($AE, $QA, $FE, $lessonId)
     {
-        if($AE) {
+        if ($AE) {
             $this->AddStudentsIfNotTaken('Application Engineer', $lessonId);
         }
-        if($QA) {
+        if ($QA) {
             $this->AddStudentsIfNotTaken('Quality Assurance Analyst', $lessonId);
         }
-        if($FE){
+        if ($FE) {
             $this->AddStudentsIfNotTaken('Front End Developer', $lessonId);
         }
 
@@ -141,14 +140,14 @@ class Incubate_Model_User extends Core_Model_Abstract
          * if they have not, check if theyre group is tagged by the lesson,
          * store their names in student invite list
          */
-        if(isset($allUserData)) {
+        if (isset($allUserData)) {
 
-            foreach($allUserData as $user) {
+            foreach ($allUserData as $user) {
 
-                if($user->getRole() == 'admin' || $this->checkIfUserCompletedSpecificCourse($lessonId, $user->getId())){
+                if ($user->getRole() == 'admin' || $this->checkIfUserCompletedSpecificCourse($lessonId, $user->getId())) {
                     continue;
                 }
-			    $this->_studentInviteList[] = $user->getName();
+                $this->_studentInviteList[] = $user->getName();
             }
         }
     }
@@ -163,6 +162,12 @@ class Incubate_Model_User extends Core_Model_Abstract
     {
         $allStudents = $this->loadAllBasedOnFields(array('role', '=', 'student'));
         return $allStudents;
+    }
+
+    public function loadAllAdmins()
+    {
+        $allAdmins = $this->loadAllBasedOnFields(array('role','=','admin'));
+        return $allAdmins;
     }
 
     public function getAllStudentsAsArray()
@@ -192,16 +197,22 @@ class Incubate_Model_User extends Core_Model_Abstract
     public function getAllUserCompletedCourseId()
     {
         $userCompletedCourseIdArray = array();
+        $userHiatusCourseIdArray = array();
+        $hiatusIdToArrayMap = array();
         if($userCompletedCourseIdMap = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->results()) {
 
             foreach($userCompletedCourseIdMap as $mapValue) {
 
-
                 if (new DateTime() >= new DateTime($mapValue['date']) ) {
                     $userCompletedCourseIdArray[] = $mapValue['lesson_id'];
+                } else {
+                    $userHiatusCourseIdArray[] = $mapValue['lesson_id'];
+                    $hiatusIdToArrayMap[$mapValue['lesson_id']] = $mapValue['date'];
                 }
             }
         }
+        $this->setHiatus($userHiatusCourseIdArray);
+        $this->setData('hiatusToDate', $hiatusIdToArrayMap);
         $this->setCompleted($userCompletedCourseIdArray);
         return $this;
     }
@@ -211,11 +222,13 @@ class Incubate_Model_User extends Core_Model_Abstract
 	{
         $coursesToCount = array();
 		if($countData = $this->_db->get('completed_courses', array('user_id', '=', $this->getId()))->results()) {
-            foreach($countData as $data)
-                if(new DateTime() >= new DateTime($data['date'])){
+            foreach($countData as $data) {
+                $currentTime = new DateTime();
+                if ($currentTime >= new DateTime($data['date'])) {
                     $coursesToCount[] = $data;
                 }
-            return count($coursesToCount);
+            }
+        return count($coursesToCount);
         }
         return null;
 	}

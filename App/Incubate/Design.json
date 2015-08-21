@@ -341,6 +341,18 @@
           "type" : "page/view",
           "template" : "App/Incubate/View/Template/Register.phtml"
         }
+      },
+      "incubate_view_admin" : {
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Admins.phtml"
+        }
+      },
+      "incubate_view_all" :{
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Incubator.phtml"
+        }
       }
     }
   }

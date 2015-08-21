@@ -80,8 +80,8 @@
                   },
                   "schedule_event_after": {
                     "set_completed_course_date" : {
-                      "class" : "icubate/userObserver",
-                      "method" : "setCompletedCourseDate"
+                      "class" : "incubate/userObserver",
+                      "method" : "setCompletedCourseDateForAllStudentsInList"
                     }
                   },
                   "delete_tag_before" : {

@@ -29,4 +29,40 @@ class Incubate_Controller_View extends Incubate_Controller_Abstract
         $view->getContent()->setLesson($lesson);
         $view->render();
     }
+
+    public function adminAction()
+    {
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
+
+        $allAdmins = Bootstrap::getModel('incubate/user')->loadAllAdmins();
+
+        $view = $this->loadLayout();
+        $view->getContent()->setAdmins($allAdmins);
+        $view->render();
+    }
+
+    public function allAction()
+    {
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
+
+        $this->_checkIfUserIsLoggedIn();
+
+        $lesson = Bootstrap::getModel('incubate/lesson');
+        $totalLessonCount = $lesson->getTotalCount();
+        $allLessonData = $lesson->loadAll();
+
+        $allStudentUsers = Bootstrap::getModel('incubate/user')->loadAllStudents();
+        foreach($allStudentUsers as $student) {
+            $student->setUserProgress($totalLessonCount)->setUserIncubationTime()->getAllUserCompletedCourseId();
+        }
+
+
+        $view = $this->loadLayout();
+        $view->getContent()->setUsers($allStudentUsers)->setLessons($allLessonData);
+        $view->render();
+
+    }
+
 }

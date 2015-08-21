@@ -10,7 +10,7 @@ CREATE TABLE lesson(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60)
 
 CREATE TABLE lesson_tag_map(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, tag_id INT, lesson_id INT);
 
-CREATE TABLE completed_courses(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT, date DATETIME);
+CREATE TABLE completed_courses(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT, date TIMESTAMP);
 
 INSERT INTO `tag` (`name`) VALUES ('Application Engineer');
 

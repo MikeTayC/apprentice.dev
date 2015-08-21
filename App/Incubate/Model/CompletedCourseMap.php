@@ -32,9 +32,9 @@ class Incubate_Model_CompletedCourseMap extends Core_Model_Abstract
     {
         $userId = $this->getUser();
         $lessonId = $this->getLesson();
-
+        $datetime = $this->getDate();
         $mapModel = $this->loadCompletedCourseRow($userId,$lessonId);
-        $mapModel->setData('user_id', $userId)->setData('lesson_id', $lessonId)->saveNoLoad();
+        $mapModel->setData('user_id', $userId)->setData('lesson_id', $lessonId)->setDate($datetime)->saveNoLoad();
 
     }
 
