@@ -271,14 +271,7 @@ class Incubate_Model_User extends Core_Model_Abstract
             $this->setProgress(0);
         }
         return $this;
-    }
-
-	public function deleteCompletedCourseMap()
-	{
-		$this->_db->delete('CompletedCoursesMap',array('user_id', '=', $this->getId()));
-        return $this;
 	}
-
 	public function deleteThisUser($userId)
 	{
 		$this->_db->delete($this->_table, array('id', '=', $userId));

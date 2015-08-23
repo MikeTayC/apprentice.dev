@@ -120,7 +120,11 @@
                     "delete_all_user_tags": {
                       "class": "incubate/tagObserver",
                       "method": "deleteUserTags"
-                    }
+                    },
+                  "delete_user_completed_course": {
+                      "class": "incubate/userObserver",
+                      "method": "deleteAllUserCompletedCourseMap"
+                  }
                   },
                   "edit_user_tags": {
                     "delete_all_user_tags": {

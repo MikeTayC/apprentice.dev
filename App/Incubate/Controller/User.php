@@ -96,10 +96,10 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
         $this->_checkIfUserIsAdmin();
         $this->_idCheck($userId, 'user');
 
-        $userId = Bootstrap::getModel('incubate/user')->load($userId)->deleteCompletedCourseMap()->delete()->getId();
+       Bootstrap::getModel('incubate/user')->load($userId)->delete();
 
         //need to delete users associated tags
-        $event = Bootstrap::getModel('core/event')->setId($userId);
+        $event = Bootstrap::getModel('core/event')->setUser($userId);
         Bootstrap::dispatchEvent('delete_user_after', $event);
 
         $this->_successFlash('User successfully removed');

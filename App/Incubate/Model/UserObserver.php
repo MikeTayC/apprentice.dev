@@ -17,6 +17,15 @@ class Incubate_Model_userObserver extends Core_Model_Object
         }
     }
 
+	public function deleteAllUserCompletedCourseMap($eventObject)
+	{
+		$userId = $eventObject->getUser();
+
+		if($userId) {
+			Bootstrap::getModel('incubate/completedCourseMap')->setId($userId)->deleteAllUserCompletedCourseMap();
+		}
+	}
+
     public function markUserCompletedCourseMap($eventObject)
     {
         $userId = $eventObject->getUser();

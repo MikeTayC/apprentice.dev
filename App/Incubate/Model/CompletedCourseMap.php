@@ -52,4 +52,9 @@ class Incubate_Model_CompletedCourseMap extends Core_Model_Abstract
         }
         return false;
     }
+	public function deleteAllUserCompletedCourseMap()
+	{
+		$this->deleteAll(array('user_id', '=', $this->getId()));
+		return $this;
+	}
 }
