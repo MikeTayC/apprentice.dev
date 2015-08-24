@@ -52,6 +52,12 @@
                     }
                 },
                 "events": {
+                  /** "cron_hit": {
+                  *  "test_cron_hit" : {
+                  *    "class" : incubabate/cronObserver,
+                  *    "method" : checkIfStudentAccepted
+                  *  }
+                  * }  **/
                   "lesson_create_after": {
                     "add_new_tags_to_db": {
                       "class": "incubate/tagObserver",
