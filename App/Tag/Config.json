@@ -1,0 +1,104 @@
+{
+    "config": {
+        "modules": {
+            "tag": {
+                "pool": "Lib",
+                "dir": "Tag",
+                "baseUrl" : {
+                    "url" : "http://apprentice.dev/tag/"
+                },
+                "events": {
+                    "lesson_create_after": {
+                        "add_new_tags_to_db": {
+                            "class": "incubate/tagObserver",
+                            "method": "addNewTagsToDb"
+                        },
+                        "attach_tag_to_lesson": {
+                            "class": "incubate/tagObserver",
+                            "method": "attachTagsToLesson"
+                        }
+                    },
+                    "lesson_edit_before": {
+                        "delete_lesson_tag_map": {
+                            "class": "incubate/tagObserver",
+                            "method": "deleteLessonTagMap"
+                        }
+                    },
+                    "delete_lesson_after": {
+                        "delete_lesson_tag_map": {
+                            "class": "incubate/tagObserver",
+                            "method": "deleteLessonTagMap"
+                        },
+                        "delete_lesson_completed_courses": {
+                            "class": "incubate/lessonObserver",
+                            "method": "deleteLessonCompletedCourseMap"
+                        }
+                    },
+                    "schedule_event_after": {
+                        "set_completed_course_date": {
+                            "class": "incubate/userObserver",
+                            "method": "setCompletedCourseDateForAllStudentsInList"
+                        }
+                    },
+                    "delete_tag_before": {
+                        "delete_tagmap_of_lesson": {
+                            "class": "incubate/tagObserver",
+                            "method": "deleteTagMapOfLessonBasedOnTagId"
+                        },
+                        "delete_all_user_tags": {
+                            "class": "incubate/tagObserver",
+                            "method": "deleteALlUserMapTags"
+                        }
+                    },
+                    "unmark_completed_course": {
+                        "delete_user_completed_course": {
+                            "class": "incubate/userObserver",
+                            "method": "deleteUserCompletedCourseMap"
+                        }
+                    },
+                    "mark_completed_course": {
+                        "mark_user_completed_course": {
+                            "class": "incubate/userObserver",
+                            "method": "markUserCompletedCourseMap"
+                        }
+                    },
+                    "user_register_after": {
+                        "add_new_user": {
+                            "class": "incubate/userObserver",
+                            "method": "addNewUserToDatabase"
+                        },
+                        "add_user_group_tag": {
+                            "class": "incubate/tagObserver",
+                            "method": "setNewUserTag"
+                        }
+                    },
+                    "delete_user_after": {
+                        "delete_all_user_tags": {
+                            "class": "incubate/tagObserver",
+                            "method": "deleteUserTags"
+                        },
+                        "delete_user_completed_course": {
+                            "class": "incubate/userObserver",
+                            "method": "deleteAllUserCompletedCourseMap"
+                        }
+                    },
+                    "edit_user_tags": {
+                        "delete_all_user_tags": {
+                            "class": "incubate/tagObserver",
+                            "method": "deleteUserTags"
+                        },
+                        "add_new_tags_to_db" : {
+                            "class": "incubate/tagObserver",
+                            "method": "addNewTagsToDb"
+
+                        },
+                        "add_new_tags_to_user" : {
+                            "class": "incubate/tagObserver",
+                            "method": "addTagsToUser"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

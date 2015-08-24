@@ -1,0 +1,383 @@
+{
+  "layout": {
+    "actions": {
+      "incubate_create_tag" : {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/TagForm.phtml"
+        }
+      },
+      "incubate_create_lesson": {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content" :{
+          "type": "page/view",
+          "template" : "App/Incubate/View/Template/LessonForm.phtml"
+        }
+      },
+      "incubate_lesson_edit": {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content" :{
+          "type": "page/view",
+          "template" : "App/Incubate/View/Template/LessonEdit.phtml"
+        }
+      },
+      "incubate_lesson_index": {
+        "content" : {
+            "type": "page/view",
+            "template" : "App/Incubate/View/Template/Lesson.phtml"
+        }
+      },
+      "incubate_tag_index": {
+
+        "content" : {
+          "type": "page/view",
+          "template" : "App/Incubate/View/Template/Tag.phtml"
+        }
+      },
+      "incubate_view_lesson" : {
+        "content" : {
+          "type" : "page/view",
+          "template": "App/Incubate/View/Template/LessonView.phtml"
+        }
+        },
+      "incubate_tag_edit" : {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/TagEdit.phtml"
+        }
+      },
+      "incubate_index_index": {
+        "header": {
+          "assets": {
+            "1": {
+              "custom_css": {
+                "type": "css",
+                "file": "main_css.css"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Content.phtml"
+        }
+      },
+      "incubate_login_index": {
+        "type" : "page/view",
+        "template": "Lib/Page/View/Template/View.phtml",
+        "header": {
+          "type" : "page/view",
+            "template" : "Lib/Page/View/Template/Header.phtml",
+          "assets": {
+            "0": {
+              "uikit_css": {
+                "type": "css",
+                "file": "uikit.almost-flat.min.css"
+              },
+              "main_css" : {
+                "type" :  "css",
+                "file" : "main_css.css"
+              },
+              "jquery": {
+                "type": "jquery",
+                "file":"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+              },
+              "uikit_min_js": {
+                "type": "js",
+                "file": "js/uikit.min.js"
+              },
+              "uikit_js":{
+                "type": "js",
+                "file": "js/uikit.js"
+              }
+            }
+          }
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/Landing.phtml"
+        }
+      },
+      "incubate_user_index" : {
+        "header" : {
+          "assets" :{
+            "1" : {
+              "jquery_countdown" : {
+                "type" : "js",
+                "file" : "js/jquery.countdown.js"
+              },
+              "progress_bar" : {
+                "type" : "css",
+                "file" : "progress.almost-flat.css"
+              },
+              "user_css" : {
+                "type" : "css",
+                "file" : "user_index.css"
+              },
+              "user_js" : {
+                "type" : "js",
+                "file" : "js/user_index.js"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Users.phtml"
+        }
+      },
+      "incubate_user_profile" : {
+          "header" : {
+            "assets" :{
+              "1" : {
+                "tagit_css" : {
+                  "type" : "css",
+                  "file" : "jquery.tagit.css"
+                },
+                "zendesk_css" : {
+                  "type": "css",
+                  "file": "tagit.ui-zendesk.css"
+                },
+                "jquery_ui" : {
+                  "type" : "jquery",
+                  "file" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+                },
+                "tagit_js" : {
+                  "type" : "js",
+                  "file" : "js/tag-it.js"
+                },
+                "form_css" : {
+                  "type" : "css",
+                  "file" : "form_css.css"
+                },
+                "form_js" : {
+                  "type" : "js",
+                  "file" : "js/form_js.js"
+                },
+                "jquery_countdown" : {
+                  "type" : "js",
+                  "file" : "js/jquery.countdown.js"
+                },
+                "progress_bar" : {
+                  "type" : "css",
+                  "file" : "progress.almost-flat.css"
+                },
+                "user_css" : {
+                  "type" : "css",
+                  "file" : "user_index.css"
+                },
+                "user_js" : {
+                  "type" : "js",
+                  "file" : "js/user_profile.js"
+                }
+              }
+            }
+          },
+          "content" : {
+            "type" : "page/view",
+            "template" : "App/Incubate/View/Template/Profile.phtml"
+          }
+        },
+      "incubate_schedule_index" : {
+        "content" : {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/Schedule.phtml"
+        }
+      },
+      "incubate_schedule_lesson" : {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "student_js" : {
+                "type" : "js",
+                "file" : "js/student_js.js"
+              },
+                "form_js" : {
+                    "type" : "js",
+                    "file" : "js/form_js.js"
+                },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+                "datepicker_css" : {
+                    "type" : "css",
+                    "file" : "datepicker.almost-flat.css"
+                },
+                "datepicker_js" : {
+                    "type" :  "js",
+                    "file" : "js/components/datepicker.js"
+                },
+                "autocomplete_css" : {
+                    "type" : "css",
+                    "file" : "autocomplete.almost-flat.css"
+                },
+                "autocomplete_js" : {
+                    "type" : "js",
+                    "file" : "js/components/autocomplete.js"
+                },
+                "timpicker_js" : {
+                    "type" : "js",
+                    "file" : "js/components/timepicker.js"
+                }
+            }
+          }
+        },
+        "content" : {
+          "type": "page/view",
+          "template": "App/Incubate/View/Template/ScheduleLesson.phtml"
+        }
+      },
+      "incubate_register_index" : {
+        "type" : "page/view",
+        "template" : "Lib/Page/View/Template/View.phtml",
+        "header" : {
+          "type" : "page/view",
+          "template" : "Lib/Page/View/Template/Header.phtml",
+          "assets" : {
+            "0" : {
+              "group_radio" : {
+                "type" : "css",
+                "file" :"group_radio.css"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Register.phtml"
+        }
+      },
+      "incubate_view_admin" : {
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Admins.phtml"
+        }
+      },
+      "incubate_view_all" :{
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/Incubate/View/Template/Incubator.phtml"
+        }
+      }
+    }
+  }
+}

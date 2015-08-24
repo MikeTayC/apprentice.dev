@@ -31,18 +31,6 @@ class Incubate_Controller_View extends Incubate_Controller_Abstract
         $view->render();
     }
 
-    public function adminAction()
-    {
-        $this->_checkIfUserIsLoggedIn();
-        $this->_checkIfUserIsAdmin();
-
-        $allAdmins = Bootstrap::getModel('incubate/user')->loadAllAdmins();
-
-        $view = $this->loadLayout();
-        $view->getContent()->setAdmins($allAdmins);
-        $view->render();
-    }
-
     public function allAction()
     {
         $this->_checkIfUserIsLoggedIn();

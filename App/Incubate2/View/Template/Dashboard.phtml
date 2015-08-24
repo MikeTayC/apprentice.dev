@@ -1,0 +1,20 @@
+<div id="header">
+    <div class="logo"><a href="<?php echo Bootstrap::getBaseUrl();?>index/index"><img src="http://apprentice.dev/assets/images/ba-logo.svg" alt=""/></a></div>
+    <div class="logout"><a href="<?php echo Bootstrap::getBaseUrl();?>logout/index">Logout <i class="fa fa-sign-out fa-1x"></i> </a></div>
+</div>
+<a class="mobile" href="#">MENU</a>
+<div id="container">
+    <div class="sidebar">
+        <ul id="nav">
+            <li><a href="<?php echo Bootstrap::getBaseUrl();?>lesson/index">Lessons</a></li>
+			<li><a href="<?php echo Bootstrap::getBaseUrl();?>schedule/index">Calendar</a></li>
+            <?php if(Core_Model_Session::get('admin_status')) : ?>
+                <li><a href="<?php echo Bootstrap::getBaseUrl();?>user/index">Students</a></li>
+                <li><a href="<?php echo Bootstrap::getBaseUrl();?>tag/index">Tags</a></li>
+                <li><a href="<?php echo Bootstrap::getBaseUrl();?>view/admin">Admins</a></li>
+                <li><a href="<?php echo Bootstrap::getBaseUrl();?>view/all">Incubator Progress</a></li>
+            <?php else :?>
+                 <li><a href="<?php echo Bootstrap::getBaseUrl();?>user/profile/<?php echo Core_Model_Session::get('user_id');?>">Profile</a></li>
+            <?php endif; ?>
+        </ul>
+    </div>

@@ -88,7 +88,7 @@ class Page_Model_Design_Json
             }
         }
 
-                                                                return $block;
+         return $block;
     }
 
 

@@ -1,0 +1,26 @@
+<?php
+$lessonId = Core_Model_Session::get('lesson_id');
+$lesson = $this->getLesson();
+?>
+<div class="content">
+    <div id="form-main">
+        <div id="form-div">
+            <form class="uk-form" id="form" action="<?php echo Bootstrap::getBaseUrl();?>lesson/edit" method="post">
+                <div id="box">
+                    <div class="box-top"><h2><?php echo $lesson->getName() . ' '; ?>
+                           <?php if(Core_Model_Session::get('admin_status')) :?>
+                            <a class="uk-button uk-button-small uk-align-right uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/edit/<?php echo $lessonId;?>">Edit</a>
+                            <?php endif;?>
+                            <a class="uk-button uk-button-small uk-align-right uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>lesson/index">Back</a>
+
+                    </div>
+                    <div class="box-panel">
+                        Description and Tags: <?php echo $lesson->getDescription(); ?>
+                        <br>
+                        Duration : <?php echo $lesson->getDuration(); ?>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>

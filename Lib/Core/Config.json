@@ -1,19 +1,20 @@
-{"config" : {
-    "modules" : {
-        "core" : {
-            "pool" : "Lib",
-            "dir" : "Core",
-            "database": {
-              "type": "mysql",
-              "host": "localhost",
-              "name": "website",
-              "user": "root",
-              "pass": "root"
-            }
+{
+    "config" : {
+        "modules" : {
+                "core" : {
+                    "pool" : "Lib",
+                    "dir" : "Core",
+                    "database": {
+                        "type": "mysql",
+                        "host": "localhost",
+                        "name": "incubate",
+                        "user": "root",
+                        "pass": "root"
+                    },
+                "routers" : {
+                  "standard" : "Core_Controller_Router_Standard"
+                }
           }
-        },
-    "routers" : {
-      "standard" : "Core_Controller_Router_Standard"
+        }
     }
-  }
 }

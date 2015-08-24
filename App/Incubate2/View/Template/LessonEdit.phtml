@@ -1,0 +1,62 @@
+<?php
+    $lessonId = Core_Model_Session::get('lesson_id');
+    $lesson = $this->getLesson();
+    $tags = $this->getTags();
+?>
+<div class="content">
+    <div id="form-main">
+        <div id="form-div">
+            <form class="uk-form" id="form" action="<?php echo Bootstrap::getBaseUrl();?>lesson/edit" method="post">
+                <div class="uk-form-row">
+                Name:
+                </div>
+                <div class="uk-form-row">
+                    <input name="name" type="text" value="<?php echo $lesson->getName(); ?>" id="name" />
+                    <a class="uk-button uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/index">Back</a>
+                    <a class="uk-button uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>lesson/delete/<?php echo $lessonId ?>">Delete</a>
+                </div>
+                <div class="uk-form-row">
+                Description:
+                </div>
+
+                <div class="uk-form-row">
+                    <textarea name="description" id="description"> <?php echo $lesson->getDescription(); ?></textarea>
+                </div>
+                <div class="uk-form-row">
+                    <label for=fader>Duration</label>
+
+                    <input name="duration" type=range min=0 max=180 value="<?php echo $lesson->getDuration();?>" id=fader step=1 oninput="outputUpdate(value)">
+
+                    <output for=fader id=duration> <?php echo $lesson->getDuration();?> min.</output>
+                    <script>
+                        function outputUpdate(vol) {
+                            document.querySelector('#duration').value = vol + ' min.';
+                        }
+                    </script>
+                </div>
+                <div class="uk-form-row">
+                    Tags:
+                </div>
+
+                <div class="uk-form-row">
+                    <ul class="tagit ui-widget ui-widget-content ui-corner-all" id="myTags">
+                        <?php
+                        if(isset($tags)) {
+                            foreach($tags as $tag) {
+                                echo '<li>' . $tag . '</li>';
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <div class="uk-form-row">
+                <div class="submit">
+                    <input type="submit" value="Edit" id="button-blue"/>
+                    <div class="ease"></div>
+                </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

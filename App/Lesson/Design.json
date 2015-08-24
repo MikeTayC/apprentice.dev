@@ -1,0 +1,90 @@
+{
+  "layout": {
+    "actions": {
+      "lesson_create_form": {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content" :{
+          "type": "page/view",
+          "template" : "App/Lesson/View/Template/LessonForm.phtml"
+        }
+      },
+      "incubate_lesson_edit": {
+        "header" : {
+          "assets" : {
+            "0" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content" :{
+          "type": "page/view",
+          "template" : "App/Incubate/View/Template/LessonEdit.phtml"
+        }
+      },
+      "incubate_lesson_index": {
+        "content" : {
+            "type": "page/view",
+            "template" : "App/Incubate/View/Template/Lesson.phtml"
+        }
+      },
+      "lesson_view_all" : {
+            "content" : {
+              "type" : "page/view",
+              "template": "App/Incubate/View/Template/LessonView.phtml"
+            }
+        }
+    }
+  }
+}

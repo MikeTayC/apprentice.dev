@@ -1,0 +1,27 @@
+<?php
+    $tag = $this->getTag();
+?>
+<div class="content">
+    <div id="form-main">
+        <div id="form-div">
+            <form class="uk-form" id="form" action="<?php Bootstrap::getBaseUrl();?>tag/edit" method="post">
+                <div class="uk-form-row">
+                    Name:
+                </div>
+                <div class="uk-form-row">
+                    <input name="tag" type="text" value="<?php echo $tag; ?>" id="tag" />
+                    <a class="uk-button uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>tag/index">Back</a>
+                    <a class="uk-button uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>tag/delete/<?php echo Core_Model_Session::get('tag_id'); ?>">Delete</a>
+                </div>
+
+                <div class="uk-form-row">
+                    <div class="submit">
+                        <input type="submit" value="Edit" id="button-blue"/>
+                        <div class="ease"></div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<?php
+    $admins = $this->getAdmins();
+?>
+
+<div class="content">
+    <table class="uk-table uk-table-hover uk-table-striped">
+        <h1>Administrators</h1>
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Email
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php
+                echo '<tr>';
+                if(isset($admins)) {
+                    foreach($admins as $admin) {
+                        echo '<td>' . $admin->getName() . '</td>';
+                        echo '<td>' . $admin->getEmail() . '</td>';
+                    }
+                }
+
+                echo '</tr>';
+            ?>
+        </tbody>
+    </table
+</div>

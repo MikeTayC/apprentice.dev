@@ -80,9 +80,7 @@ class Core_Model_Config_Json
 
     public static function getModulesDatabaseConfig()
     {
-        $module = strtolower(Core_Model_Request::getInstance()->getModule());
-
-        return self::$globalJsonArray['config']['modules'][$module]['database'];
+        return self::$globalJsonArray['config']['modules']['core']['database'];
     }
 
     public static function getModulesSessionConfig($field)

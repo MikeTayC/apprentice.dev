@@ -1,0 +1,34 @@
+<?php
+
+$tags = $this->getTag();
+?>
+<div class="content">
+
+    <?php if(Core_Model_Session::get('admin_status')) : ?>
+        <a class="uk-button uk-button-large uk-button-success ba-success" href="<?php echo Bootstrap::getBaseUrl();?>create/lesson">Create Lesson</a>
+
+        <a class="uk-button uk-button-large uk-button-primary ba-primary" href="<?php echo Bootstrap::getBaseUrl();?>create/tag">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
+    <?php endif; ?>
+
+    <table class="uk-table uk-table-hover uk-table-striped">
+        <h1>Tags</h1>
+        <tbody>
+        <?php
+		if($tags) {
+            foreach($tags as $tag) {
+
+                echo '<tr>';
+                echo '<td>' . $tag->getName() . '</td>';
+
+                echo '<td><a class="uk-button uk-button-success" href="' . Bootstrap::getBaseUrl() . 'tag/edit/' . $tag->getId() .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+
+                echo '<td><a class="uk-button uk-button-danger" href="' . Bootstrap::getBaseUrl() . 'tag/delete/' . $tag->getId() .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+
+            }
+
+            echo '</tr>';
+		}
+        ?>
+        </tbody>
+    </table>
+</div>
