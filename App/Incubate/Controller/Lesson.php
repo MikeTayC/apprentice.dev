@@ -39,7 +39,7 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
         $request = $this->_getRequest();
         $lesson = Bootstrap::getModel('incubate/lesson');
 
-        if ($request->isPost()) {
+        if ($request->isPost()) { //@todo: Convert to save action to prevent ambiguity and heavy controller
 
             //set post and session data
             $lessonId = $this->_sessionGet('lesson_id');
@@ -74,7 +74,8 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
             $this->_successFlash('Successfully updated');
             $this->_thisModuleRedirect('lesson');
         }
-        elseif($this->_idCheck($lessonId, 'lesson')) {
+        elseif($this->_idCheck($lessonId, 'lesson')) { //@todo: Could this be handled by load returning false or 'id-less' lesson model
+            $lesson->load($lessonId);
 
             //retrieves lesson map for a particular lesson
             $lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();

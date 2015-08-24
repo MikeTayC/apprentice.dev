@@ -21,7 +21,9 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 
     public function load($id)
     {
+        $this->_beforeLoad();
         $this->_data = $this->get(array('id', '=', $id));
+        $this->_afterLoad();
         return $this;
     }
 
@@ -60,6 +62,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 
     public function save()
     {
+        $this->_beforeSave();
 
         $fields = $this->getData();
 
@@ -72,6 +75,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
             $this->create($fields);
             $this->loadByName($fields['name']);
         }
+        $this->_afterSave();
         return $this;
     }
 
@@ -93,9 +97,12 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 
     public function delete()
     {
+        $this->_beforeDelete();
 //        $modelShortName = somestringmanipulation(get_class($this)); // = incubate_lesson , incubate_user
 //        Bootstrap::dispatchEvent($modelShortName . '_delete_before', $eventObject);
         $this->_db->delete($this->_table, array('id', '=', $this->getId()));
+
+        $this->_afterDelete();
 
         return $this;
     }
@@ -205,5 +212,29 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         return null;
     }
 
+    protected function _beforeLoad(){
+
+    }
+
+    protected function _afterLoad(){
+
+    }
+
+
+    protected function _beforeSave(){
+
+    }
+
+    protected function _afterSave(){
+
+    }
+
+    protected function _beforeDelete(){
+
+    }
+
+    protected function _afterDelete(){
+
+    }
 
 }
