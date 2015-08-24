@@ -14,6 +14,7 @@ class Core_Model_Database
     private $_results;
     private $_query;
     private $_count = 0;
+    private $_tableFields;
 
 
     private static $_instance = null;
@@ -186,7 +187,18 @@ class Core_Model_Database
      */
     public function insert($table, $fields = array())
     {
+        $this->setTableFields($table);
         if (count($fields)) {
+            $keys = array_keys($fields);
+            foreach($keys as $key) {
+                if($this->checkColumnExists($key)) {
+                    continue;
+                }
+                else {
+                    unset($keys[$key]);
+                    unset($fields[$key]);
+                }
+            }
             $keys = array_keys($fields);
             $values = '';
             $x = 1;
@@ -216,9 +228,19 @@ class Core_Model_Database
      */
     public function update($table, $fieldToCheck, $fields = array())
     {
+        $this->setTableFields($table);
         $set = '';
         $x = 1;
-
+        if (count($fields)) {
+            $keys = array_keys($fields);
+            foreach ($keys as $key) {
+                if ($this->checkColumnExists($key)) {
+                    continue;
+                } else {
+                    unset($fields[$key]);
+                }
+            }
+        }
         foreach($fields as $name => $value) {
             $set .= "{$name} = ?";
             if($x < count($fields)) {
@@ -272,6 +294,23 @@ class Core_Model_Database
     public function error()
     {
         return $this->_error;
+    }
+
+    public function setTableFields($table)
+    {
+        $q = $this->_dbHandler->prepare("DESCRIBE " . $table);
+        $q->execute();
+        $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
+        $this->_tableFields = $table_fields;
+    }
+
+    public function checkColumnExists($fieldKey)
+    {
+
+        if(in_array($fieldKey, $this->_tableFields)) {
+            return true;
+        }
+        return false;
     }
 
 }

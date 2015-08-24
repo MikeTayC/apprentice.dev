@@ -42,12 +42,8 @@ class Incubate_Controller_Register extends Incubate_Controller_Abstract
             //set default role
             $user->setRole('student');
 
-            /*
-             * this dispatch will save the new user to the user table,
-             * the associative group tag will be added to the UserTagMap
-             */
-            $event = Bootstrap::getModel('core/event')->setUser($user);
-            Bootstrap::dispatchEvent('user_register_after', $event);
+            //user will be saved to the database, dispatch events will tie any tags to the user
+            $user->save();
 
             /*
              * this checkUSerDataForGoogleId will also store user information into the session i

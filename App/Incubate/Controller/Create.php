@@ -36,12 +36,9 @@ class Incubate_Controller_Create extends Incubate_Controller_Abstract
                 $lesson->setData($field, $request->getPost($field));
             }
 
-            $lessonId = $lesson->save()->getId();
+            //will add new lesson to database, and dispatched events will add any new lessons to the database, and attach those tags to the lesson
+            $lesson->setTags($tagArray)->save();
 
-            $event = Bootstrap::getModel('core/event')->setData('lessonId', $lessonId)->setData('tags', $tagArray);
-
-            //add new tags to the database if any, and map tags to t
-            Bootstrap::dispatchEvent('lesson_create_after', $event);
 
             $this->_successFlash('You successfully created a lesson!');
 

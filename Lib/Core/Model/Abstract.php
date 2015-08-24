@@ -10,6 +10,8 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 {
 	protected $_db;
 	protected $_table;
+    protected $_modelShortName;
+    protected $_modelName;
 
 	/*
 	 * gits an instance of the database, and sets the table to be worked with
@@ -17,6 +19,8 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 	public function __construct()
     {
         $this->_db = Core_Model_Database::getInstance();
+        $this->setModelName();
+        $this->setModelShortName();
     }
 
     public function load($id)
@@ -69,11 +73,11 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         //check if the data is to create or update by checkign if there is an id to be loaded
         if(isset($fields['id'])) {
             //then update
-           $this->update($fields);
+            $this->_beforeUpdate();
+            $this->update($fields);
         }
         else {
             $this->create($fields);
-            $this->loadByName($fields['name']);
         }
         $this->_afterSave();
         return $this;
@@ -231,10 +235,37 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 
     protected function _beforeDelete(){
 
+
     }
 
     protected function _afterDelete(){
 
     }
 
+    protected function _beforeCreate()
+    {
+
+    }
+
+    protected  function _beforeUpdate()
+    {
+
+    }
+
+    public function unsetData($key)
+    {
+        unset($this->_data[$key]);
+    }
+
+    public function setModelName()
+    {
+        $modelShortName = str_replace('_model_', '/', strtolower(get_class($this)));
+        $this->_modelShortName = $modelShortName;
+    }
+
+    public function setModelShortName()
+    {
+        $modelName = substr($this->_modelShortName, 9);
+        $this->_modelName =  $modelName;
+    }
 }

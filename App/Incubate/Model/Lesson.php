@@ -3,26 +3,14 @@
 class Incubate_Model_Lesson extends Core_Model_Abstract
 {
 	protected $_lessonId;
-	public $AE = false;
-	public $FE = false;
-	public $QA = false;
 
 	public function __construct()
 	{
 		$this->_table = 'lesson';
+
 		parent::__construct();
 
     }
-
-    protected function _afterLoad(){
-//Still not decoupled
-//        $tags = $this->getTags();
-//        $this->setTags($tags);
-
-        Bootstrap::dispatchEvent('lesson_load_after', $this);
-
-    }
-
 
 	public function getTagLessonMap()
 	{
@@ -51,33 +39,50 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
         return null;
     }
 
-	public function checkForGroupTagAndAssign($lessonTagMap)
-	{
-        if($lessonTagMap) {
-            foreach ($lessonTagMap as $mapValue) {
-                $mapTagId = $mapValue['tag_id'];
-                switch ($mapTagId) {
-                    case '1' :
-                        $this->AE = true;
-                        break;
-                    case '2':
-                        $this->QA = true;
-                        break;
-                    case '3' :
-                        $this->FE = true;
-                        break;
-                }
-            }
-        }
-	}
-
-
     public function deleteTagMapOfLesson()
     {
         $this->_db->delete('TagMap',array('lesson_id', '=', $this->getId()));
         return $this;
     }
 
+    public function loadEvent()
+    {
+        Bootstrap::dispatchEvent('lesson_event_set', $this);
+    }
+
+    public function fireEvent()
+    {
+        Bootstrap::dispatchEvent('lesson_event_fire', $this);
+    }
+
+    public function afterEvent()
+    {
+        Bootstrap::dispatchEvent('lesson_event_after', $this);
+    }
+
+    protected function _beforeSave()
+    {
+        Bootstrap::dispatchEvent('lesson_create_before', $this);
+    }
+
+    protected function _afterSave()
+    {
+        Bootstrap::dispatchEvent('lesson_create_after', $this);
+    }
+
+    protected function _beforeUpdate()
+    {
+        Bootstrap::dispatchEvent('lesson_edit_before', $this);
+    }
+
+    protected function _beforeDelete()
+    {
+        Bootstrap::dispatchEvent('lesson_delete_after', $this);
+    }
 
 
+    protected function _afterLoad()
+    {
+        Bootstrap::dispatchEvent('lesson_load_after', $this);
+    }
 }

@@ -104,29 +104,6 @@ class Incubate_Model_User extends Core_Model_Abstract
         return null;
     }
 
-    /*
-     * Will add students to invite list if they group is tagged in the lesson and
-     * if they have not taken the course yet. if they have taken the course
-     * they will not be invited.
-     *
-     * function will take one argument: the lesson id of lesson being scheduled
-     *
-     * returns an array of students to be invited
-     */
-    public function addStudentsIfTaggedAndNotTaken($AE, $QA, $FE, $lessonId)
-    {
-        if ($AE) {
-            $this->AddStudentsIfNotTaken('Application Engineer', $lessonId);
-        }
-        if ($QA) {
-            $this->AddStudentsIfNotTaken('Quality Assurance Analyst', $lessonId);
-        }
-        if ($FE) {
-            $this->AddStudentsIfNotTaken('Front End Developer', $lessonId);
-        }
-
-        return $this->_studentInviteList;
-    }
 
     public function AddStudentsIfNotTaken($group, $lessonId)
     {
@@ -276,4 +253,14 @@ class Incubate_Model_User extends Core_Model_Abstract
 	{
 		$this->_db->delete($this->_table, array('id', '=', $userId));
 	}
+
+    protected function _afterSave()
+    {
+        Bootstrap::dispatchEvent('user_register_after', $this);
+    }
+
+    protected function _afterDelete()
+    {
+        Bootstrap::dispatchEvent('user_delete_after', $this);
+    }
 }

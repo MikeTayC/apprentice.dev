@@ -15,6 +15,7 @@
     <br>
 	Group:
     <?php echo $user->getGroups(); ?>
+    <?php if(Core_Model_Session::get('admin_status')) : ;?>
     <br>
     Tags:
     <hr>
@@ -32,7 +33,7 @@
          </div>
         <input class="uk-button uk-button-small uk-button-primary" type="submit" value="Change Tags"/>
     </form>
-
+    <?php endif; ?>
     <hr>
 	Incubation Progress:
     <div class="uk-progress">

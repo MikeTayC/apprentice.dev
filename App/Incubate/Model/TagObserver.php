@@ -29,7 +29,7 @@ class Incubate_Model_TagObserver extends Core_Model_Object
 
     public function deleteLessonTagMap($eventObject)
     {
-        $lessonId = $eventObject->getData('lessonId');
+        $lessonId = $eventObject->getId();
         if($lessonId) {
             Bootstrap::getModel('incubate/tagMap')->setId($lessonId)->deleteLessonTagMap();
         }
@@ -37,7 +37,7 @@ class Incubate_Model_TagObserver extends Core_Model_Object
 
     public function deleteTagMapOfLessonBasedOnTagId($eventObject)
     {
-        $tagId = $eventObject->getTag();
+        $tagId = $eventObject->getId();
         if($tagId) {
             Bootstrap::getModel('incubate/tagMap')->setId($tagId)->deleteTagMapOfLessonBasedOnTagId();
         }
@@ -45,9 +45,9 @@ class Incubate_Model_TagObserver extends Core_Model_Object
 
     public function setNewUserTag($eventObject)
     {
-        $user = $eventObject->getUser();
-        $group = $user->getGroups();
-        $userId = $user->loadByName($user->getName())->getId();
+        $name = $eventObject->getName();
+        $userId = $eventObject->loadByName($name)->getId();
+        $group = $eventObject->getGroups();
 
         $tagId = Bootstrap::getModel('incubate/tag')->loadByName($group)->getId();
         if($tagId) {
@@ -79,11 +79,26 @@ class Incubate_Model_TagObserver extends Core_Model_Object
 
     public function deleteAllUserMapTags($eventObject)
     {
-        $tagId = $eventObject->getTag();
-
+        $tagId = $eventObject->getId();
         if($tagId) {
             Bootstrap::getModel('incubate/userTagMap')->deleteAllTagsByTagId($tagId);
         }
     }
 
+    public function setLessonTagsOnLesson($eventObject)
+    {
+        $lessonTagMap = Bootstrap::getModel('incubate/tagMap')->getAllBasedOnGivenFields(array('lesson_id', '=', $eventObject->getId()));
+        $eventObject->setData('lessonTagMap', $lessonTagMap);
+        $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
+        $eventObject->setTags($lessonTags);
+    }
+
+    public function setSuggestedStudentIdsOnLesson($eventObject)
+    {
+
+        $lessonTagMap = $eventObject->getData('lessonTagMap');
+        $userTagMap = Bootstrap::getModel('incubate/userTagMap')->loadAllByTagIds($lessonTagMap);
+
+        $eventObject->setData('userTagMap', $userTagMap);
+    }
 }

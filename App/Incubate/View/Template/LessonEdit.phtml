@@ -1,7 +1,7 @@
 <?php
     $lessonId = Core_Model_Session::get('lesson_id');
     $lesson = $this->getLesson();
-    $tags = $this->getTags();
+    $tags = $lesson->getTags();
 ?>
 <div class="content">
     <div id="form-main">

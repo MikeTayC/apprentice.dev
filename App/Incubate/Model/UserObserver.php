@@ -39,9 +39,9 @@ class Incubate_Model_userObserver extends Core_Model_Object
 
     public function setCompletedCourseDateForAllStudentsInList($eventObject)
     {
-        $studentList = $eventObject->getStudents();
-        $lessonId = $eventObject->getLesson();
-        $dateTime = $eventObject->getDate();
+        $studentList = explode(',', $eventObject->getData('student_list'));
+        $lessonId = $eventObject->getId();
+        $dateTime = $eventObject->getData('endDateTime');
 
         foreach($studentList as  $studentName) {
             $userId = Bootstrap::getModel('incubate/user')->loadByName($studentName)->getId();
@@ -49,9 +49,30 @@ class Incubate_Model_userObserver extends Core_Model_Object
         }
     }
 
-    public function addNewUserToDatabase($eventObject)
+    public function setSuggestedStudentNamesOnLesson($eventObject)
     {
-        $user = $eventObject->getUser();
-        $user->save();
+        $lessonId = $eventObject->getId();
+        $userTagMap = $eventObject->getData('userTagMap');
+        $completedCourseMap = Bootstrap::getModel('incubate/completedCourseMap');
+
+        $studentInviteList = array();
+        foreach ($userTagMap as $id) {
+            if (!$completedCourseMap->completedCheck($id, $lessonId)) {
+                $studentInviteList[] = Bootstrap::getModel('incubate/user')->load($id);
+            }
+        }
+
+        $eventObject->setData('studentInviteList', $studentInviteList);
+    }
+
+    public function setEventStudentEmail($eventObject)
+    {
+        $studentList = $eventObject->getData('student_list');
+        $studentNameArray = explode(',', $studentList);
+        foreach ($studentNameArray as $student) {
+            $studentEmailArray[] = Bootstrap::getModel('incubate/user')->loadByName($student)->getEmail();
+        }
+
+        $eventObject->setData('studentEmailArray', $studentEmailArray);
     }
 }

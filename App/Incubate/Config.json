@@ -52,16 +52,43 @@
                     }
                 },
                 "events": {
-                  /** "cron_hit": {
-                  *  "test_cron_hit" : {
-                  *    "class" : incubabate/cronObserver,
-                  *    "method" : checkIfStudentAccepted
-                  *  }
-                  * }  **/
-                  "lesson_create_after": {
+                  "lesson_event_set" : {
+                    "set_event_date_time" : {
+                      "class" : "incubate/lessonObserver",
+                      "method" : "setEventDateTime"
+                    },
+                    "set_event_suggested_students" : {
+                      "class" : "incubate/userObserver",
+                      "method" : "setEventStudentEmail"
+                    },
+                    "set_event_description_tags" :{
+                      "class": "incubate/lessonObserver",
+                      "method": "setEventDescriptionAndTags"
+                    }
+                  },
+                  "lesson_event_fire" : {
+                    "fire_google_calendar_event" :{
+                      "class" : "incubate/lessonObserver",
+                      "method" : "fireGoogleCalendarEvent"
+                    }
+                  },
+                  "lesson_event_after" : {
+                    "set_completed_course_date": {
+                      "class": "incubate/userObserver",
+                      "method": "setCompletedCourseDateForAllStudentsInList"
+                    }
+                  },
+
+                  "lesson_create_before" : {
                     "add_new_tags_to_db": {
                       "class": "incubate/tagObserver",
                       "method": "addNewTagsToDb"
+                    }
+                  },
+                  "lesson_create_after": {
+                    "set_lesson_id_on_event" : {
+                      "class" : "incubate/lessonObserver",
+                      "method" : "setLessonIdOnEvent"
                     },
                     "attach_tag_to_lesson": {
                       "class": "incubate/tagObserver",
@@ -74,7 +101,7 @@
                       "method": "deleteLessonTagMap"
                     }
                   },
-                  "delete_lesson_after": {
+                  "lesson_delete_after": {
                     "delete_lesson_tag_map": {
                       "class": "incubate/tagObserver",
                       "method": "deleteLessonTagMap"
@@ -84,12 +111,6 @@
                       "method": "deleteLessonCompletedCourseMap"
                     }
                   },
-                  "schedule_event_after": {
-                    "set_completed_course_date": {
-                      "class": "incubate/userObserver",
-                      "method": "setCompletedCourseDateForAllStudentsInList"
-                    }
-                  },
                   "delete_tag_before": {
                     "delete_tagmap_of_lesson": {
                       "class": "incubate/tagObserver",
@@ -97,7 +118,7 @@
                     },
                     "delete_all_user_tags": {
                       "class": "incubate/tagObserver",
-                      "method": "deleteALlUserMapTags"
+                      "method": "deleteAllUserMapTags"
                     }
                   },
                   "unmark_completed_course": {
@@ -113,24 +134,20 @@
                     }
                   },
                   "user_register_after": {
-                    "add_new_user": {
-                      "class": "incubate/userObserver",
-                      "method": "addNewUserToDatabase"
-                    },
                     "add_user_group_tag": {
                       "class": "incubate/tagObserver",
                       "method": "setNewUserTag"
                     }
                   },
-                  "delete_user_after": {
+                  "user_delete_after": {
                     "delete_all_user_tags": {
                       "class": "incubate/tagObserver",
                       "method": "deleteUserTags"
                     },
-                  "delete_user_completed_course": {
+                    "delete_user_completed_course": {
                       "class": "incubate/userObserver",
                       "method": "deleteAllUserCompletedCourseMap"
-                  }
+                     }
                   },
                   "edit_user_tags": {
                     "delete_all_user_tags": {
@@ -145,6 +162,20 @@
                     "add_new_tags_to_user" : {
                       "class": "incubate/tagObserver",
                       "method": "addTagsToUser"
+                    }
+                  },
+                  "lesson_load_after" : {
+                    "set_lesson_tags" : {
+                      "class" : "incubate/tagObserver",
+                      "method" : "setLessonTagsOnLesson"
+                    },
+                    "set_suggested_student_ids" : {
+                      "class" : "incubate/tagObserver",
+                      "method" : "setSuggestedStudentIdsOnLesson"
+                    },
+                    "set_suggested_student_names" : {
+                      "class" : "incubate/userObserver",
+                      "method" : "setSuggestedStudentNamesOnLesson"
                     }
                   }
                 }

@@ -37,31 +37,23 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
     public function editAction($lessonId)
     {
         $request = $this->_getRequest();
-        $lesson = Bootstrap::getModel('incubate/lesson');
 
-        if ($request->isPost()) { //@todo: Convert to save action to prevent ambiguity and heavy controller
+        if ($request->isPost()) {
 
             //set post and session data
             $lessonId = $this->_sessionGet('lesson_id');
-            $lessonName = $request->getPost('name');
-            $lessonDescription = $request->getPost('description');
-            $lessonDuration = $request->getPost('duration');
+            $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
             $lessonTags = $request->getPost('tags');
 
             //prepare tags
-            $lessonTagsArray = $this->explode($lessonTags);
-
-            //delete current tag map of lesson, easier to just create a new one
-            $event = Bootstrap::getModel('core/event')->setData('lessonId', $lessonId)->setTags($lessonTagsArray);
-
-            //dispatch event that will delete current lessons tags
-            Bootstrap::dispatchEvent('lesson_edit_before', $event);
+            $tagArray = $this->explode($lessonTags);
 
             //set new updates
-            $lesson->load($lessonId)->setName($lessonName)->setDescription($lessonDescription)->setDuration($lessonDuration)->save();
+            foreach(array('name','description','duration') as $field) {
+                $lesson->setData($field, $request->getPost($field));
+            }
 
-            //dispatch events that will create a lesson to tag map
-            Bootstrap::dispatchEvent('lesson_create_after', $event);
+            $lesson->setTags($tagArray)->save();
 
 
             /*
@@ -74,21 +66,17 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
             $this->_successFlash('Successfully updated');
             $this->_thisModuleRedirect('lesson');
         }
-        elseif($this->_idCheck($lessonId, 'lesson')) { //@todo: Could this be handled by load returning false or 'id-less' lesson model
-            $lesson->load($lessonId);
+        elseif($this->_idCheck($lessonId, 'lesson')) {
 
-            //retrieves lesson map for a particular lesson
-            $lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
-
-            //for each tag in the map, get the specific tag names from the tag table
-            $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
+            //loads the lesson based on id, dispatched events will set the tag name array on the lesson object
+            $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
 
             //store lesson id in the session
             $this->_sessionSet('lesson_id', $lessonId);
 
             //load view, set data for use in edit form, and render
             $view = $this->loadLayout();
-            $view->getContent()->setLesson($lesson)->setTags($lessonTags);
+            $view->getContent()->setLesson($lesson);
             $view->render();
         }
         else {
@@ -99,15 +87,12 @@ class Incubate_Controller_Lesson extends Incubate_Controller_Abstract
 
     public function deleteAction($lessonId)
     {
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
         $this->_idCheck($lessonId, 'lesson');
 
         //delete current tag map of lesson, then delte the lessson
-        $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
-
-        $lesson->delete();
-
-        $event = Bootstrap::getModel('core/event')->setData('lessonId', $lesson->getId());
-        Bootstrap::dispatchEvent('delete_lesson_after', $event);
+        Bootstrap::getModel('incubate/lesson')->load($lessonId)->delete();
 
         $this->_successFlash('Successfully deleted');
 

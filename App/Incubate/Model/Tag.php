@@ -73,4 +73,10 @@ class Incubate_Model_Tag extends Core_Model_Abstract
             return $lessonTags;
         }
     }
+
+    protected function _afterDelete()
+    {
+        //dispatch event prioer to delteing tag, remove tag from lesson tag map
+        Bootstrap::dispatchEvent('delete_tag_before', $this);
+    }
 }

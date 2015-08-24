@@ -98,6 +98,9 @@ final class Bootstrap
         //foreach observer (should be associative array, check for method, then call the appropriate method)
          if($observers = Core_Model_Config_Json::getRegisteredObservers($eventName)) {
             foreach($observers as $observer) {
+                if(!$observer['class'] || !$observer['method']) {
+                    continue;
+                }
                 $observerModel = Bootstrap::getModel($observer['class']);
                 $observerMethod = $observer['method'];
                 if(method_exists($observerModel, $observerMethod)) {
