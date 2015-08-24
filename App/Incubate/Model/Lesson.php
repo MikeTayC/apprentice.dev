@@ -14,6 +14,15 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
 
     }
 
+    protected function _afterLoad(){
+//Still not decoupled
+//        $tags = $this->getTags();
+//        $this->setTags($tags);
+
+        Bootstrap::dispatchEvent('lesson_load_after', $this);
+
+    }
+
 
 	public function getTagLessonMap()
 	{
