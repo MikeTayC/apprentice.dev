@@ -217,39 +217,41 @@ abstract class Core_Model_Abstract extends Core_Model_Object
     }
 
     protected function _beforeLoad(){
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_load_before", $this);
 
     }
 
     protected function _afterLoad(){
 
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_load_after", $this);
     }
 
 
     protected function _beforeSave(){
-
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_save_before", $this);
     }
 
     protected function _afterSave(){
-
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_save_after", $this);
     }
 
     protected function _beforeDelete(){
-
-
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_delete_before", $this);
     }
 
     protected function _afterDelete(){
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_delete_after", $this);
 
     }
 
     protected function _beforeCreate()
     {
-
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_create_before", $this);
     }
 
     protected  function _beforeUpdate()
     {
-
+        Bootstrap::dispatchEvent("{$this->_modelShortName}_update_before", $this);
     }
 
     public function unsetData($key)
@@ -259,13 +261,13 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 
     public function setModelName()
     {
-        $modelShortName = str_replace('_model_', '/', strtolower(get_class($this)));
-        $this->_modelShortName = $modelShortName;
+        $modelName = str_replace('_model_', '/', strtolower(get_class($this)));
+        $this->_modelName = $modelName;
     }
 
     public function setModelShortName()
     {
-        $modelName = substr($this->_modelShortName, 9);
-        $this->_modelName =  $modelName;
+        $modelShortName = substr($this->_modelName, 9);
+        $this->_modelShortName =  $modelShortName;
     }
 }

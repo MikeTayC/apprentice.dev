@@ -79,13 +79,13 @@
                     }
                   },
 
-                  "lesson_create_before" : {
+                  "lesson_save_before" : {
                     "add_new_tags_to_db": {
                       "class": "incubate/tagObserver",
                       "method": "addNewTagsToDb"
                     }
                   },
-                  "lesson_create_after": {
+                  "lesson_save_after": {
                     "set_lesson_id_on_event" : {
                       "class" : "incubate/lessonObserver",
                       "method" : "setLessonIdOnEvent"
@@ -95,7 +95,7 @@
                       "method": "attachTagsToLesson"
                     }
                   },
-                  "lesson_edit_before": {
+                  "lesson_update_before": {
                     "delete_lesson_tag_map": {
                       "class": "incubate/tagObserver",
                       "method": "deleteLessonTagMap"
@@ -111,7 +111,7 @@
                       "method": "deleteLessonCompletedCourseMap"
                     }
                   },
-                  "delete_tag_before": {
+                  "tag_delete_before": {
                     "delete_tagmap_of_lesson": {
                       "class": "incubate/tagObserver",
                       "method": "deleteTagMapOfLessonBasedOnTagId"
@@ -133,7 +133,7 @@
                       "method": "markUserCompletedCourseMap"
                     }
                   },
-                  "user_register_after": {
+                  "user_save_after": {
                     "add_user_group_tag": {
                       "class": "incubate/tagObserver",
                       "method": "setNewUserTag"

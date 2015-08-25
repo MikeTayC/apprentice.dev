@@ -60,29 +60,4 @@ class Incubate_Model_Lesson extends Core_Model_Abstract
         Bootstrap::dispatchEvent('lesson_event_after', $this);
     }
 
-    protected function _beforeSave()
-    {
-        Bootstrap::dispatchEvent('lesson_create_before', $this);
-    }
-
-    protected function _afterSave()
-    {
-        Bootstrap::dispatchEvent('lesson_create_after', $this);
-    }
-
-    protected function _beforeUpdate()
-    {
-        Bootstrap::dispatchEvent('lesson_edit_before', $this);
-    }
-
-    protected function _beforeDelete()
-    {
-        Bootstrap::dispatchEvent('lesson_delete_after', $this);
-    }
-
-
-    protected function _afterLoad()
-    {
-        Bootstrap::dispatchEvent('lesson_load_after', $this);
-    }
 }

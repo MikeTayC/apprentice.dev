@@ -28,9 +28,9 @@ class Incubate_Model_User extends Core_Model_Abstract
 
     public function makeUserAdmin()
     {
-        $this->update($this->_data->id, 'id', array(
-            'role' => 'admin'
-        ));
+        $this->setRole('admin');
+        Bootstrap::dispatchEvent('user_delete_after', $this);
+        return $this;
     }
 
     public function getAllStudents()
@@ -195,17 +195,6 @@ class Incubate_Model_User extends Core_Model_Abstract
     }
 
 
-
-    public function setAllUserIncubationTime($users)
-    {
-        if(isset($users)){
-            foreach($users as $user) {
-                $user->setUserIncubationTime();
-            }
-        }
-        return $users;
-    }
-
     public function setUserIncubationTime()
     {
         $incubationTimer = date('Y-m-d', strtotime($this->getJoined() . "+90 days"));
@@ -213,15 +202,6 @@ class Incubate_Model_User extends Core_Model_Abstract
         return $this;
     }
 
-    public function setAllUserProgress($users, $totalCourseCount)
-    {
-        if (isset($users)) {
-            foreach ($users as $user) {
-                $user->setUserProgress($totalCourseCount);
-            }
-        }
-        return $users;
-    }
 
     public function setUserProgress($totalCourseCount)
     {
@@ -235,28 +215,24 @@ class Incubate_Model_User extends Core_Model_Abstract
         }
         return $this;
 	}
-	public function deleteThisUser($userId)
-	{
-		$this->_db->delete($this->_table, array('id', '=', $userId));
-	}
 
     public function loadProfile()
     {
         Bootstrap::dispatchEvent('user_load_profile', $this);
         return $this;
     }
-    protected function _afterSave()
-    {
-        Bootstrap::dispatchEvent('user_register_after', $this);
-    }
-
-    protected function _afterDelete()
-    {
-        Bootstrap::dispatchEvent('user_delete_after', $this);
-    }
-    protected function _afterLoad()
-    {
-        Bootstrap::dispatchEvent('user_load_after', $this);
-    }
+//    protected function _afterSave()
+//    {
+//        Bootstrap::dispatchEvent('user_save_after', $this);
+//    }
+//
+//    protected function _afterDelete()
+//    {
+//        Bootstrap::dispatchEvent('user_delete_after', $this);
+//    }
+//    protected function _afterLoad()
+//    {
+//        Bootstrap::dispatchEvent('user_load_after', $this);
+//    }
 
 }

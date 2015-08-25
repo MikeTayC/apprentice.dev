@@ -29,16 +29,15 @@ class Core_Model_Config_Json
         self::$registeredObservers = $observerEvents;
     }
 
-    public static function getRegisteredObservers($eventName = null)
+    public static function getRegisteredObservers($eventName)
     {
-        if($eventName) {
-            $observers = self::getRegisteredObservers();
-            if(array_key_exists($eventName, $observers)) {
-                $specificObserver = $observers[$eventName];
-                return $specificObserver;
-            }
+        $observers = self::$registeredObservers;
+        if(array_key_exists($eventName, $observers)) {
+            $specificObserver = $observers[$eventName];
+            return $specificObserver;
         }
-        return self::$registeredObservers;
+        return null;
+
     }
 
     public static function setJsonConfig()

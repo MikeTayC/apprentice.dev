@@ -101,7 +101,7 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
         $this->_idCheck($userId, 'user');
 
 
-        Bootstrap::getModel('incubate/user')->load($userId)->setRole('admin')->save();
+        Bootstrap::getModel('incubate/user')->load($userId)->makeUserAdmin()->saveNoLoad();
 
         $this->_successFlash('Successfully made this user an admin');
         $this->_thisModuleRedirect('user');
