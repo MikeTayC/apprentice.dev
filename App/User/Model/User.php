@@ -5,7 +5,7 @@
  * Date: 7/16/15
  * Time: 2:36 PM
  */
-class User_Model_Model extends Core_Model_Abstract
+class User_Model_User extends Core_Model_Abstract
 {
     public function __construct()
     {

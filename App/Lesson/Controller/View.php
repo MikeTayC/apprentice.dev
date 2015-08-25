@@ -29,7 +29,7 @@ class Lesson_Controller_View extends Incubate_Controller_Abstract
         $this->_idCheck($lessonId, 'lesson');
 
         //get lessson data
-        $lesson = Bootstrap::getModel('incubate/lesson')->load($lessonId);
+        $lesson = Bootstrap::getModel('lesson')->load($lessonId);
 
         //get asssoiciated tag names
         $lessonTagMap = $lesson->getTagLessonMapForLesson();

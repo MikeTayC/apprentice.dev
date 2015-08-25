@@ -17,6 +17,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 	public function __construct()
     {
         $this->_db = Core_Model_Database::getInstance();
+        $this->_module = Core_Model_Request::getInstance()->getModule();
     }
 
     public function load($id)
@@ -33,7 +34,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         $data = $this->getAll();
         if($data) {
             foreach($data as $dataValue) {
-                $arrayOfModels[] = Bootstrap::getModel('incubate/' . $this->_table)->load($dataValue['id']);
+                $arrayOfModels[] = Bootstrap::getModel($this->_module . '/' . $this->_table)->load($dataValue['id']);
             }
         }
         return $arrayOfModels;
@@ -45,7 +46,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         $data = $this->getAllBasedOnGivenFields($fields);
         if(isset($data)) {
             foreach($data as $dataValue) {
-                $arrayOfModels[] = Bootstrap::getModel('incubate/' . $this->_table)->load($dataValue['id']);
+                $arrayOfModels[] = Bootstrap::getModel($this->_module . '/' . $this->_table)->load($dataValue['id']);
             }
         }
         return $arrayOfModels;
@@ -254,4 +255,5 @@ abstract class Core_Model_Abstract extends Core_Model_Object
     {
         unset($this->_data[$key]);
     }
+
 }

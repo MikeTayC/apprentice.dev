@@ -2,7 +2,7 @@
     "config": {
         "modules": {
             "lesson": {
-                "pool": "Lib",
+                "pool": "App",
                 "dir": "Lesson",
               "events": {
                 "lesson_event_set" : {

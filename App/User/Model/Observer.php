@@ -5,7 +5,7 @@
  * Date: 8/20/15
  * Time: 3:02 PM
  */
-class User_Model_Observer extends Core_Model_Object
+class User_Model_Observer
 {
     public function deleteUserCompletedCourseMap($eventObject)
     {
@@ -19,7 +19,7 @@ class User_Model_Observer extends Core_Model_Object
 
 	public function deleteAllUserCompletedCourseMap($eventObject)
 	{
-		$userId = $eventObject->getUser();
+		$userId = $eventObject->getId();
 
 		if($userId) {
 			Bootstrap::getModel('incubate/completedCourseMap')->setId($userId)->deleteAllUserCompletedCourseMap();
@@ -39,9 +39,9 @@ class User_Model_Observer extends Core_Model_Object
 
     public function setCompletedCourseDateForAllStudentsInList($eventObject)
     {
-        $studentList = $eventObject->getStudents();
-        $lessonId = $eventObject->getLesson();
-        $dateTime = $eventObject->getDate();
+        $studentList = explode(',', $eventObject->getData('student_list'));
+        $lessonId = $eventObject->getId();
+        $dateTime = $eventObject->getData('endDateTime');
 
         foreach($studentList as  $studentName) {
             $userId = Bootstrap::getModel('user/model')->loadByName($studentName)->getId();
@@ -49,9 +49,80 @@ class User_Model_Observer extends Core_Model_Object
         }
     }
 
-    public function addNewUserToDatabase($eventObject)
+    public function setSuggestedStudentNamesOnLesson($eventObject)
     {
-        $user = $eventObject->getUser();
-        $user->save();
+        $lessonId = $eventObject->getId();
+        $userTagMap = $eventObject->getData('userTagMap');
+        $completedCourseMap = Bootstrap::getModel('incubate/completedCourseMap');
+
+        $studentInviteList = array();
+        foreach ($userTagMap as $id) {
+            if (!$completedCourseMap->completedCheck($id, $lessonId)) {
+                $studentInviteList[] = Bootstrap::getModel('user/model')->load($id);
+            }
+        }
+
+        $eventObject->setData('studentInviteList', $studentInviteList);
+    }
+
+    public function setEventStudentEmail($eventObject)
+    {
+        $studentList = $eventObject->getData('student_list');
+        $studentNameArray = explode(',', $studentList);
+        foreach ($studentNameArray as $student) {
+            $studentEmailArray[] = Bootstrap::getModel('user/model')->loadByName($student)->getEmail();
+        }
+
+        $eventObject->setData('studentEmailArray', $studentEmailArray);
+    }
+
+    public function setUserCompletedCourses($eventObject)
+    {
+        $userId = $eventObject->getId();
+        $userCompletedCourseIdArray = array();
+        $userHiatusCourseIdArray = array();
+        $hiatusIdToArrayMap = array();
+        if($userCompletedCourseIdMap = Bootstrap::getModel('incubate/completedCourseMap')->getAllBasedOnGivenFields(array('user_id', '=', $userId))) {
+
+            foreach($userCompletedCourseIdMap as $mapValue) {
+
+                if (new DateTime() >= new DateTime($mapValue['date']) ) {
+                    $userCompletedCourseIdArray[] = $mapValue['lesson_id'];
+                } else {
+                    $userHiatusCourseIdArray[] = $mapValue['lesson_id'];
+                    $hiatusIdToArrayMap[$mapValue['lesson_id']] = $mapValue['date'];
+                }
+            }
+        }
+        $eventObject->setHiatus($userHiatusCourseIdArray);
+        $eventObject->setData('hiatusToDate', $hiatusIdToArrayMap);
+        $eventObject->setCompleted($userCompletedCourseIdArray);
+
+    }
+
+    public function setUserProgress($eventObject)
+    {
+        $userId = $eventObject->getId();
+        $totalLessonCount = $eventObject->getData('totalLessonCount');
+        $completedCourseCount = Bootstrap::getModel('incubate/completedCourseMap')->getCompletedCourseCount($userId);
+        $userProgress = $this->_getUserProgress($totalLessonCount, $completedCourseCount);
+
+        $eventObject->setProgress($userProgress);
+    }
+
+    public function setUserIncubationTime($eventObject)
+    {
+        $eventObject->setUserIncubationTime();
+    }
+
+    private function _getUserProgress($totalCourseCount, $completedCourseCount)
+    {
+        if($totalCourseCount != 0) {
+            $progress = round($completedCourseCount / $totalCourseCount * 100);
+            return $progress;
+        }
+        else{
+            return 0;
+        }
     }
 }

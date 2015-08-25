@@ -1,6 +1,6 @@
 <?php
 
-class Lesson_Model_Model extends Core_Model_Abstract
+class Lesson_Model_Lesson extends Core_Model_Abstract
 {
     public function __construct()
     {

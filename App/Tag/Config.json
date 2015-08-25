@@ -2,11 +2,8 @@
     "config": {
         "modules": {
             "tag": {
-                "pool": "Lib",
+                "pool": "App",
                 "dir": "Tag",
-                "baseUrl" : {
-                    "url" : "http://apprentice.dev/tag/"
-                },
                 "events": {
                     "tag_delete_before": {
                       "delete_tagmap_of_lesson": {

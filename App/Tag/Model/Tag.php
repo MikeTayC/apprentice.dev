@@ -5,7 +5,7 @@
  * Date: 8/16/15
  * Time: 10:46 PM
  */
-class Tag_Model_Model extends Core_Model_Abstract
+class Tag_Model_Tag extends Core_Model_Abstract
 {
 	public function __construct()
 	{

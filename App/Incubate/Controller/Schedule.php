@@ -35,7 +35,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 			$date = $request->getPost('date');
 
 
-			$lesson  = Bootstrap::getModel('incubate/lesson')->loadByName($lessonName);
+			$lesson  = Bootstrap::getModel('lesson/lesson')->loadByName($lessonName);
             $duration = $lesson->getDuration();
 
 			//get lesson data from lesson name
@@ -47,7 +47,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 			//prepare student email array to be added to google event
             $studentNameArray = $this->explode($studentList);
             foreach ($studentNameArray as $student) {
-                $studentEmailArray[] = Bootstrap::getModel('incubate/user')->loadByName($student)->getEmail();
+                $studentEmailArray[] = Bootstrap::getModel('user/user')->loadByName($student)->getEmail();
             }
 
 			//append tags on to description for google event
