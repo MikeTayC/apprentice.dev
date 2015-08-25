@@ -17,15 +17,15 @@
         </thead>
         <tbody>
             <?php
-                echo '<tr>';
                 if(isset($admins)) {
                     foreach($admins as $admin) {
+                        echo '<tr>';
                         echo '<td>' . $admin->getName() . '</td>';
                         echo '<td>' . $admin->getEmail() . '</td>';
+                        echo '</tr>';
                     }
                 }
 
-                echo '</tr>';
             ?>
         </tbody>
     </table
