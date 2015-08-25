@@ -8,6 +8,7 @@
  */
 class Incubate_Controller_Login extends Incubate_Controller_Abstract
 {
+    public function __construct(){}
     public function indexAction()
     {
         /*
@@ -20,12 +21,11 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
          * instantiate google client and our authorization class and user model class
          */
         $googleClient = new Google_Client();
-        $user = new Incubate_Model_User();
+        $user = Bootstrap::getModel('user/model');
         $auth = new Core_Model_Auth($user, $googleClient);
 
         /*
          * call to auth model to make sure the redirect code is set in the get request, routed from sign in url
-         * TODO FINISH LOGIC FOR CHECKING DATABASE USER INFO AGAINST USER LOGIN INFORMATION
          */
         if($auth->checkRedirectCode()) {
 
@@ -44,7 +44,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             if($auth->checkDatabaseForUser($googleId)){
 
                 //direct to dashboard
-                $this->_thisModuleRedirect('index');
+                $this->headerRedirect('incubate', 'schedule', 'index');
             }
 
             /*
@@ -54,10 +54,10 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
              * we must add their information to the database and send to index
              *
              */
-            elseif(true) {
+            elseif($auth->validateNewEmailAddress($email)) {
                 $this->_sessionSet('email', $email);
                 $this->_sessionSet('googleDisplayName', $googleDisplayName);
-                $this->_thisModuleRedirect('register');
+                $this->redirect('User','Form','registerAction', $email, $googleDisplayName);
             }
 
             /*
@@ -66,7 +66,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             else {
                 //direct back to login, user is not located in database, and does not have a blue acorn email address
                 Core_Model_Session::dangerflash('error', 'Blue Acorn Email addresses only');
-                $this->_thisModuleRedirect('logout');
+                $this->headerRedirect('user','logout','index');
             }
         }
 
@@ -78,9 +78,9 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
          */
         elseif(!$auth->isLoggedIn()) {
             $view->getContent()->setAuthurl($auth->getAuthUrl());
-        /*
-         * will render the default google login landing page
-         */
+            /*
+             * will render the default google login landing page
+             */
 
             $view->render();
         }

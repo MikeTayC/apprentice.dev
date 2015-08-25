@@ -1,0 +1,49 @@
+<?php
+$userData = $this->getData('userData');
+$userCompletedCourses = $this->getData('userCompletedCourses');
+$totalLessonCount = $this->getData('totalLessonCount');
+?>
+
+<div class="content">
+    <table class="uk-table uk-table-hover uk-table-striped">
+        <h1>Students</h1>
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Incubation Time
+            </th>
+            <th>
+                Group
+            </th>
+            <th>
+                Percentage of Courses Taken
+            </th>
+            <th>
+                Admin Stuff
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <?php
+        if(isset($userData)) {
+            foreach($userData as $user) {
+                echo '<tr>';
+                echo '<td>' . $user->getName() . '</td>';
+                echo '<td><div data-countdown="' . $user->getIncubation() . '"></div></td>';
+                echo '<td>' . $user->getGroups() . '</td>';
+                echo '<td>';
+                echo '<div class="uk-progress"><div class="uk-progress-bar" style="width:' . $user->getProgress() .'%">' . $user->getProgress() . '%</div></div>';
+                echo '</td>';
+                echo '<td><a class="uk-button uk-button-small uk-button-danger" href="' . Bootstrap::getBaseUrl() . 'user/view/profile/' . $user->getId() . '">View</a></td>';
+                echo '</tr>';
+            }
+        } else
+            echo '<h2>There are no students to list</h2>';
+        ?>
+        </tbody>
+    </table
+</div>

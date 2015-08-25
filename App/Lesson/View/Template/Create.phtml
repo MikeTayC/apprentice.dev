@@ -1,0 +1,38 @@
+<div class="content">
+    <div id="form-main">
+        <div id="form-div">
+            <form class="uk-form" id="form" action="<?php echo Bootstrap::getBaseUrl();?>lesson/create/save" method="post">
+
+                <div class="uk-form-row">
+                    <input name="name" type="text" placeholder="Name" id="name" />
+                </div>
+                <div class="uk-form-row">
+                    <textarea name="description" id="description" placeholder="Description"></textarea>
+                </div>
+                <div class="uk-form-row">
+                    <label for=fader>Duration: </label>
+
+                    <input name="duration" type=range min=0 max=180 value=50 id=fader step=1 oninput="outputUpdate(value)">
+
+                    <output for=fader id=duration>50 min.</output>
+                    <script>
+                        function outputUpdate(vol) {
+                            document.querySelector('#duration').value = vol + ' min.';
+                        }
+                    </script>
+                </div>
+                <div class="uk-form-row">
+                    Tags:
+                </div>
+                <div class="uk-form-row">
+                    <ul class="tagit ui-widget ui-widget-content ui-corner-all" id="myTags"></ul>
+                </div>
+
+                <div class="submit">
+                    <input type="submit" value="Create" id="button-blue"/>
+                    <div class="ease"></div>
+                </div>
+            </form>
+
+        </div>
+</div>

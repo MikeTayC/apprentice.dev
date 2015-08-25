@@ -8,6 +8,10 @@
 abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 {
 
+    public function __construct()
+    {
+        $this->_checkIfUserIsLoggedIn();
+    }
     protected function _checkIfUserIsLoggedIn()
     {
         if(!$this->_sessionGet('logged_in')) {
@@ -45,25 +49,6 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
         $newArray = explode(',', $list);
         return $newArray;
     }
-
-    public function formatStartDateTime($date, $startTime)
-    {
-        $startTime = strtotime($startTime);
-		$startTime = date("g:i a", $startTime);
-        $startDateTime = date('Y-m-d\TH:i:sP', strtotime($date . ' ' . $startTime));
-        return $startDateTime;
-    }
-
-    public function formatEndDateTime($date, $startTime, $duration)
-    {
-        $startTime = strtotime($startTime);
-        $timeDuration = '+' . $duration . 'minutes';
-        $endTime = date("H:i", strtotime($timeDuration, $startTime));
-        $endTime = date("g:i a", strtotime($endTime));
-        $endDateTime = date('Y-m-d\TH:i:sP', strtotime($date . ' ' . $endTime));
-        return $endDateTime;
-    }
-
 
 
     public function appendTagsAndDescription($description, $tagsArray)
@@ -105,7 +90,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 
     protected function _idCheck($id, $string)
     {
-        if(!Bootstrap::getModel("incubate/{$string}")->check($id)) {
+        if(!Bootstrap::getModel("{$string}/model")->check($id)) {
             $this->_dangerFlash("Your request does not exist!");
             $this->_thisModuleRedirect("{$string}");
         }

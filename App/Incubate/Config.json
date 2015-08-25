@@ -5,15 +5,6 @@
                 "pool": "Lib",
                 "dir": "Incubate",
                 "baseUrl" : {
-                  "url" : "http://apprentice.dev/incubate/"
-                },
-                "database": {
-                    "type": "mysql",
-                    "host": "localhost",
-                    "name": "incubate",
-                    "user": "root",
-                    "pass": "root"
-                },
                 "validation": {
                     "admin": {
                         "user": {
@@ -52,56 +43,23 @@
                     }
                 },
                 "events": {
-                  "lesson_event_set" : {
-                    "set_event_date_time" : {
-                      "class" : "incubate/lessonObserver",
-                      "method" : "setEventDateTime"
-                    },
-                    "set_event_suggested_students" : {
-                      "class" : "incubate/userObserver",
-                      "method" : "setEventStudentEmail"
-                    },
-                    "set_event_description_tags" :{
-                      "class": "incubate/lessonObserver",
-                      "method": "setEventDescriptionAndTags"
-                    }
-                  },
-                  "lesson_event_fire" : {
-                    "fire_google_calendar_event" :{
-                      "class" : "incubate/lessonObserver",
-                      "method" : "fireGoogleCalendarEvent"
-                    }
-                  },
-                  "lesson_event_after" : {
-                    "set_completed_course_date": {
-                      "class": "incubate/userObserver",
-                      "method": "setCompletedCourseDateForAllStudentsInList"
-                    }
-                  },
-
-                  "lesson_save_before" : {
+                  "lesson_create_after": {
                     "add_new_tags_to_db": {
                       "class": "incubate/tagObserver",
                       "method": "addNewTagsToDb"
-                    }
-                  },
-                  "lesson_save_after": {
-                    "set_lesson_id_on_event" : {
-                      "class" : "incubate/lessonObserver",
-                      "method" : "setLessonIdOnEvent"
                     },
                     "attach_tag_to_lesson": {
                       "class": "incubate/tagObserver",
                       "method": "attachTagsToLesson"
                     }
                   },
-                  "lesson_update_before": {
+                  "lesson_edit_before": {
                     "delete_lesson_tag_map": {
                       "class": "incubate/tagObserver",
                       "method": "deleteLessonTagMap"
                     }
                   },
-                  "lesson_delete_after": {
+                  "delete_lesson_after": {
                     "delete_lesson_tag_map": {
                       "class": "incubate/tagObserver",
                       "method": "deleteLessonTagMap"
@@ -111,14 +69,20 @@
                       "method": "deleteLessonCompletedCourseMap"
                     }
                   },
-                  "tag_delete_before": {
+                  "schedule_event_after": {
+                    "set_completed_course_date": {
+                      "class": "incubate/userObserver",
+                      "method": "setCompletedCourseDateForAllStudentsInList"
+                    }
+                  },
+                  "delete_tag_before": {
                     "delete_tagmap_of_lesson": {
                       "class": "incubate/tagObserver",
                       "method": "deleteTagMapOfLessonBasedOnTagId"
                     },
                     "delete_all_user_tags": {
                       "class": "incubate/tagObserver",
-                      "method": "deleteAllUserMapTags"
+                      "method": "deleteALlUserMapTags"
                     }
                   },
                   "unmark_completed_course": {
@@ -133,13 +97,17 @@
                       "method": "markUserCompletedCourseMap"
                     }
                   },
-                  "user_save_after": {
+                  "user_register_after": {
+                    "add_new_user": {
+                      "class": "incubate/userObserver",
+                      "method": "addNewUserToDatabase"
+                    },
                     "add_user_group_tag": {
                       "class": "incubate/tagObserver",
                       "method": "setNewUserTag"
                     }
                   },
-                  "user_delete_after": {
+                  "delete_user_after": {
                     "delete_all_user_tags": {
                       "class": "incubate/tagObserver",
                       "method": "deleteUserTags"
@@ -162,48 +130,6 @@
                     "add_new_tags_to_user" : {
                       "class": "incubate/tagObserver",
                       "method": "addTagsToUser"
-                    }
-                  },
-                  "lesson_load_after" : {
-                    "set_lesson_tags" : {
-                      "class" : "incubate/tagObserver",
-                      "method" : "setLessonTagsOnLesson"
-                    },
-                    "set_suggested_student_ids" : {
-                      "class" : "incubate/tagObserver",
-                      "method" : "setSuggestedStudentIdsOnLesson"
-                    },
-                    "set_suggested_student_names" : {
-                      "class" : "incubate/userObserver",
-                      "method" : "setSuggestedStudentNamesOnLesson"
-                    }
-                  },
-                  "user_load_after" : {
-                    "set_total_lesson_count" : {
-                      "class" : "incubate/lessonObserver",
-                      "method" : "setTotalLessonCount"
-                    },
-                    "set_user_progress" :{
-                      "class" :"incubate/userObserver",
-                      "method": "setUserProgress"
-                    },
-                    "set_user_incubation_time" : {
-                      "class":"incubate/userObserver",
-                      "method": "setUserIncubationTime"
-                    }
-                  },
-                  "user_load_profile" : {
-                    "load_all_lessons": {
-                      "class":"incubate/lessonObserver",
-                      "method":"setAllLessons"
-                    },
-                    "set_completed_courses" : {
-                      "class": "incubate/userObserver",
-                      "method": "setUserCompletedCourses"
-                    },
-                    "load_all_user_tags" :{
-                      "class":"incubate/tagObserver",
-                      "method": "setAllUserTags"
                     }
                   }
                 }

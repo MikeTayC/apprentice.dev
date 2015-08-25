@@ -15,6 +15,8 @@ class Core_Model_Config_Json
 
     private static $registeredObservers = array();
 
+    private static $baseUrl;
+
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -79,9 +81,8 @@ class Core_Model_Config_Json
 
     public static function getModulesDatabaseConfig()
     {
-        $module = strtolower(Core_Model_Request::getInstance()->getModule());
 
-        return self::$globalJsonArray['config']['modules'][$module]['database'];
+        return self::$globalJsonArray['config']['modules']['core']['database'];
     }
 
     public static function getModulesSessionConfig($field)
@@ -128,8 +129,11 @@ class Core_Model_Config_Json
 
     public static function getBaseUrl()
     {
-        $module = strtolower(Core_Model_Request::getInstance()->getModule());
+        return self::$baseUrl;
+    }
 
-        return self::$globalJsonArray['config']['modules'][$module]['baseUrl']['url'];
+    public static function setBaseUrl()
+    {
+        self::$baseUrl = self::$globalJsonArray['config']['modules']['core']['baseUrl']['url'];
     }
 }

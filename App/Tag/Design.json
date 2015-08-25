@@ -1,0 +1,68 @@
+{
+  "layout": {
+    "actions": {
+      "tag_form_create": {
+        "header": {
+          "assets": {
+            "0": {
+              "tagit_css": {
+                "type": "css",
+                "file": "jquery.tagit.css"
+              },
+              "zendesk_css": {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui": {
+                "type": "jquery",
+                "file": "https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+              },
+              "tagit_js": {
+                "type": "js",
+                "file": "js/tag-it.js"
+              },
+              "form_css": {
+                "type": "css",
+                "file": "form_css.css"
+              },
+              "form_js": {
+                "type": "js",
+                "file": "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Tag/View/Template/Create.phtml"
+        }
+      },
+      "tag_view_index": {
+        "content": {
+          "type": "page/view",
+          "template": "App/Tag/View/Template/Index.phtml"
+        }
+      },
+      "tag_form_edit": {
+        "header": {
+          "assets": {
+            "0": {
+              "form_css": {
+                "type": "css",
+                "file": "form_css.css"
+              },
+              "form_js": {
+                "type": "js",
+                "file": "js/form_js.js"
+              }
+            }
+          }
+        },
+        "content": {
+          "type": "page/view",
+          "template": "App/Tag/View/Template/Edit.phtml"
+        }
+      }
+    }
+  }
+}

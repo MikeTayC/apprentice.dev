@@ -3,10 +3,13 @@
         "core" : {
             "pool" : "Lib",
             "dir" : "Core",
+          "baseUrl" : {
+            "url" : "http://apprentice.dev/"
+          },
             "database": {
               "type": "mysql",
               "host": "localhost",
-              "name": "website",
+              "name": "incubate",
               "user": "root",
               "pass": "root"
             }

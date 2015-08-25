@@ -1,0 +1,84 @@
+{
+    "config": {
+        "modules": {
+            "lesson": {
+                "pool": "Lib",
+                "dir": "Lesson",
+              "events": {
+                "lesson_event_set" : {
+                  "set_event_date_time" : {
+                    "class" : "lesson/observer",
+                    "method" : "setEventDateTime"
+                  },
+                  "set_event_suggested_students" : {
+                    "class" : "user/observer",
+                    "method" : "setEventStudentEmail"
+                  },
+                  "set_event_description_tags" :{
+                    "class": "lesson/observer",
+                    "method": "setEventDescriptionAndTags"
+                  }
+                },
+                "lesson_event_fire" : {
+                  "fire_google_calendar_event" :{
+                    "class" : "lesson/observer",
+                    "method" : "fireGoogleCalendarEvent"
+                  }
+                },
+                "lesson_event_after" : {
+                  "set_completed_course_date": {
+                    "class": "user/observer",
+                    "method": "setCompletedCourseDateForAllStudentsInList"
+                  }
+                },
+                "lesson_save_before" : {
+                  "add_new_tags_to_db": {
+                    "class": "tag/observer",
+                    "method": "addNewTagsToDb"
+                  }
+                },
+                "lesson_save_after": {
+                  "set_lesson_id_on_event" : {
+                    "class" : "lesson/observer",
+                    "method" : "setLessonIdOnEvent"
+                  },
+                  "attach_tag_to_lesson": {
+                    "class": "tag/observer",
+                    "method": "attachTagsToLesson"
+                  }
+                },
+                "lesson_update_before": {
+                  "delete_lesson_tag_map": {
+                    "class": "tag/observer",
+                    "method": "deleteLessonTagMap"
+                  }
+                },
+                "lesson_delete_after": {
+                  "delete_lesson_tag_map": {
+                    "class": "tag/observer",
+                    "method": "deleteLessonTagMap"
+                  },
+                  "delete_lesson_completed_courses": {
+                    "class": "lesson/observer",
+                    "method": "deleteLessonCompletedCourseMap"
+                  }
+                },
+                "lesson_load_after" : {
+                  "set_lesson_tags" : {
+                    "class" : "tag/observer",
+                    "method" : "setLessonTagsOnLesson"
+                  },
+                  "set_suggested_student_ids" : {
+                    "class" : "tag/observer",
+                    "method" : "setSuggestedStudentIdsOnLesson"
+                  },
+                  "set_suggested_student_names" : {
+                    "class" : "user/observer",
+                    "method" : "setSuggestedStudentNamesOnLesson"
+                  }
+                }
+              }
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "config": {
+        "modules": {
+            "tag": {
+                "pool": "Lib",
+                "dir": "Tag",
+                "baseUrl" : {
+                    "url" : "http://apprentice.dev/tag/"
+                },
+                "events": {
+                    "tag_delete_before": {
+                      "delete_tagmap_of_lesson": {
+                        "class": "taag/observer",
+                        "method": "deleteTagMapOfLessonBasedOnTagId"
+                      },
+                      "delete_all_user_tags": {
+                        "class": "tag/observer",
+                        "method": "deleteAllUserMapTags"
+                      }
+                    }
+                }
+            }
+        }
+    }
+}

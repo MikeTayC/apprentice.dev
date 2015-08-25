@@ -1,0 +1,112 @@
+{
+  "layout": {
+    "actions": {
+      "user_view_index" : {
+        "header" : {
+          "assets" :{
+            "1" : {
+              "jquery_countdown" : {
+                "type" : "js",
+                "file" : "js/jquery.countdown.js"
+              },
+              "progress_bar" : {
+                "type" : "css",
+                "file" : "progress.almost-flat.css"
+              },
+              "user_css" : {
+                "type" : "css",
+                "file" : "user_index.css"
+              },
+              "user_js" : {
+                "type" : "js",
+                "file" : "js/user_index.js"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/User/View/Template/Index.phtml"
+        }
+      },
+      "user_view_profile" : {
+        "header" : {
+          "assets" :{
+            "1" : {
+              "tagit_css" : {
+                "type" : "css",
+                "file" : "jquery.tagit.css"
+              },
+              "zendesk_css" : {
+                "type": "css",
+                "file": "tagit.ui-zendesk.css"
+              },
+              "jquery_ui" : {
+                "type" : "jquery",
+                "file" : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+              },
+              "tagit_js" : {
+                "type" : "js",
+                "file" : "js/tag-it.js"
+              },
+              "form_css" : {
+                "type" : "css",
+                "file" : "form_css.css"
+              },
+              "form_js" : {
+                "type" : "js",
+                "file" : "js/form_js.js"
+              },
+              "jquery_countdown" : {
+                "type" : "js",
+                "file" : "js/jquery.countdown.js"
+              },
+              "progress_bar" : {
+                "type" : "css",
+                "file" : "progress.almost-flat.css"
+              },
+              "user_css" : {
+                "type" : "css",
+                "file" : "user_index.css"
+              },
+              "user_js" : {
+                "type" : "js",
+                "file" : "js/user_profile.js"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/User/View/Template/Profile.phtml"
+        }
+      },
+      "user_form_register" : {
+        "type" : "page/view",
+        "template" : "Lib/Page/View/Template/View.phtml",
+        "header" : {
+          "type" : "page/view",
+          "template" : "Lib/Page/View/Template/Header.phtml",
+          "assets" : {
+            "0" : {
+              "group_radio" : {
+                "type" : "css",
+                "file" :"group_radio.css"
+              }
+            }
+          }
+        },
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/User/View/Template/Register.phtml"
+        }
+      },
+      "user_view_admin" : {
+        "content" : {
+          "type" : "page/view",
+          "template" : "App/User/View/Template/Admins.phtml"
+        }
+      }
+    }
+  }
+}

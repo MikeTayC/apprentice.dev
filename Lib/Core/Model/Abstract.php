@@ -10,8 +10,6 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 {
 	protected $_db;
 	protected $_table;
-    protected $_modelShortName;
-    protected $_modelName;
 
 	/*
 	 * gits an instance of the database, and sets the table to be worked with
@@ -19,8 +17,6 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 	public function __construct()
     {
         $this->_db = Core_Model_Database::getInstance();
-        $this->setModelName();
-        $this->setModelShortName();
     }
 
     public function load($id)
@@ -217,57 +213,45 @@ abstract class Core_Model_Abstract extends Core_Model_Object
     }
 
     protected function _beforeLoad(){
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_load_before", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_load_before", $this);
 
     }
 
     protected function _afterLoad(){
 
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_load_after", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_load_after", $this);
     }
 
 
     protected function _beforeSave(){
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_save_before", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_save_before", $this);
     }
 
     protected function _afterSave(){
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_save_after", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_save_after", $this);
     }
 
     protected function _beforeDelete(){
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_delete_before", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_delete_before", $this);
     }
 
     protected function _afterDelete(){
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_delete_after", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_delete_after", $this);
 
     }
 
     protected function _beforeCreate()
     {
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_create_before", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_create_before", $this);
     }
 
     protected  function _beforeUpdate()
     {
-        Bootstrap::dispatchEvent("{$this->_modelShortName}_update_before", $this);
+        Bootstrap::dispatchEvent("{$this->_table}_update_before", $this);
     }
 
     public function unsetData($key)
     {
         unset($this->_data[$key]);
-    }
-
-    public function setModelName()
-    {
-        $modelName = str_replace('_model_', '/', strtolower(get_class($this)));
-        $this->_modelName = $modelName;
-    }
-
-    public function setModelShortName()
-    {
-        $modelShortName = substr($this->_modelName, 9);
-        $this->_modelShortName =  $modelShortName;
     }
 }

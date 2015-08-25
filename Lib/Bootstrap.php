@@ -71,15 +71,22 @@ final class Bootstrap
         return Core_Model_Config_Json::getBaseUrl();
     }
 
+    public static function setBaseUrl()
+    {
+        Core_Model_Config_Json::setBaseUrl();
+    }
+
     public static function registerObservers()
     {
         if($moduleConfig = Core_Model_Config_Json::getModulesConfig()) {
+            $mergedEvents = array();
             foreach($moduleConfig as $module) {
                 if(array_key_exists('events', $module)) {
                     $observerEvents = $module['events'];
-                    Core_Model_Config_Json::setObservers($observerEvents);
+                    $mergedEvents = array_merge($mergedEvents, $observerEvents);
                 }
             }
+            Core_Model_Config_Json::setObservers($mergedEvents);
         }
 
     }

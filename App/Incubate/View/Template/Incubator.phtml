@@ -19,7 +19,7 @@ $lessons = $this->getLessons();
 
             if($lessons) {
                 foreach($lessons as $lesson) {
-                    echo '<th class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'schedule/lesson/' . $lesson->getId() .'">' . $lesson->getName() . '</a></th>';
+                    echo '<th class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'incubate/schedule/lesson/' . $lesson->getId() . '">' . $lesson->getName() . '</a></th>';
                 }
             }
             ?>
@@ -30,7 +30,7 @@ $lessons = $this->getLessons();
         if($lessons) {
             foreach ($users as $user) {
                 echo '<tr>';
-                echo '<td class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'user/profile/' . $user->getId() . '">' . $user->getName() . '</a></td>';
+                echo '<td class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'user/view/profile/' . $user->getId() . '">' . $user->getName() . '</a></td>';
                 foreach ($lessons as $lesson) {
                     echo '<td>';
                     if (in_array($lesson->getId(), $user->getCompleted())) {

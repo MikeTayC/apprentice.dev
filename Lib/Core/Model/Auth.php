@@ -34,7 +34,7 @@ class Core_Model_Auth
      * need to set client id, client secrete, the redirect uri, and the scopes we want to get from.
      *
      */
-    public function __construct(Incubate_Model_User $user = null, Google_Client $googleClient = null)
+    public function __construct(User_Model_Model $user = null, Google_Client $googleClient = null)
     {
         $this->_client = $googleClient;
         $this->_user = $user;
