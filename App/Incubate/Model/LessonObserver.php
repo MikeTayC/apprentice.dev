@@ -62,6 +62,18 @@ class Incubate_Model_LessonObserver extends Core_Model_Object
         $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $studentEmailArray);
     }
 
+    public function setTotalLessonCount($eventObject)
+    {
+        $totalLessonCount = Bootstrap::getModel('incubate/lesson')->getTotalCount();
+        $eventObject->setData('totalLessonCount', $totalLessonCount);
+    }
+
+    public function setAllLessons($eventObject)
+    {
+        $lessons = Bootstrap::getModel('incubate/lesson')->loadAll();
+        $eventObject->setLessons($lessons);
+    }
+
     private function _formatStartDateTime($date, $startTime)
     {
         $startTime = strtotime($startTime);
@@ -89,5 +101,4 @@ class Incubate_Model_LessonObserver extends Core_Model_Object
         }
         return $description;
     }
-
 }

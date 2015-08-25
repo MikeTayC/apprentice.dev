@@ -195,20 +195,6 @@ class Incubate_Model_User extends Core_Model_Abstract
     }
 
 
-	public function getCompletedCourseCount()
-	{
-        $coursesToCount = array();
-		if($countData = $this->_db->get('CompletedCoursesMap', array('user_id', '=', $this->getId()))->results()) {
-            foreach($countData as $data) {
-                $currentTime = new DateTime();
-                if ($currentTime >= new DateTime($data['date'])) {
-                    $coursesToCount[] = $data;
-                }
-            }
-        return count($coursesToCount);
-        }
-        return null;
-	}
 
     public function setAllUserIncubationTime($users)
     {
@@ -254,6 +240,11 @@ class Incubate_Model_User extends Core_Model_Abstract
 		$this->_db->delete($this->_table, array('id', '=', $userId));
 	}
 
+    public function loadProfile()
+    {
+        Bootstrap::dispatchEvent('user_load_profile', $this);
+        return $this;
+    }
     protected function _afterSave()
     {
         Bootstrap::dispatchEvent('user_register_after', $this);
@@ -263,4 +254,9 @@ class Incubate_Model_User extends Core_Model_Abstract
     {
         Bootstrap::dispatchEvent('user_delete_after', $this);
     }
+    protected function _afterLoad()
+    {
+        Bootstrap::dispatchEvent('user_load_after', $this);
+    }
+
 }

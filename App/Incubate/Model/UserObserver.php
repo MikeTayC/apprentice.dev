@@ -75,4 +75,54 @@ class Incubate_Model_userObserver extends Core_Model_Object
 
         $eventObject->setData('studentEmailArray', $studentEmailArray);
     }
+
+    public function setUserCompletedCourses($eventObject)
+    {
+        $userId = $eventObject->getId();
+        $userCompletedCourseIdArray = array();
+        $userHiatusCourseIdArray = array();
+        $hiatusIdToArrayMap = array();
+        if($userCompletedCourseIdMap = Bootstrap::getModel('incubate/completedCourseMap')->getAllBasedOnGivenFields(array('user_id', '=', $userId))) {
+
+            foreach($userCompletedCourseIdMap as $mapValue) {
+
+                if (new DateTime() >= new DateTime($mapValue['date']) ) {
+                    $userCompletedCourseIdArray[] = $mapValue['lesson_id'];
+                } else {
+                    $userHiatusCourseIdArray[] = $mapValue['lesson_id'];
+                    $hiatusIdToArrayMap[$mapValue['lesson_id']] = $mapValue['date'];
+                }
+            }
+        }
+        $eventObject->setHiatus($userHiatusCourseIdArray);
+        $eventObject->setData('hiatusToDate', $hiatusIdToArrayMap);
+        $eventObject->setCompleted($userCompletedCourseIdArray);
+
+    }
+
+    public function setUserProgress($eventObject)
+    {
+        $userId = $eventObject->getId();
+        $totalLessonCount = $eventObject->getData('totalLessonCount');
+        $completedCourseCount = Bootstrap::getModel('incubate/completedCourseMap')->getCompletedCourseCount($userId);
+        $userProgress = $this->_getUserProgress($totalLessonCount, $completedCourseCount);
+
+        $eventObject->setProgress($userProgress);
+    }
+
+    public function setUserIncubationTime($eventObject)
+    {
+        $eventObject->setUserIncubationTime();
+    }
+
+    private function _getUserProgress($totalCourseCount, $completedCourseCount)
+    {
+        if($totalCourseCount != 0) {
+            $progress = round($completedCourseCount / $totalCourseCount * 100);
+            return $progress;
+        }
+        else{
+            return 0;
+        }
+    }
 }

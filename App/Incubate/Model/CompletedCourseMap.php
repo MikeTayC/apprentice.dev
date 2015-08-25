@@ -57,4 +57,19 @@ class Incubate_Model_CompletedCourseMap extends Core_Model_Abstract
 		$this->deleteAll(array('user_id', '=', $this->getId()));
 		return $this;
 	}
+
+    public function getCompletedCourseCount($userId)
+    {
+        $coursesToCount = array();
+        if($countData = $this->getAllBasedOnGivenFields(array('user_id', '=', $userId))) {
+            foreach($countData as $data) {
+                $currentTime = new DateTime();
+                if ($currentTime >= new DateTime($data['date'])) {
+                    $coursesToCount[] = $data;
+                }
+            }
+            return count($coursesToCount);
+        }
+        return null;
+    }
 }

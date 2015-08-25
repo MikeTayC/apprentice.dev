@@ -101,4 +101,13 @@ class Incubate_Model_TagObserver extends Core_Model_Object
 
         $eventObject->setData('userTagMap', $userTagMap);
     }
+
+    public function setAllUserTags($eventObject)
+    {
+        $userId = $eventObject->getId();
+        $userTagArray = Bootstrap::getModel('incubate/userTagMap')->loadUserTags($userId);
+        $tagNames = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($userTagArray);
+
+        $eventObject->setTags($tagNames);
+    }
 }

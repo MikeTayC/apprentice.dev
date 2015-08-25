@@ -24,12 +24,6 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
         //loads all students
         $allUsers = $user->loadAllStudents();
 
-        //calculates and sets each user progress
-        $allUsers = $user->setAllUserProgress($allUsers, $totalLessonCount);
-
-        //calculates and sets each user incubation time
-        $allUsers = $user->setAllUserIncubationTime($allUsers);
-
         /*
          * load layout,
          * set data on the content block
@@ -49,16 +43,11 @@ class Incubate_Controller_User extends Incubate_Controller_Abstract
         $this->userProfileCheck($userId);
         $this->_flashCheck();
 
-        $lesson = Bootstrap::getModel('incubate/lesson');
-        $totalLessonCount = $lesson->getTotalCount();
-        $allLessonData = $lesson->loadAll();
-        $user = Bootstrap::getModel('incubate/user')->load($userId)->setUserProgress($totalLessonCount)->setUserIncubationTime()->getAllUserCompletedCourseId();
-        $user->getId();
-        $userTagArray = Bootstrap::getModel('incubate/userTagMap')->loadUserTags($userId);
-        $tagNames = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($userTagArray);
+
+        $user = Bootstrap::getModel('incubate/user')->load($userId)->loadProfile();
 
         $view = $this->loadLayout();
-        $view->getContent()->setData('userData', $user)->setData('lessonData', $allLessonData)->setTags($tagNames);
+        $view->getContent()->setData('userData', $user);
         $view->render();
 
     }

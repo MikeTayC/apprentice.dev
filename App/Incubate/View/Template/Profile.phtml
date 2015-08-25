@@ -1,8 +1,8 @@
 <?php
     $user = $this->getData('userData');
-    $lessonData = $this->getData('lessonData');
+    $lessonData = $user->getLessons();
     $hiatusToDateArray = $user->getData('hiatusToDate');
-    $tags = $this->getTags();
+    $tags = $user->getTags();
 ?>
 
 <div class="content">

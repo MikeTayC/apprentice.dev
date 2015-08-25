@@ -177,6 +177,34 @@
                       "class" : "incubate/userObserver",
                       "method" : "setSuggestedStudentNamesOnLesson"
                     }
+                  },
+                  "user_load_after" : {
+                    "set_total_lesson_count" : {
+                      "class" : "incubate/lessonObserver",
+                      "method" : "setTotalLessonCount"
+                    },
+                    "set_user_progress" :{
+                      "class" :"incubate/userObserver",
+                      "method": "setUserProgress"
+                    },
+                    "set_user_incubation_time" : {
+                      "class":"incubate/userObserver",
+                      "method": "setUserIncubationTime"
+                    }
+                  },
+                  "user_load_profile" : {
+                    "load_all_lessons": {
+                      "class":"incubate/lessonObserver",
+                      "method":"setAllLessons"
+                    },
+                    "set_completed_courses" : {
+                      "class": "incubate/userObserver",
+                      "method": "setUserCompletedCourses"
+                    },
+                    "load_all_user_tags" :{
+                      "class":"incubate/tagObserver",
+                      "method": "setAllUserTags"
+                    }
                   }
                 }
             }
