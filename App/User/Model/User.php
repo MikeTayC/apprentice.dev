@@ -112,4 +112,10 @@ class User_Model_User extends Core_Model_Abstract
         return $this;
     }
 
+    public function loadProfile()
+    {
+        Bootstrap::dispatchEvent('user_load_profile', $this);
+        return $this;
+    }
+
 }

@@ -11,7 +11,7 @@ class Tag_Model_Observer
     {
         //tags where passed, add the new ones to the database if there
         if($tagArray = $eventObject->getTags()) {
-            Bootstrap::getModel('incubate/tag')->addNewTagsToDb($tagArray);
+            Bootstrap::getModel('tag/tag')->addNewTagsToDb($tagArray);
         }
     }
 
@@ -21,7 +21,7 @@ class Tag_Model_Observer
         $lessonId = $eventObject->getData('lessonId');
         if($tagArray[0] && $lessonId) {
             foreach ($tagArray as $tags) {
-                $tagId = Bootstrap::getModel('tag/model')->loadByName($tags)->getId();
+                $tagId = Bootstrap::getModel('tag/tag')->loadByName($tags)->getId();
                 Bootstrap::getModel('incubate/tagMap')->setLesson($lessonId)->setTag($tagId)->createTagMap();
             }
         }
@@ -71,7 +71,7 @@ class Tag_Model_Observer
 
         if($userId && $tags) {
            foreach($tags as $tag) {
-               $tagId= Bootstrap::getModel('tag/model')->loadByName($tag)->getId();
+               $tagId= Bootstrap::getModel('tag/tag')->loadByName($tag)->getId();
                Bootstrap::getModel('incubate/userTagMap')->setData('user_id', $userId)->setData('tag_id', $tagId)->saveNoLoad();
            }
         }
@@ -89,7 +89,7 @@ class Tag_Model_Observer
     {
         $lessonTagMap = Bootstrap::getModel('incubate/tagMap')->getAllBasedOnGivenFields(array('lesson_id', '=', $eventObject->getId()));
         $eventObject->setData('lessonTagMap', $lessonTagMap);
-        $lessonTags = Bootstrap::getModel('tag/model')->getTagNamesFromTagMap($lessonTagMap);
+        $lessonTags = Bootstrap::getModel('tag/tag')->getTagNamesFromTagMap($lessonTagMap);
         $eventObject->setTags($lessonTags);
     }
 
@@ -106,7 +106,7 @@ class Tag_Model_Observer
     {
         $userId = $eventObject->getId();
         $userTagArray = Bootstrap::getModel('incubate/userTagMap')->loadUserTags($userId);
-        $tagNames = Bootstrap::getModel('tag/model')->getTagNamesFromTagMap($userTagArray);
+        $tagNames = Bootstrap::getModel('tag/tag')->getTagNamesFromTagMap($userTagArray);
 
         $eventObject->setTags($tagNames);
     }

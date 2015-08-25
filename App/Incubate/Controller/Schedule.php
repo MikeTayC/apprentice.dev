@@ -15,7 +15,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
         $this->_flashCheck();
         $this->render();
 
-	}
+    }
 
     public function eventAction()
     {
@@ -26,50 +26,25 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
 
         if($request->isPost()) {
 
-            $lessonName = $request->getPost('lesson_name'); //@todo: convert other direct post accessors to this method
+            $lessonId = $this->_sessionGet('lessonId');
+            $lesson  = Bootstrap::getModel('lesson/lesson')->load($lessonId);
 
-            $tags =  $request->getPost('tags');
-            $description = $request->getPost('description');
-            $studentList = $request->getPost('student_list');
-            $startTime = $request->getPost('start_time');
-			$date = $request->getPost('date');
-
-
-			$lesson  = Bootstrap::getModel('lesson/lesson')->loadByName($lessonName);
-            $duration = $lesson->getDuration();
-
-			//get lesson data from lesson name
-
-			//get end time calculated from class duration, keeping same format
-            $startDateTime  = $this->formatStartDateTime($date, $startTime);
-            $endDateTime = $this->formatEndDateTime($date, $startTime,$duration);
-
-			//prepare student email array to be added to google event
-            $studentNameArray = $this->explode($studentList);
-            foreach ($studentNameArray as $student) {
-                $studentEmailArray[] = Bootstrap::getModel('user/user')->loadByName($student)->getEmail();
+            foreach(array('tags','description','student_list', 'start_time','date') as $field) {
+                $lesson->setData($field, $request->getPost($field));
             }
 
-			//append tags on to description for google event
-            $tagsArray = $this->explode($tags);
-            $descriptionAndTags = $this->appendTagsAndDescription($description, $tagsArray);
+            $lesson->loadEvent();
+            $lesson->fireEvent();
+            $lesson->afterEvent();
 
-            //load new google calendar event, and fire event
-            $client = new Google_Client();
-            $calendar = new Core_Model_Calendar($client);
-            $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $studentEmailArray);
-
-            //TODO save end date in completed course table
-            $event = Bootstrap::getModel('core/event')->setLesson($lesson->getId())->setStudents($studentNameArray)->setDate($endDateTime);
-            Bootstrap::dispatchEvent('schedule_event_after', $event);
 
             $this->_successFlash('Your event has been scheduled');
             $this->_thisModuleRedirect('schedule');
         }
     }
 
-	public function lessonAction($lessonId)
-	{
+    public function lessonAction($lessonId)
+    {
         $this->_checkIfUserIsLoggedIn();
 
         $this->_checkIfUserIsAdmin();
@@ -79,25 +54,12 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
         $view = $this->loadLayout();
 
         /** @var Incubate_Model_Lesson $lesson */
-        $lesson = Bootstrap::getModel('incubate/lesson');
+        $lesson = Bootstrap::getModel('lesson/lesson')->load($lessonId);
 
-        $lessonTagMap = $lesson->load($lessonId)->getTagLessonMapForLesson();
+        $this->_sessionSet('lessonId', $lessonId);
 
-        //for each tag in the map, get the specific tag names from the tag table
-        $lessonTags = Bootstrap::getModel('incubate/tag')->getTagNamesFromTagMap($lessonTagMap);
+        $view->getContent()->setLesson($lesson);
 
-        $userTagMap = Bootstrap::getModel('incubate/userTagMap')->loadAllByTagIds($lessonTagMap);
-
-        $completedCourseMap = Bootstrap::getModel('incubate/completedCourseMap');
-
-        $studentInviteList = array();
-        foreach($userTagMap as $id) {
-            if(!$completedCourseMap->completedCheck($id,$lessonId)) {
-                $studentInviteList[] = Bootstrap::getModel('incubate/user')->load($id);
-            }
-        }
-
-        $view->getContent()->setStudents($studentInviteList)->setTags($lessonTags)->setLesson($lesson);
-		$view->render();
-	}
+        $view->render();
+    }
 }

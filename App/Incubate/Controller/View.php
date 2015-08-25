@@ -9,11 +9,11 @@ class Incubate_Controller_View extends Incubate_Controller_Admin
 
         $this->_checkIfUserIsLoggedIn();
 
-        $lesson = Bootstrap::getModel('incubate/lesson');
+        $lesson = Bootstrap::getModel('lesson/lesson');
         $totalLessonCount = $lesson->getTotalCount();
         $allLessonData = $lesson->loadAll();
 
-        $allStudentUsers = Bootstrap::getModel('incubate/user')->loadAllStudents();
+        $allStudentUsers = Bootstrap::getModel('user/user')->loadAllStudents();
         foreach($allStudentUsers as $student) {
             $student->setUserProgress($totalLessonCount)->setUserIncubationTime()->getAllUserCompletedCourseId();
         }

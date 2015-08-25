@@ -13,7 +13,7 @@ class User_Controller_Create extends Incubate_Controller_Admin
         if($request->isPost()){
 
             //load user model
-            $user = Bootstrap::getModel('user/model');
+            $user = Bootstrap::getModel('user/user');
 
             //for all post information, add to user data
             foreach(array('name','email','groups') as $field) {

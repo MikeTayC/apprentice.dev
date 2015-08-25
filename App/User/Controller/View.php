@@ -15,7 +15,7 @@ class User_Controller_View extends Incubate_Controller_Abstract
          * instantiate user  model using boot strap factory,
          * string indicates which module and name of model to insantiate
          */
-        $user = Bootstrap::getModel('user/model');
+        $user = Bootstrap::getModel('user/user');
 
         //loads all students
         $allUsers = $user->loadAllStudents();
@@ -39,7 +39,7 @@ class User_Controller_View extends Incubate_Controller_Abstract
         $this->_flashCheck();
 
 
-        $user = Bootstrap::getModel('user/model')->load($userId)->loadProfile();
+        $user = Bootstrap::getModel('user/user')->load($userId)->loadProfile();
 
         $view = $this->loadLayout();
         $view->getContent()->setData('userData', $user);
@@ -50,7 +50,7 @@ class User_Controller_View extends Incubate_Controller_Abstract
 	{
         $this->_checkIfUserIsAdmin();
 
-        $allAdmins = Bootstrap::getModel('user/model')->loadAllAdmins();
+        $allAdmins = Bootstrap::getModel('user/user')->loadAllAdmins();
 
         $view = $this->loadLayout();
         $view->getContent()->setAdmins($allAdmins);

@@ -9,7 +9,7 @@ class User_Controller_Logout extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {
-        $user = Bootstrap::getModel('user/model');
+        $user = Bootstrap::getModel('user/user');
         $user->logout();
         $this->headerRedirect('incubate','login','index');
     }

@@ -19,7 +19,7 @@ class Tag_Controller_Create extends Incubate_Controller_Admin
 
 			$tagArray = $this->explode($request->getPost('tags'));
 
-			Bootstrap::getModel('tag/model')->addNewTagsToDb($tagArray);
+			Bootstrap::getModel('tag/tag')->addNewTagsToDb($tagArray);
 
 			$this->_successFlash('You made tag(s)');
 			$this->_thisModuleRedirect('view');

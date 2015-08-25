@@ -17,7 +17,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 	public function __construct()
     {
         $this->_db = Core_Model_Database::getInstance();
-        $this->_module = Core_Model_Request::getInstance()->getModule();
+        $this->_module = $this->_setModule();
     }
 
     public function load($id)
@@ -254,6 +254,14 @@ abstract class Core_Model_Abstract extends Core_Model_Object
     public function unsetData($key)
     {
         unset($this->_data[$key]);
+    }
+
+    protected function _setModule()
+    {
+        $className = get_class($this);
+        $classExplode = explode('_', $className);
+        $module = strtolower($classExplode[0]);
+        return $module;
     }
 
 }

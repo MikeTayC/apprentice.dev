@@ -10,7 +10,7 @@ class Tag_Controller_Form extends Incubate_Controller_Admin
     public function editAction($tagId)
     {
         //load tag name from id
-        $tagName = Bootstrap::getModel('incubate/tag')->load($tagId)->getName();
+        $tagName = Bootstrap::getModel('tag/tag')->load($tagId)->getName();
 
         //set id in session
         $this->_sessionSet('tag_id', $tagId);

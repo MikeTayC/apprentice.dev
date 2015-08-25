@@ -17,7 +17,7 @@ class Tag_Controller_Edit extends Incubate_Controller_Admin
 
 			$tagNewName = $request->getPost('tag');
 
-			Bootstrap::getModel('tag/model')->load($tagId)->setName($tagNewName)->save();
+			Bootstrap::getModel('tag/tag')->load($tagId)->setName($tagNewName)->save();
 
 			$this->_sessionDelete('tag_id');
 			$this->_successFlash('Successfully updated');

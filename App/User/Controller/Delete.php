@@ -11,7 +11,7 @@ class User_Controller_Delete extends Incubate_Controller_Admin
     {
         $this->_idCheck($userId, 'user');
 
-        Bootstrap::getModel('incubate/user')->load($userId)->delete();
+        Bootstrap::getModel('user/user')->load($userId)->delete();
 
 
         $this->_successFlash('User successfully removed');

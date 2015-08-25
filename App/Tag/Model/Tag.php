@@ -31,11 +31,21 @@ class Tag_Model_Tag extends Core_Model_Abstract
 		if($tagArray[0]) {
 			foreach ($tagArray as $tag) {
 				if (!in_array($tag, $dbTags)) {
-					Bootstrap::getModel('incubate/tag')->setName($tag)->save();
+					Bootstrap::getModel('tag/tag')->setName($tag)->save();
 				}
 			}
 		}
 	}
 
+    public function getTagNamesFromTagMap($tagMap)
+    {
+        if($tagMap) {
+            foreach($tagMap as $mapValue) {
+                $tagName = Bootstrap::getModel('tag/tag')->load($mapValue['tag_id'])->getName();
+                $lessonTags[] = $tagName;
+            }
+            return $lessonTags;
+        }
+    }
 
 }
