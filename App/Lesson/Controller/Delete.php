@@ -5,7 +5,7 @@
  * Date: 8/23/15
  * Time: 10:29 AM
  */
-class Lesson_Controller_Delete extends Incubate_Controller_Abstract
+class Lesson_Controller_Delete extends Incubate_Controller_Admin
 {
 	public function deleteAction($lessonId)
 	{

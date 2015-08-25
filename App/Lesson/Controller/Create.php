@@ -7,17 +7,7 @@
  */
 class Lesson_Controller_Create extends Incubate_Controller_Abstract
 {
-	public function formAction()
-	{
-		//check if user is logged in and admin
-		$this->_checkIfUserIsLoggedIn();
-		$this->_checkIfUserIsAdmin();
-		//else load view
-		$this->loadLayout();
-		$this->render();
-	}
-
-	public function newAction()
+	public function saveAction()
 	{
 		//check if user is logged in and admin
 		$this->_checkIfUserIsLoggedIn();
