@@ -13,7 +13,7 @@ class Tag_Controller_Delete extends Incubate_Controller_Admin
             $this->_idCheck($tagId,'tag');
 
             //delete this lesson
-            Bootstrap::getModel('tag/tag')->load($tagId)->delete();
+            Bootstrap::getModel('tag/model')->load($tagId)->delete();
 
             $this->_successFlash('Successfully deleted');
         }

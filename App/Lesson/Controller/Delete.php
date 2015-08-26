@@ -13,7 +13,7 @@ class Lesson_Controller_Delete extends Incubate_Controller_Admin
             $this->_idCheck($lessonId, 'lesson');
 
             //delete current tag map of lesson, then delte the lessson
-            Bootstrap::getModel('lesson/lesson')->load($lessonId)->delete();
+            Bootstrap::getModel('lesson/model')->load($lessonId)->delete();
 
             $this->_successFlash('Successfully deleted');
 

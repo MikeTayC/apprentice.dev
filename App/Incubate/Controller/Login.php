@@ -21,7 +21,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
          * instantiate google client and our authorization class and user model class
          */
         $googleClient = new Google_Client();
-        $user = Bootstrap::getModel('user/user');
+        $user = Bootstrap::getModel('user/model');
         $auth = new Core_Model_Auth($user, $googleClient);
 
         /*

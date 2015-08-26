@@ -27,7 +27,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
         if($request->isPost()) {
 
             $lessonId = $this->_sessionGet('lessonId');
-            $lesson  = Bootstrap::getModel('lesson/lesson')->load($lessonId);
+            $lesson  = Bootstrap::getModel('lesson/model')->load($lessonId);
 
             foreach(array('tags','description','student_list', 'start_time','date') as $field) {
                 $lesson->setData($field, $request->getPost($field));
@@ -54,7 +54,7 @@ class Incubate_Controller_Schedule extends Incubate_Controller_Abstract
         $view = $this->loadLayout();
 
         /** @var Incubate_Model_Lesson $lesson */
-        $lesson = Bootstrap::getModel('lesson/lesson')->load($lessonId);
+        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
 
         $this->_sessionSet('lessonId', $lessonId);
 

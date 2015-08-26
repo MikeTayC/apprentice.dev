@@ -18,7 +18,7 @@ class Lesson_Model_Observer
     public function setLessonIdOnEvent($eventObject)
     {
         $lessonName = $eventObject->getName();
-        $id = Bootstrap::getModel('lesson/lesson')->loadByName($lessonName)->getId();
+        $id = Bootstrap::getModel('lesson/model')->loadByName($lessonName)->getId();
 
         $eventObject->setData('lessonId', $id);
     }
@@ -64,13 +64,13 @@ class Lesson_Model_Observer
 
     public function setTotalLessonCount($eventObject)
     {
-        $totalLessonCount = Bootstrap::getModel('lesson/lesson')->getTotalCount();
+        $totalLessonCount = Bootstrap::getModel('lesson/model')->getTotalCount();
         $eventObject->setData('totalLessonCount', $totalLessonCount);
     }
 
     public function setAllLessons($eventObject)
     {
-        $lessons = Bootstrap::getModel('lesson/lesson')->loadAll();
+        $lessons = Bootstrap::getModel('lesson/model')->loadAll();
         $eventObject->setLessons($lessons);
     }
 

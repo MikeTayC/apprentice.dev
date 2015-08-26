@@ -6,10 +6,12 @@
  * Time: 10:21 PM
  */
 
-abstract class Core_Model_Abstract extends Core_Model_Object
+abstract class Core_Model_Abstract extends Core_Model_Object_m
 {
 	protected $_db;
 	protected $_table;
+    protected $_module;
+    protected $_className;
 
 	/*
 	 * gits an instance of the database, and sets the table to be worked with
@@ -17,7 +19,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
 	public function __construct()
     {
         $this->_db = Core_Model_Database::getInstance();
-        $this->_module = $this->_setModule();
+        $this->_setModuleAndClassName();
     }
 
     public function load($id)
@@ -34,7 +36,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         $data = $this->getAll();
         if($data) {
             foreach($data as $dataValue) {
-                $arrayOfModels[] = Bootstrap::getModel($this->_module . '/' . $this->_table)->load($dataValue['id']);
+                $arrayOfModels[] = Bootstrap::getModel($this->_module . '/' . $this->_className)->load($dataValue['id']);
             }
         }
         return $arrayOfModels;
@@ -46,7 +48,7 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         $data = $this->getAllBasedOnGivenFields($fields);
         if(isset($data)) {
             foreach($data as $dataValue) {
-                $arrayOfModels[] = Bootstrap::getModel($this->_module . '/' . $this->_table)->load($dataValue['id']);
+                $arrayOfModels[] = Bootstrap::getModel($this->_module . '/' . $this->_className)->load($dataValue['id']);
             }
         }
         return $arrayOfModels;
@@ -256,12 +258,13 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         unset($this->_data[$key]);
     }
 
-    protected function _setModule()
+    protected function _setModuleAndClassName()
     {
         $className = get_class($this);
         $classExplode = explode('_', $className);
         $module = strtolower($classExplode[0]);
-        return $module;
+        $this->_module = $module;
+        $this->_className = strtolower($classExplode[2]);
     }
 
 }

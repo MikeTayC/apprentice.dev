@@ -17,7 +17,7 @@ class Tag_Controller_View extends Incubate_Controller_Admin
         $this->_flashCheck();
 
         //load model
-        $tagData = Bootstrap::getModel('tag/tag')->LoadAllEditableTags();
+        $tagData = Bootstrap::getModel('tag/model')->LoadAllEditableTags();
 
         //if lesson data is properly retrieved from database and available, bind data to views content block
         $view->getContent()->setTag($tagData);

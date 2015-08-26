@@ -90,7 +90,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
 
     protected function _idCheck($id, $string)
     {
-        if(!Bootstrap::getModel("{$string}/{$string}")->check($id)) {
+        if(!Bootstrap::getModel("{$string}/model")->check($id)) {
             $this->_dangerFlash("Your request does not exist!");
             $this->_thisModuleRedirect("{$string}");
         }

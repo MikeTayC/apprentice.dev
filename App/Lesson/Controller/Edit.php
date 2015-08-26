@@ -15,7 +15,7 @@ class Lesson_Controller_Edit extends Incubate_Controller_Admin
 
             //set post and session data
             $lessonId = $this->_sessionGet('lesson_id');
-            $lesson = Bootstrap::getModel('lesson/lesson')->load($lessonId);
+            $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
             $lessonTags = $request->getPost('tags');
 
             //prepare tags

@@ -44,7 +44,7 @@ class User_Model_Observer
         $dateTime = $eventObject->getData('endDateTime');
 
         foreach($studentList as  $studentName) {
-            $userId = Bootstrap::getModel('user/user')->loadByName($studentName)->getId();
+            $userId = Bootstrap::getModel('user/model')->loadByName($studentName)->getId();
             Bootstrap::getModel('incubate/completedCourseMap')->setUser($userId)->setlesson($lessonId)->setDate($dateTime)->markUserCompletedCourseMap();
         }
     }
@@ -58,7 +58,7 @@ class User_Model_Observer
         $studentInviteList = array();
         foreach ($userTagMap as $id) {
             if (!$completedCourseMap->completedCheck($id, $lessonId)) {
-                $studentInviteList[] = Bootstrap::getModel('user/user')->load($id);
+                $studentInviteList[] = Bootstrap::getModel('user/model')->load($id);
             }
         }
 
@@ -70,7 +70,7 @@ class User_Model_Observer
         $studentList = $eventObject->getData('student_list');
         $studentNameArray = explode(',', $studentList);
         foreach ($studentNameArray as $student) {
-            $studentEmailArray[] = Bootstrap::getModel('user/user')->loadByName($student)->getEmail();
+            $studentEmailArray[] = Bootstrap::getModel('user/model')->loadByName($student)->getEmail();
         }
 
         $eventObject->setData('studentEmailArray', $studentEmailArray);

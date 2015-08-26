@@ -14,7 +14,7 @@ class Lesson_Controller_Create extends Incubate_Controller_Admin
         if ($request->isPost() && $request->hasPost('name')) {
 
             //load  model
-            $lesson = Bootstrap::getModel('lesson/lesson');
+            $lesson = Bootstrap::getModel('lesson/model');
 
             /*
              * set all post information,

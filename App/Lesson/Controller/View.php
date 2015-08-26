@@ -14,7 +14,7 @@ class Lesson_Controller_View extends Incubate_Controller_Abstract
         $this->_flashCheck();
 
 		//load model
-		$allLessonModels = Bootstrap::getModel('lesson/lesson')->loadAll();
+		$allLessonModels = Bootstrap::getModel('lesson/model')->loadAll();
 
 		//if lesson data is properly retrieved from database and available, bind data to views content block
 		$view->getContent()->setLesson($allLessonModels);
@@ -33,7 +33,7 @@ class Lesson_Controller_View extends Incubate_Controller_Abstract
 
         //get asssoiciated tag names
         $lessonTagMap = $lesson->getTagLessonMapForLesson();
-        $lessonTags = Bootstrap::getModel('tag/tag')->getTagNamesFromTagMap($lessonTagMap);
+        $lessonTags = Bootstrap::getModel('tag/model')->getTagNamesFromTagMap($lessonTagMap);
 
         //append descrition and tags into readable format
         $descriptionAndTags = $this->appendTagsAndDescription($lesson->getDescription(), $lessonTags);

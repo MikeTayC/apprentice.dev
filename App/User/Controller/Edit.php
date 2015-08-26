@@ -12,7 +12,7 @@ class User_Controller_Edit extends Incubate_Controller_Admin
 		$this->_idCheck($userId, 'user');
 
 
-		Bootstrap::getModel('user/user')->load($userId)->setRole('admin')->save();
+		Bootstrap::getModel('user/model')->load($userId)->setRole('admin')->save();
 
 		$this->_successFlash('Successfully made this user an admin');
 		$this->_thisModuleRedirect('view');

@@ -5,7 +5,7 @@
  * Date: 8/16/15
  * Time: 10:46 PM
  */
-class Tag_Model_Tag extends Core_Model_Abstract
+class Tag_Model_Model extends Core_Model_Abstract
 {
 	public function __construct()
 	{
@@ -31,7 +31,7 @@ class Tag_Model_Tag extends Core_Model_Abstract
 		if($tagArray[0]) {
 			foreach ($tagArray as $tag) {
 				if (!in_array($tag, $dbTags)) {
-					Bootstrap::getModel('tag/tag')->setName($tag)->save();
+					Bootstrap::getModel('tag/model')->setName($tag)->save();
 				}
 			}
 		}
@@ -41,7 +41,7 @@ class Tag_Model_Tag extends Core_Model_Abstract
     {
         if($tagMap) {
             foreach($tagMap as $mapValue) {
-                $tagName = Bootstrap::getModel('tag/tag')->load($mapValue['tag_id'])->getName();
+                $tagName = Bootstrap::getModel('tag/model')->load($mapValue['tag_id'])->getName();
                 $lessonTags[] = $tagName;
             }
             return $lessonTags;
