@@ -29,19 +29,7 @@ class Lesson_Controller_View extends Incubate_Controller_Abstract
         $this->_idCheck($lessonId, 'lesson');
 
         //get lessson data
-        $lesson = Bootstrap::getModel('lesson')->load($lessonId);
-
-        //get asssoiciated tag names
-        $lessonTagMap = $lesson->getTagLessonMapForLesson();
-        $lessonTags = Bootstrap::getModel('tag/model')->getTagNamesFromTagMap($lessonTagMap);
-
-        //append descrition and tags into readable format
-        $descriptionAndTags = $this->appendTagsAndDescription($lesson->getDescription(), $lessonTags);
-        $lesson->setDescription($descriptionAndTags);
-
-        //ready duration parameter
-        $duration = $lesson->getDuration() . 'Min.';
-        $lesson->setDuration($duration);
+        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId)->loadView();
 
         //store lesson id in session
         $this->_sessionSet('lesson_id', $lessonId);

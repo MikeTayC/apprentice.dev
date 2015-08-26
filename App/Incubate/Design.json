@@ -37,70 +37,10 @@
           "template": "App/Incubate/View/Template/Landing.phtml"
         }
       },
-      "incubate_schedule_index" : {
+      "incubate_calendar_index" : {
         "content" : {
           "type": "page/view",
-          "template": "App/Incubate/View/Template/Schedule.phtml"
-        }
-      },
-      "incubate_schedule_lesson" : {
-        "header" : {
-          "assets" : {
-            "0" : {
-              "tagit_css" : {
-                "type" : "css",
-                "file" : "jquery.tagit.css"
-              },
-              "zendesk_css" : {
-                "type": "css",
-                "file": "tagit.ui-zendesk.css"
-              },
-              "jquery_ui" : {
-                "type" : "jquery",
-                "file" : "https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
-              },
-              "tagit_js" : {
-                "type" : "js",
-                "file" : "js/tag-it.js"
-              },
-              "student_js" : {
-                "type" : "js",
-                "file" : "js/student_js.js"
-              },
-                "form_js" : {
-                    "type" : "js",
-                    "file" : "js/form_js.js"
-                },
-              "form_css" : {
-                "type" : "css",
-                "file" : "form_css.css"
-              },
-                "datepicker_css" : {
-                    "type" : "css",
-                    "file" : "datepicker.almost-flat.css"
-                },
-                "datepicker_js" : {
-                    "type" :  "js",
-                    "file" : "js/components/datepicker.js"
-                },
-                "autocomplete_css" : {
-                    "type" : "css",
-                    "file" : "autocomplete.almost-flat.css"
-                },
-                "autocomplete_js" : {
-                    "type" : "js",
-                    "file" : "js/components/autocomplete.js"
-                },
-                "timpicker_js" : {
-                    "type" : "js",
-                    "file" : "js/components/timepicker.js"
-                }
-            }
-          }
-        },
-        "content" : {
-          "type": "page/view",
-          "template": "App/Incubate/View/Template/ScheduleLesson.phtml"
+          "template": "App/Incubate/View/Template/Calendar.phtml"
         }
       },
       "incubate_view_progress" :{

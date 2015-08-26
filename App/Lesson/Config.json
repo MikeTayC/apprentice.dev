@@ -76,6 +76,16 @@
                     "class" : "user/observer",
                     "method" : "setSuggestedStudentNamesOnLesson"
                   }
+                },
+                "lesson_view_after" : {
+                  "set_event_description_tags" :{
+                    "class": "lesson/observer",
+                    "method": "setEventDescriptionAndTags"
+                  },
+                  "get_student_names_for_view" : {
+                    "class" : "user/observer",
+                    "method":"setUserNamesForLessonView"
+                  }
                 }
               }
             }

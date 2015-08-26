@@ -30,4 +30,24 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
         $view->getContent()->setLesson($lesson);
         $view->render();
     }
+
+    public function eventAction($lessonId)
+    {
+        $this->_checkIfUserIsLoggedIn();
+
+        $this->_checkIfUserIsAdmin();
+
+        $this->_idCheck($lessonId, 'lesson');
+
+        $view = $this->loadLayout();
+
+        /** @var Incubate_Model_Lesson $lesson */
+        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
+
+        $this->_sessionSet('lessonId', $lessonId);
+
+        $view->getContent()->setLesson($lesson);
+
+        $view->render();
+    }
 }

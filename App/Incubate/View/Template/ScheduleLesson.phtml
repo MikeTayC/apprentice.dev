@@ -1,7 +1,7 @@
 <?php
     $lesson = $this->getLesson();
-    $tags = $this->getTags();
-    $suggestedStudents = is_array($this->getStudents()) ? $this->getStudents(): array($this->getStudents());
+    $tags = $lesson->getTags();
+    $suggestedStudents = $lesson->getData('studentInviteList');
 ?>
 <div class="content">
 	<div id="form-main">

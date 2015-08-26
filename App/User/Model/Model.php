@@ -95,6 +95,9 @@ class User_Model_Model extends Core_Model_Abstract
     public function loadAllStudents()
     {
         $allStudents = $this->loadAllBasedOnFields(array('role', '=', 'student'));
+        foreach ($allStudents as $student) {
+            $student->loadProfile();
+        }
         return $allStudents;
     }
 

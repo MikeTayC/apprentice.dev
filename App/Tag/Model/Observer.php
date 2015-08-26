@@ -9,8 +9,9 @@ class Tag_Model_Observer
 {
     public function addNewTagsToDb($eventObject)
     {
+        $tagArray = $eventObject->getTags();
         //tags where passed, add the new ones to the database if there
-        if($tagArray = $eventObject->getTags()) {
+        if($tagArray[0]) {
             Bootstrap::getModel('tag/model')->addNewTagsToDb($tagArray);
         }
     }
@@ -69,7 +70,7 @@ class Tag_Model_Observer
         $userId = $eventObject->getId();
         $tags = $eventObject->getTags();
 
-        if($userId && $tags) {
+        if($userId && $tags[0]) {
            foreach($tags as $tag) {
                $tagId= Bootstrap::getModel('tag/model')->loadByName($tag)->getId();
                Bootstrap::getModel('incubate/userTagMap')->setData('user_id', $userId)->setData('tag_id', $tagId)->saveNoLoad();

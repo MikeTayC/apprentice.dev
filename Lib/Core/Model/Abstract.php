@@ -6,7 +6,7 @@
  * Time: 10:21 PM
  */
 
-abstract class Core_Model_Abstract extends Core_Model_Object_m
+abstract class Core_Model_Abstract extends Core_Model_Object
 {
 	protected $_db;
 	protected $_table;

@@ -34,4 +34,26 @@ class Lesson_Controller_Create extends Incubate_Controller_Admin
             $this->_thisModuleRedirect('view');
         }
 	}
+
+    public function eventAction()
+    {
+        $request = $this->_getRequest();
+        $this->_checkIfUserIsLoggedIn();
+        $this->_checkIfUserIsAdmin();
+
+        if($request->isPost()) {
+
+            $lessonId = $this->_sessionGet('lessonId');
+            $lesson  = Bootstrap::getModel('lesson/model')->load($lessonId);
+
+            foreach(array('tags','description','student_list', 'start_time','date') as $field) {
+                $lesson->setData($field, $request->getPost($field));
+            }
+
+            $lesson->loadEvent()->fireEvent()->afterEvent();
+
+            $this->_successFlash('Your event has been scheduled');
+            $this->_thisModuleRedirect('schedule');
+        }
+    }
 }

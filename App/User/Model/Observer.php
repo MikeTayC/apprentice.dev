@@ -7,6 +7,22 @@
  */
 class User_Model_Observer
 {
+    public function setUserNamesForLessonView($eventObject)
+    {
+        $suggestedStudents = $eventObject->getData('studentInviteList');
+        $studentNameList = '';
+        $x = 1;
+        if($suggestedStudents) {
+            foreach($suggestedStudents as $student) {
+                $studentNameList .= $student->getName();
+               if($x < count($suggestedStudents)) {
+                   $studentNameList .= ', ';
+               }
+                $x++;
+            }
+        }
+        $eventObject->setData('suggestedStudentNames', $studentNameList);
+    }
     public function deleteUserCompletedCourseMap($eventObject)
     {
         $userId = $eventObject->getUser();

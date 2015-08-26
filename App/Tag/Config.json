@@ -7,7 +7,7 @@
                 "events": {
                     "tag_delete_before": {
                       "delete_tagmap_of_lesson": {
-                        "class": "taag/observer",
+                        "class": "tag/observer",
                         "method": "deleteTagMapOfLessonBasedOnTagId"
                       },
                       "delete_all_user_tags": {

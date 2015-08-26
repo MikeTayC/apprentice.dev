@@ -19,7 +19,7 @@ $lessons = $this->getLessons();
 
             if($lessons) {
                 foreach($lessons as $lesson) {
-                    echo '<th class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'incubate/schedule/lesson/' . $lesson->getId() . '">' . $lesson->getName() . '</a></th>';
+                    echo '<th class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'lesson/form/event/' . $lesson->getId() . '">' . $lesson->getName() . '</a></th>';
                 }
             }
             ?>

@@ -43,8 +43,11 @@ class Lesson_Model_Observer
         $tags = $eventObject->getTags();
         $description = $eventObject->getDescription();
         //append tags on to description for google event
-        $tagsArray = explode(',', $tags);
-        $descriptionAndTags = $this->_appendTagsAndDescription($description, $tagsArray);
+        if(!is_array($tags)) {
+            $tags = explode(',', $tags);
+        }
+
+        $descriptionAndTags = $this->_appendTagsAndDescription($description, $tags);
 
         $eventObject->setData('descriptionAndTags', $descriptionAndTags);
     }

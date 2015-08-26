@@ -21,7 +21,7 @@ $lessons = $this->getLesson();
                 echo '<td><a class="uk-button uk-button-small" href="'. Bootstrap::getBaseUrl() . 'lesson/view/id/'. $lesson->getId().'">&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
                 if(Core_Model_Session::get('admin_status')) {
 
-                    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="' . Bootstrap::getBaseUrl() . 'incubate/schedule/lesson/'. $lesson->getId() .'">Schedule</a></td>';
+                    echo '<td><a class="uk-button uk-button-small uk-button-primary" href="' . Bootstrap::getBaseUrl() . 'lesson/form/event/'. $lesson->getId() .'">Schedule</a></td>';
 
 
                     echo '<td><a class="uk-button uk-button-small uk-button-success" href="' . Bootstrap::getBaseUrl() . 'lesson/form/edit/' . $lesson->getId() .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
