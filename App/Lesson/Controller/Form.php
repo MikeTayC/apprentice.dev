@@ -9,9 +9,6 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
 {
     public function createAction()
     {
-        //check if user is logged in and admin
-        $this->_checkIfUserIsLoggedIn();
-        $this->_checkIfUserIsAdmin();
         //else load view
         $this->loadLayout();
         $this->render();
@@ -33,9 +30,6 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
 
     public function eventAction($lessonId)
     {
-        $this->_checkIfUserIsLoggedIn();
-
-        $this->_checkIfUserIsAdmin();
 
         $this->_idCheck($lessonId, 'lesson');
 

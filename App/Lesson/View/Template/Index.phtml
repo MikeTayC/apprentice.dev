@@ -6,7 +6,7 @@ $lessons = $this->getLesson();
     <?php if(Core_Model_Session::get('admin_status')) : ?>
         <a class="uk-button uk-button-large uk-button-success ba-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/form/create">Create Lesson</a>
 
-        <a class="uk-button uk-button-large uk-button-primary ba-primary" href="http//apprentice.dev/tag/form/create">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
+        <a class="uk-button uk-button-large uk-button-primary ba-primary" href="<?php echo Bootstrap::getBaseUrl();?>tag/form/create">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
     <?php endif; ?>
 
     <table class="uk-table uk-table-hover">

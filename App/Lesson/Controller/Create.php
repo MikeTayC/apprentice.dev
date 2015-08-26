@@ -38,8 +38,6 @@ class Lesson_Controller_Create extends Incubate_Controller_Admin
     public function eventAction()
     {
         $request = $this->_getRequest();
-        $this->_checkIfUserIsLoggedIn();
-        $this->_checkIfUserIsAdmin();
 
         if($request->isPost()) {
 
@@ -52,8 +50,9 @@ class Lesson_Controller_Create extends Incubate_Controller_Admin
 
             $lesson->loadEvent()->fireEvent()->afterEvent();
 
+            $this->_sessionDelete('lessonId');
             $this->_successFlash('Your event has been scheduled');
-            $this->_thisModuleRedirect('schedule');
+            $this->headerRedirect('incubate','calendar','index');
         }
     }
 }

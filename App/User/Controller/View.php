@@ -11,14 +11,14 @@ class User_Controller_View extends Incubate_Controller_Abstract
 	{
         $this->_checkIfUserIsAdmin();
         $this->_flashCheck();
+
         /*
          * instantiate user  model using boot strap factory,
          * string indicates which module and name of model to insantiate
+         * loads all students
+         *
          */
-        $user = Bootstrap::getModel('user/model');
-
-        //loads all students
-        $allUsers = $user->loadAllStudents();
+        $allUsers = Bootstrap::getModel('user/model')->loadAllStudents();
 
         /*
          * load layout,

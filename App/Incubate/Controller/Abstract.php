@@ -12,6 +12,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
     {
         $this->_checkIfUserIsLoggedIn();
     }
+
     protected function _checkIfUserIsLoggedIn()
     {
         if(!$this->_sessionGet('logged_in')) {
@@ -27,7 +28,6 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
             $this->_thisModuleRedirect('index');
         }
     }
-
 
     protected function _flashCheck()
     {
@@ -48,17 +48,6 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
     {
         $newArray = explode(',', $list);
         return $newArray;
-    }
-
-
-    public function appendTagsAndDescription($description, $tagsArray)
-    {
-        if(isset($tagsArray)) {
-            foreach ($tagsArray as $tag) {
-                $description .= ' #' . $tag;
-            }
-        }
-        return $description;
     }
 
     public function userProfileCheck($userId)
@@ -96,5 +85,4 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
         }
         return true;
     }
-
 }

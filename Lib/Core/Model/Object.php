@@ -11,7 +11,7 @@ class Core_Model_Object
             $this->setData($key, $args[0]);
             return $this;
         } elseif (substr($methodName, 0, 3) == 'get') {
-            $key = strtolower($this->_camelize(substr($methodName, 3)));
+            $key = strtolower($this->_uncamelize(substr($methodName, 3)));
             return $this->getData($key);
         } else {
             return null;

@@ -16,7 +16,7 @@ $tags = $this->getTag();
         <?php
         if($tags) {
             foreach($tags as $tag) {
-
+                $tag->setSomethingAndSomething('something');
                 echo '<tr>';
                 echo '<td>' . $tag->getName() . '</td>';
 
