@@ -18,8 +18,9 @@ $lesson = $this->getLesson();
                         <br>
                         Duration : <?php echo $lesson->getDuration(); ?>
                         <br>
+                        <?php if(Core_Model_Session::get('admin_status')) :?>
                         Suggested Students : <?php echo $lesson->getSuggestedStudentNames(); ?>
-
+                        <?php endif;?>
                     </div>
                 </div>
 

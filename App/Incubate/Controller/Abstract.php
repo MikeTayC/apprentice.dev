@@ -17,7 +17,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
     {
         if(!$this->_sessionGet('logged_in')) {
             $this->_dangerFlash('You are not logged in!');
-            $this->_thisModuleRedirect('login');
+            $this->headerRedirect('incubate','login','index');
         }
     }
 
@@ -25,7 +25,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
     {
         if(!Core_Model_Session::get('admin_status')) {
             $this->_dangerFlash('Admins Only');
-            $this->_thisModuleRedirect('index');
+            $this->headerRedirect('incubate','calendar','index');
         }
     }
 

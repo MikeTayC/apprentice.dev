@@ -8,7 +8,7 @@
                 <?php if($this->getAuthurl()) : ?>
                     <a class="uk-button uk-button-primary" href="<?php echo $this->getAuthurl(); ?>">Sign in with Google+</a>
                 <?php else: ?>
-                    You are signed in. <a class="uk-button uk-button-danger" href="http://apprentice.dev/user/logout/index">Sign out</a>
+                    You are signed in. <a class="uk-button uk-button-danger" href="<?php echo Bootstrap::getBaseUrl()?>user/logout/index">Sign out</a>
                 <?php endif; ?>
             </p>
             </div>

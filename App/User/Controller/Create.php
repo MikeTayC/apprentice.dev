@@ -5,8 +5,9 @@
  * Date: 8/14/15
  * Time: 4:37 PM
  */
-class User_Controller_Create extends Incubate_Controller_Admin
+class User_Controller_Create extends Incubate_Controller_Abstract
 {
+    public function __construct(){}
 	public function saveAction()
 	{
         $request = $this->_getRequest();
@@ -43,6 +44,6 @@ class User_Controller_Create extends Incubate_Controller_Admin
                 exit;
             }
         }
-        $this->_thisRedirect('incubate','schedule', 'index');
+        $this->headerRedirect('incubate','calendar', 'index');
 	}
 }

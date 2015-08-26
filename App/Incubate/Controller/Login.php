@@ -8,6 +8,7 @@
  */
 class Incubate_Controller_Login extends Incubate_Controller_Abstract
 {
+
     public function __construct(){}
     public function indexAction()
     {
@@ -57,7 +58,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             elseif($auth->validateNewEmailAddress($email)) {
                 $this->_sessionSet('email', $email);
                 $this->_sessionSet('googleDisplayName', $googleDisplayName);
-                $this->redirect('User','Form','registerAction', $email, $googleDisplayName);
+                $this->redirect('User','Form','registerAction');
             }
 
             /*
