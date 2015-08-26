@@ -31,11 +31,11 @@ class Lesson_Model_Observer
 
         //format and set start date time for event
         $startDateTime = $this->_formatStartDateTime($date,$startTime);
-        $eventObject->setData('startDateTime', $startDateTime);
+        $eventObject->setStartDateTime($startDateTime);
 
         //format and set end date time for event
         $endDateTime = $this->_formatEndDateTime($date,$startTime, $duration);
-        $eventObject->setData('endDateTime', $endDateTime);
+        $eventObject->setEndDateTime($endDateTime);
     }
 
     public function setEventDescriptionAndTags($eventObject)
@@ -49,26 +49,26 @@ class Lesson_Model_Observer
 
         $descriptionAndTags = $this->_appendTagsAndDescription($description, $tags);
 
-        $eventObject->setData('descriptionAndTags', $descriptionAndTags);
+        $eventObject->setDescriptionAndTags($descriptionAndTags);
     }
 
     public function fireGoogleCalendarEvent($eventObject)
     {
         $lessonName = $eventObject->getName();
-        $descriptionAndTags  = $eventObject->getData('descriptionAndTags');
-        $startDateTime = $eventObject->getData('startDateTime');
-        $endDateTime = $eventObject->getData('endDateTime');
-        $studentEmailArray = $eventObject->getData('studentEmailArray');
+        $descriptionAndTags  = $eventObject->getDescriptionAndTags();
+        $startDateTime = $eventObject->getStartDateTime();
+        $endDateTime = $eventObject->getEndDateTime();
+        $emailArray = $eventObject->getEmailArray();
 
         $client = new Google_Client();
         $calendar = new Core_Model_Calendar($client);
-        $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $studentEmailArray);
+        $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $emailArray);
     }
 
     public function setTotalLessonCount($eventObject)
     {
         $totalLessonCount = Bootstrap::getModel('lesson/model')->getTotalCount();
-        $eventObject->setData('totalLessonCount', $totalLessonCount);
+        $eventObject->setTotalLessonCount($totalLessonCount);
     }
 
     public function setAllLessons($eventObject)

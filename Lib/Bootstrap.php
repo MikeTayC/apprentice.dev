@@ -83,7 +83,7 @@ final class Bootstrap
             foreach($moduleConfig as $module) {
                 if(array_key_exists('events', $module)) {
                     $observerEvents = $module['events'];
-                    $mergedEvents = array_merge($mergedEvents, $observerEvents);
+                    $mergedEvents = array_merge_recursive($mergedEvents, $observerEvents);
                 }
             }
             Core_Model_Config_Json::setObservers($mergedEvents);

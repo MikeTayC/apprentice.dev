@@ -14,11 +14,11 @@ $lesson = $this->getLesson();
 
                     </div>
                     <div class="box-panel">
-                        Description and Tags: <?php echo $lesson->getData('descriptionAndTags'); ?>
+                        Description and Tags: <?php echo $lesson->getDescriptionAndTags(); ?>
                         <br>
                         Duration : <?php echo $lesson->getDuration(); ?>
                         <br>
-                        Suggested Students : <?php echo $lesson->getData('suggestedStudentNames'); ?>
+                        Suggested Students : <?php echo $lesson->getSuggestedStudentNames(); ?>
 
                     </div>
                 </div>

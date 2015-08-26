@@ -30,7 +30,6 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
 
     public function eventAction($lessonId)
     {
-
         $this->_idCheck($lessonId, 'lesson');
 
         $view = $this->loadLayout();

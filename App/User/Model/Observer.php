@@ -21,7 +21,7 @@ class User_Model_Observer
                 $x++;
             }
         }
-        $eventObject->setData('suggestedStudentNames', $studentNameList);
+        $eventObject->setSuggestedStudentNames($studentNameList);
     }
     public function deleteUserCompletedCourseMap($eventObject)
     {
@@ -57,7 +57,7 @@ class User_Model_Observer
     {
         $studentList = explode(',', $eventObject->getData('student_list'));
         $lessonId = $eventObject->getId();
-        $dateTime = $eventObject->getData('endDateTime');
+        $dateTime = $eventObject->getEndDateTime();
 
         foreach($studentList as  $studentName) {
             $userId = Bootstrap::getModel('user/model')->loadByName($studentName)->getId();
@@ -81,15 +81,20 @@ class User_Model_Observer
         $eventObject->setData('studentInviteList', $studentInviteList);
     }
 
-    public function setEventStudentEmail($eventObject)
+    public function setEventEmail($eventObject)
     {
         $studentList = $eventObject->getData('student_list');
+        $teacher = $eventObject->getTeacher();
         $studentNameArray = explode(',', $studentList);
+
         foreach ($studentNameArray as $student) {
-            $studentEmailArray[] = Bootstrap::getModel('user/model')->loadByName($student)->getEmail();
+            $emailArray[] = Bootstrap::getModel('user/model')->loadByName($student)->getEmail();
+        }
+        if(!empty($teacher)) {
+            $emailArray[] = Bootstrap::getModel('user/model')->loadByName($teacher)->getEmail();
         }
 
-        $eventObject->setData('studentEmailArray', $studentEmailArray);
+        $eventObject->setEmailArray($emailArray);
     }
 
     public function setUserCompletedCourses($eventObject)
@@ -119,7 +124,7 @@ class User_Model_Observer
     public function setUserProgress($eventObject)
     {
         $userId = $eventObject->getId();
-        $totalLessonCount = $eventObject->getData('totalLessonCount');
+        $totalLessonCount = $eventObject->getTotalLessonCount();
         $completedCourseCount = Bootstrap::getModel('incubate/completedCourseMap')->getCompletedCourseCount($userId);
         $userProgress = $this->_getUserProgress($totalLessonCount, $completedCourseCount);
 

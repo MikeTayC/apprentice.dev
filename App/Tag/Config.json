@@ -5,7 +5,7 @@
                 "pool": "App",
                 "dir": "Tag",
                 "events": {
-                    "tag_delete_before": {
+                  "tag_delete_before": {
                       "delete_tagmap_of_lesson": {
                         "class": "tag/observer",
                         "method": "deleteTagMapOfLessonBasedOnTagId"
@@ -14,7 +14,76 @@
                         "class": "tag/observer",
                         "method": "deleteAllUserMapTags"
                       }
+                    },
+                  "user_save_after": {
+                    "add_user_group_tag": {
+                      "class": "tag/observer",
+                      "method": "setNewUserTag"
                     }
+                  },
+                  "user_delete_after": {
+                    "delete_all_user_tags": {
+                      "class": "tag/observer",
+                      "method": "deleteUserTags"
+                    },
+                    "delete_user_completed_course": {
+                      "class": "tag/observer",
+                      "method": "deleteAllUserCompletedCourseMap"
+                    }
+                  },
+                  "user_edit_tags_after": {
+                    "delete_all_user_tags": {
+                      "class": "tag/observer",
+                      "method": "deleteUserTags"
+                    },
+                    "add_new_tags_to_db" : {
+                      "class": "tag/observer",
+                      "method": "addNewTagsToDb"
+
+                    },
+                    "add_new_tags_to_user" : {
+                      "class": "tag/observer",
+                      "method": "addTagsToUser"
+                    }
+                  },
+                  "user_load_profile" : {
+                    "load_all_user_tags" :{
+                      "class":"tag/observer",
+                      "method": "setAllUserTags"
+                    }
+                  },
+                  "lesson_save_before" : {
+                    "add_new_tags_to_db": {
+                      "class": "tag/observer",
+                      "method": "addNewTagsToDb"
+                    }
+                  },
+                  "lesson_update_before": {
+                    "delete_lesson_tag_map": {
+                      "class": "tag/observer",
+                      "method": "deleteLessonTagMap"
+                    }
+                  },
+                  "lesson_delete_after": {
+                    "delete_lesson_tag_map": {
+                      "class": "tag/observer",
+                      "method": "deleteLessonTagMap"
+                    }
+                  },
+                  "lesson_load_after" : {
+                    "set_lesson_tags" : {
+                      "class" : "tag/observer",
+                      "method" : "setLessonTagsOnLesson"
+                    },
+                    "set_suggested_student_ids" : {
+                      "class" : "tag/observer",
+                      "method" : "setSuggestedStudentIdsOnLesson"
+                    },
+                    "set_suggested_student_names" : {
+                      "class" : "user/observer",
+                      "method" : "setSuggestedStudentNamesOnLesson"
+                    }
+                  }
                 }
             }
         }

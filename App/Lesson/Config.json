@@ -10,10 +10,6 @@
                     "class" : "lesson/observer",
                     "method" : "setEventDateTime"
                   },
-                  "set_event_suggested_students" : {
-                    "class" : "user/observer",
-                    "method" : "setEventStudentEmail"
-                  },
                   "set_event_description_tags" :{
                     "class": "lesson/observer",
                     "method": "setEventDescriptionAndTags"
@@ -23,18 +19,6 @@
                   "fire_google_calendar_event" :{
                     "class" : "lesson/observer",
                     "method" : "fireGoogleCalendarEvent"
-                  }
-                },
-                "lesson_event_after" : {
-                  "set_completed_course_date": {
-                    "class": "user/observer",
-                    "method": "setCompletedCourseDateForAllStudentsInList"
-                  }
-                },
-                "lesson_save_before" : {
-                  "add_new_tags_to_db": {
-                    "class": "tag/observer",
-                    "method": "addNewTagsToDb"
                   }
                 },
                 "lesson_save_after": {
@@ -47,44 +31,22 @@
                     "method": "attachTagsToLesson"
                   }
                 },
-                "lesson_update_before": {
-                  "delete_lesson_tag_map": {
-                    "class": "tag/observer",
-                    "method": "deleteLessonTagMap"
-                  }
-                },
                 "lesson_delete_after": {
-                  "delete_lesson_tag_map": {
-                    "class": "tag/observer",
-                    "method": "deleteLessonTagMap"
-                  },
                   "delete_lesson_completed_courses": {
                     "class": "lesson/observer",
                     "method": "deleteLessonCompletedCourseMap"
-                  }
-                },
-                "lesson_load_after" : {
-                  "set_lesson_tags" : {
-                    "class" : "tag/observer",
-                    "method" : "setLessonTagsOnLesson"
-                  },
-                  "set_suggested_student_ids" : {
-                    "class" : "tag/observer",
-                    "method" : "setSuggestedStudentIdsOnLesson"
-                  },
-                  "set_suggested_student_names" : {
-                    "class" : "user/observer",
-                    "method" : "setSuggestedStudentNamesOnLesson"
                   }
                 },
                 "lesson_view_after" : {
                   "set_event_description_tags" :{
                     "class": "lesson/observer",
                     "method": "setEventDescriptionAndTags"
-                  },
-                  "get_student_names_for_view" : {
-                    "class" : "user/observer",
-                    "method":"setUserNamesForLessonView"
+                  }
+                },
+                "user_load_profile" : {
+                  "load_all_lessons": {
+                    "class":"lesson/observer",
+                    "method":"setAllLessons"
                   }
                 }
               }

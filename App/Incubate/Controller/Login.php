@@ -44,7 +44,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             if($auth->checkDatabaseForUser($googleId)){
 
                 //direct to dashboard
-                $this->headerRedirect('incubate', 'schedule', 'index');
+                $this->headerRedirect('incubate', 'calendar', 'index');
             }
 
             /*

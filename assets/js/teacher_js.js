@@ -1,30 +1,32 @@
 $(function(){
-    var tags = new Array();
+    var students = new Array();
 
     $.ajax({
         url: 'http://apprentice.dev/incubate/ajax/index',
         data: {
-            id: 'tag'
+            id: 'admin'
         },
         type: "GET",
         dataType: "json",
 
         success: function(json) {
             $.each(json, function(key, value) {
-                tags.push(value);
+                students.push(value);
             });
         }
 
     });
 
 
-    $('#myTags').tagit( {
-        availableTags: tags,
+    $('#myTeachers').tagit( {
+        availableTags: students,
         removeConfirmation: true,
         allowSpaces: true,
         showAutocompleteOnFocus: true,
         singleField: true,
-        fieldName: 'tags'
+        tagLimit: 1,
+        fieldName: "teacher"
     });
 
 });
+

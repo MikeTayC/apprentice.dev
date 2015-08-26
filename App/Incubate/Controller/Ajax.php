@@ -28,7 +28,14 @@ class Incubate_Controller_Ajax extends Core_Controller_Abstract
 
                 case 'student' :
                     $user = Bootstrap::getModel('user/model');
-                    $studentNames = $user->getAllNamesAsArray();
+                    $studentNames = $user->getAllUserNames('student');
+                    $jsonStudents = $user->jsonEncode($studentNames);
+                    echo $jsonStudents;
+                    break;
+
+                case 'admin' :
+                    $user = Bootstrap::getModel('user/model');
+                    $studentNames = $user->getAllUserNames('admin');
                     $jsonStudents = $user->jsonEncode($studentNames);
                     echo $jsonStudents;
                     break;

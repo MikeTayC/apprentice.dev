@@ -17,37 +17,6 @@
                     "method": "markUserCompletedCourseMap"
                   }
                 },
-                "user_save_after": {
-                  "add_user_group_tag": {
-                    "class": "tag/observer",
-                    "method": "setNewUserTag"
-                  }
-                },
-                "user_delete_after": {
-                  "delete_all_user_tags": {
-                    "class": "tag/observer",
-                    "method": "deleteUserTags"
-                  },
-                  "delete_user_completed_course": {
-                    "class": "tag/observer",
-                    "method": "deleteAllUserCompletedCourseMap"
-                  }
-                },
-                "user_edit_tags_after": {
-                  "delete_all_user_tags": {
-                    "class": "tag/observer",
-                    "method": "deleteUserTags"
-                  },
-                  "add_new_tags_to_db" : {
-                    "class": "tag/observer",
-                    "method": "addNewTagsToDb"
-
-                  },
-                  "add_new_tags_to_user" : {
-                    "class": "tag/observer",
-                    "method": "addTagsToUser"
-                  }
-                },
                 "user_load_after" : {
                   "set_total_lesson_count" : {
                     "class" : "lesson/observer",
@@ -63,17 +32,27 @@
                   }
                 },
                 "user_load_profile" : {
-                  "load_all_lessons": {
-                    "class":"lesson/observer",
-                    "method":"setAllLessons"
-                  },
                   "set_completed_courses" : {
                     "class": "user/observer",
                     "method": "setUserCompletedCourses"
-                  },
-                  "load_all_user_tags" :{
-                    "class":"tag/observer",
-                    "method": "setAllUserTags"
+                  }
+                },
+                "lesson_event_set" : {
+                  "set_event_suggested_students" : {
+                    "class" : "user/observer",
+                    "method" : "setEventEmail"
+                  }
+                },
+                "lesson_event_after" : {
+                  "set_completed_course_date": {
+                    "class": "user/observer",
+                    "method": "setCompletedCourseDateForAllStudentsInList"
+                  }
+                },
+                "lesson_view_after" : {
+                  "get_student_names_for_view" : {
+                    "class" : "user/observer",
+                    "method":"setUserNamesForLessonView"
                   }
                 }
               }

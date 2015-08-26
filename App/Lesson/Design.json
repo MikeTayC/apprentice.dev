@@ -97,6 +97,10 @@
               "type": "js",
               "file": "js/student_js.js"
             },
+            "teacher_js": {
+              "type": "js",
+              "file": "js/teacher_js.js"
+            },
             "form_js": {
               "type": "js",
               "file": "js/form_js.js"

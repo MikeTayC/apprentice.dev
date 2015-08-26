@@ -101,6 +101,21 @@ class User_Model_Model extends Core_Model_Abstract
         return $allStudents;
     }
 
+    /*
+ * returns all name values in a table
+ */
+    public function getAllUserNames($role)
+    {
+
+        if($allData = $this->getAllBasedOnGivenFields(array('role', '=',$role))) {
+            foreach($allData as $data) {
+                $nameArray[] = $data['name'];
+            }
+            return $nameArray;
+        }
+        return null;
+    }
+
     public function loadAllAdmins()
     {
         $allAdmins = $this->loadAllBasedOnFields(array('role','=','admin'));
