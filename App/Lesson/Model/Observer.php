@@ -162,7 +162,7 @@ class Lesson_Model_Observer
      * @param $startTime
      * @param $duration
      * @return bool|string
-     */
+     **/
     private function _formatEndDateTime($date, $startTime, $duration)
     {
         $startTime = strtotime($startTime);
@@ -179,7 +179,7 @@ class Lesson_Model_Observer
      * @param $description
      * @param $tagsArray
      * @return string
-     */
+     **/
     private function _appendTagsAndDescription($description, $tagsArray)
     {
         if(isset($tagsArray)) {

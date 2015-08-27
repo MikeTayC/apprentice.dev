@@ -4,7 +4,9 @@
  * User: mike
  * Date: 8/27/15
  * Time: 8:29 AM
- */
+ *
+ * Fires the event with google calendar
+ **/
 class Schedule_Model_Observer extends Core_Model_Abstract
 {
     public function fireGoogleCalendarEvent($eventObject)
