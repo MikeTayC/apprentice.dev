@@ -19,7 +19,7 @@ class Tag_Model_Observer
     public function attachTagsToLesson($eventObject)
     {
         $tagArray = $eventObject->getTags();
-        $lessonId = $eventObject->getData('lessonId');
+        $lessonId = $eventObject->getLessonId();
         if($tagArray[0] && $lessonId) {
             foreach ($tagArray as $tags) {
                 $tagId = Bootstrap::getModel('tag/model')->loadByName($tags)->getId();

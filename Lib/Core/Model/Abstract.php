@@ -62,6 +62,13 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         return $this;
     }
 
+    public function checkByName($name)
+    {
+        if($count = $this->getCount(array('name', '=', $name))){
+            return true;
+        }
+        return false;
+    }
 
     public function save()
     {

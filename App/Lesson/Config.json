@@ -25,10 +25,6 @@
                   "set_lesson_id_on_event" : {
                     "class" : "lesson/observer",
                     "method" : "setLessonIdOnEvent"
-                  },
-                  "attach_tag_to_lesson": {
-                    "class": "tag/observer",
-                    "method": "attachTagsToLesson"
                   }
                 },
                 "lesson_delete_after": {
@@ -40,7 +36,7 @@
                 "lesson_view_after" : {
                   "set_event_description_tags" :{
                     "class": "lesson/observer",
-                    "method": "setEventDescriptionAndTags"
+                    "method": "setViewDescriptionAndTags"
                   }
                 },
                 "user_load_profile" : {

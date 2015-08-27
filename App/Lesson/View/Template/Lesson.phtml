@@ -1,29 +1,26 @@
 <?php
-$lessonId = Core_Model_Session::get('lesson_id');
-$lesson = $this->getLesson();
+    $lessonId = Core_Model_Session::get('lesson_id');
+    $lesson = $this->getLesson();
 ?>
 <div class="content">
-
-                <div id="box">
-                    <div class="box-top"><h2><?php echo $lesson->getName() . ' '; ?>
-                            <?php if(Core_Model_Session::get('admin_status')) :?>
-                                <a class="uk-button uk-button-small  uk-align-right uk-button-primary" href="<?php echo Bootstrap::getBaseUrl()?>lesson/form/event/<?php echo $lesson->getId();?>">Schedule</a>
-                                <a class="uk-button uk-button-small uk-align-right uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/form/edit/<?php echo $lessonId;?>">Edit</a>
-                            <?php endif;?>
-                            <a class="uk-button uk-button-small uk-align-right uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>lesson/view/index">Back</a>
-
-                    </div>
-                    <div class="box-panel">
-                        Description and Tags: <?php echo $lesson->getDescriptionAndTags(); ?>
-                        <br>
-                        Duration : <?php echo $lesson->getDuration(); ?>
-                        <br>
+            <div id="box">
+                <div class="box-top"><h2><?php echo $lesson->getName() . ' '; ?>
                         <?php if(Core_Model_Session::get('admin_status')) :?>
-                        Suggested Students : <?php echo $lesson->getSuggestedStudentNames(); ?>
+                            <a class="uk-button uk-button-small  uk-align-right uk-button-primary" href="<?php echo Bootstrap::getBaseUrl()?>lesson/form/event/<?php echo $lesson->getId();?>">Schedule</a>
+                            <a class="uk-button uk-button-small uk-align-right uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/form/edit/<?php echo $lessonId;?>">Edit</a>
                         <?php endif;?>
-                    </div>
+                        <a class="uk-button uk-button-small uk-align-right uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>lesson/view/index">Back</a>
                 </div>
-
+                <div class="box-panel">
+                    Description and Tags: <?php echo $lesson->getDescriptionAndTags(); ?>
+                    <br>
+                    Duration : <?php echo $lesson->getDuration(); ?>
+                    <br>
+                    <?php if(Core_Model_Session::get('admin_status')) :?>
+                    Suggested Students : <?php echo $lesson->getSuggestedStudentNames(); ?>
+                    <?php endif;?>
+                </div>
+            </div>
         </div>
     </div>
 </div>

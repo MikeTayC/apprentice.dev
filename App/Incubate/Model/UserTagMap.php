@@ -88,7 +88,7 @@ class Incubate_Model_UserTagMap extends Core_Model_Abstract
     /**
      * Deletes all user tags, based on tag id,
      * Used when a user is deleted, or when replacing user tag map
-     * 
+     *
      * @param $userId
      **/
     public function deleteAllUserTags($userId)

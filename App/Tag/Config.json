@@ -83,6 +83,12 @@
                       "class" : "user/observer",
                       "method" : "setSuggestedStudentNamesOnLesson"
                     }
+                  },
+                  "lesson_attach_tags" :{
+                    "attach_tag_to_lesson": {
+                      "class": "tag/observer",
+                      "method": "attachTagsToLesson"
+                    }
                   }
                 }
             }

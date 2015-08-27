@@ -9,7 +9,7 @@
  * Abstract Admin class, extends incubate abstract class
  * Controllers should extend if they have admin specific actions,
  **/
-class Incubate_Controller_Admin extends Incubate_Controller_Abstract
+abstract class Incubate_Controller_Admin extends Incubate_Controller_Abstract
 {
     /**
      * Calls parent constructor, which will check for logged in status

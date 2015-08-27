@@ -1,60 +1,48 @@
 <?php
-$users = $this->getUsers();
-$lessons = $this->getLessons();
-
-
+    $users = $this->getUsers();
+    $lessons = $this->getLessons();
 ?>
-
 <div class="content">
     <div class="uk-overflow-container">
-
-    <table class="uk-table uk-table-hover uk-table-striped">
-        <h1>Incubator Progress</h1>
-        <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <?php
-
-            if($lessons) {
-                foreach($lessons as $lesson) {
-                    echo '<th class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'lesson/form/event/' . $lesson->getId() . '">' . $lesson->getName() . '</a></th>';
-                }
-            }
-            ?>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        if($lessons) {
-            foreach ($users as $user) {
-                echo '<tr>';
-                echo '<td class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'user/view/profile/' . $user->getId() . '">' . $user->getName() . '</a></td>';
-                foreach ($lessons as $lesson) {
-                    echo '<td>';
-                    if (in_array($lesson->getId(), $user->getCompleted())) {
-
-                        echo '<div class="uk-badge uk uk-badge-success">Completed</div>';
-
-
-                    } elseif (in_array($lesson->getId(), $user->getHiatus())) {
-
-                        echo '<div class="uk-badge uk-badge-warning">&nbsp;&nbsp;Expected&nbsp;&nbsp;</div>';
-
-
-                    } else {
-
-                        echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
-
+        <table class="uk-table uk-table-hover">
+            <h1>Incubator Progress</h1>
+            <thead>
+                <tr>
+                <th>
+                    Name
+                </th>
+                <?php
+                    if($lessons) {
+                        foreach($lessons as $lesson) {
+                            echo '<th class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'lesson/form/event/' . $lesson->getId() . '">' . $lesson->getName() . '</a></th>';
+                        }
                     }
-                    echo '</td>';
+                ?>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                if($lessons) {
+                    foreach ($users as $user) {
+                        echo '<tr>';
+                        echo '<td class="uk-button-link"><a href="' . Bootstrap::getBaseUrl() . 'user/view/profile/' . $user->getId() . '">' . $user->getName() . '</a></td>';
+                        foreach ($lessons as $lesson) {
+                            echo '<td>';
+                            if (in_array($lesson->getId(), $user->getCompleted())) {
+                                echo '<div class="uk-badge uk uk-badge-success">Completed</div>';
+                            } elseif (in_array($lesson->getId(), $user->getHiatus())) {
+                                echo '<div class="uk-badge uk-badge-warning">&nbsp;&nbsp;Expected&nbsp;&nbsp;</div>';
+                            } else {
+                                echo '<div class="uk-badge uk-badge-danger">Incomplete</div>';
+
+                            }
+                            echo '</td>';
+                        }
+                        echo '</tr>';
+                    }
                 }
-                echo '</tr>';
-            }
-        }
-        ?>
-        </tbody>
-    </table
+            ?>
+            </tbody>
+        </table
     </div>
 </div>
