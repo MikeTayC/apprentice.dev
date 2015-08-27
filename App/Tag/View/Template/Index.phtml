@@ -1,15 +1,11 @@
 <?php
-
-$tags = $this->getTag();
+    $tags = $this->getTag();
 ?>
 <div class="content">
-
     <?php if(Core_Model_Session::get('admin_status')) : ?>
         <a class="uk-button uk-button-large uk-button-success ba-success" href="<?php echo Bootstrap::getBaseUrl();?>lesson/form/create">Create Lesson</a>
-
         <a class="uk-button uk-button-large uk-button-primary ba-primary" href="<?php echo Bootstrap::getBaseUrl();?>tag/form/create">&nbsp;&nbsp;Create Tags&nbsp;&nbsp;</a>
     <?php endif; ?>
-
     <table class="uk-table uk-table-hover">
         <h1>Tags</h1>
         <tbody>
@@ -19,13 +15,9 @@ $tags = $this->getTag();
                 $tag->setSomethingAndSomething('something');
                 echo '<tr>';
                 echo '<td>' . $tag->getName() . '</td>';
-
-                echo '<td><a class="uk-button uk-button-success" href="' . Bootstrap::getBaseUrl() . 'tag/form/edit/' . $tag->getId() .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
-
-                echo '<td><a class="uk-button uk-button-danger" href="' . Bootstrap::getBaseUrl() . 'tag/delete/id/' . $tag->getId() .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
-
+                echo '<td><a class="uk-button uk-button-success" href="' . Bootstrap::getBaseUrl() . 'tag/form/edit/' . $tag->getId() . '">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+                echo '<td><a class="uk-button uk-button-danger" href="' . Bootstrap::getBaseUrl() . 'tag/delete/id/' . $tag->getId() . '">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
             }
-
             echo '</tr>';
         }
         ?>

@@ -4,9 +4,16 @@
  * User: mike
  * Date: 8/20/15
  * Time: 10:37 AM
- */
+ *
+ * Tag Observer responsible for listening to events regarding tags
+ **/
 class Tag_Model_Observer
 {
+    /**
+     * Adds new tags to the database via the event object
+     * _data['tags'] must be set
+     * @param $eventObject : core_model_object
+     **/
     public function addNewTagsToDb($eventObject)
     {
         $tagArray = $eventObject->getTags();
@@ -16,6 +23,14 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * Attaches tags to a lesson by inserting the association into the table
+     * TagMap
+     *
+     * _data['tags'] must set
+     * _data['lessonId'] must set
+     * @param $eventObject: core model object
+     **/
     public function attachTagsToLesson($eventObject)
     {
         $tagArray = $eventObject->getTags();
@@ -28,6 +43,11 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * Deletes a tag lesson map of a lesson
+     *
+     * @param $eventObject
+     **/
     public function deleteLessonTagMap($eventObject)
     {
         $lessonId = $eventObject->getId();
@@ -36,6 +56,11 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * deletes a tag map for a specific tag id,
+     *
+     * @param $eventObject
+     **/
     public function deleteTagMapOfLessonBasedOnTagId($eventObject)
     {
         $tagId = $eventObject->getId();
@@ -44,6 +69,11 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * sets up a tag map for a user
+     *
+     * @param $eventObject
+     **/
     public function setNewUserTag($eventObject)
     {
         $name = $eventObject->getName();
@@ -56,6 +86,11 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * Deletes all of a a specific users tags
+     *
+     * @param $eventObject
+     **/
     public function deleteUserTags($eventObject)
     {
         $userId = $eventObject->getId();
@@ -65,6 +100,11 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * Updates a specific users tags
+     *
+     * @param $eventObject
+     **/
     public function addTagsToUser($eventObject)
     {
         $userId = $eventObject->getId();
@@ -78,6 +118,10 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * Delete all a tag from usermaptags
+     * @param $eventObject
+     **/
     public function deleteAllUserMapTags($eventObject)
     {
         $tagId = $eventObject->getId();
@@ -86,6 +130,11 @@ class Tag_Model_Observer
         }
     }
 
+    /**
+     * Add lesson tags to lesson event obect
+     *
+     * @param $eventObject
+     **/
     public function setLessonTagsOnLesson($eventObject)
     {
         $lessonTagMap = Bootstrap::getModel('incubate/tagMap')->getAllBasedOnGivenFields(array('lesson_id', '=', $eventObject->getId()));
@@ -94,15 +143,28 @@ class Tag_Model_Observer
         $eventObject->setTags($lessonTags);
     }
 
+    /**
+     * set suggested students ids on lesson event object,
+     *
+     * for use in sheduling an event
+     *
+     * @param $eventObject
+     **/
     public function setSuggestedStudentIdsOnLesson($eventObject)
     {
-
         $lessonTagMap = $eventObject->getData('lessonTagMap');
         $userTagMap = Bootstrap::getModel('incubate/userTagMap')->loadAllByTagIds($lessonTagMap);
 
         $eventObject->setData('userTagMap', $userTagMap);
     }
 
+    /**
+     * Set all user related tags on an event object
+     *
+     * for use in viewing specific user tags
+     *
+     * @param $eventObject
+     **/
     public function setAllUserTags($eventObject)
     {
         $userId = $eventObject->getId();

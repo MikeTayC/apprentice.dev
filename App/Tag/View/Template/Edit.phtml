@@ -1,5 +1,5 @@
 <?php
-$tag = $this->getTag();
+    $tag = $this->getTag();
 ?>
 <div class="content">
     <div id="form-main">
@@ -13,14 +13,12 @@ $tag = $this->getTag();
                     <a class="uk-button uk-button-success" href="<?php echo Bootstrap::getBaseUrl();?>tag/view/index">Back</a>
                     <a class="uk-button uk-button-danger" href="<?php echo Bootstrap::getBaseUrl();?>tag/delete/id/<?php echo Core_Model_Session::get('tag_id'); ?>">Delete</a>
                 </div>
-
                 <div class="uk-form-row">
                     <div class="submit">
                         <input type="submit" value="Edit" id="button-blue"/>
                         <div class="ease"></div>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>

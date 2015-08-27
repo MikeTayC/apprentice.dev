@@ -51,11 +51,10 @@ class Schedule_Controller_Event extends Incubate_Controller_Admin
 
             $this->_sessionDelete('lessonId');
             $this->_successFlash('Your event has been scheduled');
-            $this->headerRedirect('incubate','calendar','index');
         }
         else {
             $this->_dangerFlash('Something went wrong!');
-            $this->_thisModuleRedirect('calendar');
         }
+        $this->_thisModuleRedirect('calendar');
     }
 }

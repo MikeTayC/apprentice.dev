@@ -176,7 +176,7 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
     {
         if(!Bootstrap::getModel("{$string}/model")->check($id)) {
             $this->_dangerFlash("Your request does not exist!");
-            $this->_thisModuleRedirect("{$string}");
+            $this->_thisModuleRedirect('view');
         }
         return true;
     }

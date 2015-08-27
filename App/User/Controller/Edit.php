@@ -11,7 +11,6 @@ class User_Controller_Edit extends Incubate_Controller_Admin
 	{
 		$this->_idCheck($userId, 'user');
 
-
 		Bootstrap::getModel('user/model')->load($userId)->setRole('admin')->save();
 
 		$this->_successFlash('Successfully made this user an admin');
@@ -23,7 +22,6 @@ class User_Controller_Edit extends Incubate_Controller_Admin
         $this->_idCheck($lessonId, 'lesson');
         $this->_idCheck($userId, 'user');
 
-        //TODO make usermodel dispatch the event
         $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
         Bootstrap::dispatchEvent('unmark_completed_course', $event);
 
@@ -36,10 +34,8 @@ class User_Controller_Edit extends Incubate_Controller_Admin
         $this->_idCheck($lessonId, 'lesson');
         $this->_idCheck($userId, 'user');
 
-        //TODO make usermodel dispatch the event
         $event = Bootstrap::getModel('core/event')->setUser($userId)->setLesson($lessonId);
         Bootstrap::dispatchEvent('mark_completed_course', $event);
-
 
         $this->_thisModuleRedirectParams('view','profile', $userId);
     }

@@ -58,11 +58,10 @@ class Lesson_Controller_Create extends Incubate_Controller_Admin
 
             /** flash success and redirect **/
             $this->_successFlash('You successfully created a lesson!');
-            $this->_thisModuleRedirect('view');
         }
         else {
             $this->_dangerFlash('You must have done something wrong!');
-            $this->headerRedirect('schedule','calendar','index');
         }
+        $this->_thisModuleRedirect('view');
 	}
 }

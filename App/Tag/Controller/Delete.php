@@ -4,20 +4,21 @@
  * User: sam
  * Date: 8/23/15
  * Time: 10:29 AM
- */
+ *
+ * Controller which handles deleting of tags
+ **/
 class Tag_Controller_Delete extends Incubate_Controller_Admin
 {
 	public function idAction($tagId)
 	{
-        if(isset($tagId)){
-            $this->_idCheck($tagId,'tag');
+        /** Checks to ensure tag exists */
+        $this->_idCheck($tagId,'tag');
 
-            //delete this lesson
-            Bootstrap::getModel('tag/model')->load($tagId)->delete();
+        /** Delete this lesson */
+        Bootstrap::getModel('tag/model')->load($tagId)->delete();
 
-            $this->_successFlash('Successfully deleted');
-        }
-
+        /** flash success */
+        $this->_successFlash('Successfully deleted');
         $this->_thisModuleRedirect('view');
 	}
 }

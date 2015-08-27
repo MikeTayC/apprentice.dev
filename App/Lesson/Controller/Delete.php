@@ -17,17 +17,18 @@ class Lesson_Controller_Delete extends Incubate_Controller_Admin
      * @param $lessonId: id of lesson to be deleted
      **/
 	public function idAction($lessonId)
-	{
-        /** checks if lesson is in database **/
-        $this->_idCheck($lessonId, 'lesson');
+    {
+        if (isset($lessonId)) {
+            /** checks if lesson is in database **/
+            $this->_idCheck($lessonId, 'lesson');
 
 
-        /** Dispatches events to delete current tag map of lesson, then deletes the lessson **/
-        Bootstrap::getModel('lesson/model')->load($lessonId)->delete();
+            /** Dispatches events to delete current tag map of lesson, then deletes the lessson **/
+            Bootstrap::getModel('lesson/model')->load($lessonId)->delete();
 
-        /** flashes message and redirects **/
-        $this->_successFlash('Successfully deleted');
-        $this->_thisModuleRedirect('view');
-	}
-
+            /** flashes message and redirects **/
+            $this->_successFlash('Successfully deleted');
+            $this->_thisModuleRedirect('view');
+        }
+    }
 }

@@ -28,6 +28,8 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
      */
     public function editAction($lessonId)
     {
+        $this->_idCheck($lessonId, 'lesson');
+
         /** loads the lesson based on id, dispatched events will set the tag name array on the lesson object **/
         $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
 

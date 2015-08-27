@@ -41,7 +41,6 @@ class User_Controller_Create extends Incubate_Controller_Abstract
             else {
                 $this->_dangerFlash('There was a problem adding you to Incubate!');
                 $this->headerRedirect('user', 'logout', 'index');
-                exit;
             }
         }
         $this->headerRedirect('incubate','calendar', 'index');

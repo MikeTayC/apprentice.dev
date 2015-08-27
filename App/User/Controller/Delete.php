@@ -13,7 +13,6 @@ class User_Controller_Delete extends Incubate_Controller_Admin
 
         Bootstrap::getModel('user/model')->load($userId)->delete();
 
-
         $this->_successFlash('User successfully removed');
         $this->_thisModuleRedirect('view');
     }

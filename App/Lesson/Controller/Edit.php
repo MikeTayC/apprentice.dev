@@ -48,8 +48,10 @@ class Lesson_Controller_Edit extends Incubate_Controller_Admin
              **/
             $this->_sessionDelete('lesson_id');
             $this->_successFlash('Successfully updated');
-            $this->_thisModuleRedirect('view');
+        } else {
+            $this->_dangerFlash('Something went wrong!');
         }
+        $this->_thisModuleRedirect('view');
 	}
 
 }
