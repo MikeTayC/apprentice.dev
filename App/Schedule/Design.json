@@ -1,0 +1,12 @@
+{
+  "layout": {
+    "actions": {
+      "schedule_calendar_index" : {
+        "content" : {
+          "type": "page/view",
+          "template": "App/Schedule/View/Template/Calendar.phtml"
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 <div id="header">
-    <div class="logo"><a href="<?php echo Bootstrap::getBaseUrl();?>/incubate/schedule/index"><img src="http://apprentice.dev/assets/images/ba-logo.svg" alt=""/></a></div>
+    <div class="logo"><a href="<?php echo Bootstrap::getBaseUrl();?>schedule/calendar/index"><img src="http://apprentice.dev/assets/images/ba-logo.svg" alt=""/></a></div>
     <div class="logout"><a href="<?php echo Bootstrap::getBaseUrl();?>user/logout/index">Logout <i class="fa fa-sign-out fa-1x"></i> </a></div>
 </div>
 <a class="mobile" href="#">MENU</a>
@@ -7,7 +7,7 @@
     <div class="sidebar">
         <ul id="nav">
             <li><a href="<?php echo Bootstrap::getBaseUrl();?>lesson/view/index">Lessons</a></li>
-			<li><a href="<?php echo Bootstrap::getBaseUrl();?>incubate/calendar/index">Calendar</a></li>
+			<li><a href="<?php echo Bootstrap::getBaseUrl();?>schedule/calendar/index">Calendar</a></li>
             <?php if(Core_Model_Session::get('admin_status')) : ?>
                 <li><a href="<?php echo Bootstrap::getBaseUrl();?>user/view/index">Students</a></li>
                 <li><a href="<?php echo Bootstrap::getBaseUrl();?>tag/view/index">Tags</a></li>

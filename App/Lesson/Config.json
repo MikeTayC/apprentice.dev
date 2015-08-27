@@ -5,6 +5,12 @@
                 "pool": "App",
                 "dir": "Lesson",
               "events": {
+                "lesson_load_event" : {
+                  "set_lesson_on_event" : {
+                    "class" : "lesson/observer",
+                    "method" : "setLessonOnEvent"
+                  }
+                },
                 "lesson_event_set" : {
                   "set_event_date_time" : {
                     "class" : "lesson/observer",
@@ -13,12 +19,6 @@
                   "set_event_description_tags" :{
                     "class": "lesson/observer",
                     "method": "setEventDescriptionAndTags"
-                  }
-                },
-                "lesson_event_fire" : {
-                  "fire_google_calendar_event" :{
-                    "class" : "lesson/observer",
-                    "method" : "fireGoogleCalendarEvent"
                   }
                 },
                 "lesson_save_after": {

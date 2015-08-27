@@ -1,0 +1,18 @@
+{
+    "config": {
+        "modules": {
+            "schedule": {
+                "pool": "App",
+                "dir": "Schedule",
+                "events": {
+                  "lesson_event_fire" : {
+                    "fire_google_calendar_event" :{
+                      "class" : "schedule/observer",
+                      "method" : "fireGoogleCalendarEvent"
+                    }
+                  }
+                }
+            }
+        }
+    }
+}

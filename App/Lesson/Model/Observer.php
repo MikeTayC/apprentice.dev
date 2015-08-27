@@ -15,6 +15,14 @@ class Lesson_Model_Observer
         }
     }
 
+    public function setLessonOnEvent($eventObject)
+    {
+        $lessonId = $eventObject->getLessonId();
+        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
+
+        $eventObject->setLesson($lesson);
+    }
+
     public function setLessonIdOnEvent($eventObject)
     {
         $lessonName = $eventObject->getName();
@@ -25,23 +33,25 @@ class Lesson_Model_Observer
 
     public function setEventDateTime($eventObject)
     {
-        $duration = $eventObject->getDuration();
-        $date = $eventObject->getDate();
-        $startTime = $eventObject->getData('start_time');
+        $lesson = $eventObject->getLesson();
+        $duration = $lesson->getDuration();
+        $date = $lesson->getDate();
+        $startTime = $lesson->getData('start_time');
 
         //format and set start date time for event
         $startDateTime = $this->_formatStartDateTime($date,$startTime);
-        $eventObject->setStartDateTime($startDateTime);
+        $lesson->setStartDateTime($startDateTime);
 
         //format and set end date time for event
         $endDateTime = $this->_formatEndDateTime($date,$startTime, $duration);
-        $eventObject->setEndDateTime($endDateTime);
+        $lesson->setEndDateTime($endDateTime);
     }
 
     public function setEventDescriptionAndTags($eventObject)
     {
-        $tags = $eventObject->getTags();
-        $description = $eventObject->getDescription();
+        $lesson = $eventObject->getLesson();
+        $tags = $lesson->getTags();
+        $description = $lesson->getDescription();
         //append tags on to description for google event
         if(!is_array($tags)) {
             $tags = explode(',', $tags);
@@ -49,20 +59,7 @@ class Lesson_Model_Observer
 
         $descriptionAndTags = $this->_appendTagsAndDescription($description, $tags);
 
-        $eventObject->setDescriptionAndTags($descriptionAndTags);
-    }
-
-    public function fireGoogleCalendarEvent($eventObject)
-    {
-        $lessonName = $eventObject->getName();
-        $descriptionAndTags  = $eventObject->getDescriptionAndTags();
-        $startDateTime = $eventObject->getStartDateTime();
-        $endDateTime = $eventObject->getEndDateTime();
-        $emailArray = $eventObject->getEmailArray();
-
-        $client = new Google_Client();
-        $calendar = new Core_Model_Calendar($client);
-        $calendar->setEvent($lessonName, $descriptionAndTags, $startDateTime, $endDateTime, $emailArray);
+        $lesson->setDescriptionAndTags($descriptionAndTags);
     }
 
     public function setTotalLessonCount($eventObject)

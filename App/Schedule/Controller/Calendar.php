@@ -6,7 +6,7 @@
  * Time: 9:43 AM
  */
 
-class Incubate_Controller_Calendar extends Incubate_Controller_Abstract
+class Schedule_Controller_Calendar extends Incubate_Controller_Abstract
 {
     public function indexAction()
     {

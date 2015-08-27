@@ -55,9 +55,10 @@ class User_Model_Observer
 
     public function setCompletedCourseDateForAllStudentsInList($eventObject)
     {
-        $studentList = explode(',', $eventObject->getData('student_list'));
-        $lessonId = $eventObject->getId();
-        $dateTime = $eventObject->getEndDateTime();
+        $lesson = $eventObject->getLesson();
+        $studentList = explode(',', $lesson->getData('student_list'));
+        $lessonId = $lesson->getId();
+        $dateTime = $lesson->getEndDateTime();
 
         foreach($studentList as  $studentName) {
             $userId = Bootstrap::getModel('user/model')->loadByName($studentName)->getId();
@@ -83,8 +84,10 @@ class User_Model_Observer
 
     public function setEventEmail($eventObject)
     {
-        $studentList = $eventObject->getData('student_list');
-        $teacher = $eventObject->getTeacher();
+        $lesson = $eventObject->getLesson();
+
+        $studentList = $lesson->getData('student_list');
+        $teacher = $lesson->getTeacher();
         $studentNameArray = explode(',', $studentList);
 
         foreach ($studentNameArray as $student) {
@@ -94,7 +97,7 @@ class User_Model_Observer
             $emailArray[] = Bootstrap::getModel('user/model')->loadByName($teacher)->getEmail();
         }
 
-        $eventObject->setEmailArray($emailArray);
+        $lesson->setEmailArray($emailArray);
     }
 
     public function setUserCompletedCourses($eventObject)
