@@ -5,43 +5,65 @@
  * Date: 7/29/15
  * Time: 1:38 PM
  *
- */
+ * Login controller, heavily coupled to authorization classes, which
+ * are needed to interact with google OAuth 2.0 login processes
+ **/
 class Incubate_Controller_Login extends Incubate_Controller_Abstract
 {
 
+    /**
+     * Need to override parent contstructor, so there are no checks for
+     * login status
+     **/
     public function __construct(){}
+
+    /**
+     * Function is resposible for checking user across database,
+     * logging in, validating email address if user is new, redirectoring
+     * otherwise
+     **/
     public function indexAction()
     {
-        /*
-         * Default layout is set to false, we want the default google sign in landing page showing that the user must
-         * sign in with a blue acorn google plus account
-         */
+        /**
+         * Default layout is set to false, we want the default google sign
+         * in landing page showing that the user must sign in with a blue acorn
+         * google plus account
+         **/
         $view = $this->loadLayout($default = false);
-        $this->_flashCheck();
+
         /*
-         * instantiate google client and our authorization class and user model class
+         * Checks for error messages when layout is loaded
          */
+        $this->_flashCheck();
+
+        /**
+         * Instantiate google client with authorization class and user model class
+         **/
         $googleClient = new Google_Client();
         $user = Bootstrap::getModel('user/model');
         $auth = new Core_Model_Auth($user, $googleClient);
 
-        /*
-         * call to auth model to make sure the redirect code is set in the get request, routed from sign in url
-         */
+        /**
+         * Call to auth model to make sure the redirect code is set in the get request,
+         * routed from sign in url, if url redirect code is not set, moves on to check
+         * if the user is logged in
+         **/
         if($auth->checkRedirectCode()) {
 
-            //set current user information for access
+            /**
+             * Set current user information from google plus for access
+             * Stores in local variables
+             **/
             $auth->setGooglePlusInfo();
-
             $email = $auth->setEmail();
             $googleId = $auth->getGooglePlusId();
             $googleDisplayName = $auth->getGooglePlusDisplayName();
 
-            /*
-             * if user is in database, and has a blue acorn email adress log them in
+            /**
+             * If user is in database, and has a blue acorn email adress log them in
              * log user in and assign admin status
              *
-             */
+             **/
             if($auth->checkDatabaseForUser($googleId)){
 
                 //direct to dashboard
@@ -49,9 +71,9 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
             }
 
             /*
-             * else if not in database, check for blueacorn email adress and make member
+             * Else if not in database, check for blueacorn email adress and make member
              *
-             * if this is true, then the user is a first time user with a blue acorn email address,
+             * If this is true, then the user is a first time user with a blue acorn email address,
              * we must add their information to the database and send to index
              *
              */

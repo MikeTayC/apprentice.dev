@@ -4,9 +4,20 @@
  * User: mike
  * Date: 8/7/15
  * Time: 2:50 PM
- */
+ *
+ * Ajax controller, works in conjuction with the Tag-it! jquery
+ * plugin
+ **/
 class Incubate_Controller_Ajax extends Core_Controller_Abstract
 {
+    /**
+     * Gets called through ajax requests,
+     *
+     * Checks request for GET variable ['id], returns json encoded
+     * information based on id,
+     *
+     * Options: tags, lessons, admin users, student users
+     **/
     public function indexAction()
     {
         if(!empty($_GET['id'])) {
