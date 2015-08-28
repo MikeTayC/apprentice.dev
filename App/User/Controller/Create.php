@@ -63,6 +63,6 @@ class User_Controller_Create extends Incubate_Controller_Abstract
                 $this->headerRedirect('user', 'logout', 'index');
             }
         }
-        $this->headerRedirect('incubate','calendar', 'index');
+        $this->headerRedirect('schedule','calendar', 'index');
 	}
 }

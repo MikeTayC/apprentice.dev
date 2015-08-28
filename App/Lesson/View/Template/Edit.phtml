@@ -1,7 +1,8 @@
 <?php
-    $lessonId = Core_Model_Session::get('lesson_id');
+    $lessonId = Core_Model_Session::get('lessonId');
     $lesson = $this->getLesson();
     $tags = $lesson->getTags();
+    $post = Core_Model_session::get('post');
 ?>
 <div class="content">
     <div id="form-main">
@@ -20,7 +21,7 @@
                 </div>
 
                 <div class="uk-form-row">
-                    <textarea name="description" id="description"> <?php echo $lesson->getDescription(); ?></textarea>
+                    <textarea name="description" id="description"> <?php echo !isset($post['description'])? $lesson->getDescription() : $post['description']; ?></textarea>
                 </div>
                 <div class="uk-form-row">
                     <label for=fader>Duration</label>
@@ -58,3 +59,6 @@
         </div>
     </div>
 </div>
+<?php
+    Core_Model_Session::delete('post');
+?>

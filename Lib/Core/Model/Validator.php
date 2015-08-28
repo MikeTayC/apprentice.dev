@@ -16,7 +16,7 @@ class Core_Model_Validator
     public static function check($source)
     {
         $dbHandle = Core_Model_Database::getInstance();
-        $items = Core_Model_Config_Json::getAdminValidationConfig();
+        $items = Core_Model_Config_Json::getValidationConfig();
 
         foreach ($items as $item => $rules) {
             foreach ($rules as $rule => $ruleValue) {
@@ -43,8 +43,7 @@ class Core_Model_Validator
                             }
                             break;
                         case 'unique':
-                            $check = $dbHandle->get($ruleValue, array($item, '=', $value));
-                            if($check->count()) {
+                           if($dbHandle->validationCheck($ruleValue, $value)){
                                 self::addError("{$item} already exists.");
                             }
                             break;
@@ -52,6 +51,15 @@ class Core_Model_Validator
                             $blueacorn = substr($value, -14);
                             if($blueacorn !== $ruleValue) {
                                 self::addError(("Must have a Blue Acorn email address!"));
+                            }
+                        case 'exists':
+                            $studentArray = explode(',', $value);
+                            if(isset($studentArray)) {
+                                foreach ($studentArray as $student) {
+                                    if(!$dbHandle->validationCheck($ruleValue, $student)){
+                                        self::addError('Student does not exists');
+                                    }
+                                }
                             }
                     }
                 }

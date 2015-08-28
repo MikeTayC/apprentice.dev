@@ -112,7 +112,7 @@ class Incubate_Controller_Login extends Incubate_Controller_Abstract
              * if all else fails, the user is logged in but directly tried
              * accessing default login page prompt user to signout or redirect
              **/
-            $view->render();
+            $this->headerRedirect('schedule','calendar','index');
         }
 
 

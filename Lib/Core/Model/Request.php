@@ -7,9 +7,7 @@
 class Core_Model_Request extends Core_Model_Object
 {
     protected $dispatched = false;
-
     private static $instance = null;
-
     public static $pathUri;
 
     /**
@@ -19,9 +17,7 @@ class Core_Model_Request extends Core_Model_Object
     public static function getInstance()
     {
         if (self::$instance === null) {
-
             self::$instance = new Core_Model_Request();
-
             return self::$instance;
         }
         else {
@@ -37,7 +33,6 @@ class Core_Model_Request extends Core_Model_Object
     public function requestUri()
     {
         self::$pathUri = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH),'/');
-
         return self::$pathUri;
     }
 
@@ -56,7 +51,6 @@ class Core_Model_Request extends Core_Model_Object
     public function stopDispatching()
     {
         $this->dispatched = true;
-
         return $this;
     }
 
@@ -96,4 +90,7 @@ class Core_Model_Request extends Core_Model_Object
         return !empty($_POST);
     }
 
+    public function setPost($name, $value) {
+        $_POST[$name] = $value;
+    }
 }

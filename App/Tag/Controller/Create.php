@@ -21,7 +21,13 @@ class Tag_Controller_Create extends Incubate_Controller_Admin
          *
          * redirects if both false
  		 **/
-		if($request->isPost() && $request->hasPost('tags')) {
+		if($request->isPost()) {
+
+            Core_Model_Validator::check($_POST);
+            if(!Core_Model_Validator::passed()) {
+                $this->_dangerFlash('Your form was not valid, please try again!');
+                $this->headerRedirect('tag','form', 'create', $this->_sessionGet('tagId'));
+            }
 
             /** @var  $tagArray explodes the post variable 'tags', which is a comma separated list,  */
 			$tagArray = $this->explode($request->getPost('tags'));

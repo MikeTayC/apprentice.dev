@@ -20,6 +20,14 @@ class Schedule_Controller_Event extends Incubate_Controller_Admin
         /** if post is not set, redirect with error message */
         if($request->isPost()) {
 
+            /** Form Validation */
+            Core_Model_Validator::check($_POST);
+            if(!Core_Model_Validator::passed()) {
+                $this->_dangerFlash('Your form was not valid, please try again!');
+                $this->_sessionGet('post', $_POST);
+                $this->headerRedirect('lesson','form', 'event', $this->_sessionGet('lessonId'));
+            }
+
             /** @var  $lessonId retrieves lesson id from session */
             $lessonId = $this->_sessionGet('lessonId');
 
@@ -50,6 +58,7 @@ class Schedule_Controller_Event extends Incubate_Controller_Admin
             /** Delete session, flash message, redirect */
 
             $this->_sessionDelete('lessonId');
+            $this->_sessionDelete('post');
             $this->_successFlash('Your event has been scheduled');
         }
         else {

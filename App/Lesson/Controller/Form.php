@@ -16,6 +16,7 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
     public function createAction()
     {
         $this->loadLayout();
+        $this->_flashCheck();
         $this->render();
     }
 
@@ -28,16 +29,19 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
      */
     public function editAction($lessonId)
     {
+        $view = $this->loadLayout();
+
+        $this->_flashCheck();
+
         $this->_idCheck($lessonId, 'lesson');
 
         /** loads the lesson based on id, dispatched events will set the tag name array on the lesson object **/
         $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
 
         /** store lesson id in the session **/
-        $this->_sessionSet('lesson_id', $lessonId);
+        $this->_sessionSet('lessonId', $lessonId);
 
         /** load view, set data for use in edit form, and render **/
-        $view = $this->loadLayout();
         $view->getContent()->setLesson($lesson);
         $view->render();
     }
@@ -48,6 +52,8 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
      */
     public function eventAction($lessonId)
     {
+        $view = $this->loadLayout();
+        $this->_flashCheck();
         /** lesson id check **/
         $this->_idCheck($lessonId, 'lesson');
 
@@ -62,9 +68,7 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
         /**  sets lesson id in session**/
         $this->_sessionSet('lessonId', $lessonId);
 
-
         /** loads view layout, binds lesson data and renders */
-        $view = $this->loadLayout();
         $view->getContent()->setLesson($lesson);
         $view->render();
     }

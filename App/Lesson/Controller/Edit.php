@@ -20,6 +20,14 @@ class Lesson_Controller_Edit extends Incubate_Controller_Admin
         /** Checks for post data **/
         if ($request->isPost()) {
 
+            /** Form Validation */
+            Core_Model_Validator::check($_POST);
+            if(!Core_Model_Validator::passed()) {
+                $this->_dangerFlash('Your form was not valid, please try again!');
+                $this->_sessionSet('post', $_POST);
+                $this->headerRedirect('lesson','form', 'edit', $this->_sessionGet('lessonId'));
+            }
+
             /**
              * Get lesson Id from session
              * load the lesson with lesson id
@@ -46,7 +54,8 @@ class Lesson_Controller_Edit extends Incubate_Controller_Admin
              * Delete lesson id froom session,
              * flash message and redirect
              **/
-            $this->_sessionDelete('lesson_id');
+            $this->_sessionDelete('lessonId');
+            $this->_sessionDelete('post');
             $this->_successFlash('Successfully updated');
         } else {
             $this->_dangerFlash('Something went wrong!');

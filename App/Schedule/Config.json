@@ -11,7 +11,25 @@
                       "method" : "fireGoogleCalendarEvent"
                     }
                   }
+                },
+              "validation": {
+                "event": {
+                    "teacher":{
+                      "require":"true",
+                      "exists": "user"
+                    },
+                    "student_list": {
+                      "required": "true",
+                      "exists": "user"
+                    },
+                    "start_time": {
+                      "required": "true"
+                    },
+                    "date" : {
+                      "required" : "true"
+                    }
                 }
+              }
             }
         }
     }

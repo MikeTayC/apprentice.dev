@@ -225,10 +225,12 @@ abstract class Core_Model_Abstract extends Core_Model_Object
      **/
     public function get($fields = array())
     {
-        if($this->_data = $this->_db->get($this->_table, $fields)->first()) {
-            return $this->_data;
+        $result = $this->_db->get($this->_table, $fields)->first();
+        if (empty($result)) {
+            $result = array();
         }
-        return null;
+        $this->_data = $result;
+        return $this->_data;
     }
 
     /**

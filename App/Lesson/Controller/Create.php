@@ -26,7 +26,14 @@ class Lesson_Controller_Create extends Incubate_Controller_Admin
          *
          * if false, flash error, and send back to calendar index
          **/
-        if ($request->isPost() && $request->hasPost('name')) {
+        if ($request->isPost()) {
+
+            /** Form Validation */
+            Core_Model_Validator::check($_POST);
+            if(!Core_Model_Validator::passed()) {
+                $this->_dangerFlash('Your form was not valid, please try again!');
+                $this->headerRedirect('lesson','form', 'create');
+            }
 
             /** load model **/
             $lesson = Bootstrap::getModel('lesson/model');

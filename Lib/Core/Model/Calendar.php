@@ -64,6 +64,7 @@ class Core_Model_Calendar
      **/
     public function setEvent($title, $description, $eventStart, $eventEnd, $inviteList = array())
     {
+        $attendeeArray = array();
         foreach ($inviteList as $email) {
             if($email) {
                 $attendee = new Google_Service_Calendar_EventAttendee();

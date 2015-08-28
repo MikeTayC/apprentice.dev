@@ -68,7 +68,6 @@ abstract class Incubate_Controller_Abstract extends Core_Controller_Abstract
         echo  Core_Model_Session::successFlash('message');
     }
 
-
     /**
      * Used to write success messages into session
      *

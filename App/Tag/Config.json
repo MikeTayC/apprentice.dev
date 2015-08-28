@@ -82,6 +82,18 @@
                       "method": "attachTagsToLesson"
                     }
                   }
+                },
+              "validation": {
+                "edit": {
+                  "tags": {
+                    "required": "true"
+                  }
+                },
+                  "create": {
+                    "tags" : {
+                      "required" : "true"
+                    }
+                  }
                 }
             }
         }

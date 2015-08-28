@@ -50,8 +50,6 @@ class Core_Model_Auth
              * google_service_plus : interface for accessing google plus information
              **/
             $this->_plus = new Google_Service_Plus($googleClient);
-
-//            $this->_calendar = new Google_Service_Calendar($googleClient);
         }
     }
 

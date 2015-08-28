@@ -419,4 +419,9 @@ class Core_Model_Database
         return false;
     }
 
+    public function validationCheck($table, $name)
+    {
+        $result = $this->get($table, array('name','=', $name))->count();
+        return $result;
+    }
 }

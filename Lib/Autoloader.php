@@ -1,6 +1,6 @@
 <?php
 /**
- * autoloader class
+ * Autoloader class
  * static function autoload to be used in Bootstrap.php to initialize the autoloader
  **/
 class Autoloader

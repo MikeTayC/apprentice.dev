@@ -3,43 +3,8 @@
     "modules": {
       "incubate": {
         "pool": "App",
-        "dir": "Incubate",
-          "validation": {
-            "admin": {
-              "user": {
-                "name": {
-                  "required": "true"
-                },
-                "email": {
-                  "required": "true",
-                  "blueacorn": "@blueacorn.com"
-                },
-                "groups": {
-                  "required": "true"
-                }
-              },
-              "lesson": {
-                "name": {
-                  "required": "true"
-                },
-                "description": {
-                  "required": "true"
-                }
-              },
-              "teacher": {
-                "name": {
-                  "required": "true"
-                },
-                "email": {
-                  "required": "true",
-                  "blueacorn": "@blueacorn.com"
-                },
-                "permission": {
-                }
-              }
-            }
-          }
-        }
+        "dir": "Incubate"
       }
     }
   }
+}

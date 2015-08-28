@@ -122,6 +122,18 @@ abstract class Core_Controller_Abstract
         exit;
     }
 
+    /**
+     * Reloads the current page
+     **/
+    public function reload()
+    {
+        $request = Core_Model_Request::getInstance();
+        $module = $request->getModule();
+        $controller = $request->getController();
+        $action = $request->getAction();
+
+        $this->headerRedirect($module, $controller, $action);
+    }
 
 
 

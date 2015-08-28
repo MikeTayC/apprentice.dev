@@ -4,7 +4,7 @@
             "lesson": {
                 "pool": "App",
                 "dir": "Lesson",
-              "events": {
+                "events": {
                 "lesson_load_event" : {
                   "set_lesson_on_event" : {
                     "class" : "lesson/observer",
@@ -45,7 +45,25 @@
                     "method":"setAllLessons"
                   }
                 }
-              }
+              },
+                "validation": {
+                  "create" : {
+                    "name" : {
+                      "min" : 3,
+                      "max": 50,
+                      "required" : true,
+                      "unique" : "lesson"
+                    }
+                  },
+                  "edit" : {
+                    "name" : {
+                      "min": 3,
+                      "max": 50,
+                      "required" : true,
+                      "unique" : "lesson"
+                    }
+                  }
+                }
             }
         }
     }
