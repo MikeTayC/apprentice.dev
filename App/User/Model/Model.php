@@ -22,9 +22,10 @@ class User_Model_Model extends Core_Model_Abstract
 
     public function makeUserAdmin()
     {
-        $this->update($this->_data->id, 'id', array(
+        $this->update(array(
             'role' => 'admin'
         ));
+        Bootstrap::dispatchEvent('user_delete_after', $this);
     }
 
     /*

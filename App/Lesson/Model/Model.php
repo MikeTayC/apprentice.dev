@@ -76,4 +76,10 @@ class Lesson_Model_Model extends Core_Model_Abstract
         return $this;
     }
 
+    public function loadSuggestedStudents()
+    {
+        Bootstrap::dispatchEvent('load_suggested_students', $this);
+        return $this;
+    }
+
 }

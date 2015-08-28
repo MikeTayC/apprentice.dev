@@ -69,8 +69,6 @@ class Core_Model_Calendar
           "sendNotifications" => true
         );
 
-        $createdEvent = $this->service->events->insert($this->calendarId, $event, $optArgs);
-
-
+        $this->service->events->insert($this->calendarId, $event, $optArgs);
     }
 }

@@ -5,6 +5,12 @@
                 "pool": "App",
                 "dir": "User",
               "events": {
+                "user_delete_after": {
+                  "delete_user_completed_course": {
+                    "class": "user/observer",
+                    "method": "deleteAllUserCompletedCourseMap"
+                  }
+                },
                 "unmark_completed_course": {
                   "delete_user_completed_course": {
                     "class": "user/observer",
@@ -53,6 +59,12 @@
                   "get_student_names_for_view" : {
                     "class" : "user/observer",
                     "method":"setUserNamesForLessonView"
+                  }
+                },
+                "load_suggested_students" : {
+                  "set_suggested_student_names" : {
+                    "class" : "user/observer",
+                    "method" : "setSuggestedStudentNamesOnLesson"
                   }
                 }
               }

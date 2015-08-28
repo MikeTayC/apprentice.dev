@@ -87,8 +87,7 @@ class Page_Model_Design_Json
                 $block->setData($nodeKey, $nodeValue);
             }
         }
-
-                                                                return $block;
+        return $block;
     }
 
 

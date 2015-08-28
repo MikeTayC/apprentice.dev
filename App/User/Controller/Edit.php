@@ -4,14 +4,28 @@
  * User: sam
  * Date: 8/23/15
  * Time: 10:29 AM
- */
+ *
+ * Controller handles updating of user information information
+ *
+ * Extends Abstract admin class to ensure only admins can access
+ **/
 class User_Controller_Edit extends Incubate_Controller_Admin
 {
+    /**
+     * Handles making a user an admin
+     *
+     * @param $userId : userid of user to turn into admin
+     **/
 	public function adminAction($userId)
 	{
+        //check
 		$this->_idCheck($userId, 'user');
 
-		Bootstrap::getModel('user/model')->load($userId)->setRole('admin')->save();
+        /**
+         * loads user, sets role to admin and saves,
+         * dispatched events will
+         **/
+		Bootstrap::getModel('user/model')->load($userId)->makeUserAdmin();
 
 		$this->_successFlash('Successfully made this user an admin');
 		$this->_thisModuleRedirect('view');

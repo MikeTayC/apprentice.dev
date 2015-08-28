@@ -57,13 +57,14 @@ class Tag_Model_Model extends Core_Model_Abstract
      **/
     public function getTagNamesFromTagMap($tagMap)
     {
-        if($tagMap) {
+        $lessonTags = array();
+        if($tagMap[0]) {
             foreach($tagMap as $mapValue) {
                 $tagName = Bootstrap::getModel('tag/model')->load($mapValue['tag_id'])->getName();
                 $lessonTags[] = $tagName;
             }
-            return $lessonTags;
         }
+        return $lessonTags;
     }
 
 }

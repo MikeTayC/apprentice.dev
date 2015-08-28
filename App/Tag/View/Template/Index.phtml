@@ -12,11 +12,11 @@
         <?php
         if($tags) {
             foreach($tags as $tag) {
-                $tag->setSomethingAndSomething('something');
                 echo '<tr>';
                 echo '<td>' . $tag->getName() . '</td>';
-                echo '<td><a class="uk-button uk-button-success" href="' . Bootstrap::getBaseUrl() . 'tag/form/edit/' . $tag->getId() . '">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
-                echo '<td><a class="uk-button uk-button-danger" href="' . Bootstrap::getBaseUrl() . 'tag/delete/id/' . $tag->getId() . '">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
+                echo '<td><a class="uk-button uk-button-success" href="' . Bootstrap::getBaseUrl() . 'tag/form/edit/' . $tag->getId() .'">&nbsp;&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
+
+                echo '<td><a class="uk-button uk-button-danger" href="' . Bootstrap::getBaseUrl() . 'tag/delete/id/' . $tag->getId() .'">&nbsp;&nbsp;Delete&nbsp;&nbsp;</a></td>';
             }
             echo '</tr>';
         }

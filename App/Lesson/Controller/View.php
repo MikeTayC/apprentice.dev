@@ -53,7 +53,7 @@ class Lesson_Controller_View extends Incubate_Controller_Abstract
          *
          * Admins can see current suggested students
          **/
-        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId)->loadView();
+        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId)->loadSuggestedStudents()->loadView();
 
         /** Store lesson id in session **/
         $this->_sessionSet('lesson_id', $lessonId);

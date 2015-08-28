@@ -137,10 +137,13 @@ class Tag_Model_Observer
      **/
     public function setLessonTagsOnLesson($eventObject)
     {
-        $lessonTagMap = Bootstrap::getModel('incubate/tagMap')->getAllBasedOnGivenFields(array('lesson_id', '=', $eventObject->getId()));
-        $eventObject->setData('lessonTagMap', $lessonTagMap);
-        $lessonTags = Bootstrap::getModel('tag/model')->getTagNamesFromTagMap($lessonTagMap);
-        $eventObject->setTags($lessonTags);
+        if($lessonTagMap = Bootstrap::getModel('incubate/tagMap')->getAllBasedOnGivenFields(array('lesson_id', '=', $eventObject->getId()))){
+            $eventObject->setData('lessonTagMap', $lessonTagMap);
+            $lessonTags = Bootstrap::getModel('tag/model')->getTagNamesFromTagMap($lessonTagMap);
+            if(isset($lessonTags[0])) {
+                $eventObject->setTags($lessonTags);
+            }
+        }
     }
 
     /**

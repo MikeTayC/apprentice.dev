@@ -55,6 +55,6 @@ class Incubate_Model_TagMap extends Core_Model_Abstract
      **/
     public function deleteTagMapOfLessonBasedOnTagId()
     {
-        $this->delete(array('tag_id', '=', $this->getId()));
+        $this->deleteAll(array('tag_id', '=', $this->getId()));
     }
 }

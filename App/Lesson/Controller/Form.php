@@ -57,7 +57,7 @@ class Lesson_Controller_Form extends Incubate_Controller_Admin
          *
          * including tags, and suggested students
          **/
-        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
+        $lesson = Bootstrap::getModel('lesson/model')->load($lessonId)->loadSuggestedStudents();
 
         /**  sets lesson id in session**/
         $this->_sessionSet('lessonId', $lessonId);
