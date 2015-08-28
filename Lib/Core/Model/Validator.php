@@ -4,7 +4,10 @@
  * User: mike
  * Date: 7/8/15
  * Time: 4:56 PM
- */
+ *
+ *
+ * Used for validating forms
+ **/
 class Core_Model_Validator
 {
     public static $_passed = false;

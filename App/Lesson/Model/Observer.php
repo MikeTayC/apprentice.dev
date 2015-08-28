@@ -22,7 +22,7 @@ class Lesson_Model_Observer
     {
         if($lessonId = $eventObject->getId())
         {
-            Bootstrap::getModel('incubate/completedCourseMap')->setId($lessonId)->deleteLessonCompletedCourseMap();
+            Bootstrap::getModel('incubate/completedCoursesMap')->setId($lessonId)->deleteLessonCompletedCourseMap();
         }
     }
 

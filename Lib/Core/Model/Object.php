@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class Core_Model_Object
+ *
+ * Contains magic functions crucial for framework function
+ *
+ * Stores data that can be set and get anywhere,
+ * used heavily by models and view objects
+ **/
 class Core_Model_Object
 {
     protected $_data = array();

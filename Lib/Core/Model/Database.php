@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Class Core_Model_Database
+ *
+ * Main database class, handles connection and queries to a database
+ **/
 class Core_Model_Database
 {
     private $_databaseConfig;
@@ -17,12 +21,17 @@ class Core_Model_Database
     private $_tableFields;
 
 
+    /** @var null will hold singleton instance of database */
     private static $_instance = null;
 
 
+    /**
+     * private custructor sets database configuration for connection
+     **/
     private function __construct()
     {
         $this->setDatabaseConfig();
+
         //set DSN
         $dsn =  $this->_type . ':host=' . $this->_host . ';dbname=' . $this->_name;
 
@@ -37,8 +46,7 @@ class Core_Model_Database
              * PDO has three params upon construction
              * specify driver, username, password
              * specify driver: mysql,needs host and database name
-             * host = server you are running uysually 127.0.0.1
-             *
+             * host = server you are running usually 127.0.0.1
              */
             $this->_dbHandler = new PDO($dsn, $this->_user, $this->_pass, $options);
         } catch(PDOException $e){
@@ -46,6 +54,10 @@ class Core_Model_Database
         }
     }
 
+    /**
+     * Singleton
+     * @return Core_Model_Database|null
+     **/
     public static function getInstance()
     {
         if(!isset(self::$_instance)) {
@@ -54,6 +66,10 @@ class Core_Model_Database
         return self::$_instance;
     }
 
+    /**
+     * Sets database configuration
+     * Called in constructor
+     **/
     public function setDatabaseConfig()
     {
         $this->_databaseConfig = Core_Model_Config_Json::getModulesDatabaseConfig();
@@ -65,6 +81,13 @@ class Core_Model_Database
         $this->_pass = $this->_databaseConfig['pass'];
     }
 
+    /**
+     * Function queries the databse
+     *
+     * @param $sql query statement
+     * @param array $params, parameters to be binded to query
+     * @return $this
+     **/
     public function query($sql, $params = array())
     {
         $this->_error = false;
@@ -89,13 +112,14 @@ class Core_Model_Database
         return $this;
     }
 
-    /*
+    /**
      * abstraction, wrapper function to make it easier and readible to manipulate db data
-     * $action: select/insert..
-     * $table = db table
-     * $where = where clause
-     * count($where) === 3, need a field/operator/value
-     */
+     * @param $action: select/insert..
+     * @param $table: db table
+     * @param array $where : where clause
+     *  count($where) === 3, need a field/operator/value
+     * @return $this|bool
+     **/
     public function action($action, $table, $where = array())
     {
         if(count($where) === 3) {
@@ -117,13 +141,16 @@ class Core_Model_Database
         }
         return false;
     }
-    /*
+
+    /**
      * abstraction, wrapper function to make it easier and readible to manipulate db data
-     * $action: select/insert..
-     * $table = db table
-     * $where = where clause
-     * count($where) === 3, need a field/operator/value
-     */
+     * @param $action: select/insert..
+     * @param $table: db table
+     * @param array $where : where clause
+     * @param array $where2 : second where clause to query by
+     *  count($where) === 3, need a field/operator/value
+     * @return $this|bool
+     **/
     public function multiAction($action, $table, $where = array(), $where2 = array())
     {
         if(count($where) === 3 && count($where2) === 3) {
@@ -149,41 +176,83 @@ class Core_Model_Database
         }
         return false;
     }
-    /*
-     * EXAMPLE USE:
+
+
+    /**
+     * Returns a select query
+     *
+     * <code>
      * $user = Core_Model_Database::getInstance()->get('users', array('username', '=', 'mctaystee'));
+     * </code>
+     * @param $table
+     * @param $where
+     * @return $this|bool|Core_Model_Database
      */
     public function get($table, $where)
     {
         return $this->action('SELECT *', $table, $where);
     }
 
+    /**
+     * Returns all from a table
+     *
+     * @param $table
+     * @return $this|bool|Core_Model_Database
+     */
     public function getAll($table)
     {
         return $this->action('SELECT * ', $table, array('1','=','1'));
     }
 
+    /**
+     * Returns all from a table, agains two search parameters
+     * @param $table
+     * @param $where
+     * @param $where2
+     * @return $this|bool|Core_Model_Database
+     **/
     public function getMultiArgument($table, $where, $where2)
     {
         return $this->multiAction('SELECT *', $table, $where, $where2);
     }
 
+    /**
+     * Delets a row in a table
+     *
+     * @param $table
+     * @param $where
+     * @return $this|bool|Core_Model_Database
+     **/
     public function delete($table, $where)
     {
         return $this->action('DELETE ', $table, $where);
     }
 
+    /**
+     * Deletes a row based on two parameters
+     *
+     * @param $table
+     * @param $where
+     * @param $where2
+     * @return $this|bool|Core_Model_Database
+     **/
     public function deleteMultiArgument($table, $where, $where2)
     {
         return $this->multiAction('DELETE ', $table, $where, $where2);
     }
 
-    /*
-     * EXAMPLE USE:
+    /**
+     *
+     * Insertsa  new row into a table
+     * <code>
      * $user = Core_Model_Database::getInstance()->insert('users', array(
      *      'username' => 'mctaystee'
      *      'password' => 'password'
      * ));
+     * </code>
+     * @param $table
+     * @param array $fields
+     * @return bool
      */
     public function insert($table, $fields = array())
     {
@@ -219,13 +288,21 @@ class Core_Model_Database
         return false;
     }
 
-    /*
-     * EXAMPLE USE:
+
+    /**
+     * Updates a particular row in a table
+     * <code>
      * $user = Core_Model_Database::getInstance()->udpate('users', 3, 'user_id', array(
      *      'username' => 'mctay'
      *      'password' => 'newpassword'
      * ));
-     */
+     * </code>
+     *
+     * @param $table
+     * @param $fieldToCheck
+     * @param array $fields
+     * @return bool
+     **/
     public function update($table, $fieldToCheck, $fields = array())
     {
         $this->setTableFields($table);
@@ -258,6 +335,11 @@ class Core_Model_Database
         return false;
     }
 
+    /**
+     * Returns the first result of a query
+     *
+     * @return null
+     **/
     public function first()
     {
         if($this->_results) {
@@ -266,36 +348,54 @@ class Core_Model_Database
         return null;
     }
 
-    /*
-     * example use:
+    /**
+     *
+     * Returns all results of a query
+     *
+     * <code>
      * foreach($dbInstance->results() as $instance){
-     *  echo $instance->fieldInInstance,'<br>';
+     *   echo $instance->fieldInInstance,'<br>';
      * }
-     */
+     * </code>
+     * @return mixed
+     **/
     public function results()
     {
         return $this->_results;
     }
 
-    /*
-     * returns row count from statement
+
+    /**
+     * Returns a count of a query
+     *
+     * @return int
      */
     public function count()
     {
         return $this->_count;
     }
-    /*
-     * for use:
+
+    /**
+     * Returns if any errors are set
+     * <code>
      * if($dbInstance->error())
      * {
      *      echo 'error';
      * }
-     */
+     * </code>
+     * @return bool
+     **/
     public function error()
     {
         return $this->_error;
     }
 
+    /**
+     * returns the curernt tables fields,
+     * Used for verifiying a column exists
+     *
+     * @param $table
+     **/
     public function setTableFields($table)
     {
         $q = $this->_dbHandler->prepare("DESCRIBE " . $table);
@@ -304,6 +404,12 @@ class Core_Model_Database
         $this->_tableFields = $table_fields;
     }
 
+    /**
+     * Verifies a column exists
+     *
+     * @param $fieldKey
+     * @return bool
+     **/
     public function checkColumnExists($fieldKey)
     {
 

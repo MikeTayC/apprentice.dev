@@ -199,10 +199,19 @@ class Core_Model_Config_Json
         self::$baseUrl = self::$globalJsonArray['config']['modules']['core']['baseUrl']['url'];
     }
 
+    /**
+     * returns google client information from configuration
+     * @return mixed
+     **/
     public static function getGoogleClientInfo()
     {
         return self::$globalJsonArray['config']['modules']['core']['client'];
     }
+
+    /**
+     * Returns google calendar informtion from configuration
+     * @return mixed
+     **/
     public static function getCalendarConfig()
     {
         return self::$globalJsonArray['config']['modules']['core']['calendar'];

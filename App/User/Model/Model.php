@@ -18,6 +18,8 @@ class User_Model_Model extends Core_Model_Abstract
 
     /** Loads a users info by google id,
      *  Used in google signin OAuth procedures
+     * @param $googleId google id of user
+     * @return $this->_data
      **/
     public function loadUserByGoogleId($googleId)
     {
