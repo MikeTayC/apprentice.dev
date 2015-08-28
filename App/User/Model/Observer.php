@@ -4,9 +4,17 @@
  * User: mike
  * Date: 8/20/15
  * Time: 3:02 PM
- */
+ *
+ * User observer listens for events regarding user inforation
+ * acts accordingly
+ **/
 class User_Model_Observer
 {
+    /**
+     * Gets a list of user names for a list of suggested students
+     * Used when admin is looking at a specific lesson
+     * @param $eventObject
+     **/
     public function setUserNamesForLessonView($eventObject)
     {
         $suggestedStudents = $eventObject->getData('studentInviteList');
@@ -23,6 +31,13 @@ class User_Model_Observer
         }
         $eventObject->setSuggestedStudentNames($studentNameList);
     }
+
+    /**
+     * Delete a users completed course mapping for a specific lesson
+     * Used when marking a user course as incomplete
+     *
+     * @param $eventObject
+     **/
     public function deleteUserCompletedCourseMap($eventObject)
     {
         $userId = $eventObject->getUser();
@@ -33,6 +48,13 @@ class User_Model_Observer
         }
     }
 
+    /**
+     * Deletes an entire completed course map for a user
+     *
+     * Used when deleting a suser
+     *
+     * @param $eventObject
+     **/
 	public function deleteAllUserCompletedCourseMap($eventObject)
 	{
 		$userId = $eventObject->getId();
@@ -42,6 +64,11 @@ class User_Model_Observer
 		}
 	}
 
+    /**
+     * Used to mark course as completed for a specific user,
+     * adds user id, lesson id and date completed
+     * @param $eventObject
+     **/
     public function markUserCompletedCourseMap($eventObject)
     {
         $userId = $eventObject->getUser();
@@ -53,6 +80,12 @@ class User_Model_Observer
         }
     }
 
+    /**
+     * Marks a course to be completed for a list of students in an invite list
+     * Used specifically when scheduling events,
+     *
+     * @param $eventObject
+     **/
     public function setCompletedCourseDateForAllStudentsInList($eventObject)
     {
         $lesson = $eventObject->getLesson();
@@ -66,6 +99,11 @@ class User_Model_Observer
         }
     }
 
+    /**
+     * Sets an array of suggested students on lesson event object,
+     * Checks if a user tagged for a course has already completed the course
+     * @param $eventObject
+     **/
     public function setSuggestedStudentNamesOnLesson($eventObject)
     {
         $lessonId = $eventObject->getId();
@@ -82,6 +120,14 @@ class User_Model_Observer
         $eventObject->setData('studentInviteList', $studentInviteList);
     }
 
+    /**
+     * Sets a array of emails on the event object,
+     *
+     * Used specifically when firing an event to google calendar,
+     * as an attendee array
+     *
+     * @param $eventObject
+     **/
     public function setEventEmail($eventObject)
     {
         $lesson = $eventObject->getLesson();
@@ -100,6 +146,12 @@ class User_Model_Observer
         $lesson->setEmailArray($emailArray);
     }
 
+    /**
+     * Sets a list of a users completed course ids, a list of courses set to be
+     * compelted and their completion date on event object
+     *
+     * @param $eventObject
+     **/
     public function setUserCompletedCourses($eventObject)
     {
         $userId = $eventObject->getId();
@@ -124,6 +176,12 @@ class User_Model_Observer
 
     }
 
+    /**
+     * Sets user progress on the event object
+     * Calculates based on total lesson count, and a users completed course count
+     *
+     * @param $eventObject
+     **/
     public function setUserProgress($eventObject)
     {
         $userId = $eventObject->getId();
@@ -134,11 +192,23 @@ class User_Model_Observer
         $eventObject->setProgress($userProgress);
     }
 
+    /**
+     * Sets a users incubation time
+     *
+     * @param $eventObject
+     **/
     public function setUserIncubationTime($eventObject)
     {
         $eventObject->setUserIncubationTime();
     }
 
+    /**
+     * Calculates a users progress as a percentage
+     *
+     * @param $totalCourseCount
+     * @param $completedCourseCount
+     * @return float|int
+     */
     private function _getUserProgress($totalCourseCount, $completedCourseCount)
     {
         if($totalCourseCount != 0) {

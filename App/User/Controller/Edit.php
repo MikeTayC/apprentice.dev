@@ -23,7 +23,7 @@ class User_Controller_Edit extends Incubate_Controller_Admin
 
         /**
          * loads user, sets role to admin and saves,
-         * dispatched events will
+         * dispatched events will delete user tag map, and completed course map
          **/
 		Bootstrap::getModel('user/model')->load($userId)->makeUserAdmin();
 
@@ -31,6 +31,14 @@ class User_Controller_Edit extends Incubate_Controller_Admin
 		$this->_thisModuleRedirect('view');
 	}
 
+    /**
+     * Will mark a users course as incomplete,
+     *
+     * dispatched events will delete the entry in CompletedCoursesMap if it locates it
+     *
+     * @param $userId
+     * @param $lessonId
+     **/
     public function unmarkAction($userId, $lessonId)
     {
         $this->_idCheck($lessonId, 'lesson');
@@ -43,6 +51,16 @@ class User_Controller_Edit extends Incubate_Controller_Admin
 
 
     }
+
+    /**
+     * Will makr a users course complete,
+     *
+     * Dispatched events ill add an entry with user id and lesson id, and
+     * completion date into CompletedCoursesMap
+     *
+     * @param $userId
+     * @param $lessonId
+     **/
     public function markAction($userId, $lessonId)
     {
         $this->_idCheck($lessonId, 'lesson');
@@ -54,6 +72,14 @@ class User_Controller_Edit extends Incubate_Controller_Admin
         $this->_thisModuleRedirectParams('view','profile', $userId);
     }
 
+    /**
+     * Handles any changes to a users tags,
+     *
+     * Dispatched events will first delete the current tag to user mapping,
+     * then create a new one
+     *
+     * @param $userId
+     **/
     public function tagAction($userId)
     {
         $this->_idCheck($userId, 'user');

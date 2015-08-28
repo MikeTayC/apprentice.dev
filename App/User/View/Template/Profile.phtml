@@ -67,7 +67,6 @@
             foreach($lessonData as $lesson) {
 
                 echo '<td>' . $lesson->getName() . '</td>';
-
                 if(in_array($lesson->getId(), $user->getCompleted())) {
                     echo '<td>';
                     echo '<div class="uk-badge uk-badge-success">Completed</div>';
@@ -92,11 +91,9 @@
 						echo '<td><a class="uk-button uk-button-small uk-button-primary" href="' . Bootstrap::getBaseUrl() . 'user/edit/mark/' . $user->getId() .'/' .$lesson->getId() .'">Change</a></td>';
 					}
                 }
-
                 echo '</tr>';
             }
         }
-
     ?>
     </tbody>
     </table>

@@ -51,10 +51,10 @@ class User_Controller_Create extends Incubate_Controller_Abstract
             /** user will be saved to the database, dispatch events will tie any tags to the user **/
             $user->save();
 
-            /*
+            /**
              * this checkUSerDataForGoogleId will also store user information into the session i
              * to log them in: including user_id, logged in status, and admin status.
-             */
+             **/
             if($user->checkUserDataForGoogleId($googleId)) {
                 $this->_successFlash('You have been successfully added to Incubate!');
             }

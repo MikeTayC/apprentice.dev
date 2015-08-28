@@ -3,14 +3,11 @@
  * Created by PhpStorm.
  * User: mike
  * Date: 7/14/15
- * Time: 1:21 PM
- */
-
-/*
- * TODO move to models
+ * Time: 1:21
+ *
  * this is going to contain all functionality regarding to authentication from google
  * checking if signed in, sessions set, checking code from google so we can authenticate with it
- */
+ **/
 class Core_Model_Auth
 {
     //Reference to client
@@ -111,20 +108,15 @@ class Core_Model_Auth
         $this->_client->setAccessToken($token);
     }
 
-    /*
+    /**
      * To acquire the users email, we need to access the google clientwss attributes array 'payload',
+     *  (example)
      *   'payload' =>
-            array (size=9)
-          'iss' => string 'accounts.google.com' (length=19)
-          'sub' => string '104525396091787311683' (length=21)
-          'azp' => string '433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com' (length=72)
-          'email' => string 'tayzerphazerlazerblazer@gmail.com' (length=33)
-          'at_hash' => string 'UQ82_t_wLvsTXmHDHp-7bA' (length=22)
-          'email_verified' => boolean true
-          'aud' => string '433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com' (length=72)
-          'iat' => int 1438206109
-          'exp' => int 1438209709
-     */
+     *       array (size=9){
+     *       ...
+     *      'email' => string 'UserEmail@gmail.com' (length=33)
+     *       ...
+     **/
     public function setEmail()
     {
         return $this->_client->verifyIdToken()->getAttributes()['payload']['email'];
@@ -136,7 +128,6 @@ class Core_Model_Auth
     {
         return $this->_email;
     }
-
 
     /*
      * creates an instance of the google service plus class to retrieve all
@@ -198,60 +189,4 @@ class Core_Model_Auth
         return false;
 
     }
-
-    /*
-     * will check if the user logged has admin status
-     */
-    public function checkAdminStatus()
-    {
-        //check return true if admin has been set, if it hasnt, return false
-        if(Core_Model_Session::get('admin_status')){
-            return true;
-        }
-        return false;
-
-
-    }
-    public function assignAdminStatus($googleId)
-    {
-        //check admin status in database using google_id
-        if($this->_user->checkUserDataForAdminStatus($googleId)) {
-            Core_Model_Session::set('admin_status', true);
-        }
-        else {
-            Core_Model_Session::set('admin_status', false);
-        }
-    }
-//
-//    public function setEvent($title, $description, $eventStart, $eventEnd, $inviteList = array())
-//    {
-//        foreach ($inviteList as $email) {
-//            if($email) {
-//                $attendee = new Google_Service_Calendar_EventAttendee();
-//                $attendee->setEmail($email);
-//                $attendeeArray[] = $attendee;
-//            }
-//        }
-//        $event = new Google_Service_Calendar_Event();
-//        $event->setSummary($title);
-//        $event->setDescription($description);
-//
-//        $start = new Google_Service_Calendar_EventDateTime();
-//        $start->setDateTime($eventStart);
-//        $event->setStart($start);
-//
-//        $end = new Google_Service_Calendar_EventDateTime();
-//        $end->setDateTime($eventEnd);
-//        $event->setEnd($end);
-//
-//        $event->setAttendees($attendeeArray);
-//
-//        $optArgs = array(
-//            "sendNotifications" => true
-//        );
-//
-//        $createdEvent = $this->ca->events->insert($this->calendarId, $event, $optArgs);
-
-
-//    }
 }
