@@ -4,7 +4,9 @@
  * User: mike
  * Date: 7/10/15
  * Time: 12:16 PM
- */
+ *
+ * Class is meant to facilitate use of cookies
+ **/
 class Core_Helpers_Cookie
 {
     public static function exists($name)

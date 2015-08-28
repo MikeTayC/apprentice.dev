@@ -4,7 +4,9 @@
  * User: mike
  * Date: 7/9/15
  * Time: 1:59 PM
- */
+ *
+ * Class is meant to facilitate checkign of post and get variables
+ **/
 class Core_Helpers_Input
 {
     public static function exists($type = 'post')

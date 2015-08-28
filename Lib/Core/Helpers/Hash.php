@@ -4,7 +4,9 @@
  * User: mike
  * Date: 7/9/15
  * Time: 11:49 AM
- */
+ *
+ * Class is meant to facilitate storing and salting of passworeds
+ **/
 class Core_Helpers_Hash
 {
     public static function make($string, $salt = '')
