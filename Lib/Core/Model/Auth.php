@@ -23,8 +23,6 @@ class Core_Model_Auth
 
     protected $_email;
 
-//    protected $_calendar;
-
     /*
      * We need to pass in an instance of the google client we set = to null incase it doesnt exists
      * we can instantiate this class alone to logout out users
@@ -37,10 +35,12 @@ class Core_Model_Auth
         $this->_user = $user;
 
         if ($this->_client) {
-            $this->_client->setClientID('433657982361-lev74410eid7ejpnbu30dgi3crl0m3c1.apps.googleusercontent.com');
-            $this->_client->setClientSecret('iehdSyaJgoH5uwgsjwPYO9ro');
-            $this->_client->setRedirectUri('http://apprentice.dev/incubate/login/index');
-            $this->_client->setScopes('email','profile', 'https://www.googleapis.com/auth/calendar');
+            $clientInfo = Bootstrap::getGoogleClientInfo();
+            $scopes = explode(',',$clientInfo['scopes']);
+            $this->_client->setClientID($clientInfo['id']);
+            $this->_client->setClientSecret($clientInfo['secret']);
+            $this->_client->setRedirectUri($clientInfo['redirect']);
+            $this->_client->setScopes($scopes);
 
             /*
              * google_service_plus : interface for accessing google plus information
@@ -79,7 +79,7 @@ class Core_Model_Auth
          * if code is set in the get superglobal, then authenticate using this code
          * client function authenticates code:
          * "we have had a request back form google now we are passsing this code that has been generated
-         * on googles end, back through to google to verify.
+         * on googles end, back through to google to verify."
          *
          * then we set this token in a session. and return true for logic control
          *

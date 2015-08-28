@@ -124,4 +124,14 @@ final class Bootstrap
         require_once 'google-api-php-client/src/Google/Client.php';
         require_once 'google-api-php-client/src/Google/Service/Calendar.php';
     }
+
+    public static function getGoogleClientInfo()
+    {
+        return Core_Model_Config_Json::getGoogleClientInfo();
+    }
+
+    public static function getCalendarConfig()
+    {
+        return Core_Model_Config_Json::getCalendarConfig();
+    }
 }

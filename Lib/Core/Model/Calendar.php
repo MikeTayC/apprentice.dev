@@ -16,12 +16,10 @@ class Core_Model_Calendar
     public function __construct(Google_Client $googleClient)
     {
         //service account info
-        $client_id = '433657982361-40ctf1na0vahl950epgi1nffesb020kp.apps.googleusercontent.com';
-        $service_account_name = '433657982361-40ctf1na0vahl950epgi1nffesb020kp@developer.gserviceaccount.com';
-        $key_file_location = '/home/mike/sites/apprentice.dev/Lib/Core/Model/apprentice-9faa49d689bf.p12';
-
-        //calendar id
-        $this->calendarId = 'blueacorn.com_j2d2fnauptd0u7mgnrf0u5e0ss@group.calendar.google.com';
+        $calendarConfig = Bootstrap::getCalendarConfig();
+        $service_account_name = $calendarConfig['name'];
+        $key_file_location = $calendarConfig['key_location'];
+        $this->calendarId = $calendarConfig['id'];
 
         $googleClient->setApplicationName('Incubate Calendar');
 
@@ -33,13 +31,7 @@ class Core_Model_Calendar
             array('https://www.googleapis.com/auth/calendar'),
             $key
         );
-
         $googleClient->setAssertionCredentials($cred);
-
-//        $cals = $this->service->calendarList->listCalendarList();
-//        echo '<pre>';
-//        print_r($cals);
-//        echo '</pre>';
     }
 
     public function setEvent($title, $description, $eventStart, $eventEnd, $inviteList = array())

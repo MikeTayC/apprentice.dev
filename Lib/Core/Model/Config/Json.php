@@ -1,22 +1,29 @@
 <?php
 
-/*
- * retrieves and merges json configuration files for routers
- */
+/**
+ * Retrieves, merges and stores json configuration files
+ **/
 class Core_Model_Config_Json
 {
+    /** @var array reference to a specific modules json config data */
     private static $config = array();
 
+    /** @var array referenct to path to json */
     private static $jsonPathArray = array();
 
+    /** @var array refernce to global json data */
     private static $globalJsonArray = array();
 
+    /** @var null will hold reference to object for singleton use */
     private static $instance = null;
 
+    /** @var array reference to observers for events */
     private static $registeredObservers = array();
 
+    /** @var  base url of site */
     private static $baseUrl;
 
+    /** Singleton */
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -26,11 +33,21 @@ class Core_Model_Config_Json
     }
     private function __construct(){}
 
+    /**
+     * Sets observers on class
+     * @param $observerEvents
+     **/
     public static function setObservers($observerEvents)
     {
         self::$registeredObservers = $observerEvents;
     }
 
+    /**
+     * Returns a specific observer
+     *
+     * @param $eventName
+     * @return null
+     **/
     public static function getRegisteredObservers($eventName)
     {
         $observers = self::$registeredObservers;
@@ -42,6 +59,7 @@ class Core_Model_Config_Json
 
     }
 
+    /** Merges all configuration json from different modules **/
     public static function setJsonConfig()
     {
         $jsonPaths = self::setJsonPath();
@@ -56,6 +74,10 @@ class Core_Model_Config_Json
         }
     }
 
+    /**
+     * finds specific paths to all json data,
+     * @return array
+     **/
     public static function setJsonPath()
     {
         $jsonLibAppModules = glob('*/*/Config.json');
@@ -65,26 +87,42 @@ class Core_Model_Config_Json
         return self::$jsonPathArray;
     }
 
+    /**
+     * @return array of all json config
+     **/
     public static function getJsonConfig()
     {
         return self::$globalJsonArray;
     }
 
+    /**
+     * @return mixed all routers
+     **/
     public static function getRouterConfig()
     {
         return self::$globalJsonArray['config']['routers'];
     }
 
+    /**
+     * @return mixed information on all modules
+     **/
     public static function getModulesConfig(){
         return self::$globalJsonArray['config']['modules'];
     }
 
+    /**
+     * @return mixed returns specific information about the database need to be accessed
+     **/
     public static function getModulesDatabaseConfig()
     {
 
         return self::$globalJsonArray['config']['modules']['core']['database'];
     }
 
+    /** gets a specific modules sesssion data
+     * @param $field
+     * @return mixed
+     **/
     public static function getModulesSessionConfig($field)
     {
         $module = strtolower(Core_Model_Request::getInstance()->getModule());
@@ -92,6 +130,11 @@ class Core_Model_Config_Json
         return self::$globalJsonArray['config']['modules'][$module]['session'][$field];
     }
 
+    /**
+     * Cookie configuration
+     * @param $field
+     * @return mixed
+     **/
     public static function getModulesCookieConfig($field)
     {
         $module = strtolower(Core_Model_Request::getInstance()->getModule());
@@ -99,12 +142,21 @@ class Core_Model_Config_Json
         return self::$globalJsonArray['config']['modules'][$module]['cookie'][$field];
     }
 
+    /**
+     * validation config
+     * @return mixed
+     **/
     public static function getValidationConfig(){
         $module = strtolower(Core_Model_Request::getInstance()->getModule());
         $controller = strtolower(Core_Model_Request::getInstance()->getController());
 
         return self::$globalJsonArray['config']['modules'][$module]['validation'][$controller];
     }
+
+    /**
+     * admin alidation configuration
+     * @return mixed
+     **/
     public static function getAdminValidationConfig(){
 
         $module = strtolower(Core_Model_Request::getInstance()->getModule());
@@ -112,9 +164,13 @@ class Core_Model_Config_Json
         return self::$globalJsonArray['config']['modules'][$module]['validation']['admin'][$param];
     }
 
+    /**
+     * returns all event information from modules
+     *
+     * @param $event
+     * @return array
+     **/
     public static function getEventConfig($event) {
-        $module = strtolower(Core_Model_Request::getInstance()->getModule());
-
         $moduleConfig = self::getModulesConfig();
 
         $eventArray = array();
@@ -127,13 +183,28 @@ class Core_Model_Config_Json
 
     }
 
+    /**
+     * @return base url of the application
+     **/
     public static function getBaseUrl()
     {
         return self::$baseUrl;
     }
 
+    /**
+     * Sets the current base url which should be in configuration
+     **/
     public static function setBaseUrl()
     {
         self::$baseUrl = self::$globalJsonArray['config']['modules']['core']['baseUrl']['url'];
+    }
+
+    public static function getGoogleClientInfo()
+    {
+        return self::$globalJsonArray['config']['modules']['core']['client'];
+    }
+    public static function getCalendarConfig()
+    {
+        return self::$globalJsonArray['config']['modules']['core']['calendar'];
     }
 }
