@@ -41,9 +41,10 @@ class User_Controller_Create extends Incubate_Controller_Abstract
 			if(!$user->getId()) {
 				/** Set default role of user to student **/
 				$user->setRole('student');
+                $user->setGroups($request->getPost('groups'));
 			}
             //for all post information, add to user data
-            foreach(array('name','email','groups') as $field) {
+            foreach(array('name','email') as $field) {
                 $user->setData($field, $request->getPost($field));
             }
 

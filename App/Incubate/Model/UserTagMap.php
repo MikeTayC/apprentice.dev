@@ -21,7 +21,7 @@ class Incubate_Model_UserTagMap extends Core_Model_Abstract
      **/
     public function __construct()
     {
-        $this->_table = 'UserTagMap';
+        $this->_table = 'user_tag_map';
         parent::__construct();
     }
 

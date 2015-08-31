@@ -17,7 +17,7 @@ class Core_Model_Installer
 	}
 	public function runInstallScript()
 	{
-		foreach(array('user', 'lesson', 'tag', 'completedCoursesMap', 'userTagMap', 'tagMap') as $table) {
+		foreach(array('user', 'lesson', 'tag', 'completed_courses_map', 'user_tag_map', 'lesson_tag_map') as $table) {
 			$createMethod = '_createTable' . ucfirst($table);
 			$this->$createMethod();
 			$this->_insertData($table);
@@ -75,27 +75,27 @@ class Core_Model_Installer
 		');
 	}
 
-	protected function _createTableUserTagMap()
+	protected function _createTableUser_tag_map()
 	{
-		$this->_db->_dbHandler->query('CREATE TABLE IF NOT EXISTS UserTagMap(
+		$this->_db->_dbHandler->query('CREATE TABLE IF NOT EXISTS user_tag_map(
 			id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 			tag_id INT,
 			user_id INT)
 		');
 	}
 
-	protected function _createTableTagMap()
+	protected function _createTableLesson_tag_map()
 	{
-		$this->_db->_dbHandler->query('CREATE TABLE IF NOT EXISTS TagMap(
+		$this->_db->_dbHandler->query('CREATE TABLE IF NOT EXISTS lesson_tag_map(
 			id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 			tag_id INT,
 			lesson_id INT);
 		');
 	}
 
-	protected function _createTableCompletedCoursesMap()
+	protected function _createTableCompleted_courses_map()
 	{
-		$this->_db->_dbHandler->query('CREATE TABLE IF NOT EXISTS CompletedCoursesMap(
+		$this->_db->_dbHandler->query('CREATE TABLE IF NOT EXISTS completed_courses_map(
 			id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 			user_id INT,
 			lesson_id INT,

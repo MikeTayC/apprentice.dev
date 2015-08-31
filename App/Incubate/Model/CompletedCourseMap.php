@@ -18,7 +18,7 @@ class Incubate_Model_CompletedCourseMap extends Core_Model_Abstract
      **/
     public function __construct()
     {
-        $this->_table = 'CompletedCoursesMap';
+        $this->_table = 'completed_courses_map';
         parent::__construct();
     }
 

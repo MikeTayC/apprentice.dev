@@ -1,30 +1,7 @@
-CREATE DATABASE incubate;
-
-USE incubate;
-
-CREATE TABLE user (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, google_id VARCHAR(60), name VARCHAR(50), email VARCHAR(60), joined TIMESTAMP, role VARCHAR(20), groups VARCHAR(60));
-
-CREATE TABLE tag (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60));
-
-CREATE TABLE lesson(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(60), description VARCHAR(255), duration INT);
-
-CREATE TABLE TagMap(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, tag_id INT, lesson_id INT);
-
-CREATE TABLE UserTagMap(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, tag_id INT, user_id INT);
-
-CREATE TABLE CompletedCoursesMap(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, lesson_id INT, date TIMESTAMP);
-
-INSERT INTO `tag` (`name`) VALUES ('Application Engineer');
-
-INSERT INTO `tag` (`name`) VALUES ('Quality Assurance Analyst');
-
-INSERT INTO `tag` (`name`) VALUES ('Front End Developer');
 
 INSERT INTO `user` (`google_id`, `name`, `email`, `role`,`groups`) VALUES ('104525396091787311683', 'Tayzer Phazer', 'tayzerphazerlazerblazer@gmail.com','student','Front End Developer');
 
 INSERT INTO `user` (`google_id`, `name`, `email`, `role`, `groups`) VALUES ('107917196333946542054', 'Mike Tay C', 'miketayc@gmail.com','student','Quality Assurance Analyst');
 
 INSERT INTO `user` (`google_id`, `name`, `email`, `role`,`groups`) VALUES ('113562639224233147834', 'Sam Girl', 'sdepuy18@gmail.com','student','Application Engineer');
-
-UPDATE `user` SET `role` = 'admin' WHERE `user`.`id` = '1';
 

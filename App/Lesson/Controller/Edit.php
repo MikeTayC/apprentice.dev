@@ -33,7 +33,7 @@ class Lesson_Controller_Edit extends Incubate_Controller_Admin
              * load the lesson with lesson id
              * Get tags from post data
              **/
-            $lessonId = $this->_sessionGet('lesson_id');
+            $lessonId = $this->_sessionGet('lessonId');
             $lesson = Bootstrap::getModel('lesson/model')->load($lessonId);
             $lessonTags = $request->getPost('tags');
 
