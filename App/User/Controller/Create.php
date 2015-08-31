@@ -34,8 +34,14 @@ class User_Controller_Create extends Incubate_Controller_Abstract
              * load user model, user info related to tags and lessons
              * will be added through dispatch events
              **/
+
             $user = Bootstrap::getModel('user/model');
 
+			$user->loadByEmail($request->getPost('email'));
+			if(!$user->getId()) {
+				/** Set default role of user to student **/
+				$user->setRole('student');
+			}
             //for all post information, add to user data
             foreach(array('name','email','groups') as $field) {
                 $user->setData($field, $request->getPost($field));
@@ -44,9 +50,6 @@ class User_Controller_Create extends Incubate_Controller_Abstract
             /** get google id from session, add add it to user data **/
             $googleId = $this->_sessionGet('google_id');
             $user->setData('google_id', $googleId);
-
-            /** Set default role of user to student **/
-            $user->setRole('student');
 
             /** user will be saved to the database, dispatch events will tie any tags to the user **/
             $user->save();

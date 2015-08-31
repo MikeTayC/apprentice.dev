@@ -216,4 +216,26 @@ class Core_Model_Config_Json
     {
         return self::$globalJsonArray['config']['modules']['core']['calendar'];
     }
+
+	public static function getAdminInitConfig()
+	{
+		return self::$globalJsonArray['config']['modules']['incubate']['admin'];
+	}
+
+	public static function getInstalled()
+	{
+		return self::$globalJsonArray['config']['modules']['core']['installed'];
+	}
+
+	public static function saveInstalled()
+	{
+		self::$globalJsonArray['config']['modules']['core']['installed'] = true;
+		$coreConfig = array('config' => array(
+			'modules' => array('core' => self::$globalJsonArray['config']['modules']['core']),
+			'routers' => self::$globalJsonArray['config']['routers']
+		));
+
+		$file = implode(DS, array(BP, LIB, 'Core','Config.json'));
+		file_put_contents($file, json_encode($coreConfig));
+	}
 }

@@ -13,6 +13,8 @@ Bootstrap::registerGoogleFiles();
 
 Bootstrap::initJsonConfig();
 
+Bootstrap::runInstaller();
+
 Bootstrap::setBaseUrl();
 
 Bootstrap::registerObservers();

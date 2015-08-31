@@ -97,6 +97,12 @@ abstract class Core_Model_Abstract extends Core_Model_Object
         return $this;
     }
 
+
+	public function loadByEmail($email)
+	{
+		$this->get(array('email','=', $email));
+		return $this;
+	}
     /**
      * A check to see if a name exists already in the table
      * Useful for validation

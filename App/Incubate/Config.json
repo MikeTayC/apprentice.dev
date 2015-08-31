@@ -3,7 +3,10 @@
     "modules": {
       "incubate": {
         "pool": "App",
-        "dir": "Incubate"
+        "dir": "Incubate",
+        "admin": {
+            "0": "michael.tay@blueacorn.com"
+        }
       }
     }
   }

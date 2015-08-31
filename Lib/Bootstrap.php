@@ -140,4 +140,17 @@ final class Bootstrap
     {
         return Core_Model_Config_Json::getCalendarConfig();
     }
+
+	public static function getAdminInitConfig()
+	{
+		return Core_Model_Config_Json::getAdminInitConfig();
+	}
+
+	public static function runInstaller()
+	{
+		if(!Core_Model_Config_Json::getInstalled()) {
+			Bootstrap::getModel('core/installer')->runInstallScript();
+			Core_Model_Config_Json::saveInstalled();
+		}
+	}
 }

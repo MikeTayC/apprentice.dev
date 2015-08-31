@@ -13,7 +13,7 @@ class Core_Model_Database
     private $_name;
     private $_type;
 
-    private $_dbHandler;
+    public $_dbHandler;
     private $_error = false;
     private $_results;
     private $_query;
