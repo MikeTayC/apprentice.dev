@@ -23,6 +23,7 @@ class Core_Model_Config_Json
     /** @var  base url of site */
     private static $baseUrl;
 
+	private static $installed;
     /** Singleton */
     public static function getInstance()
     {
@@ -224,18 +225,15 @@ class Core_Model_Config_Json
 
 	public static function getInstalled()
 	{
-		return self::$globalJsonArray['config']['modules']['core']['installed'];
+		$file = BP . DS . 'Installed.json';
+		self::$installed = json_decode(file_get_contents($file), true);
+		return self::$installed['installed'];
 	}
 
 	public static function saveInstalled()
 	{
-		self::$globalJsonArray['config']['modules']['core']['installed'] = true;
-		$coreConfig = array('config' => array(
-			'modules' => array('core' => self::$globalJsonArray['config']['modules']['core']),
-			'routers' => self::$globalJsonArray['config']['routers']
-		));
-
-		$file = implode(DS, array(BP, LIB, 'Core','Config.json'));
-		file_put_contents($file, json_encode($coreConfig));
+		$file = BP . DS . 'Installed.json';
+		self::$installed['installed'] = true;
+		file_put_contents($file, json_encode(self::$installed));
 	}
 }
