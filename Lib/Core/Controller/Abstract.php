@@ -39,7 +39,7 @@ abstract class Core_Controller_Abstract
 
     /**
      * Returns the layout handle,
-     * which will look like model_controller_action,
+     * which will look like module_controller_action,
      *
      * Used for determining which set of design blocks to load
      * @return string

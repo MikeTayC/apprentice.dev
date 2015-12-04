@@ -15,8 +15,7 @@ abstract class Core_Controller_Router_Abstract
 
     protected $_request;
 
-    /*
-     * the goal of this method:
+    /**
      * 1) examine a request URL;
      * 2) determine which Modules might contain the appropriate Controller,
      * 3) determine which Controller in that module we should use

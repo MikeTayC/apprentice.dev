@@ -5,3 +5,5 @@ INSERT INTO `user` (`google_id`, `name`, `email`, `role`, `groups`) VALUES ('107
 
 INSERT INTO `user` (`google_id`, `name`, `email`, `role`,`groups`) VALUES ('113562639224233147834', 'Sam Girl', 'sdepuy18@gmail.com','student','Application Engineer');
 
+INSERT INTO `user` (`google_id`, `name`, `email`, `role`,`groups`) VALUES ('101361959395400818680', 'Taylor Pynn', 'taylorpynn@gmail.com','student','Application Engineer');
+
